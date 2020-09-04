@@ -78,7 +78,7 @@
 							<a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="25% 25%" /></a>
 							<div class="content">
 								<div class="inner">
-									<h2>Viktor (Geozukunft)</h2>
+									<h2>Viktor (geozukunft)</h2>
 									<p>Writes stupid language without brackets and C#/C++</p>
 									<ul class="actions">
 										<li><a href="https://twitter.com/geozukunft" class="icon brands major fa-twitter"><span class="label">Twitter</span></a></li>
@@ -158,12 +158,12 @@
 					<section id="three" class="wrapper style1 fade-up">
 						<div class="inner">
 							<h2>Get in touch</h2>
-							<p>Für Support bla bla bla</p>
+							<p>If you need any help, contact us here!</p>
 							<div class="split style1">
 								<section>
 									<div id="form-container"> 
 										<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-										<form id="cform" method="POST" action="http://localhost:7500/api/v1/contact">
+										<form id="cform" method="POST" action="https://api.ebg.pw/api/v1/contact">
 											<div class="fields">
 												<div class="field half">
 													<label for="name">Name</label>
@@ -190,7 +190,7 @@
 														<option value="0">All</option>
 														<option value="1">GodOfOwls</option>
 														<option value="2">BolverBlitz</option>
-														<option value="3">Geozukunft</option>
+														<option value="3">geozukunft</option>
 													</select>
 												</div>
 												<div class="field">
@@ -237,6 +237,9 @@
 													}
 													if(RespArr[2].replace(/"/g,'',) === " is not allowed to be empty"){
 														$('#result').text(jsUcfirst(RespArr[1].replace(/"/g,'',)) + " is required!");
+													}
+													if(RespArr[2].replace(/"/g,'',) === " must be a valid email"){
+														$('#result').text(jsUcfirst(RespArr[1].replace(/"/g,'',)) + " is invalid!");
 													}
 												}
 												/*Handle API rate limiting*/
