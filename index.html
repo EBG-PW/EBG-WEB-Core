@@ -160,100 +160,6 @@
 						<div class="inner">
 							<h2>Get in touch</h2>
 							<p>If you need any help, contact us here!</p>
-							<div class="split style1">
-								<section>
-									<div id="form-container"> 
-										<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-										<form id="cform" method="POST" action="https://api.ebg.pw/api/v1/contact">
-											<div class="fields">
-												<div class="field half">
-													<label for="name">Name</label>
-													<input type="text" name="name" id="name" />
-												</div>
-												<div class="field half">
-													<label for="email">Email</label>
-													<input type="text" name="email" id="email" />
-												</div>
-												<div class="field half">
-													<label for="category">Category</label>
-													<select name="category" id="category">
-														<option value="Empty">- Category -</option>
-														<option value="0">Help</option>
-														<option value="1">Issue</option>
-														<option value="2">Request</option>
-														<option value="3">Other</option>
-													</select>
-												</div>
-												<div class="field half">
-													<label for="person">Person</label>
-													<select name="person" id="person">
-														<option value="Empty">- Category -</option>
-														<option value="0">All</option>
-														<option value="1">GodOfOwls</option>
-														<option value="2">BolverBlitz</option>
-														<option value="3">geozukunft</option>
-													</select>
-												</div>
-												<div class="field">
-													<label for="message">Message</label>
-													<textarea name="message" id="message" rows="5"></textarea>
-												</div>
-											</div>
-										<ul class="actions">
-											<input type="submit" value="Submit">
-										</ul>
-										<div id="result"></div>
-									</form>
-									<script>
-										$("#cform").submit(function(event) {
-
-										  event.preventDefault();
-
-										  var $form = $(this),
-											url = $form.attr('action');
-
-										  var posting = $.post(url, {
-											name: $('#name').val(),
-											email: $('#email').val(),
-											category: $('#category').val(),
-											person: $('#person').val(),
-											message: $('#message').val()
-										  });
-
-										  posting.done(function(data) {
-											$('#result').text('success');
-										  });
-										  posting.fail(function(err) {
-											if(err.status === 400){
-												/*Handle API request validation*/
-												if(err.responseJSON.message === '"category" must be a number'){
-													$('#result').text('Please select a category!');
-												}else if(err.responseJSON.message === '"person" must be a number'){
-													$('#result').text('Please select a person!');
-												}else{
-													let RespArr = err.responseJSON.message.split('"');
-													function jsUcfirst(string) 
-													{
-														return string.charAt(0).toUpperCase() + string.slice(1);
-													}
-													if(RespArr[2].replace(/"/g,'',) === " is not allowed to be empty"){
-														$('#result').text(jsUcfirst(RespArr[1].replace(/"/g,'',)) + " is required!");
-													}
-													if(RespArr[2].replace(/"/g,'',) === " must be a valid email"){
-														$('#result').text(jsUcfirst(RespArr[1].replace(/"/g,'',)) + " is invalid!");
-													}
-												}
-												/*Handle API rate limiting*/
-											}else if(err.status === 429){
-												$('#result').text('Do not spam this form!');
-											}else{
-												$('#result').text('Unknown ERROR!');
-											}
-										  });
-										});
-										</script>
-									</div>
-								</section>
 								<section>
 									<ul class="contact">
 										<li>
@@ -273,7 +179,6 @@
 										</li>
 									</ul>
 								</section>
-							</div>
 						</div>
 					</section>
 
