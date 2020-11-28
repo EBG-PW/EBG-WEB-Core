@@ -22,7 +22,9 @@
 						<ul>
 							<li><a href="#Welcome">Welcome</a></li>
 							<li><a href="#Members">Members</a></li>
+							<li><a href="#Stats">Live stats</a></li>
 							<li><a href="#Servers">Servers</a></li>
+							<li><a href="#vServers">vServers</a></li>
 							<li><a href="#Contact">Get in touch</a></li>
 						</ul>
 					</nav>
@@ -76,7 +78,7 @@
 							</div>
 						</section>
 						<section>
-							<a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="25% 25%" /></a>
+							<a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="top center" /></a>
 							<div class="content">
 								<div class="inner">
 									<h2>Viktor (geozukunft)</h2>
@@ -91,22 +93,32 @@
 							</div>
 						</section>
 					</section>
+				<!-- Stats -->
+					<section id="Stats" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h2>EBG live server usage:</h2>
+							<div id="livedata"></div>
+							<ul class="actions">
+								<li><a href="https://server.ebg.pw/" class="button">Server Status Page</a></li>
+							</ul>
+						</div>
+					</section>
 
 				<!-- Servers -->
-					<section id="Servers" class="wrapper style3 fade-up">
+					<section id="Servers" class="wrapper style2 fade-up">
 						<div class="inner">
 							<h2>Servers:</h2>
-							<p>We host all our projects on VServers and our own hardware</p>
+							<p>List of our own hardware servers:</p>
 							<div class="features">
-								<section>
-									<span class="icon solid major far fa-hdd"></span>
-									<h3>SRV-OWL-01</h3>
-									<p>ProLiant DL 360e G8<br>CPU: 2xE5-2430Lv2 | 12 Cores<br>RAM: 96GB DDR3 ECC 1333mhz<br>DISK: 1,256TB SSD | 2.4TB HDD</p>
-								</section>
 								<section>
 									<span class="icon solid major far fa-hdd"></span>
 									<h3>SRV-MB-01</h3>
 									<p>Cisco M3 C220<br>CPU: 2xE5-2667v2 | 16 Core<br>RAM: 192GB DDR3 ECC 1600Mhz<br>DISK: 3TB SSD</p>
+								</section>
+								<section>
+									<span class="icon solid major far fa-hdd"></span>
+									<h3>SRV-OWL-01</h3>
+									<p>ProLiant DL 360e G8<br>CPU: 2xE5-2430Lv2 | 12 Cores<br>RAM: 96GB DDR3 ECC 1333mhz<br>DISK: 1,256TB SSD | 2.4TB HDD</p>
 								</section>
 								<section>
 									<span class="icon solid major far fa-hdd"></span>
@@ -128,32 +140,49 @@
 									<h3>SRV-MB-02</h3>
 									<p>CPU: i5-8400 | 6 Cores<br>RAM: 16GB DDR4 3000Mhz<br>DISK: 3,5TB SSD | 18TB HDD</p>
 								</section>
-								<section>
-									<span class="icon solid major fas fa-cloud"></span>
-									<h3>BolverBlitz Main</h3>
-									<p>CPU: Ryzen 9 3900X |12 Cores<br>RAM: 128GB DDR4 3000Mhz<br>DISK: 4TB NVME SSD</p>
-								</section>
-								<section>
-									<span class="icon solid major fas fa-cloud"></span>
-									<h3>Webroot</h3>
-									<p>CPU: E5-2630v4 | 4 Cores<br>RAM: 8GB DDR4 ECC 1600Mhz<br>DISK: 200GB SSD</p>
-								</section>
-								<section>
-									<span class="icon solid major fas fa-cloud"></span>
-									<h3>GodOfOwls</h3>
-									<p>CPU: E5-2630v4 | 6 Cores<br>RAM: 16GB DDR4 ECC 1600Mhz<br>DISK: 400GB SSD</p>
-								</section>
-								<section>
-									<span class="icon solid major fas fa-cloud"></span>
-									<h3>Geo Azure</h3>
-									<p>CPU: 2 vCores<br>RAM: 4GB<br>DISK: 8GB</p>
-								</section>
 							</div>
-							<ul class="actions">
-								<li><a href="https://server.bolverblitz.net/" class="button">Server Status Page</a></li>
-							</ul>
 						</div>
 					</section>
+
+				<!-- vServers -->
+				<section id="vServers" class="wrapper style2-alt fade-up">
+					<div class="inner">
+						<h2>vServers:</h2>
+						<p>List of our vServers:</p>
+						<div class="features">
+							<section>
+								<span class="icon solid major fas fa-cloud"></span>
+								<h3>VPS-MB-01</h3>
+								<p>CPU: Epyc 7702 | 4 Cores<br>RAM: 16GB DDR4 2400Mhz<br>DISK: 380GB SSD</p>
+							</section>
+							<section>
+								<span class="icon solid major fas fa-cloud"></span>
+								<h3>VPS-MB-05</h3>
+								<p>CPU: Epyc 7702 | 8 Cores<br>RAM: 48GB DDR4 2400Mhz<br>DISK: 1TB SSD</p>
+							</section>
+							<section>
+								<span class="icon solid major fas fa-cloud"></span>
+								<h3>VPS-OWL-01</h3>
+								<p>CPU: E5-2630v4 | 6 vCores<br>RAM: 16GB DDR4 ECC 1600Mhz<br>DISK: 400GB SSD</p>
+							</section>
+							<section>
+								<span class="icon solid major fas fa-cloud"></span>
+								<h3>VPS-OWL-03</h3>
+								<p>CPU: Epyc 7702 | 4 Cores<br>RAM: 16GB DDR4 2400Mhz<br>DISK: 380GB SSD</p>
+							</section>
+							<section>
+								<span class="icon solid major fas fa-cloud"></span>
+								<h3>VPS-GEO-01</h3>
+								<p>CPU: 2 vCores<br>RAM: 4GB<br>DISK: 8GB</p>
+							</section>
+							<section>
+								<span class="icon solid major fas fa-cloud"></span>
+								<h3>VPS-GEO-02</h3>
+								<p>CPU: Xeon Gold | 2 vCores<br>RAM: 4GB DDR4 2133Mhz<br>DISK: 40GB SSD</p>
+							</section>
+						</div>
+					</div>
+				</section>
 
 				<!-- Contact -->
 					<section id="Contact" class="wrapper style1 fade-up">
@@ -188,7 +217,7 @@
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">
 					<ul class="menu">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li>Impressum und Datenschutz: <a href="https://api.ebg.pw/lawstuff">Hier</a></li>
 					</ul>
 				</div>
 			</footer>
