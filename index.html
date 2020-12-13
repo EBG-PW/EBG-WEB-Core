@@ -120,12 +120,12 @@
 											let RX = ((data.Out.hardware.NETrx/NETrxTotal)*8)*100
 											let TX = ((data.Out.hardware.NETtx/NETtxTotal)*8)*100
 
-											let StringCPU = `<span style="color: ${hsl_col_perc(CPU, 100, 0)} !important;">${CPU.toFixed(2)}%</span> out of 100%<br>`
-											let StringRAM = `<span style="color: ${hsl_col_perc(RAM, 100, 0)} !important;">${RAM.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.RAMtotal*1024), 2)}<br>`
-											let StringDISK = `<span style="color: ${hsl_col_perc(DISK, 100, 0)} !important;">${DISK.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.DISKtotal*1048576), 2)}<br>`
+											let StringCPU = `CPU: <span style="color: ${hsl_col_perc(CPU, 100, 0)} !important;">${CPU.toFixed(2)}%</span> out of 100%<br>`
+											let StringRAM = `RAM: <span style="color: ${hsl_col_perc(RAM, 100, 0)} !important;">${RAM.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.RAMtotal*1024), 2)}<br>`
+											let StringDISK = `DISK: <span style="color: ${hsl_col_perc(DISK, 100, 0)} !important;">${DISK.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.DISKtotal*1048576), 2)}<br>`
 											let StringRX = `D↓:<span style="color: ${hsl_col_perc(RX, 100, 0)} !important;">${bytesToSize((data.Out.hardware.NETrx*8), 2, 1)}</span> `
 											let StringTX = `U↑:<span style="color: ${hsl_col_perc(TX, 100, 0)} !important;">${bytesToSize((data.Out.hardware.NETtx*8), 2, 1)}</span><br>`
-											let StringNET = `${StringRX}${StringTX}`
+											let StringNET = `Network: ${StringRX}${StringTX}`
 											$('#livedata').html(`${StringCPU}${StringRAM}${StringDISK}${StringNET}`);
 
 											if(FailDedect < 5){
@@ -223,7 +223,7 @@
 								<section>
 									<span class="icon solid major far fa-hdd"></span>
 									<h3>SRV-MB-01</h3>
-									<p>Cisco M3 C220<br>CPU: 2xE5-2667v2 | 16 Core<br>RAM: 192GB DDR3 ECC 1600Mhz<br>DISK: 3TB SSD</p>
+									<p>Cisco M3 C220<br>CPU: 2xE5-2667v2 | 16 Core<br>RAM: 192GB DDR3 ECC 1600Mhz<br>DISK: 5TB SSD</p>
 								</section>
 								<section>
 									<span class="icon solid major far fa-hdd"></span>
