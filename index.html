@@ -96,8 +96,9 @@
 				<!-- Stats -->
 					<section id="Stats" class="wrapper style3 fade-up">
 						<div class="inner">
-							<h2>EBG live server usage:</h2>
+							<h2>EBG live usage:</h2>
 							<div id="livedata"></div>
+							<br>
 							<ul class="actions">
 								<li><a href="https://server.ebg.pw/" class="button">Server Status Page</a></li>
 							</ul>
@@ -105,17 +106,39 @@
 							<script>
 								$(document).ready(function(){
 									stats()
+									let FailDedect = 5;
 									setInterval(stats, 2000);
 									function stats() {
-										var posting = $.get("https://api.ebg.pw/api/v1/serverstatus/now");
+										var posting = $.get("https://api.sttesports.eu/api/v1/serverstatusCclient/now");
 										posting.done(function(data) {
 											console.log(data)
+											let NETrxTotal = 1323827200*8;
+											let NETtxTotal = 1199308800*8;
+
 											let CPU = (data.Out.hardware.CPUused/data.Out.hardware.CPUtotal)*100
 											let RAM = (data.Out.hardware.RAMused/data.Out.hardware.RAMtotal)*100
-											$('#livedata').html(`<span style="color: ${hsl_col_perc(CPU, 100, 0)} !important;">${CPU.toFixed()}%</span> out of 100%<br><span style="color: ${hsl_col_perc(RAM, 100, 0)} !important;">${RAM.toFixed()}%</span> out of ${bytesToSize((data.Out.hardware.RAMtotal*1024), 2)}`);
+											let DISK = (data.Out.hardware.DISKused/data.Out.hardware.DISKtotal)*100
+											let RX = ((data.Out.hardware.NETrx/NETrxTotal)*8)*100
+											let TX = ((data.Out.hardware.NETtx/NETtxTotal)*8)*100
+
+											let StringCPU = `<span style="color: ${hsl_col_perc(CPU, 100, 0)} !important;">${CPU.toFixed(2)}%</span> out of 100%<br>`
+											let StringRAM = `<span style="color: ${hsl_col_perc(RAM, 100, 0)} !important;">${RAM.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.RAMtotal*1024), 2)}<br>`
+											let StringDISK = `<span style="color: ${hsl_col_perc(DISK, 100, 0)} !important;">${DISK.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.DISKtotal*1048576), 2)}<br>`
+											let StringRX = `D↓:<span style="color: ${hsl_col_perc(RX, 100, 0)} !important;">${bytesToSize((data.Out.hardware.NETrx*8), 2, 1)}</span> `
+											let StringTX = `U↑:<span style="color: ${hsl_col_perc(TX, 100, 0)} !important;">${bytesToSize((data.Out.hardware.NETtx*8), 2, 1)}</span><br>`
+											let StringNET = `${StringRX}${StringTX}`
+											$('#livedata').html(`${StringCPU}${StringRAM}${StringDISK}${StringNET}`);
+
+											if(FailDedect < 5){
+												FailDedect = FailDedect + 1;
+											}
 										});
 										posting.fail(function(err) {
-											$('#livedata').html(`Leider konnte keine Verbindung zur API hergestellt werden.`);
+											if(FailDedect === 0){
+												$('#livedata').html(`Leider konnte keine Verbindung zur API hergestellt werden.`);
+											}else{
+												FailDedect = FailDedect - 1;
+											}
 										});
 									}
 								});
@@ -139,42 +162,55 @@
 									bytes = bytes * 1.07374; //GiB to GB
 									var ret;
 									si = typeof si !== 'undefined' ? si : 0;
-									if(si != 0) {
-										var kilobyte = 1000;
-										var megabyte = kilobyte * 1000;
-										var gigabyte = megabyte * 1000;
-										var terabyte = gigabyte * 1000;
-									} else {
+
 										var kilobyte = 1024;
 										var megabyte = kilobyte * 1024;
 										var gigabyte = megabyte * 1024;
 										var terabyte = gigabyte * 1024;
-									}
 
-									if ((bytes >= 0) && (bytes < kilobyte)) {
-										return bytes + ' B';
 
-									} else if ((bytes >= kilobyte) && (bytes < megabyte)) {
-										ret = (bytes / kilobyte).toFixed(precision) + ' K';
-
-									} else if ((bytes >= megabyte) && (bytes < gigabyte)) {
-										ret = (bytes / megabyte).toFixed(precision) + ' M';
-
-									} else if ((bytes >= gigabyte) && (bytes < terabyte)) {
-										ret = (bytes / gigabyte).toFixed(precision) + ' G';
-
-									} else if (bytes >= terabyte) {
-										ret = (bytes / terabyte).toFixed(precision) + ' T';
-
-									} else {
-										return bytes + ' B';
-									}
 									if(si != 0) {
-										return ret + 'B';
+										if ((bytes >= 0) && (bytes < kilobyte)) {
+										return bytes + ' b';
+
+										} else if ((bytes >= kilobyte) && (bytes < megabyte)) {
+											ret = (bytes / kilobyte).toFixed(precision) + ' k';
+
+										} else if ((bytes >= megabyte) && (bytes < gigabyte)) {
+											ret = (bytes / megabyte).toFixed(precision) + ' m';
+
+										} else if ((bytes >= gigabyte) && (bytes < terabyte)) {
+											ret = (bytes / gigabyte).toFixed(precision) + ' g';
+
+										} else if (bytes >= terabyte) {
+											ret = (bytes / terabyte).toFixed(precision) + ' t';
+
+										} else {
+											return bytes + ' B';
+										}
+											return ret + 'bit';
 									} else {
-										return ret + 'B';
+										if ((bytes >= 0) && (bytes < kilobyte)) {
+										return bytes + ' B';
+
+										} else if ((bytes >= kilobyte) && (bytes < megabyte)) {
+											ret = (bytes / kilobyte).toFixed(precision) + ' K';
+
+										} else if ((bytes >= megabyte) && (bytes < gigabyte)) {
+											ret = (bytes / megabyte).toFixed(precision) + ' M';
+
+										} else if ((bytes >= gigabyte) && (bytes < terabyte)) {
+											ret = (bytes / gigabyte).toFixed(precision) + ' G';
+
+										} else if (bytes >= terabyte) {
+											ret = (bytes / terabyte).toFixed(precision) + ' T';
+
+										} else {
+											return bytes + ' B';
+										}
+											return ret + 'B';
 									}
-								}
+}
 							</script>
 						</div>
 					</section>
