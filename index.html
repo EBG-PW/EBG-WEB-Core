@@ -24,7 +24,6 @@
 							<li><a href="#Members">Members</a></li>
 							<li><a href="#Stats">Live stats</a></li>
 							<li><a href="#Servers">Servers</a></li>
-							<li><a href="#vServers">vServers</a></li>
 							<li><a href="#Contact">Get in touch</a></li>
 						</ul>
 					</nav>
@@ -218,82 +217,137 @@
 					<section id="Servers" class="wrapper style2 fade-up">
 						<div class="inner">
 							<h2>Servers:</h2>
-							<p>List of our own hardware servers:</p>
-							<div class="features">
-								<section>
-									<span class="icon solid major far fa-hdd"></span>
-									<h3>SRV-MB-01</h3>
-									<p>Cisco M3 C220<br>CPU: 2xE5-2667v2 | 16 Core<br>RAM: 192GB DDR3 ECC 1600Mhz<br>DISK: 5TB SSD</p>
-								</section>
-								<section>
-									<span class="icon solid major far fa-hdd"></span>
-									<h3>SRV-OWL-01</h3>
-									<p>ProLiant DL 360e G8<br>CPU: 2xE5-2430Lv2 | 12 Cores<br>RAM: 96GB DDR3 ECC 1333mhz<br>DISK: 1,256TB SSD | 2.4TB HDD</p>
-								</section>
-								<section>
-									<span class="icon solid major far fa-hdd"></span>
-									<h3>SRV-VSL-02</h3>
-									<p>ProLiant DL 120 G6<br>CPU: 1xX3430 | 4 Core<br>RAM: 8GB DDR3 ECC 1033Mhz<br>DISK: SOME HDD</p>
-								</section>
-								<section>
-									<span class="icon solid major far fa-hdd"></span>
-									<h3>SRV-VSL-03</h3>
-									<p>ProLiant DL 360e G8<br>CPU: 2xE5-2430Lv2 | 12 Cores<br>RAM: 96GB DDR3 ECC 1333mhz<br>DISK: 1,256TB SSD | 1.2TB HDD</p>
-								</section>
-								<section>
-									<span class="icon solid major fas fa-hdd"></span>
-									<h3>SRV-ARC-01</h3>
-									<p>ProLiant DL 380e G8<br>CPU: 2xE5-2430L | 12 Cores<br>RAM: 24GB DDR3 ECC 1333Mhz<br>DISK: 1.2TB HDD | 48TB Tape</p>
-								</section>
-								<section>
-									<span class="icon solid major fas fa-hdd"></span>
-									<h3>SRV-MB-02</h3>
-									<p>CPU: i5-8400 | 6 Cores<br>RAM: 16GB DDR4 3000Mhz<br>DISK: 3,5TB SSD | 18TB HDD</p>
-								</section>
-							</div>
+							<p>List of our servers:<br>
+								<i class="icon solid fas fa-hdd"> Owned Hardware</i><br> 
+								<i class="icon solid fas fa-cloud"> Rented Hardware</i> </p>
+							<div class="table-wrapper">
+								<table>
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>Type</th>
+											<th>CPU</th>
+											<th>RAM</th>
+											<th>DISK</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>SRV-EBG-01</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>1x R9-5950X | 16/32 Cores</td>
+											<td>128GB DDR4 3600mhz</td>
+											<td>9.0TB SSD | 32.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-MOR-03</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2680v2 | 20/40 Cores</td>
+											<td>256GB DDR3 ECC 1333mhz</td>
+											<td>4.0TB SSD | 2.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-OWL-02</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2680v2 | 20/40 Cores</td>
+											<td>256GB DDR3 ECC 1333mhz</td>
+											<td>4.0TB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-ICE-02</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2680v2 | 20/40 Cores</td>
+											<td>256GB DDR3 ECC 1333mhz</td>
+											<td>1.0TB SSD | 32.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-MB-01</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2667v2 | 16/32 Core</td>
+											<td>128GB DDR3 ECC 1600mhz</td>
+											<td>5.0TB SSD | 0TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-OWL-01</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2430Lv2 | 12/24 Cores</td>
+											<td>144GB DDR3 ECC 1333mhz</td>
+											<td>1.0TB SSD | 2.4TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-VSL-03</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2430Lv2 | 12/24 Cores</td>
+											<td>96GB DDR3 ECC 1333mhz</td>
+											<td>1.0TB SSD | 2.4TB HDD</td>
+										</tr>
+										<tr>
+											<td>SRV-ARC-01</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>2x E5-2430Lv2 | 12/24 Cores</td>
+											<td>24GB DDR3 ECC 1333mhz</td>
+											<td>1.2TB HDD | 48.0TB Tape</td>
+										</tr>
+										<tr>
+											<td>SRV-MB-02</td>
+											<td><i class="icon far fa-hdd"></i></td>
+											<td>i5-8400 | 6/6 Cores</td>
+											<td>16GB DDR4 ECC 3200mhz</td>
+											<td>4.0TB SSD | 18.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-MB-01</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 4 Cores</td>
+											<td>16GB DDR4 ECC 2400mhz</td>
+											<td>0.4TB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-MB-02</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 12 Cores</td>
+											<td>64GB DDR4 ECC 2400mhz</td>
+											<td>2.0TB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-MB-03</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 2 Cores</td>
+											<td>8GB DDR4 ECC 2400mhz</td>
+											<td>0.2GB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-OWL-03</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 4 Cores</td>
+											<td>16GB DDR4 ECC 2400mhz</td>
+											<td>0.4GB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-OWL-04</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 8 Cores</td>
+											<td>8GB DDR4 ECC 2400mhz</td>
+											<td>0.2GB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-OWL-04</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 8 Cores</td>
+											<td>8GB DDR4 ECC 2400mhz</td>
+											<td>0.2GB SSD | 0.0TB HDD</td>
+										</tr>
+										<tr>
+											<td>VPS-GEO-02</td>
+											<td><i class="icon solid fas fa-cloud"></i></td>
+											<td>Epyc 7702 | 2 Cores</td>
+											<td>8GB DDR4 ECC 2400mhz</td>
+											<td>0.2GB SSD | 0.0TB HDD</td>
+										</tr>
+									</tbody>
+								</table>
 						</div>
 					</section>
-
-				<!-- vServers -->
-				<section id="vServers" class="wrapper style2-alt fade-up">
-					<div class="inner">
-						<h2>vServers:</h2>
-						<p>List of our vServers:</p>
-						<div class="features">
-							<section>
-								<span class="icon solid major fas fa-cloud"></span>
-								<h3>VPS-MB-01</h3>
-								<p>CPU: Epyc 7702 | 4 Cores<br>RAM: 16GB DDR4 2400Mhz<br>DISK: 380GB SSD</p>
-							</section>
-							<section>
-								<span class="icon solid major fas fa-cloud"></span>
-								<h3>VPS-MB-02</h3>
-								<p>CPU: Epyc 7702 | 12 Cores<br>RAM: 64GB DDR4 2400Mhz<br>DISK: 2TB SSD</p>
-							</section>
-							<section>
-								<span class="icon solid major fas fa-cloud"></span>
-								<h3>VPS-OWL-01</h3>
-								<p>CPU: E5-2630v4 | 6 vCores<br>RAM: 16GB DDR4 ECC 1600Mhz<br>DISK: 400GB SSD</p>
-							</section>
-							<section>
-								<span class="icon solid major fas fa-cloud"></span>
-								<h3>VPS-OWL-03</h3>
-								<p>CPU: Epyc 7702 | 4 Cores<br>RAM: 16GB DDR4 2400Mhz<br>DISK: 380GB SSD</p>
-							</section>
-							<section>
-								<span class="icon solid major fas fa-cloud"></span>
-								<h3>VPS-GEO-01</h3>
-								<p>CPU: 2 vCores<br>RAM: 4GB<br>DISK: 8GB</p>
-							</section>
-							<section>
-								<span class="icon solid major fas fa-cloud"></span>
-								<h3>VPS-GEO-02</h3>
-								<p>CPU: Xeon Gold | 2 vCores<br>RAM: 4GB DDR4 2133Mhz<br>DISK: 40GB SSD</p>
-							</section>
-						</div>
-					</div>
-				</section>
-
 				<!-- Contact -->
 					<section id="Contact" class="wrapper style1 fade-up">
 						<div class="inner">
@@ -321,15 +375,6 @@
 									</ul>
 								</section>
 								<section>
-									<div style="padding:3px;text-align:center;background-color:#5e42a6; width:400;">
-										<a href="https://widget.worldcommunitygrid.org/discover.action" rel="noopener noreferrer" target="_blank"><img src="https://www.worldcommunitygrid.org/images/homepage-images/wcglogo.png" alt="World Community Grid Logo" border="0" width="350" height="50"></a><br>
-										
-										<a href="https://widget.worldcommunitygrid.org/team/viewTeamInfo.do?teamId=FPC25HV6C2" rel="noopener noreferrer" target="_blank">Ingress Enlightened</a>:
-												59,250,290&nbsp;Points
-												&nbsp;(Rank:&nbsp;#2,288)
-											<br>
-										<br>
-										<a href="https://widget.worldcommunitygrid.org/discover.action?recruiterId=1087032&amp;teamId=FPC25HV6C2" rel="noopener noreferrer" target="_blank">Join World Community Grid today!</a><br>
 										<br>
 										<iframe src="https://discord.com/widget?id=759805871525330975&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
 										</div>
