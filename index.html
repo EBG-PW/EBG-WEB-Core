@@ -24,6 +24,7 @@
 							<li><a href="#Members">Members</a></li>
 							<li><a href="#Stats">Live stats</a></li>
 							<li><a href="#Servers">Servers</a></li>
+							<li><a href="#WCG-Stats">WCG-Stats</a></li>
 							<li><a href="#Contact">Get in touch</a></li>
 						</ul>
 					</nav>
@@ -348,6 +349,45 @@
 								</table>
 						</div>
 					</section>
+
+				<!-- WCG-Stats -->
+				<section id="WCG-Stats" class="wrapper style3-alt fade-up">
+					<div class="inner">
+						<h1>WorldCommunityGrid Stats</h1>
+						<div id="WCGdataText"></div>
+						<div id="WCGdata"></div>
+						<br>
+						<script>
+							$(document).ready(function(){
+								WCGstats()
+								function WCGstats() {
+									var posting = $.get("http://localhost:3223/api/v1/WCG-TeamStats/getTeamStats?teamid=FPC25HV6C2");
+									posting.done(function(data) {
+										let Users = `${numberWithPoints(data[0].currentmembers)}`
+										let Points =  `Total points: ${numberWithPoints(data[0].points)} - Points per day: ${numberWithPoints(Math.floor(data[0].pointsperday))} - Global Rank: ${data[0].runtimerank}<br>`
+										let Results =  `Total results: ${numberWithPoints(data[0].results)} - Points per day: ${numberWithPoints(Math.floor(data[0].resultsperday))} - Global Rank: ${data[0].resultsrank}<br>`
+										let RuntimePerResult = `We need ${new Date(data[0].runtimeperresult * 1000).toISOString().substr(11, 8)} (HH:MM:SS) per result.`
+										$('#WCGdataText').html(`<p>WorldCommunityGrid is a place where we donate our unused CPU time to, to help out important research<br>Your team Ingress Enlightened was founded in mid 2019 and currently has ${Users} members.</p>`);
+										$('#WCGdata').html(`${Points}${Results}${RuntimePerResult}`);
+										
+									});
+
+									posting.fail(function(err) {
+										$('#WCGdata').html(`Leider konnte keine Verbindung zur API hergestellt werden.`);
+									});
+								}
+
+								function numberWithPoints(x) {
+									return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+								}
+							});
+						</script>
+						<ul class="actions">
+							<li><a href="https://www.worldcommunitygrid.org/" class="button scrolly">Learn more</a></li>
+						</ul>
+					</div>
+				</section>
+
 				<!-- Contact -->
 					<section id="Contact" class="wrapper style1 fade-up">
 						<div class="inner">
