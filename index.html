@@ -315,35 +315,35 @@
 											<td><i class="icon solid fas fa-cloud"></i></td>
 											<td>Epyc 7702 | 2 Cores</td>
 											<td>8GB DDR4 ECC 2400mhz</td>
-											<td>0.2GB SSD | 0.0TB HDD</td>
+											<td>0.2TB SSD | 0.0TB HDD</td>
 										</tr>
 										<tr>
 											<td>VPS-OWL-03</td>
 											<td><i class="icon solid fas fa-cloud"></i></td>
 											<td>Epyc 7702 | 4 Cores</td>
 											<td>16GB DDR4 ECC 2400mhz</td>
-											<td>0.4GB SSD | 0.0TB HDD</td>
+											<td>0.4TB SSD | 0.0TB HDD</td>
 										</tr>
 										<tr>
 											<td>VPS-OWL-04</td>
 											<td><i class="icon solid fas fa-cloud"></i></td>
 											<td>Epyc 7702 | 8 Cores</td>
 											<td>8GB DDR4 ECC 2400mhz</td>
-											<td>0.2GB SSD | 0.0TB HDD</td>
+											<td>0.2TB SSD | 0.0TB HDD</td>
 										</tr>
 										<tr>
 											<td>VPS-OWL-04</td>
 											<td><i class="icon solid fas fa-cloud"></i></td>
 											<td>Epyc 7702 | 8 Cores</td>
 											<td>8GB DDR4 ECC 2400mhz</td>
-											<td>0.2GB SSD | 0.0TB HDD</td>
+											<td>0.2TB SSD | 0.0TB HDD</td>
 										</tr>
 										<tr>
 											<td>VPS-GEO-02</td>
 											<td><i class="icon solid fas fa-cloud"></i></td>
 											<td>Epyc 7702 | 2 Cores</td>
 											<td>8GB DDR4 ECC 2400mhz</td>
-											<td>0.2GB SSD | 0.0TB HDD</td>
+											<td>0.2TB SSD | 0.0TB HDD</td>
 										</tr>
 									</tbody>
 								</table>
@@ -365,7 +365,7 @@
 									posting.done(function(data) {
 										let Users = `${numberWithPoints(data[0].currentmembers)}`
 										let Points =  `Total points: ${numberWithPoints(data[0].points)} - Points per day: ${numberWithPoints(Math.floor(data[0].pointsperday))} - Global Rank: ${data[0].runtimerank}<br>`
-										let Results =  `Total results: ${numberWithPoints(data[0].results)} - Points per day: ${numberWithPoints(Math.floor(data[0].resultsperday))} - Global Rank: ${data[0].resultsrank}<br>`
+										let Results =  `Total results: ${numberWithPoints(data[0].results)} - Results per day: ${numberWithPoints(Math.floor(data[0].resultsperday))} - Global Rank: ${data[0].resultsrank}<br>`
 										let RuntimePerResult = `We need ${new Date(data[0].runtimeperresult * 1000).toISOString().substr(11, 8)} (HH:MM:SS) per result.`
 										$('#WCGdataText').html(`<p>WorldCommunityGrid is a place where we donate our unused CPU time to help out important research<br>Your team Ingress Enlightened was founded in mid 2019 and currently has ${Users} members.</p>`);
 										$('#WCGdata').html(`${Points}${Results}${RuntimePerResult}`);
