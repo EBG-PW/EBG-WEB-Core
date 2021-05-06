@@ -371,7 +371,7 @@
 									var posting = $.get("https://wcg.ebg.pw/api/v1/WCG-TeamStats/getTeamStats?teamid=FPC25HV6C2");
 									posting.done(function(data) {
 										let Users = `${numberWithPoints(data[0].currentmembers)}`
-										let Points =  `Total points: ${numberWithPoints(data[0].points)} - Points per day: ${numberWithPoints(Math.floor(data[0].pointsperday))} - Global Rank: ${data[0].runtimerank}<br>`
+										let Points =  `Total points: ${numberWithPoints(data[0].points)} - Points per day: ${numberWithPoints(Math.floor(data[0].pointsperday))} - Global Rank: ${data[0].pointsrank}<br>`
 										let Results =  `Total results: ${numberWithPoints(data[0].results)} - Results per day: ${numberWithPoints(Math.floor(data[0].resultsperday))} - Global Rank: ${data[0].resultsrank}<br>`
 										let RuntimePerResult = `We need ${new Date(data[0].runtimeperresult * 1000).toISOString().substr(11, 8)} (HH:MM:SS) per result.`
 										$('#WCGdataText').html(`<p>WorldCommunityGrid is a place where we donate our unused CPU time to help out important research<br>Your team Ingress Enlightened was founded in mid 2019 and currently has ${Users} members.</p>`);
