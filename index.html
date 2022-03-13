@@ -122,7 +122,7 @@
 
 											let StringCPU = `CPU: <span style="color: ${hsl_col_perc(CPU, 100, 0)} !important;">${CPU.toFixed(2)}%</span> out of 100%<br>`
 											let StringRAM = `RAM: <span style="color: ${hsl_col_perc(RAM, 100, 0)} !important;">${RAM.toFixed(2)}%</span> out of ${bytesToSize((data.Out.hardware.RAMtotal*1024), 2)}<br>`
-											let StringDISK = `DISK: <span style="color: ${hsl_col_perc(DISK, 100, 0)} !important;">${DISK.toFixed(2)}%</span> out of ${bytesToSize((/* DISK Fix for wrong reported Size beause of ZFS */(data.Out.hardware.DISKtotal*1048576)-500000000000000), 2)}<br>`
+											let StringDISK = `DISK: <span style="color: ${hsl_col_perc(DISK, 100, 0)} !important;">${DISK.toFixed(2)}%</span> out of ${bytesToSize((/* DISK Fix for wrong reported Size beause of ZFS */(data.Out.hardware.DISKtotal*1048576)-270000000000000), 2)}<br>`
 											let StringRX = `D↓:<span style="color: ${hsl_col_perc(RX, 100, 0)} !important;">${bytesToSize((data.Out.hardware.NETrx*8), 2, 1)}</span> `
 											let StringTX = `U↑:<span style="color: ${hsl_col_perc(TX, 100, 0)} !important;">${bytesToSize((data.Out.hardware.NETtx*8), 2, 1)}</span><br>`
 											let StringNET = `Network: ${StringRX}${StringTX}`
