@@ -6,6 +6,7 @@
         "@lib/*": ["./lib/*"],
         "@src/*": ["./src/*"],
         "@api/*": ["./api/*"],
+        "@static_api/*": ["./static_api/*"],
         "@middleware/*": ["./middleware/*"],
         "@config/*": ["./config/*"],
         "@e2etest": ["./e2e-test/*"]

@@ -14,17 +14,12 @@ module.exports = {
         "app": {
             "permissions": [
                 "app.web.login",
-                "app.web.logout"
-            ]
+                "app.web.logout",
+            ],
+            "inherit": ["admin"]
         },
         "user": {
-            "permissions": [
-                "app.test.write",
-                "app.test.read",
-                
-                "app.drogen.write",
-                "app.legal.*",
-            ],
+            "permissions": [],
             "inherit": [
                 "app"
             ]

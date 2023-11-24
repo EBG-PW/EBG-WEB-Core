@@ -10,13 +10,19 @@ const { log } = require('@lib/logger');
 process.log = {};
 process.log = log;
 
+// Render Templates
+const path = require('path');
+const { renderEJSToPublic, deleteEmptyDirectories } = require('@lib/template');
+
+renderEJSToPublic(path.join(__dirname, 'views'), path.join(__dirname, 'public'), ["error-xxx.ejs", "landingpage.ejs"]);
+
 (async () => {
     const { createTables } = require('@lib/postgres');
     await createTables();
 
     setTimeout(() => {
         const app = require('@src/app');
-    
+
         setTimeout(() => {
             if (process.env.ExtraErrorWebDelay > 0) {
                 process.log.system(`Webserver was delayed by ${process.env.ExtraErrorWebDelay || 500}ms beause of a error.`);

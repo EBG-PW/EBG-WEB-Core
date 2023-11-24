@@ -71,7 +71,7 @@ router.post('/', async (req, res) => {
 
         const PermissionsResponse = await user.permission.get(user_response[0].id)
         const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response[0].user_group); // Format the permissions to a array
-        console.log(Formated_Permissions)
+
         const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
         if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
