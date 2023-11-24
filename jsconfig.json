@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./",
+      "module": "commonjs",
+      "paths": {
+        "@lib/*": ["./lib/*"],
+        "@src/*": ["./src/*"],
+        "@api/*": ["./api/*"],
+        "@middleware/*": ["./middleware/*"],
+        "@config/*": ["./config/*"],
+        "@e2etest": ["./e2e-test/*"]
+      }
+    },
+    "exclude": ["node_modules"]
+  }
