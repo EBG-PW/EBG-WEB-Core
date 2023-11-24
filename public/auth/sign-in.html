@@ -47,12 +47,13 @@
         <div class="card card-md">
           <div class="card-body">
             <h2 class="h2 text-center mb-4" data-translate="Login.Header"></h2>
-            <form action="./" method="get" autocomplete="off" novalidate>
+            <form method="post" id="LoginForm">
               <div class="mb-3">
                 <label
                   class="form-label"
                   data-translate="Login.EmailAdress"></label>
                 <input
+                  id="login_identifier"
                   type="email"
                   class="form-control"
                   data-translate-placeholder="Login.Placeholder.EmailAdress"
@@ -69,6 +70,7 @@
                 </label>
                 <div class="input-group input-group-flat">
                   <input
+                    id="login_password"
                     type="password"
                     class="form-control"
                     data-translate-placeholder="Login.Placeholder.Password"
@@ -77,6 +79,7 @@
                   <span class="input-group-text">
                     <a
                       href="#"
+                      id="passwordToggle"
                       class="link-secondary"
                       title="Show password"
                       data-bs-toggle="tooltip"
@@ -100,14 +103,6 @@
                     </a>
                   </span>
                 </div>
-              </div>
-              <div class="mb-2">
-                <label class="form-check">
-                  <input type="checkbox" class="form-check-input" />
-                  <span
-                    class="form-check-label"
-                    data-translate="Login.Button.Remember"></span>
-                </label>
               </div>
               <div class="form-footer">
                 <button
@@ -183,6 +178,77 @@
     <script src="./dist/js/tabler.min.js?1684106062" defer></script>
     <script src="./dist/js/demo.min.js?1684106062" defer></script>
     <script src="./dist/js/i18next.min.js?1684106062"></script>
-    <script></script>
+    <script>
+
+      // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
+      document.getElementById("passwordToggle").addEventListener("click", function() {
+        const passwordField = document.getElementById("login_password");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      });
+
+      // When the login form is submitted, send a POST request to the server (VanillaJS)
+      document.getElementById("LoginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const getUrl = window.location;
+        const baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+
+        const identifier = document.getElementById("login_identifier").value;
+        const password = document.getElementById("login_password").value;
+
+        // Check if status 200, if so, redirect to dashboard. If not, show error message.
+        fetch(baseUrl + "api/v1/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identifier: identifier,
+            password: password,
+          }),
+        })
+          .then((response) => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              // Toggle submit button to red and write error message for 401, 403 and 500
+              // updateElementText(element, i18next.t(key));
+              document.querySelector("button[type=submit]").classList.toggle("btn-danger");
+              if(response.status === 401) {
+                updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.401"));
+              } else if(response.status === 403) {
+                updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.403"));
+              } else if(response.status === 500) {
+                updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.500"));
+              }
+
+              // Toggle back to normal after 3 seconds
+              setTimeout(function() {
+                document.querySelector("button[type=submit]").classList.toggle("btn-danger");
+                updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.SignIn"));
+              }, 3000);
+
+              throw new Error(response.status);
+            }
+          })
+          .then((response) => {
+            localStorage.setItem("user_id", response.user_id);
+            localStorage.setItem("username", response.username);
+            localStorage.setItem("avatar_url", response.avatar_url);
+            localStorage.setItem("language", response.language);
+            localStorage.setItem("tablerTheme", response.design);
+            localStorage.setItem("token", response.token);
+            localStorage.setItem("permissions", JSON.stringify(response.permissions));
+            window.location.href = "/dashboard";
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        
+      });
+    </script>
   </body>
 </html>

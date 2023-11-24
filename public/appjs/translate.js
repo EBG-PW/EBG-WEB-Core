@@ -7,7 +7,7 @@ const switchLang = (lang) => {
 function updateElementText(element, newText) {
     if (element.hasChildNodes()) {
         let hasOnlyTextNodes = Array.from(element.childNodes).every(node => node.nodeType === Node.TEXT_NODE);
-        
+
         if (hasOnlyTextNodes) {
             // If all child nodes are text, replace the whole text content
             element.textContent = newText;
@@ -34,11 +34,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         lng: localLang,
         debug: true,
         resources: {
-            de: {
+            [localLang]: {
                 translation: langFile
             }
         }
     });
+
+    if (localStorage.getItem('user_group') !== null) {
+        if (document.getElementById('Dashboard.Profile.User_Group') !== null) {
+            document.getElementById('Dashboard.Profile.User_Group').innerHTML = i18next.t(`User_Groups.${localStorage.getItem('user_group')}`);
+        }
+    }
 
     document.querySelectorAll("[data-translate]").forEach((element) => {
         const key = element.getAttribute("data-translate");
@@ -52,6 +58,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         const key = element.getAttribute("data-translate-placeholder");
         if (key) {
             element.setAttribute('placeholder', i18next.t(key));
+        }
+    });
+
+    // Translate title
+    document.querySelectorAll("[data-translate-title]").forEach((element) => {
+        const key = element.getAttribute("data-translate-title");
+        if (key) {
+            element.setAttribute('title', i18next.t(key));
         }
     });
 });

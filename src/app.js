@@ -13,11 +13,20 @@ app.use(expressCspHeader({
     directives: {
         'default-src': [SELF],
         'script-src': [SELF, INLINE],
-        'style-src': [SELF, INLINE, "https://rsms.me/inter/inter.css"], // Allow CSS from the specific URL
-        'font-src': [SELF, "https://rsms.me/inter/font-files/"], // Allow fonts from the specific URL
-        'img-src': [SELF, INLINE],
+        'style-src': [SELF, INLINE, "https://rsms.me/inter/inter.css"],
+        'font-src': [SELF, "https://rsms.me/inter/font-files/"],
+        'img-src': [
+            SELF,
+            INLINE,
+            "https://avatars.githubusercontent.com/u/", // GitHub avatars
+            "https://lh3.googleusercontent.com/", // Google profile images
+        ],
         'worker-src': [NONE],
-        'connect-src': [SELF, `ws://${process.env.WebSocketURL}`, `wss://${process.env.WebSocketURL}`],
+        'connect-src': [
+            SELF,
+            `ws://${process.env.WebSocketURL}`,
+            `wss://${process.env.WebSocketURL}`
+        ],
         'block-all-mixed-content': true
     }
 }));
@@ -86,6 +95,7 @@ app.use('/auth', auth_handler);
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {
+    console.log(error)
     process.log.debug(error);
     const outError = {
         message: error.message || "",
