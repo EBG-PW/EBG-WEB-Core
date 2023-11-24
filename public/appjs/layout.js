@@ -10,12 +10,6 @@ if (localStorage.getItem('username') !== null) {
     if(document.getElementById('Dashboard.Profile.Username') !== null) document.getElementById('Dashboard.Profile.Username').innerHTML = localStorage.getItem('username');
 }
 
-<a href="./profile.html" class="dropdown-item">Profile</a>
-<a href="./settings.html" class="dropdown-item">Settings</a>
-<div class="dropdown-divider"></div>
-<a href="./settings.html" class="dropdown-item">Settings</a>
-<a href="./sign-in.html" class="dropdown-item">Logout</a>
-
 // Function
 const toggleColor = (style) => {
     // Store the chance in the database (POST /api/v1/user/layout)

@@ -38,14 +38,34 @@ app.get('/', (req, res) => {
     res.send(fs.readFileSync(path.join(__dirname, '..', 'public', 'landingpage.html')));
 })
 
+app.get('/login', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-in.html'));
+});
+
 app.get('/dashboard', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
 });
 
-app.get('/login', (req, res) => {
+app.get('/profile', (req, res) => {
     res.header('Content-Type', 'text/html');
-    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-in.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'profile.html'));
+});
+
+app.get('/apps', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'apps.html'));
+});
+
+app.get('/settings-account', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'settings-account.html'));
+});
+
+app.get('/settings-misc', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'settings-misc.html'));
 });
 
 const apiv1 = require('@api');
