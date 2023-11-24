@@ -1,0 +1,132 @@
+{
+    "de": "Deutsch",
+    "Login": {
+        "Title": "Anmelden",
+        "Header": "Anmelden",
+        "EmailAdress": "E-Mail Adresse",
+        "Password": "Passwort",
+        "ForgotPassword": "Passwort vergessen?",
+        "Button": {
+            "Remember": "Angemeldet bleiben",
+            "SignIn": "Anmelden",
+            "Error": {
+                "401": "E-Mail Adresse oder Passwort falsch",
+                "403": "Gesperrter Account",
+                "500": "Serverfehler"
+            }
+        },
+        "Or": "Oder",
+        "OAuth": {
+            "LoginWGithub": "Mit Github anmelden",
+            "LoginWGoogle": "Mit Google anmelden"
+        },
+        "SignUPPhrase": "Sie haben noch keinen Account?",
+        "Placeholder": {
+            "EmailAdress": "E-Mail Adresse",
+            "Password": "Passwort"
+        }
+    },
+    "Dashboard": {
+        "Header": {
+            "Pagename": "EBG - Dashboard",
+            "Field": {
+                "Monitoring": "Überwachung"
+            },
+            "Profile": {
+                "Profile": "Profil",
+                "Settings": "Einstellungen",
+                "Apps": "Verbundene Apps",
+                "Logout": "Abmelden"
+            },
+            "Navbar": {
+                "Home": "Startseite",
+                "Projects": "Projekte",
+                "Events": "Veranstaltungen",
+                "UserManagment": "Nutzerverwaltung",
+                "Services": {
+                    "Name": "Dienste",
+                    "Game": "Spiele Server",
+                    "Vm": "VM Server"
+                }
+            },
+            "Buttons": {
+                "ToggleColor": {
+                    "Light": "Helle Ansicht",
+                    "Dark": "Dunkle Ansicht"
+                }
+            }
+        },
+        "Footer": {
+            "Links": {
+                "Guidelines": "Richtlinien",
+                "Imprint": "Impressum",
+                "Privacy": "Datenschutz"
+            }
+        }
+    },
+    "Settings": {
+        "Side": {
+            "Account": "Account",
+            "Misc": "Design, Sprache & Sonstiges"
+        },
+        "Main": {
+            "SettingsName": "Account Einstellungen",
+            "ProfileHeadline": "Profil Einstellungen",
+            "AccountHeadline": "Account Einstellungen",
+            "PasswordHeadline": "Passwort Einstellungen",
+            "PublicHeadline": "Privatsphäre Einstellungen",
+            "Username": "Benutzername",
+            "Email": "E-Mail Adresse",
+            "FirstName": "Vorname",
+            "LastName": "Nachname",
+            "Bio": "Biographie",
+            "PasswordOld": "Altes Passwort",
+            "PasswordRepeat": "Passwort wiederholen",
+            "PasswordNew": "Neues Passwort",
+            "ExplainPrivate": "Hier kannst du dein Profil auf Privat stellen.",
+            "Button": {
+                "SetPassword": "Passwort ändern",
+                "PrivacyActive": "Privatsphäre aktiviert",
+                "PrivacyDeactive": "Privatsphäre deaktiviert"
+            },
+            "Error": {
+                "Password": {
+                    "Empty": "Bitte gib ein Passwort ein",
+                    "NotEqual": "Die Passwörter stimmen nicht überein",
+                    "Unknown": "Ein unbekannter Fehler ist aufgetreten",
+                    "Wrong": "Das Passwort ist falsch",
+                    "401": "Altes Passwort falsch",
+                    "500": "Serverfehler"
+                }
+            },
+            "Success": {
+                "Password": "Passwort erfolgreich geändert"
+            }
+        },
+        "Misc": {
+            "SettingsName": "Misc Einstellungen",
+            "DesignLangHeadline": "Design & Sprache",
+            "Language": "Sprache",
+            "Layout": "Layout",
+            "LayoutOptions": {
+                "Fluid": "Vollbild",
+                "Center": "Zenriert"
+            },
+            "NavBarLock": "Navigation fixieren",
+            "NavBarLockOptions": {
+                "Top": "Oben",
+                "Side": "Seite"
+            }
+        },
+        "Profile": {
+            "AvatarIcon": "Avatar Icon",
+            "SetAvatarIcon": "NOT IMPLEMENTED",
+            "DeleteAvatarIcon": "Avatar löschen"
+        }
+    },
+    "User_Groups": {
+        "user": "Nutzer",
+        "kassierer": "Kassierer",
+        "admin": "Administrator"
+    }
+}

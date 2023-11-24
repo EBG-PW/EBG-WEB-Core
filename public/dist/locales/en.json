@@ -1,0 +1,29 @@
+{
+    "en": "English",
+    "Login": {
+        "Title": "Login",
+        "Header": "Login",
+        "EmailAdress": "Email Adress",
+        "Password": "Password",
+        "ForgotPassword": "Forgot Password?",
+        "Button": {
+            "Remember": "Remember me",
+            "SignIn": "Sign In",
+            "Error": {
+                "401": "Wrong Email or Password",
+                "403": "Forbidden",
+                "500": "Internal Server Error"
+            }
+        },
+        "Or": "Or",
+        "OAuth": {
+            "LoginWGithub": "Login with Github",
+            "LoginWGoogle": "Login with Google"
+        },
+        "SignUPPhrase": "Don't have an account?",
+        "Placeholder": {
+            "EmailAdress": "Email Adress",
+            "Password": "Password"
+        }
+    }
+}
