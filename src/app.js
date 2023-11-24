@@ -12,7 +12,7 @@ app.use(expressCspHeader({
     directives: {
         'default-src': [SELF],
         'script-src': [SELF, INLINE],
-        'style-src': [SELF, INLINE],
+        'style-src': [SELF, INLINE, "https://rsms.me/inter/*"],
         'img-src': [SELF, INLINE],
         'worker-src': [NONE],
         'connect-src': [[SELF], `ws://${process.env.WebSocketURL}`, `wss://${process.env.WebSocketURL}`],
@@ -24,18 +24,22 @@ app.use(expressCspHeader({
 
 app.get('/', (req, res) => {
     res.header('Content-Type', 'text/html');
-    res.send(fs.readFileSync(path.join(__dirname, '..', 'www-public', 'index.html')));
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'public', 'landingpage.html')));
 })
 
 app.get('/login', (req, res) => {
     res.header('Content-Type', 'text/html');
-    res.sendFile(path.join(__dirname, '..', 'www-public', 'login', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-in.html'));
 });
 
 const apiv1 = require('@api');
 
 app.get('/dist/*', (req, res) => {
-    switch (req.url.split('.').pop()) {
+    // Split the URL to separate the path and query string
+    const filePath = req.url.split('?')[0];
+
+    // Determine the content type based on the file extension
+    switch (filePath.split('.').pop()) {
         case 'js':
             res.header('Content-Type', 'text/javascript');
             break;
@@ -58,8 +62,37 @@ app.get('/dist/*', (req, res) => {
             res.header('Content-Type', 'text/plain');
             break;
     }
-    res.send(fs.readFileSync(path.join(__dirname, '..', 'www-public', req.url)));
-})
+
+    // Read the file from the filesystem without the query string
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
+});
+
+app.get('/static/*', (req, res) => {
+    // Split the URL to separate the path and query string
+    const filePath = req.url.split('?')[0];
+
+    // Determine the content type based on the file extension
+    switch (filePath.split('.').pop()) {
+        case 'png':
+            res.header('Content-Type', 'image/png');
+            break;
+        case 'jpg':
+            res.header('Content-Type', 'image/jpg');
+            break;
+        case 'svg':
+            res.header('Content-Type', 'image/svg+xml');
+            break;
+        case 'ico':
+            res.header('Content-Type', 'image/x-icon');
+            break;
+        default:
+            res.header('Content-Type', 'text/plain');
+            break;
+    }
+
+    // Read the file from the filesystem without the query string
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
+});
 
 app.use('/api/v1', apiv1);
 

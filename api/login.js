@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { user, webtoken } = require('@lib/postgres');
 const { addWebtoken, delWebtoken } = require('@lib/cache');
-const { formatSQLPermissions, checkPermission } = require('@lib/permission');
+const { mergePermissions, checkPermission } = require('@lib/permission');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const HyperExpress = require('hyper-express');
 const { PermissionsError, InvalidRouteInput, InvalidLogin, Invalid2FA, DBError } = require('@lib/errors');
@@ -17,13 +17,13 @@ const PluginRequirements = []; //Put your Requirements and version here <Name, n
 const PluginVersion = '0.0.1'; //This plugins version
 
 const LoginCheck = Joi.object({
-    username: Joi.string().required(),
+    identifyer: Joi.string().required(),
     password: Joi.string().required()
 });
 
 const Login2FACheck = Joi.object({
     client2fa: Joi.number().required(),
-    username: Joi.string().required(),
+    user_id: Joi.number().required(),
     fa_token: Joi.string().required()
 });
 
@@ -32,8 +32,8 @@ router.post('/', async (req, res) => {
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
     // Check if user exists in our database
-    const user_response = await user.get(value.username);
-    if (!user_response || user_response[0].length === 0) throw new InvalidLogin('Invalid Login');
+    const user_response = await user.getByUseridentifyer(value.identifyer);
+    if (!user_response || user_response.length === 0) throw new InvalidLogin('Invalid Login');
 
     // Compare passwort hash with passwort to check if they match
     const bcrypt_response = await bcrypt.compare(value.password, user_response[0].password);
@@ -54,8 +54,10 @@ router.post('/', async (req, res) => {
         res.status(200)
         res.json({
             message: '2FA required',
+            user_id: user_response[0].id,
             username: user_response[0].username,
             language: user_response[0].language,
+            design: user_response[0].design,
             FA_Token: FA_Token
         });
     } else {
@@ -67,21 +69,23 @@ router.post('/', async (req, res) => {
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
-        const PermissionsResponse = await user.permission.get(user_response[0].username)
-
-        const Formated_Permissions = formatSQLPermissions(PermissionsResponse.rows); // Format the permissions to a array
+        const PermissionsResponse = await user.permission.get(user_response[0].id)
+        const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response[0].user_group); // Format the permissions to a array
+        console.log(Formated_Permissions)
         const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
         if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-        const WebTokenResponse = await webtoken.create(user_response[0].username, WebToken, UserAgent.browser, user_response[0].language);
+        const WebTokenResponse = await webtoken.create(user_response[0].id, user_response[0].username, WebToken, UserAgent.browser, user_response[0].language, user_response[0].design);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response[0].username, user_response[0].language, Formated_Permissions, UserAgent.browser, new Date().getTime()); // Add the webtoken to the cache
+        await addWebtoken(WebToken, user_response[0].user_id, user_response[0].username, Formated_Permissions, UserAgent.browser, user_response[0].language, user_response[0].design, new Date().getTime()); // Add the webtoken to the cache
 
         res.status(200)
         res.json({
             message: 'Login successful',
+            user_id: user_response[0].id,
             username: user_response[0].username,
             language: user_response[0].language,
+            design: user_response[0].design,
             token: WebToken,
             permissions: Formated_Permissions
         });
@@ -93,7 +97,7 @@ router.post('/2fa', async (req, res) => {
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
     // Check if user exists in our database
-    const user_response = await user.get(value.username);
+    const user_response = await user.get(value.id);
     if (!user_response || user_response[0].length === 0) throw new InvalidLogin('Invalid Login');
     if (user_response[0].twofa_token !== value.fa_token) throw new Invalid2FA('Token is invalid');
 
@@ -106,7 +110,7 @@ router.post('/2fa', async (req, res) => {
     if (twofa_response.delta !== 0) throw new Invalid2FA('Invalid user input');
 
     // Remove 2FA token from DB so nobody can use it again
-    const twofa_time_response = await user.update.twofa_time(value.username, null);
+    const twofa_time_response = await user.update.twofa_time(value.id, null);
     if (twofa_time_response.rowCount === 1) throw new DBError('Webtoken.Create', 1, typeof 1, twofa_time_response.rowCount, typeof twofa_time_response.rowCount);
 
     const source = req.headers['user-agent']
@@ -117,21 +121,23 @@ router.post('/2fa', async (req, res) => {
         charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
     });
 
-    const PermissionsResponse = await user.permission.get(user_response[0].username)
+    const PermissionsResponse = await user.permission.get(user_response[0].id)
 
-    const Formated_Permissions = formatSQLPermissions(PermissionsResponse.rows); // Format the permissions to a array
+    const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response[0].user_group); // Format the permissions to a array
     const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
     if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-    const WebTokenResponse = await webtoken.create(user_response[0].username, WebToken, UserAgent.browser, user_response[0].language);
+    const WebTokenResponse = await webtoken.create(user_response[0].id, user_response[0].username, WebToken, UserAgent.browser, user_response[0].language, user_response[0].design);
     if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, twofa_time_response.rowCount, typeof twofa_time_response.rowCount);
-    await addWebtoken(WebToken, user_response[0].username, UserAgent.browser); // Add the webtoken to the cache
+    await addWebtoken(WebToken, user_response[0].id, user_response[0].username, Formated_Permissions, UserAgent.browser, user_response[0].language, user_response[0].design, new Date().getTime()); // Add the webtoken to the cache
 
     res.status(200)
     res.json({
         message: 'Login successful',
+        user_id: user_response[0].id,
         username: user_response[0].username,
         language: user_response[0].language,
+        design: user_response[0].design,
         token: WebToken,
         permissions: Formated_Permissions
     });
@@ -141,9 +147,12 @@ router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     res.status(200)
     res.json({
         message: 'Login successful',
-        username: req.user.username,
-        language: req.user.language,
-        permissions: req.user.permissions
+        user_id: user_response[0].user_id,
+        username: user_response[0].username,
+        language: user_response[0].language,
+        design: user_response[0].design,
+        token: WebToken,
+        permissions: Formated_Permissions
     });
 });     
 

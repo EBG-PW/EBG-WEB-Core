@@ -9,7 +9,30 @@ module.exports = {
         "app.web.login",
         "app.web.logout"
     ],
+    "default_group": "user",
     "groups": {
-
+        "app": {
+            "permissions": [
+                "app.web.login",
+                "app.web.logout"
+            ]
+        },
+        "user": {
+            "permissions": [
+                "app.test.write",
+                "app.test.read",
+                
+                "app.drogen.write",
+                "app.legal.*",
+            ],
+            "inherit": [
+                "app"
+            ]
+        },
+        "admin": {
+            "permissions": [
+                "*"
+            ]
+        }
     }
 }

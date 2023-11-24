@@ -10,15 +10,20 @@ const { log } = require('@lib/logger');
 process.log = {};
 process.log = log;
 
-setTimeout(() => {
-    const app = require('@src/app');
+(async () => {
+    const { createTables } = require('@lib/postgres');
+    await createTables();
 
     setTimeout(() => {
-        if (process.env.ExtraErrorWebDelay > 0) {
-            process.log.system(`Webserver was delayed by ${process.env.ExtraErrorWebDelay || 500}ms beause of a error.`);
-        }
-        app.listen(port)
-            .then((socket) => process.log.system(`Listening on port: ${port}`))
-            .catch((error) => process.log.error(`Failed to start webserver on: ${port}\nError: ${error}`));
-    }, process.env.ExtraErrorWebDelay || 500);
-}, process.env.GlobalWaitTime || 100);
+        const app = require('@src/app');
+    
+        setTimeout(() => {
+            if (process.env.ExtraErrorWebDelay > 0) {
+                process.log.system(`Webserver was delayed by ${process.env.ExtraErrorWebDelay || 500}ms beause of a error.`);
+            }
+            app.listen(port)
+                .then((socket) => process.log.system(`Listening on port: ${port}`))
+                .catch((error) => process.log.error(`Failed to start webserver on: ${port}\nError: ${error}`));
+        }, process.env.ExtraErrorWebDelay || 500);
+    }, process.env.GlobalWaitTime || 100);
+})();

@@ -6,12 +6,13 @@ const bcrypt = require('bcrypt');
 const twofactor = require("node-2fa");
 const qrcode = require('qrcode-terminal');
 const { user } = require('@lib/postgres');
+const { default_group } = require('@config/permissions');
 
-if (isNaN(parseInt(process.env.SaltRounds, 10))) {
+if (isNaN(parseInt(process.env.SALTROUNDS, 10))) {
     console.log(".env was not found!")
 }
 
-const SaltRounds = parseInt(process.env.SaltRounds, 10);
+const SALTROUNDS = parseInt(process.env.SALTROUNDS, 10);
 
 function askQuestion(query) {
     const rl = readline.createInterface({
@@ -27,6 +28,7 @@ function askQuestion(query) {
 
 async function Questions() {
     const username = await askQuestion("Type your username: ");
+    const email = await askQuestion("Type your email: ");
     const lang = await askQuestion("Type your language (2 letter code): ");
     const password = await askQuestion("Type your password: ");
     const extraVerify = await askQuestion("Would you like to add 2FA to this account? (y/n): ");
@@ -34,7 +36,7 @@ async function Questions() {
     if (password.length < 8) { throw new Error("Password must be at least 8 characters long!") };
     if (password.length > 50) { throw new Error("Password must be at most 50 characters long!") };
 
-    bcrypt.hash(password, SaltRounds, async function (err, password_hash) {
+    bcrypt.hash(password, SALTROUNDS, async function (err, password_hash) {
         if (err) { throw new Error(err) };
         if (extraVerify.toLowerCase() === "y") {
 
@@ -45,7 +47,7 @@ async function Questions() {
             const delta = twofactor.verifyToken(secret2fa.secret, code2fa);
 
             if (delta.delta === 0) {
-                Promise.all([user.create(username, password_hash, lang.toLowerCase(), secret2fa.secret), user.permission.add(username, "*", true, true)]).then(function (result) {
+                Promise.all([user.create(username, email, password_hash, lang.toLowerCase(), "dark", default_group, secret2fa.secret)]).then(function (result) {
                     console.log("\n\nAdmin User created!\n\n")
                     process.exit(0);
                 }).catch(function (error) {
@@ -55,7 +57,7 @@ async function Questions() {
                 throw new Error("2FA Token is not valid!")
             }
         } else {
-            Promise.all([user.create(username, password_hash, lang), user.permission.add(username, "*", true, true)]).then(() => {
+            Promise.all([user.create(username, email, password_hash, lang.toLowerCase(), "dark", default_group)]).then(() => {
                 console.log("\n\nAdmin User created!")
                 process.exit(0);
             }).catch(err => {
