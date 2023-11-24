@@ -32,7 +32,7 @@
           </button>
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href="/dashboard">
-              <img src="/dist/logo-transparent.png" width="110" height="32" alt="EBG" class="navbar-brand-image">
+              <img src="./dist/logo-transparent.png" width="110" height="32" alt="EBG" class="navbar-brand-image">
               <div data-translate="Dashboard.Header.Pagename">
             </a>
           </h1>
@@ -186,20 +186,33 @@
               <div class="row g-0">
                 <div class="col-3 d-none d-md-block border-end">
                   <div class="card-body">
+                    <h4 class="subheader">Business settings</h4>
                     <div class="list-group list-group-transparent">
-                      <a href="/settings-account" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Settings.Side.Account"></a>
-                      <a href="/settings-misc" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Misc"></a>
+                      <a href="./settings.html" class="list-group-item list-group-item-action d-flex align-items-center active">My Account</a>
+                      <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">My Notifications</a>
+                      <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">Connected Apps</a>
+                      <a href="./settings-plan.html" class="list-group-item list-group-item-action d-flex align-items-center">Plans</a>
+                      <a href="#" class="list-group-item list-group-item-action d-flex align-items-center">Billing & Invoices</a>
+                    </div>
+                    <h4 class="subheader mt-4">Experience</h4>
+                    <div class="list-group list-group-transparent">
+                      <a href="#" class="list-group-item list-group-item-action">Give Feedback</a>
                     </div>
                   </div>
                 </div>
                 <div class="col d-flex flex-column">
                   <div class="card-body">
-                    <h2 class="mb-4" data-translate="Settings.Main.SettingsName"></h2>
-                    <h3 class="card-title" data-translate="Settings.Main.ProfileHeadline"></h3>
+                    <h2 class="mb-4">My Account</h2>
+                    <h3 class="card-title">Profile Details</h3>
                     <div class="row align-items-center">
-                      <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Profile.AvatarIcon" style="background-image: url()"></span></div>
-                      <div class="col-auto"><a href="#" class="btn" data-translate="Settings.Profile.SetAvatarIcon"></a></div>
-                      <div class="col-auto"><a href="#" data-bs-toggle="modal" data-bs-target="#modal-danger-delete-avatar" class="btn btn-ghost-danger" id="Settings.Profile.DelAvatarIcon">Delete avatar</a></div>
+                      <div class="col-auto"><span class="avatar avatar-xl" style="background-image: url(./static/avatars/000m.jpg)"></span>
+                      </div>
+                      <div class="col-auto"><a href="#" class="btn">
+                          Change avatar
+                        </a></div>
+                      <div class="col-auto"><a href="#" class="btn btn-ghost-danger">
+                          Delete avatar
+                        </a></div>
                     </div>
                     <h3 class="card-title mt-4">Business Profile</h3>
                     <div class="row g-3">
@@ -285,32 +298,6 @@
             </div>
           </div>
         </footer>
-      </div>
-    </div>
-    <div class="modal modal-blur fade" id="modal-danger-delete-avatar" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <div class="modal-status bg-danger"></div>
-          <div class="modal-body text-center py-4">
-            <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
-            <h3>Are you sure?</h3>
-            <div class="text-muted">Do you really want to remove your avatar? What you've done cannot be undone.</div>
-          </div>
-          <div class="modal-footer">
-            <div class="w-100">
-              <div class="row">
-                <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
-                    Cancel
-                  </a></div>
-                <div class="col"><a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                    Delete
-                  </a></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <!-- Libs JS -->
