@@ -17,8 +17,8 @@ const PluginRequirements = []; //Put your Requirements and version here <Name, n
 const PluginVersion = '0.0.1'; //This plugins version
 
 const LoginCheck = Joi.object({
-    identifier: Joi.string().required(),
-    password: Joi.string().required()
+    identifier: Joi.string().min(6).max(56).required(),
+    password: Joi.string().min(6).max(56).required()
 });
 
 const Login2FACheck = Joi.object({
@@ -37,6 +37,7 @@ router.post('/', async (req, res) => {
     const user_response = user_responses[0];
 
     // Compare passwort hash with passwort to check if they match
+    if(user_response.password === null) throw new InvalidLogin('Invalid Login');
     const bcrypt_response = await bcrypt.compare(value.password, user_response.password);
     if (!bcrypt_response) throw new InvalidLogin('Invalid Login');;
 
@@ -76,7 +77,7 @@ router.post('/', async (req, res) => {
         const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
         if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-        const WebTokenResponse = await webtoken.create(user_response.user_id, user_response.username, WebToken, UserAgent.browser, user_response.language, user_response.design);
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
         await addWebtoken(WebToken, user_response.user_id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
@@ -131,7 +132,7 @@ router.post('/2fa', async (req, res) => {
     const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
     if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-    const WebTokenResponse = await webtoken.create(user_response.user_id, user_response.username, WebToken, UserAgent.browser, user_response.language, user_response.design);
+    const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
     if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, twofa_time_response.rowCount, typeof twofa_time_response.rowCount);
     await addWebtoken(WebToken, user_response.user_id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
@@ -151,7 +152,6 @@ router.post('/2fa', async (req, res) => {
 
 router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     res.status(200)
-    console.log(req.user)
     res.json({
         message: 'Valid Token',
         user_id: req.user.user_id,
@@ -165,9 +165,9 @@ router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     });
 });     
 
-router.post('/logout', verifyRequest('app.web.login'), async (req, res) => {
+router.post('/logout', verifyRequest('app.web.logout'), async (req, res) => {
     const WebTokenResponse = await webtoken.delete(req.authorization); // Delete the webtoken from the database
-    if (WebTokenResponse.rowCount === 0) new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
+    if (WebTokenResponse.rowCount === 0) new DBError('Webtoken.Delete', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
     delWebtoken(req.authorization); // Remove the webtoken from the cache
     res.status(200)
     res.json({

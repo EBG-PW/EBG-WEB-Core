@@ -18,6 +18,7 @@ app.use(expressCspHeader({
         'img-src': [
             SELF,
             INLINE,
+            "data:",
             "https://avatars.githubusercontent.com/u/", // GitHub avatars
             "https://lh3.googleusercontent.com/", // Google profile images
         ],
@@ -52,12 +53,12 @@ app.get('/profile', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'profile.html'));
 });
-
+/*
 app.get('/apps', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'apps.html'));
 });
-
+*/
 app.get('/settings-account', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'settings-account.html'));
@@ -102,6 +103,8 @@ app.get('/*', (req, res) => {
 
     try {
         // Read the file from the filesystem without the query string
+        // Add cache poloicy to cache 48h
+        res.header('Cache-Control', 'public, max-age=172800');
         res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
     } catch (error) {
         process.log.error(error)

@@ -22,7 +22,7 @@
     </style>
   </head>
   <body >
-    <script src="./dist/js/demo-theme.min.js?1684106062"></script>
+    <script src="/appjs/format.js"></script>
     <div class="page">
       <!-- Navbar -->
       <header class="navbar navbar-expand-md d-print-none" >
@@ -124,13 +124,13 @@
                         <div class="row align-items-center">
                           <div class="col-auto"><span class="status-dot status-dot-animated bg-green d-block"></span></div>
                           <div class="col text-truncate">
-                            <a href="#" class="text-body d-block">Example 4</a>
+                            <a class="text-body d-block">Example 4</a>
                             <div class="d-block text-muted text-truncate mt-n1">
                               test 4
                             </div>
                           </div>
                           <div class="col-auto">
-                            <a href="#" class="list-group-item-actions">
+                            <a class="list-group-item-actions">
                               <!-- Download SVG icon from http://tabler-icons.io/i/star -->
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" /></svg>
                             </a>
@@ -143,7 +143,7 @@
               </div>
             </div>
             <div class="nav-item dropdown">
-              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+              <a class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
                 <span class="avatar avatar-sm" id="Dashboard.Profile.AvatarIcon" style="background-image: url()"></span>
                 <div class="d-none d-xl-block ps-2">
                   <div id="Dashboard.Profile.Username"></div>
@@ -196,18 +196,36 @@
                     <h3 class="card-title" data-translate="Settings.Main.ProfileHeadline"></h3>
                     <div class="row align-items-center">
                       <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Profile.AvatarIcon" style="background-image: url()"></span></div>
-                      <div class="col-auto"><a href="#" class="btn" data-translate="Settings.Profile.SetAvatarIcon"></a></div>
-                      <div class="col-auto"><a href="#" data-bs-toggle="modal" data-bs-target="#modal-danger-delete-avatar" class="btn btn-ghost-danger" id="Settings.Profile.DelAvatarIcon">Delete avatar</a></div>
+                      <div class="col-auto"><a class="btn" data-translate="Settings.Profile.SetAvatarIcon"></a></div>
+                      <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-danger-delete-avatar" class="btn btn-ghost-danger" data-translate="Settings.Profile.DeleteAvatarIcon" id="DelAvatarIcon"></a></div>
                     </div>
                     <h3 class="card-title mt-4" data-translate="Settings.Main.AccountHeadline"></h3>
                     <div class="row g-3">
                       <div class="col-md">
                         <div class="form-label" data-translate="Settings.Main.Username"></div>
-                        <input type="text" class="form-control" value="">
+                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsUsername">
                       </div>
                       <div class="col-md">
                         <div class="form-label" data-translate="Settings.Main.Email"></div>
-                        <input type="text" class="form-control" value="">
+                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsEmail">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row g-3">
+                      <div class="col-md">
+                        <div class="form-label" data-translate="Settings.Main.FirstName"></div>
+                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsFirstName">
+                      </div>
+                      <div class="col-md">
+                        <div class="form-label" data-translate="Settings.Main.LastName"></div>
+                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsLastName">
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row g-3">
+                      <div class="mb-3">
+                        <div class="form-label" data-translate="Settings.Main.Bio"></div>
+                        <textarea class="form-control" value="" id="SettingsBio" onchange="handleInputChange(this.id)"></textarea>
                       </div>
                     </div>
                     <h3 class="card-title mt-4" data-translate="Settings.Main.PasswordHeadline"></h3>
@@ -215,21 +233,120 @@
                       <div class="row g-2">
                         <div class="col-auto">
                           <div class="form-label" data-translate="Settings.Main.PasswordOld"></div>
-                          <input type="text" class="form-control w-auto" value="">
+                          <div class="input-group input-group-flat">
+                            <input
+                              id="SettingsPasswordOLD"
+                              type="password"
+                              class="form-control"
+                              data-translate-placeholder="Login.Placeholder.Password"
+                              placeholder=""
+                              autocomplete="off" />
+                            <span class="input-group-text">
+                              <a
+                                id="passwordToggle_old"
+                                class="link-secondary"
+                                title="Show password"
+                                data-bs-toggle="tooltip"
+                                ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="icon"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="2"
+                                  stroke="currentColor"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                  <path
+                                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                                </svg>
+                              </a>
+                            </span>
+                          </div>
                         </div>
                         <div class="col-auto">
                           <div class="form-label" data-translate="Settings.Main.PasswordRepeat"></div>
-                          <input type="text" class="form-control w-auto" value="">
+                          <div class="input-group input-group-flat">
+                            <input
+                              id="SettingsPasswordOLD_R"
+                              type="password"
+                              class="form-control"
+                              data-translate-placeholder="Login.Placeholder.Password"
+                              placeholder=""
+                              autocomplete="off" />
+                            <span class="input-group-text">
+                              <a
+                                id="passwordToggle_old_r"
+                                class="link-secondary"
+                                title="Show password"
+                                data-bs-toggle="tooltip"
+                                ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="icon"
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="2"
+                                  stroke="currentColor"
+                                  fill="none"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                  <path
+                                    d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                                </svg>
+                              </a>
+                            </span>
+                          </div>
                         </div>
-                        <div>
+                        <div class="row g-2">
                           <div class="col-auto">
                             <div class="form-label" data-translate="Settings.Main.PasswordNew"></div>
-                            <input type="text" class="form-control w-auto" value="">
+                            <div class="input-group input-group-flat">
+                              <input
+                                id="SettingsPasswordNEW"
+                                type="password"
+                                class="form-control"
+                                data-translate-placeholder="Login.Placeholder.Password"
+                                placeholder=""
+                                autocomplete="off" />
+                              <span class="input-group-text">
+                                <a
+                                  id="passwordToggle_new"
+                                  class="link-secondary"
+                                  title="Show password"
+                                  data-bs-toggle="tooltip"
+                                  ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="icon"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                    <path
+                                      d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                                  </svg>
+                                </a>
+                              </span>
+                            </div>
                           </div>
                         </div>
                         <div>
                           <div class="col-auto">
-                            <a href="#" class="btn" data-translate="Settings.Main.Button.SetPassword"></a>
+                            <a class="btn" data-translate="Settings.Main.Button.SetPassword" id="SettingsPasswordSubmit"></a>
                           </div>
                         </div>
                       </div>
@@ -238,7 +355,7 @@
                     <p class="card-subtitle" data-translate="Settings.Main.ExplainPrivate"></p>
                     <div>
                       <label class="form-check form-switch form-switch-lg">
-                        <input class="form-check-input" type="checkbox" >
+                        <input class="form-check-input" type="checkbox" onchange="handleInputChange(this.id)" id="SettingsPrivacy">
                         <span class="form-check-label form-check-label-on" data-translate="Settings.Main.Button.PrivacyActive"></span>
                         <span class="form-check-label form-check-label-off" data-translate="Settings.Main.Button.PrivacyDeactive"></span>
                       </label>
@@ -307,5 +424,197 @@
     <script src="./dist/js/demo.min.js?1684106062" defer></script>
     <script src="./dist/js/i18next.min.js?1684106062"></script>
     <script src="./appjs/layout.js"></script>
+    <script>
+      // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
+      document.getElementById("passwordToggle_old").addEventListener("click", function() {
+        const passwordField = document.getElementById("SettingsPasswordOLD");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      });
+
+      document.getElementById("passwordToggle_old_r").addEventListener("click", function() {
+        const passwordField = document.getElementById("SettingsPasswordOLD_R");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      });
+
+      document.getElementById("passwordToggle_new").addEventListener("click", function() {
+        const passwordField = document.getElementById("SettingsPasswordNEW");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      });
+
+      // Handle set password (VanillaJS)
+      document.getElementById("SettingsPasswordSubmit").addEventListener("click", async () => {
+        const old_password = document.getElementById("SettingsPasswordOLD").value;
+        const old_password_r = document.getElementById("SettingsPasswordOLD_R").value;
+        const new_password = document.getElementById("SettingsPasswordNEW").value;
+
+        if(!new_password) {
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Empty"));
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
+          return;
+        }
+
+        if(old_password != old_password_r) {
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.NotEqual"));
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
+          return;
+        }
+
+        const response = await fetch("/api/v1/user/setpassword", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          },
+          body: JSON.stringify({
+            old_password: old_password,
+            new_password: new_password
+          })
+        });
+
+        if(response.status == 200) {
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-success");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Success.Password"));
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-success");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
+        } else if(response.status == 401 || response.status == 403 || response.status == 400) {
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Wrong"));
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
+        } else {
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Unknown"));
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
+        }
+      });
+
+      // Handle changes to all imput fields (VanillaJS)
+
+      const apiEndpoints = {
+        "SettingsUsername": {
+          "endpoint": "/api/v1/user/username",
+          "method": "POST",
+          "field": "username",
+          "value": "raw"
+        },
+        "SettingsEmail": {
+          "endpoint": "/api/v1/user/email",
+          "method": "POST",
+          "field": "email",
+          "value": "raw"
+        },
+        "SettingsFirstName": {
+          "endpoint": "/api/v1/user/firstname",
+          "method": "POST",
+          "field": "first_name",
+          "value": "raw"
+        },
+        "SettingsLastName": {
+          "endpoint": "/api/v1/user/lastname",
+          "method": "POST",
+          "field": "last_name",
+          "value": "raw"
+        },
+        "SettingsBio": {
+          "endpoint": "/api/v1/user/bio",
+          "method": "POST",
+          "field": "bio",
+          "value": "raw"
+        },
+        "SettingsPrivacy": {
+          "endpoint": "/api/v1/user/public",
+          "method": "POST",
+          "field": "public",
+          "value": "bool"
+        },
+      };
+
+      const handleInputChange = async (id) => {
+        const inputElement = document.getElementById(id);
+        let value_send;
+
+        if(apiEndpoints[id].value == "raw") {
+          value_send = inputElement.value;
+        } else if(apiEndpoints[id].value == "bool") {
+          value_send = inputElement.checked;
+        }
+
+        const response = await fetch(apiEndpoints[id].endpoint, {
+          method: apiEndpoints[id].method,
+          headers: {
+            "Content-Type": "application/json",
+
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          },
+          body: JSON.stringify({
+            [apiEndpoints[id].field]: value_send
+          })
+        });
+
+      if (response.ok) {
+        inputElement.classList.remove("is-invalid");
+        inputElement.classList.add("is-valid");
+
+        setTimeout(() => {
+          inputElement.classList.remove("is-valid");
+        }, 3000);
+      } else {
+        inputElement.classList.add("is-invalid");
+      }
+    }
+
+      // Auto-fill user data (VanillaJS)
+      document.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("/api/v1/user", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
+
+        if(response.status == 200) {
+          const data = await response.json();
+
+          document.getElementById("SettingsUsername").value = data.username;
+          document.getElementById("SettingsEmail").value = data.email;
+          document.getElementById("SettingsFirstName").value = data.first_name;
+          document.getElementById("SettingsLastName").value = data.last_name;
+          document.getElementById("SettingsBio").value = data.bio;
+          document.getElementById("SettingsPrivacy").checked = !data.public;
+
+          console.log(data);
+        }
+      });
+    </script>
   </body>
 </html>

@@ -103,7 +103,7 @@ router.get('/github/callback', async (req, res) => {
         charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
     });
 
-    const WebTokenResponse = await webtoken.create(user_response.user_id, user_response.username, WebToken, UserAgent.browser, user_response.language, user_response.design);
+    const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
     if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
     await addWebtoken(WebToken, user_response.user_id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
@@ -172,7 +172,7 @@ router.get('/google/callback', async (req, res) => {
         charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
     });
 
-    const WebTokenResponse = await webtoken.create(user_response.user_id, user_response.username, WebToken, UserAgent.browser, user_response.language, user_response.design);
+    const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
     if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
     await addWebtoken(WebToken, user_response.id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 

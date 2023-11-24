@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         dropdown.innerHTML += `<div class="dropdown-divider"></div>`;
         if(checkPermission(user_permissions, 'app.web.logout')) {
-            dropdown.innerHTML += `<a href="/login" class="dropdown-item">${i18next.t('Dashboard.Header.Profile.Logout')}</a>`;
+            dropdown.innerHTML += `<a onClick="logout()" class="dropdown-item">${i18next.t('Dashboard.Header.Profile.Logout')}</a>`;
         }
     }
 

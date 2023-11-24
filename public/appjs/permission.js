@@ -60,6 +60,7 @@ const checkPermission = (user_permissions, required_permission) => {
 const checkSession = async () => {
   const token = localStorage.getItem("token");
   if (!token) {
+    if(!window.location.href.includes("login")) window.location.href = "/login";
     return { result: false, reason: "No token found." };
   }
 
@@ -84,7 +85,13 @@ const checkSession = async () => {
 
     if(window.location.href.includes("login")) window.location.href = "/dashboard";
   } else {
-    window.location.href = "/login";
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("username");
+    localStorage.removeItem("avatar_url");
+    localStorage.removeItem("language");
+    localStorage.removeItem("token");
+    localStorage.removeItem("permissions");
+    if(!window.location.href.includes("login")) window.location.href = "/login";
     throw new Error(response.statusText);
   }
 }

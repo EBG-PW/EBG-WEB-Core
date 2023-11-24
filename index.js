@@ -7,12 +7,33 @@ const port = process.env.PORT || 80;
 
 const { log } = require('@lib/logger');
 
+const fs = require('fs');
+
 process.log = {};
 process.log = log;
 
 // Render Templates
 const path = require('path');
 const { renderEJSToPublic, deleteEmptyDirectories } = require('@lib/template');
+
+// Get all translation files from \public\dist\locales and generate a context object ({ [language]: [file key.language] })
+const localesDir = path.join(__dirname, 'public\\dist\\locales');
+let countryConfig = {};
+const files = fs.readdirSync(localesDir);
+
+files.forEach(file => {
+    if (file.endsWith('.json')) {
+        let langCode = file.split('.')[0];
+        let filePath = path.join(localesDir, file);
+        let fileContents = fs.readFileSync(filePath, 'utf8');
+        let jsonData = JSON.parse(fileContents);
+        if (jsonData[langCode]) {
+            countryConfig[langCode] = jsonData[langCode];
+        }
+    }
+});
+
+process.countryConfig = countryConfig;
 
 renderEJSToPublic(path.join(__dirname, 'views'), path.join(__dirname, 'public'), ["error-xxx.ejs", "landingpage.ejs"]);
 

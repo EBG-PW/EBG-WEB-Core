@@ -131,4 +131,17 @@ dist
 
 # Template
 css_template/*
+
+# Ignore config files with credentials
 config/auth.js
+
+# Ignore public renders
+public/dashboard.html
+public/index.html
+public/profile.html
+public/settings-account.html
+public/settings-misc.html
+public/auth/sign-in.html
+public/auth/sign-up.html
+public/auth/forgot-password.html
+public/auth.html
