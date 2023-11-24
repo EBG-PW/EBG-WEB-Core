@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const { user } = require('@lib/postgres');
 const { verifyRequest } = require('@middleware/verifyRequest');
+const { delWebtoken } = require('@lib/cache');
 const HyperExpress = require('hyper-express');
 const { InvalidRouteInput, DBError } = require('@lib/errors');
 const router = new HyperExpress.Router();
@@ -20,6 +21,8 @@ router.post('/layout', verifyRequest('web.user.layout.write'), async (req, res) 
 
     const sql_response = await user.settings.updateDesign(req.user.user_id, value.design);
     if(sql_response.rowCount !== 1) throw new DBError('User.Settings.UpdateDesign', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    // Flush the cache
+    await delWebtoken(req.authorization);
 
     res.status(200);
     res.json({

@@ -65,14 +65,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     /* Generate a translated layout */
-    if (localStorage.getItem('user_group') !== null) {
-        if (document.getElementById('Dashboard.Profile.User_Group') !== null) {
+    if (localStorage.getItem('user_group') !== undefined) {
+        if (document.getElementById('Dashboard.Profile.User_Group') !== undefined) {
             document.getElementById('Dashboard.Profile.User_Group').innerHTML = i18next.t(`User_Groups.${localStorage.getItem('user_group')}`);
         }
     }
 
     // Generate the Profile dropdown
-    if(document.getElementById('Dashboard.ProfileDropdown') !== null) {
+    if(document.getElementById('Dashboard.ProfileDropdown') !== undefined) {
         const dropdown = document.getElementById('Dashboard.ProfileDropdown');
         const user_permissions = localStorage.getItem('permissions').split(',')
         if(checkPermission(user_permissions, 'web.user.profile.*')) {
@@ -92,10 +92,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Generate Navbar
-    if(document.getElementById('Dashboard.Navbar.Elements') !== null) {
+    if(document.getElementById('Dashboard.Navbar.Elements') !== undefined) {
         const navbar = document.getElementById('Dashboard.Navbar.Elements');
         const user_permissions = localStorage.getItem('permissions').split(',')
 
+        // Add Home
         navbar.innerHTML += `
         <li class="nav-item">
             <a class="nav-link" href="/dashboard" >
@@ -105,6 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </a>
         </li>`
 
+        // Add Projects
         if(checkPermission(user_permissions, 'web.projects.user.*')) {
             navbar.innerHTML += `
             <li class="nav-item">
@@ -116,6 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </li>`
         }
 
+        // Add Events
         if(checkPermission(user_permissions, 'web.events.user.*')) {
             navbar.innerHTML += `
             <li class="nav-item">
@@ -127,6 +130,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             </li>`
         }
 
+        // Add Service(s) the user has access to
         let services_string = "";
 
         if(checkPermission(user_permissions, 'web.service.game.user.*')) {
@@ -153,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         // Admin und Vereins Management
-
+        // User Management
         if(checkPermission(user_permissions, 'web.usermanagment.*')) {
             navbar.innerHTML += `
             <li class="nav-item">

@@ -78,7 +78,7 @@ router.post('/', async (req, res) => {
 
         const WebTokenResponse = await webtoken.create(user_response.user_id, user_response.username, WebToken, UserAgent.browser, user_response.language, user_response.design);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response.user_id, user_response.username, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        await addWebtoken(WebToken, user_response.user_id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
         res.status(200)
         res.json({
@@ -133,7 +133,7 @@ router.post('/2fa', async (req, res) => {
 
     const WebTokenResponse = await webtoken.create(user_response.user_id, user_response.username, WebToken, UserAgent.browser, user_response.language, user_response.design);
     if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, twofa_time_response.rowCount, typeof twofa_time_response.rowCount);
-    await addWebtoken(WebToken, user_response.user_id, user_response.username, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+    await addWebtoken(WebToken, user_response.user_id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
     res.status(200)
     res.json({
@@ -151,8 +151,9 @@ router.post('/2fa', async (req, res) => {
 
 router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     res.status(200)
+    console.log(req.user)
     res.json({
-        message: 'Login successful',
+        message: 'Valid Token',
         user_id: req.user.user_id,
         username: req.user.username,
         avatar_url: req.user.avatar_url,

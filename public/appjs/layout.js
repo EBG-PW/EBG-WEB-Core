@@ -1,17 +1,17 @@
 // Generate and load all layout related stuff
 
 // Set Dashboard AvatarIcon <span class="avatar avatar-sm" id="Dashboard.AvatarIcon" style="background-image: url()"></span>
-if (localStorage.getItem('avatar_url') !== null) {
-    if(document.getElementById('Dashboard.Profile.AvatarIcon') !== null) document.getElementById('Dashboard.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
+if (localStorage.getItem('avatar_url') != null) {
+    if(document.getElementById('Dashboard.Profile.AvatarIcon') != null) document.getElementById('Dashboard.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
 }
 
-if (localStorage.getItem('avatar_url') !== null) {
-    if(document.getElementById('Settings.Profile.AvatarIcon') !== null) document.getElementById('Settings.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
+if (localStorage.getItem('avatar_url') != null) {
+    if(document.getElementById('Settings.Profile.AvatarIcon') != null) document.getElementById('Settings.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
 }
 
 // Set Dashboard Username <span id="Dashboard.Profile.Username"></span>
-if (localStorage.getItem('username') !== null) {
-    if(document.getElementById('Dashboard.Profile.Username') !== null) document.getElementById('Dashboard.Profile.Username').innerHTML = localStorage.getItem('username');
+if (localStorage.getItem('username') != null) {
+    if(document.getElementById('Dashboard.Profile.Username') != null) document.getElementById('Dashboard.Profile.Username').innerHTML = localStorage.getItem('username');
 }
 
 // Function
@@ -30,7 +30,6 @@ const toggleColor = (style) => {
     }).then(async (response) => {
         if (response.status === 200) {
             const data = await response.json();
-            console.log(data);
             localStorage.setItem('tablerTheme', style);
             window.location.reload();
         } else {
