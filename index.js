@@ -52,6 +52,6 @@ renderEJSToPublic(path.join(__dirname, 'views'), path.join(__dirname, 'public'),
             app.listen(port)
                 .then((socket) => process.log.system(`Listening on port: ${port}`))
                 .catch((error) => process.log.error(`Failed to start webserver on: ${port}\nError: ${error}`));
-        }, process.env.ExtraErrorWebDelay || 500);
+        }, 1500);
     }, process.env.GlobalWaitTime || 100);
 })();

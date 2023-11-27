@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { user, webtoken } = require('@lib/postgres');
-const { addWebtoken, delWebtoken } = require('@lib/cache');
+const { addWebtoken, logoutWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const HyperExpress = require('hyper-express');
@@ -168,7 +168,7 @@ router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
 router.post('/logout', verifyRequest('app.web.logout'), async (req, res) => {
     const WebTokenResponse = await webtoken.delete(req.authorization); // Delete the webtoken from the database
     if (WebTokenResponse.rowCount === 0) new DBError('Webtoken.Delete', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-    delWebtoken(req.authorization); // Remove the webtoken from the cache
+    logoutWebtoken(req.authorization); // Remove the webtoken from the cache
     res.status(200)
     res.json({
         message: 'Logout successful'

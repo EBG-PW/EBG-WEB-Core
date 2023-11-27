@@ -108,7 +108,7 @@ router.get('/github/callback', async (req, res) => {
     await addWebtoken(WebToken, user_response.user_id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
     res.status(200);
-    res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white", WebToken, Formated_Permissions));
+    res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
 });
 
 router.get('/google/callback', async (req, res) => {
@@ -177,7 +177,7 @@ router.get('/google/callback', async (req, res) => {
     await addWebtoken(WebToken, user_response.id, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
     res.status(200);
-    res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white", WebToken, Formated_Permissions));
+    res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
 
 });
 
