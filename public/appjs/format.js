@@ -1,7 +1,8 @@
 const blocklist = {
     "fluid": [
         "login"
-    ]
+    ],
+    "center": []
 }
 
 // Generate and load all layout related stuff

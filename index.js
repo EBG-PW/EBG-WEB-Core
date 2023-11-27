@@ -17,7 +17,7 @@ const path = require('path');
 const { renderEJSToPublic, deleteEmptyDirectories } = require('@lib/template');
 
 // Get all translation files from \public\dist\locales and generate a context object ({ [language]: [file key.language] })
-const localesDir = path.join(__dirname, 'public\\dist\\locales');
+const localesDir = path.join(__dirname, 'public', 'dist', 'locales');
 let countryConfig = {};
 const files = fs.readdirSync(localesDir);
 
@@ -34,6 +34,7 @@ files.forEach(file => {
 });
 
 process.countryConfig = countryConfig;
+process.linkableapps = require('@config/linkable_apps.js');
 
 renderEJSToPublic(path.join(__dirname, 'views'), path.join(__dirname, 'public'), ["error-xxx.ejs", "landingpage.ejs"]);
 

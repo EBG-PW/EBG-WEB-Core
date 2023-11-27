@@ -67,7 +67,8 @@
     "Settings": {
         "Side": {
             "Account": "Account",
-            "Misc": "Design, Sprache & Sonstiges"
+            "Misc": "Design, Sprache & Sonstiges",
+            "Links": "Verlinkbare Seiten"
         },
         "Main": {
             "SettingsName": "Account Einstellungen",
@@ -116,6 +117,20 @@
             "NavBarLockOptions": {
                 "Top": "Oben",
                 "Side": "Seite"
+            }
+        },
+        "Links": {
+            "LingsHeadline": "Verlinkbare Seiten",
+            "Links": "Links",
+            "Platform": "Plattform",
+            "Profile": "Profil / ID / Username",
+            "CurrentLinks": "Aktuelle Verlinkungen",
+            "EditDiscription": "Hier kannst du deine verlinkbaren Seiten bearbeiten. Wähle die Platform und editire den Wert, klicke aus dem Feld um zu speichern.",
+            "CurrentLinksDescription": "Hier siehst alle deine verlinkbaren Seiten. Du kannst sie auch oben bearbeiten oder hier löschen.",
+            "LinksListLable": {
+                "HeadPlatform": "Plattform",
+                "HeadData": "Profil / ID / Username",
+                "Delete": "Löschen"
             }
         },
         "Profile": {

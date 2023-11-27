@@ -51,6 +51,13 @@ const PublicCheck = Joi.object({
     public: Joi.boolean().required(),
 });
 
+// Validate likable accounts, so it needs to accept profile links, usernames and user ids
+const LinkCheck = Joi.object({
+    platform: Joi.string().valid(...Object.keys(process.linkableapps)).required(),
+    value: Joi.string().min(1).pattern(/^[a-zA-Z0-9_]*$/).required(),
+});
+
+
 router.post('/layout', verifyRequest('web.user.layout.write'), limiter(10), async (req, res) => {
     const value = await LayoutCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
@@ -221,6 +228,41 @@ router.delete('/avatar', verifyRequest('web.user.delete'), limiter(10), async (r
     });
 });
 
+router.get('/links', verifyRequest('web.user.links.read'), limiter(2), async (req, res) => {
+    const sql_response = await user.getlinks(req.user.user_id);
+    if (!sql_response) throw new DBError('User.Get.Links', 1, typeof 1, sql_response, typeof sql_response);
+
+    res.status(200);
+    res.json({
+        links: sql_response,
+    });
+});
+
+router.post('/links', verifyRequest('web.user.links.write'), limiter(10), async (req, res) => {
+    const value = await LinkCheck.validateAsync(await req.json());
+    if (!value) throw new InvalidRouteInput('Invalid Route Input');
+
+    const sql_response = await user.update.link(req.user.user_id, value.platform, value.value);
+    if (sql_response.rowCount !== 1) throw new DBError('User.Update.Link', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    res.status(200);
+    res.json({
+        message: 'Link changed',
+        platform: value.platform,
+        link: value.link,
+    });
+});
+
+router.delete('/links/:platform', verifyRequest('web.user.links.delete'), limiter(10), async (req, res) => {
+    const sql_response = await user.delete.link(req.user.user_id, req.params.platform);
+    if (sql_response.rowCount !== 1) throw new DBError('User.Delete.Link', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    res.status(200);
+    res.json({
+        message: 'Link deleted',
+        platform: req.params.platform,
+    });
+});
 
 module.exports = {
     router: router,
