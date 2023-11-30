@@ -139,6 +139,15 @@
             "DeleteAvatarIcon": "Avatar löschen"
         }
     },
+    "Events": {
+        "Body": {
+            "Head": {
+                "Title": "Veranstaltungen",
+                "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
+                "AddButton": "Veranstaltung erstellen"
+            }
+        }
+    },
     "User_Groups": {
         "user": "Nutzer",
         "kassierer": "Kassierer",
