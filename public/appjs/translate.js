@@ -65,14 +65,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     /* Generate a translated layout */
-    if (localStorage.getItem('user_group') !== undefined) {
-        if (document.getElementById('Dashboard.Profile.User_Group') !== undefined) {
+    if (localStorage.getItem('user_group') != undefined) {
+        if (document.getElementById('Dashboard.Profile.User_Group') != undefined) {
             document.getElementById('Dashboard.Profile.User_Group').innerHTML = i18next.t(`User_Groups.${localStorage.getItem('user_group')}`);
         }
     }
 
     // Generate the Profile dropdown
-    if(document.getElementById('Dashboard.ProfileDropdown') !== undefined) {
+    if(document.getElementById('Dashboard.ProfileDropdown') != undefined) {
         const dropdown = document.getElementById('Dashboard.ProfileDropdown');
         const user_permissions = localStorage.getItem('permissions').split(',')
         if(checkPermission(user_permissions, 'web.user.profile.*')) {
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Generate Navbar
-    if(document.getElementById('Dashboard.Navbar.Elements') !== undefined) {
+    if(document.getElementById('Dashboard.Navbar.Elements') != undefined) {
         const navbar = document.getElementById('Dashboard.Navbar.Elements');
         const user_permissions = localStorage.getItem('permissions').split(',')
 
