@@ -84,6 +84,12 @@ app.get('/settings-links', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'settings-links.html'));
 });
 
+// Legal Pages
+app.get('/legal/legal', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'legal', 'legal.html'));
+});
+
 const apiv1 = require('@api');
 const auth_handler = require('@static_api/auth');
 
