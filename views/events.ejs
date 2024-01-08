@@ -237,70 +237,143 @@
                 <a href="#" class="avatar avatar-upload rounded">
                   <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                   <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                  <span class="avatar-upload-text">Add</span>
+                  <span class="avatar-upload-text" data-translate="Events.Modal.NewEvent.AvatarAdd"></span>
                 </a>
-                <div class="col">
-                  <label class="form-label" data-translate="Events.Modal.NewEvent.Name"></label>
-                  <input type="text" class="form-control" name="example-text-input" placeholder="">
-                </div>
+              </div>
+              <div class="col">
+                <label class="form-label" data-translate="Events.Modal.NewEvent.EventName"></label>
+                <input type="text" id="NewEventEventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" class="form-control" />
               </div>
             </div>
-            <label class="form-label"></label>
+
             <div class="row">
-              <div class="col-lg-8">
-                <div class="mb-3">
-                  <label class="form-label">Report url</label>
-                  <div class="input-group input-group-flat">
-                    <span class="input-group-text">
-                      https://tabler.io/reports/
-                    </span>
-                    <input type="text" class="form-control ps-0"  value="report-01" autocomplete="off">
+              <div class="col-lg-7">
+                <label class="form-label" data-translate="Events.Modal.NewEvent.Color"></label>
+                <div class="row g-2">
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="dark" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-dark"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput form-colorinput-light">
+                      <input name="color" type="radio" value="white" class="form-colorinput-input"  checked/>
+                      <span class="form-colorinput-color bg-white"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="blue" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-blue"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="azure" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-azure"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="indigo" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-indigo"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="purple" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-purple"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="pink" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-pink"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="red" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-red"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="orange" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-orange"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="yellow" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-yellow"></span>
+                    </label>
+                  </div>
+                  <div class="col-auto">
+                    <label class="form-colorinput">
+                      <input name="color" type="radio" value="lime" class="form-colorinput-input" />
+                      <span class="form-colorinput-color bg-lime"></span>
+                    </label>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-4">
-                <div class="mb-3">
-                  <label class="form-label">Visibility</label>
-                  <select class="form-select">
-                    <option value="1" selected>Private</option>
-                    <option value="2">Public</option>
-                    <option value="3">Hidden</option>
+
+              <div class="col-lg-5">
+                <div class="mb-5">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.Visibility"></label>
+                  <select class="form-select" id="NewEventVisibility">
+                    <option value="1" data-translate="Events.Modal.NewEvent.Visibility_Open" selected></option>
+                    <option value="0" data-translate="Events.Modal.NewEvent.Visibility_Hidden"></option>
                   </select>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="modal-body">
+            
             <div class="row">
-              <div class="col-lg-6">
-                <div class="mb-3">
-                  <label class="form-label">Client name</label>
-                  <input type="text" class="form-control">
+              <div class="col-lg-4">
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.DateApply"></label>
+                  <input type="datetime-local" id="NewEventDateApply" class="form-control">
                 </div>
               </div>
-              <div class="col-lg-6">
-                <div class="mb-3">
-                  <label class="form-label">Reporting period</label>
-                  <input type="date" class="form-control">
+              <div class="col-lg-4">
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.DateStart"></label>
+                  <input type="datetime-local" id="NewEventDateStart" class="form-control">
                 </div>
               </div>
+              <div class="col-lg-4">
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.DateEnd"></label>
+                  <input type="datetime-local" id="NewEventDateEnd" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
               <div class="col-lg-12">
-                <div>
-                  <label class="form-label">Additional information</label>
-                  <textarea class="form-control" rows="3"></textarea>
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.Location"></label>
+                  <input type="text" id="NewEventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" class="form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.Description"></label>
+                  <textarea class="form-control" id="NewEventDescription" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Description" rows="3"></textarea>
                 </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-              Cancel
-            </a>
-            <a href="#" class="btn btn-primary ms-auto" data-bs-dismiss="modal">
+            <a class="btn btn-link link-secondary" data-bs-dismiss="modal" data-translate="Events.Modal.NewEvent.Cancel"></a>
+            <a class="btn btn-primary ms-auto" data-bs-dismiss="modal" id="NewEventSubmitBtn" data-translate="Events.Modal.NewEvent.AddNew">
               <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-              Create new report
-            </a>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg></a>
           </div>
         </div>
       </div>
@@ -313,5 +386,48 @@
     <script src="./dist/js/demo.min.js?1684106062" defer></script>
     <script src="./dist/js/i18next.min.js?1684106062"></script>
     <script src="./appjs/layout.js"></script>
+    <script>
+      function getSelectedColorValue() {
+        const colorInputs = document.querySelectorAll('input[name="color"]:checked');
+        return colorInputs.length > 0 ? colorInputs[0].value : null;
+      }
+      // Detekt submit button press
+      document.getElementById("NewEventSubmitBtn").addEventListener("click", function() {
+        // Get values
+        const name = document.getElementById("NewEventEventName").value;
+        const color = getSelectedColorValue();
+        const visibility = document.getElementById("NewEventVisibility").value;
+        const dateApply = document.getElementById("NewEventDateApply").value;
+        const dateStart = document.getElementById("NewEventDateStart").value;
+        const dateEnd = document.getElementById("NewEventDateEnd").value;
+        const location = document.getElementById("NewEventLocation").value;
+        const description = document.getElementById("NewEventDescription").value;
+        // Send request (fetch)
+        fetch("/api/v1/events", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            color: color,
+            visibility: visibility,
+            dateApply: dateApply,
+            dateStart: dateStart,
+            dateEnd: dateEnd,
+            location: location,
+            description: description
+          })
+        }).then(function(response) {
+          if (response.status == 200) {
+            // Reload page
+            window.location.reload();
+          } else {
+            // Error
+            alert("Error: " + response.status);
+          }
+        });
+      });
+    </script>
   </body>
 </html>
