@@ -1,5 +1,4 @@
-const Joi = require('joi');
-const { fullysanitizedString, sanitizedString } = require('@lib/sanitizer');
+const Joi = require('@lib/sanitizer');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const HyperExpress = require('hyper-express');
