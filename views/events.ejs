@@ -352,10 +352,20 @@
             </div>
 
             <div class="row">
-              <div class="col-lg-12">
+              <div class="col-lg-8">
                 <div class="mb-4">
                   <label class="form-label" data-translate="Events.Modal.NewEvent.Location"></label>
                   <input type="text" id="NewEventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" class="form-control">
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Events.Modal.NewEvent.MinGroup"></label>
+                  <select type="form-select" id="NewEventMinGroup" class="form-control">
+                    <option value="reg" data-translate="Events.Modal.NewEvent.MinGroup_RegOnly" selected></option>
+                    <option value="member" data-translate="Events.Modal.NewEvent.MinGroup_Members"></option>
+                  </select>
                 </div>
               </div>
             </div>
