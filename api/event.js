@@ -41,17 +41,16 @@ router.post('/', verifyRequest('web.event.create.event'), limiter(), async (req,
     console.log(req.user);
     const value = await NewEventCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
-
-    
-
     const { name, color, minGroup, visibility, dateApply, dateStart, dateEnd, location, description } = value;
 
     const event_response = await event.create(name, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
 
     console.log(event_response);
 
-    
-    
+    res.send(200);
+    res.json({
+        puuid: event_response,
+    });
 });
 
 module.exports = {
