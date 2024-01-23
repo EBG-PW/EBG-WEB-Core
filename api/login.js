@@ -57,6 +57,7 @@ router.post('/', async (req, res) => {
         res.json({
             message: '2FA required',
             user_id: user_response.id,
+            puuid: user_response.puuid,
             username: user_response.username,
             language: user_response.language,
             design: user_response.design,
@@ -85,6 +86,7 @@ router.post('/', async (req, res) => {
         res.json({
             message: 'Login successful',
             user_id: user_response.id,
+            puuid: user_response.puuid,
             username: user_response.username,
             avatar_url: user_response.avatar_url,
             user_group: user_response.user_group,
@@ -140,6 +142,7 @@ router.post('/2fa', async (req, res) => {
     res.json({
         message: 'Login successful',
         user_id: user_response.id,
+        puuid: user_response.puuid,
         username: user_response.username,
         avatar_url: user_response.avatar_url,
         user_group: user_response.user_group,
@@ -155,6 +158,7 @@ router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     res.json({
         message: 'Valid Token',
         user_id: req.user.user_id,
+        puuid: req.user.puuid,
         username: req.user.username,
         avatar_url: req.user.avatar_url,
         user_group: req.user.user_group,

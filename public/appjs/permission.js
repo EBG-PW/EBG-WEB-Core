@@ -76,6 +76,7 @@ const checkSession = async () => {
     const data = await response.json();
 
     localStorage.setItem("user_id", data.user_id);
+    localStorage.setItem("puuid", data.puuid);
     localStorage.setItem("username", data.username);
     localStorage.setItem("avatar_url", data.avatar_url);
     localStorage.setItem("language", data.language);
@@ -86,6 +87,7 @@ const checkSession = async () => {
     if(window.location.href.includes("login")) window.location.href = "/dashboard";
   } else {
     localStorage.removeItem("user_id");
+    localStorage.removeItem("puuid");
     localStorage.removeItem("username");
     localStorage.removeItem("avatar_url");
     localStorage.removeItem("language");

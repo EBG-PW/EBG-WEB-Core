@@ -406,6 +406,7 @@
         // Get values
         const name = document.getElementById("NewEventEventName").value;
         const color = getSelectedColorValue();
+        const minGroup = document.getElementById("NewEventMinGroup").value;
         const visibility = document.getElementById("NewEventVisibility").value;
         const dateApply = document.getElementById("NewEventDateApply").value;
         const dateStart = document.getElementById("NewEventDateStart").value;
@@ -413,14 +414,16 @@
         const location = document.getElementById("NewEventLocation").value;
         const description = document.getElementById("NewEventDescription").value;
         // Send request (fetch)
-        fetch("/api/v1/events", {
+        fetch("/api/v1/event", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
           },
           body: JSON.stringify({
             name: name,
             color: color,
+            minGroup: minGroup,
             visibility: visibility,
             dateApply: dateApply,
             dateStart: dateStart,
