@@ -191,7 +191,7 @@
         "max": "{{field}} muss kleiner oder gleich {{limit}} sein"
       },
       "date": {
-        "base": "{{#field}} muss ein gültiges Datum sein",
+        "base": "{{field}} muss ein gültiges Datum sein",
         "min": "Das Datum von {{field}} muss nach dem {{limit}} liegen",
         "max": "Das Datum von {{field}} muss vor dem {{limit}} liegen"
       },
