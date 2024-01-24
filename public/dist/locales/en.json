@@ -1,29 +1,58 @@
 {
-    "en": "English",
-    "Login": {
-        "Title": "Login",
-        "Header": "Login",
-        "EmailAdress": "Email Adress",
-        "Password": "Password",
-        "ForgotPassword": "Forgot Password?",
-        "Button": {
-            "Remember": "Remember me",
-            "SignIn": "Sign In",
-            "Error": {
-                "401": "Wrong Email or Password",
-                "403": "Forbidden",
-                "500": "Internal Server Error"
-            }
-        },
-        "Or": "Or",
-        "OAuth": {
-            "LoginWGithub": "Login with Github",
-            "LoginWGoogle": "Login with Google"
-        },
-        "SignUPPhrase": "Don't have an account?",
-        "Placeholder": {
-            "EmailAdress": "Email Adress",
-            "Password": "Password"
-        }
+  "en": "English",
+  "Login": {
+    "Title": "Login",
+    "Header": "Login",
+    "EmailAdress": "Email Adress",
+    "Password": "Password",
+    "ForgotPassword": "Forgot Password?",
+    "Button": {
+      "Remember": "Remember me",
+      "SignIn": "Sign In",
+      "Error": {
+        "401": "Wrong Email or Password",
+        "403": "Forbidden",
+        "500": "Internal Server Error"
+      }
+    },
+    "Or": "Or",
+    "OAuth": {
+      "LoginWGithub": "Login with Github",
+      "LoginWGoogle": "Login with Google"
+    },
+    "SignUPPhrase": "Don't have an account?",
+    "Placeholder": {
+      "EmailAdress": "Email Adress",
+      "Password": "Password"
     }
+  },
+  "Error": {
+    "Joi": {
+      "string": {
+        "empty": "{{field}} cannot be empty",
+        "min": "{{field}} must be at least {{limit}} characters long",
+        "max": "{{field}} must be less than or equal to {{limit}} characters long",
+        "email": "{{field}} must be a valid email address",
+        "pattern": {
+          "base": "{{field}} must match the required pattern"
+        }
+      },
+      "number": {
+        "base": "{{field}} must be a number",
+        "min": "{{field}} must be greater than or equal to {{limit}}",
+        "max": "{{field}} must be less than or equal to {{limit}}"
+      },
+      "date": {
+        "base": "{{field}} must be a valid date",
+        "min": "{{field}} date must be after {{limit}}",
+        "max": "{{field}} date must be before {{limit}}"
+      },
+      "required": "{{field}} is required"
+    }
+  },
+  "User_Groups": {
+    "user": "User",
+    "kassierer": "Cashier",
+    "admin": "Administrator"
+  }
 }

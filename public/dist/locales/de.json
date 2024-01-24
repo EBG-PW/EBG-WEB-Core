@@ -1,156 +1,208 @@
 {
-    "de": "Deutsch",
-    "Login": {
-        "Title": "Anmelden",
-        "Header": "Anmelden",
-        "EmailAdress": "E-Mail Adresse",
-        "Password": "Passwort",
-        "ForgotPassword": "Passwort vergessen?",
-        "Button": {
-            "Remember": "Angemeldet bleiben",
-            "SignIn": "Anmelden",
-            "Error": {
-                "401": "E-Mail Adresse oder Passwort falsch",
-                "403": "Gesperrter Account",
-                "500": "Serverfehler"
-            }
-        },
-        "Or": "Oder",
-        "OAuth": {
-            "LoginWGithub": "Mit Github anmelden",
-            "LoginWGoogle": "Mit Google anmelden"
-        },
-        "SignUPPhrase": "Sie haben noch keinen Account?",
-        "Placeholder": {
-            "EmailAdress": "E-Mail Adresse",
-            "Password": "Passwort"
-        }
+  "de": "Deutsch",
+  "Login": {
+    "Title": "Anmelden",
+    "Header": "Anmelden",
+    "EmailAdress": "E-Mail Adresse",
+    "Password": "Passwort",
+    "ForgotPassword": "Passwort vergessen?",
+    "Button": {
+      "Remember": "Angemeldet bleiben",
+      "SignIn": "Anmelden",
+      "Error": {
+        "401": "E-Mail Adresse oder Passwort falsch",
+        "403": "Gesperrter Account",
+        "500": "Serverfehler"
+      }
     },
-    "Dashboard": {
-        "Header": {
-            "Pagename": "EBG - Dashboard",
-            "Field": {
-                "Monitoring": "Überwachung"
-            },
-            "Profile": {
-                "Profile": "Profil",
-                "Settings": "Einstellungen",
-                "Apps": "Verbundene Apps",
-                "Logout": "Abmelden"
-            },
-            "Navbar": {
-                "Home": "Startseite",
-                "Projects": "Projekte",
-                "Events": "Veranstaltungen",
-                "UserManagment": "Nutzerverwaltung",
-                "Services": {
-                    "Name": "Dienste",
-                    "Game": "Spiele Server",
-                    "Vm": "VM Server"
-                }
-            },
-            "Buttons": {
-                "ToggleColor": {
-                    "Light": "Helle Ansicht",
-                    "Dark": "Dunkle Ansicht"
-                }
-            }
-        },
-        "Footer": {
-            "Links": {
-                "Guidelines": "Richtlinien",
-                "Imprint": "Impressum",
-                "Privacy": "Datenschutz"
-            }
-        }
+    "Or": "Oder",
+    "OAuth": {
+      "LoginWGithub": "Mit Github anmelden",
+      "LoginWGoogle": "Mit Google anmelden"
     },
-    "Settings": {
-        "Side": {
-            "Account": "Account",
-            "Misc": "Design, Sprache & Sonstiges",
-            "Links": "Verlinkbare Seiten"
-        },
-        "Main": {
-            "SettingsName": "Account Einstellungen",
-            "ProfileHeadline": "Profil Einstellungen",
-            "AccountHeadline": "Account Einstellungen",
-            "PasswordHeadline": "Passwort Einstellungen",
-            "PublicHeadline": "Privatsphäre Einstellungen",
-            "Username": "Benutzername",
-            "Email": "E-Mail Adresse",
-            "FirstName": "Vorname",
-            "LastName": "Nachname",
-            "Bio": "Biographie",
-            "PasswordOld": "Altes Passwort",
-            "PasswordRepeat": "Passwort wiederholen",
-            "PasswordNew": "Neues Passwort",
-            "ExplainPrivate": "Hier kannst du dein Profil auf Privat stellen.",
-            "Button": {
-                "SetPassword": "Passwort ändern",
-                "PrivacyActive": "Privatsphäre aktiviert",
-                "PrivacyDeactive": "Privatsphäre deaktiviert"
-            },
-            "Error": {
-                "Password": {
-                    "Empty": "Bitte gib ein Passwort ein",
-                    "NotEqual": "Die Passwörter stimmen nicht überein",
-                    "Unknown": "Ein unbekannter Fehler ist aufgetreten",
-                    "Wrong": "Das Passwort ist falsch",
-                    "401": "Altes Passwort falsch",
-                    "500": "Serverfehler"
-                }
-            },
-            "Success": {
-                "Password": "Passwort erfolgreich geändert"
-            }
-        },
-        "Misc": {
-            "SettingsName": "Misc Einstellungen",
-            "DesignLangHeadline": "Design & Sprache",
-            "Language": "Sprache",
-            "Layout": "Layout",
-            "LayoutOptions": {
-                "Fluid": "Vollbild",
-                "Center": "Zenriert"
-            },
-            "NavBarLock": "Navigation fixieren",
-            "NavBarLockOptions": {
-                "Top": "Oben",
-                "Side": "Seite"
-            }
-        },
-        "Links": {
-            "LingsHeadline": "Verlinkbare Seiten",
-            "Links": "Links",
-            "Platform": "Plattform",
-            "Profile": "Profil / ID / Username",
-            "CurrentLinks": "Aktuelle Verlinkungen",
-            "EditDiscription": "Hier kannst du deine verlinkbaren Seiten bearbeiten. Wähle die Platform und editire den Wert, klicke aus dem Feld um zu speichern.",
-            "CurrentLinksDescription": "Hier siehst alle deine verlinkbaren Seiten. Du kannst sie auch oben bearbeiten oder hier löschen.",
-            "LinksListLable": {
-                "HeadPlatform": "Plattform",
-                "HeadData": "Profil / ID / Username",
-                "Delete": "Löschen"
-            }
-        },
-        "Profile": {
-            "AvatarIcon": "Avatar Icon",
-            "SetAvatarIcon": "NOT IMPLEMENTED",
-            "DeleteAvatarIcon": "Avatar löschen"
-        }
-    },
-    "Events": {
-        "Body": {
-            "Head": {
-                "Title": "Veranstaltungen",
-                "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
-                "AddButton": "Veranstaltung erstellen"
-            }
-        }
-    },
-    "User_Groups": {
-        "user": "Nutzer",
-        "kassierer": "Kassierer",
-        "admin": "Administrator"
+    "SignUPPhrase": "Sie haben noch keinen Account?",
+    "Placeholder": {
+      "EmailAdress": "E-Mail Adresse",
+      "Password": "Passwort"
     }
+  },
+  "Dashboard": {
+    "Header": {
+      "Pagename": "EBG - Dashboard",
+      "Field": {
+        "Monitoring": "Überwachung"
+      },
+      "Profile": {
+        "Profile": "Profil",
+        "Settings": "Einstellungen",
+        "Apps": "Verbundene Apps",
+        "Logout": "Abmelden"
+      },
+      "Navbar": {
+        "Home": "Startseite",
+        "Projects": "Projekte",
+        "Events": "Veranstaltungen",
+        "UserManagment": "Nutzerverwaltung",
+        "Services": {
+          "Name": "Dienste",
+          "Game": "Spiele Server",
+          "Vm": "VM Server"
+        }
+      },
+      "Buttons": {
+        "ToggleColor": {
+          "Light": "Helle Ansicht",
+          "Dark": "Dunkle Ansicht"
+        }
+      }
+    },
+    "Footer": {
+      "Links": {
+        "Guidelines": "Richtlinien",
+        "Imprint": "Impressum",
+        "Privacy": "Datenschutz"
+      }
+    }
+  },
+  "Settings": {
+    "Side": {
+      "Account": "Account",
+      "Misc": "Design, Sprache & Sonstiges",
+      "Links": "Verlinkbare Seiten"
+    },
+    "Main": {
+      "SettingsName": "Account Einstellungen",
+      "ProfileHeadline": "Profil Einstellungen",
+      "AccountHeadline": "Account Einstellungen",
+      "PasswordHeadline": "Passwort Einstellungen",
+      "PublicHeadline": "Privatsphäre Einstellungen",
+      "Username": "Benutzername",
+      "Email": "E-Mail Adresse",
+      "FirstName": "Vorname",
+      "LastName": "Nachname",
+      "Bio": "Biographie",
+      "PasswordOld": "Altes Passwort",
+      "PasswordRepeat": "Passwort wiederholen",
+      "PasswordNew": "Neues Passwort",
+      "ExplainPrivate": "Hier kannst du dein Profil auf Privat stellen.",
+      "Button": {
+        "SetPassword": "Passwort ändern",
+        "PrivacyActive": "Privatsphäre aktiviert",
+        "PrivacyDeactive": "Privatsphäre deaktiviert"
+      },
+      "Error": {
+        "Password": {
+          "Empty": "Bitte gib ein Passwort ein",
+          "NotEqual": "Die Passwörter stimmen nicht überein",
+          "Unknown": "Ein unbekannter Fehler ist aufgetreten",
+          "Wrong": "Das Passwort ist falsch",
+          "401": "Altes Passwort falsch",
+          "500": "Serverfehler"
+        }
+      },
+      "Success": {
+        "Password": "Passwort erfolgreich geändert"
+      }
+    },
+    "Misc": {
+      "SettingsName": "Misc Einstellungen",
+      "DesignLangHeadline": "Design & Sprache",
+      "Language": "Sprache",
+      "Layout": "Layout",
+      "LayoutOptions": {
+        "Fluid": "Vollbild",
+        "Center": "Zenriert"
+      },
+      "NavBarLock": "Navigation fixieren",
+      "NavBarLockOptions": {
+        "Top": "Oben",
+        "Side": "Seite"
+      }
+    },
+    "Links": {
+      "LingsHeadline": "Verlinkbare Seiten",
+      "Links": "Links",
+      "Platform": "Plattform",
+      "Profile": "Profil / ID / Username",
+      "CurrentLinks": "Aktuelle Verlinkungen",
+      "EditDiscription": "Hier kannst du deine verlinkbaren Seiten bearbeiten. Wähle die Platform und editire den Wert, klicke aus dem Feld um zu speichern.",
+      "CurrentLinksDescription": "Hier siehst alle deine verlinkbaren Seiten. Du kannst sie auch oben bearbeiten oder hier löschen.",
+      "LinksListLable": {
+        "HeadPlatform": "Plattform",
+        "HeadData": "Profil / ID / Username",
+        "Delete": "Löschen"
+      }
+    },
+    "Profile": {
+      "AvatarIcon": "Avatar Icon",
+      "SetAvatarIcon": "NOT IMPLEMENTED",
+      "DeleteAvatarIcon": "Avatar löschen"
+    }
+  },
+  "Events": {
+    "Body": {
+      "Head": {
+        "Title": "Veranstaltungen",
+        "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
+        "AddButton": "Veranstaltung erstellen"
+      }
+    },
+    "Modal": {
+        "NewEvent": {
+            "Title": "Titel",
+            "AvatarAdd": "Icon",
+            "Visibility_Open": "Öffentlich",
+            "Visibility_Hidden": "Versteckt",
+            "MinGroup_RegOnly": "Alle registrierten Nutzer",
+            "MinGroup_Members": "Nur für Mitglieder",
+            "EventName": "Event Name",
+            "Color": "Farbe",
+            "MinGroup": "Zielgruppe",
+            "Visibility": "Sichtbarkeit",
+            "DateApply": "Anmeldung bis",
+            "DateStart": "Start Datum",
+            "DateEnd": "End Datum",
+            "Location": "Örtlichkeit",
+            "Description": "Beschreibung",
+            "Placeholder": {
+                "EventName": "Name des Events",
+                "Description": "Eine kleine Beschreibung des Events, du kannst Styling-HTML Tags verwenden.",
+                "Location": "Eine Adresse, Goordianten oder ähnliches"
+            },
+            "Cancel": "Abbrechen",
+            "AddNew": "Neue Veranstaltung erstellen"
+        }
+    }
+  },
+  "Error": {
+    "Joi": {
+      "string": {
+        "empty": "{{field}} darf nicht leer sein",
+        "min": "{{field}} muss mindestens {{limit}} Zeichen lang sein",
+        "max": "{{field}} darf höchstens {{limit}} Zeichen lang sein",
+        "email": "{{field}} muss eine gültige E-Mail-Adresse sein",
+        "pattern": {
+          "base": "{{field}} muss dem erforderlichen Muster entsprechen"
+        }
+      },
+      "number": {
+        "base": "{{field}} muss eine Zahl sein",
+        "min": "{{field}} muss größer oder gleich {{limit}} sein",
+        "max": "{{field}} muss kleiner oder gleich {{limit}} sein"
+      },
+      "date": {
+        "base": "{{#field}} muss ein gültiges Datum sein",
+        "min": "Das Datum von {{field}} muss nach dem {{limit}} liegen",
+        "max": "Das Datum von {{field}} muss vor dem {{limit}} liegen"
+      },
+      "required": "{{field}} ist erforderlich"
+    },
+    "NewEventApplyBeforeStart": "Das Anmelde Datum muss vor dem Start Datum liegen",
+    "NewEventEndBeforeStart": "Das Start Datum muss vor dem End Datum liegen"
+  },
+  "User_Groups": {
+    "user": "Nutzer",
+    "kassierer": "Kassierer",
+    "admin": "Administrator"
+  }
 }

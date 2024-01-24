@@ -378,12 +378,24 @@
                 </div>
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div id="NewEventErrorLine"></div>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <a class="btn btn-link link-secondary" data-bs-dismiss="modal" data-translate="Events.Modal.NewEvent.Cancel"></a>
-            <a class="btn btn-primary ms-auto" data-bs-dismiss="modal" id="NewEventSubmitBtn" data-translate="Events.Modal.NewEvent.AddNew">
+            <a class="btn btn-primary ms-auto" id="NewEventSubmitBtn">
               <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg></a>
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <path d="M12 5l0 14" />
+                  <path d="M5 12l14 0" />
+              </svg>
+              <span data-translate="Events.Modal.NewEvent.AddNew"></span>
+            </a>          
           </div>
         </div>
       </div>
@@ -397,14 +409,24 @@
     <script src="./dist/js/i18next.min.js?1684106062"></script>
     <script src="./appjs/layout.js"></script>
     <script>
-      function getSelectedColorValue() {
+      const keys = {
+        "eventName": "NewEventEventName",
+        "minGroup": "NewEventMinGroup",
+        "visibility": "NewEventVisibility",
+        "dateApply": "NewEventDateApply",
+        "dateStart": "NewEventDateStart",
+        "dateEnd": "NewEventDateEnd",
+        "location": "NewEventLocation",
+        "description": "NewEventDescription"
+      }
+      const getSelectedColorValue = () => {
         const colorInputs = document.querySelectorAll('input[name="color"]:checked');
         return colorInputs.length > 0 ? colorInputs[0].value : null;
       }
       // Detekt submit button press
       document.getElementById("NewEventSubmitBtn").addEventListener("click", function() {
         // Get values
-        const name = document.getElementById("NewEventEventName").value;
+        const eventName = document.getElementById("NewEventEventName").value;
         const color = getSelectedColorValue();
         const minGroup = document.getElementById("NewEventMinGroup").value;
         const visibility = document.getElementById("NewEventVisibility").value;
@@ -421,7 +443,7 @@
             "Authorization": "Bearer " + localStorage.getItem("token")
           },
           body: JSON.stringify({
-            name: name,
+            eventName: eventName,
             color: color,
             minGroup: minGroup,
             visibility: visibility,
@@ -431,13 +453,26 @@
             location: location,
             description: description
           })
-        }).then(function(response) {
+        }).then(async (response) => {
+          const response_json = await response.json();
           if (response.status == 200) {
-            // Reload page
-            window.location.reload();
+            for (const key in keys) {
+              document.getElementById(keys[key]).classList.remove("is-invalid");
+            }
+            closeModal("modal-report");
           } else {
-            // Error
-            alert("Error: " + response.status);
+            if(typeof response_json.reason === "string") {
+              document.getElementById('NewEventErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.${response_json.message}`) + '</div>';
+              return;
+            }
+            const input_name = response_json.reason[0].path[0];
+            const input_type = response_json.reason[0].type;
+            for (const key in keys) {
+              document.getElementById(keys[key]).classList.remove("is-invalid");
+            }
+            
+            document.getElementById('NewEventErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.Joi.${input_type}`, { field: i18next.t(`Events.Modal.NewEvent.${capitalizeFirstLetter(input_name)}`), limit: response_json.reason[0].context?.limit }) + '</div>';
+            document.getElementById(keys[input_name]).classList.add("is-invalid");
           }
         });
       });
