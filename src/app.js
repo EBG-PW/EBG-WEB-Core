@@ -44,6 +44,16 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-in.html'));
 });
 
+app.get('/register', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-up.html'));
+});
+
+app.get('/passwordreset', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'forgot-password.html'));
+});
+
 app.get('/dashboard', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
@@ -139,7 +149,7 @@ app.use('/auth', auth_handler);
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {
-    console.log(error)
+    //console.log(error)
     process.log.debug(error);
     const outError = {
         message: error.message || "",

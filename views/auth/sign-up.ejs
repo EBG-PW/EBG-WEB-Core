@@ -33,49 +33,201 @@
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg" height="36" alt=""></a>
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./dist/logo-transparent.png" height="36" alt=""/></a>
         </div>
-        <form class="card card-md" action="./" method="get" autocomplete="off" novalidate>
+        <div class="card card-md">
           <div class="card-body">
-            <h2 class="card-title text-center mb-4">Create new account</h2>
+            <h2 class="card-title text-center mb-4" data-translate="Register.HeadlineNewAcc"></h2>
             <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input type="text" class="form-control" placeholder="Enter name">
+              <label class="form-label" data-translate="Register.Username"></label>
+              <input type="text" id="username" class="form-control" data-translate-placeholder="Register.Placeholder.Username">
             </div>
             <div class="mb-3">
-              <label class="form-label">Email address</label>
-              <input type="email" class="form-control" placeholder="Enter email">
+              <label class="form-label" data-translate="Login.EmailAdress"></label>
+              <input type="email" id="email" class="form-control" data-translate-placeholder="Login.Placeholder.EmailAdress">
             </div>
             <div class="mb-3">
-              <label class="form-label">Password</label>
+              <label class="form-label" data-translate="Register.Password1"></label>
               <div class="input-group input-group-flat">
-                <input type="password" class="form-control"  placeholder="Password"  autocomplete="off">
+                <input type="password" id="password1" class="form-control"  data-translate-placeholder="Login.Placeholder.Password" autocomplete="off">
                 <span class="input-group-text">
-                  <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-                  </a>
+                  <a
+                      id="passwordToggle1"
+                      class="link-secondary"
+                      title="Show password"
+                      data-bs-toggle="tooltip"
+                      ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path
+                          d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                      </svg>
+                    </a>
+                </span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" data-translate="Register.Password2"></label>
+              <div class="input-group input-group-flat">
+                <input type="password" id="password2" class="form-control"  data-translate-placeholder="Login.Placeholder.Password" autocomplete="off">
+                <span class="input-group-text">
+                  <a
+                      id="passwordToggle2"
+                      class="link-secondary"
+                      title="Show password"
+                      data-bs-toggle="tooltip"
+                      ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        stroke-width="2"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                        <path
+                          d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                      </svg>
+                    </a>
                 </span>
               </div>
             </div>
             <div class="mb-3">
               <label class="form-check">
-                <input type="checkbox" class="form-check-input"/>
-                <span class="form-check-label">Agree the <a href="./terms-of-service.html" tabindex="-1">terms and policy</a>.</span>
+                <input type="checkbox" id="legal" class="form-check-input"/>
+                <span class="form-check-label"><a href="./legal/legal" tabindex="-1" data-translate="Register.Legal"></a></span>
               </label>
             </div>
+            <div id="ErrorLine"></div>
             <div class="form-footer">
-              <button type="submit" class="btn btn-primary w-100">Create new account</button>
+              <button type="submit" id="RegSubmitButton" class="btn btn-primary w-100" data-translate="Register.CreateNewAccount"></button>
             </div>
           </div>
-        </form>
-        <div class="text-center text-muted mt-3">
-          Already have account? <a href="./sign-in.html" tabindex="-1">Sign in</a>
+        </div>
+        <div class="text-center text-muted mt-3"><a href="./login" tabindex="-1" data-translate="Register.GotAccount"></a>
         </div>
       </div>
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
+    <script src="./appjs/permission.js"></script>
+    <script src="./appjs/translate.js"></script>
     <script src="./dist/js/tabler.min.js?1684106062" defer></script>
-    <script src="./dist/js/demo.min.js?1684106062" defer></script>
+    <script src="./dist/js/i18next.min.js?1684106062"></script>
+    <script src="./appjs/layout.js"></script>
+    <script>
+      // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
+      document.getElementById("passwordToggle1").addEventListener("click", function() {
+        const passwordField = document.getElementById("password1");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      });
+
+      document.getElementById("passwordToggle2").addEventListener("click", function() {
+        const passwordField = document.getElementById("password2");
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+        } else {
+          passwordField.type = "password";
+        }
+      });
+
+      // Compatibility with html IDs and i18next
+      const keys = {
+        "username": "username",
+        "email": "email",
+        "password1": "password1",
+        "password2": "password2",
+        "legal": "legal"
+      };
+
+      // When the regForm is submitted, check if the passwords match
+      document.getElementById("RegSubmitButton").addEventListener("click", function() {
+        const password1 = document.getElementById("password1").value;
+        const password2 = document.getElementById("password2").value;
+        if (password1 !== password2) {
+          document.getElementById("password1").classList.add("is-invalid");
+          document.getElementById("password2").classList.add("is-invalid");
+          document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t("Error.PasswordMatch") + '</div>';
+          document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
+            setTimeout(() => {
+              document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
+            }, 1500);
+          return false; 
+        } else {
+          document.getElementById("password1").classList.remove("is-invalid");
+          document.getElementById("password2").classList.remove("is-invalid");
+        }
+
+        // Send request (fetch)
+        fetch("/api/v1/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: document.getElementById("username").value,
+            email: document.getElementById("email").value,
+            password: password1,
+            language: navigator.language,
+            legal: document.getElementById("legal").checked
+          })
+        }).then(async (response) => {
+          const response_json = await response.json();
+          if (response.status == 200) {
+            for (const key in keys) {
+              document.getElementById(keys[key]).classList.remove("is-invalid");
+            }
+            document.getElementById('ErrorLine').innerHTML = '';
+            document.getElementById("RegSubmitButton").classList.add("btn-success");
+          } else {
+            document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
+            setTimeout(() => {
+              document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
+            }, 1500);
+            if (response.status == 400) {
+              if(typeof response_json.reason === "string") {
+              document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.${response_json.message}`) + '</div>';
+              return;
+              }
+              const input_name = response_json.reason[0].path[0];
+              const input_type = response_json.reason[0].type;
+              for (const key in keys) {
+                document.getElementById(keys[key]).classList.remove("is-invalid");
+              }
+              
+              document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.Joi.${input_type}`, { field: i18next.t(`Register.${capitalizeFirstLetter(input_name)}`), limit: response_json.reason[0].context?.limit, valids: response_json.reason[0].context?.valids?.join() }) + '</div>';
+              if(input_name === "password") {
+                document.getElementById("password1").classList.add("is-invalid");
+                document.getElementById("password2").classList.add("is-invalid");
+              } else {
+                document.getElementById(keys[input_name]).classList.add("is-invalid");
+              }
+            } else {
+              document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Register.Error.${response.status}`) + '</div>';
+            }
+          }
+        });
+      });
+    </script>
   </body>
 </html>
