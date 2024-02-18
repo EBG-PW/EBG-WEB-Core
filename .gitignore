@@ -131,6 +131,9 @@ out
 # Template
 css_template/*
 
+# Email Template
+services/mailer/tabler_email_templates/*
+
 # Ignore config files with credentials
 config/auth.js
 
