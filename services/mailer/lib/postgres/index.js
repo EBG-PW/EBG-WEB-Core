@@ -19,9 +19,9 @@ const WriteConfirmationToken = (userId, type, token, data) => {
   })
 }
 
-const GetUserEmail = (userId) => {
+const GetUserData = (userId) => {
     return new Promise((resolve, reject) => {
-        pool.query('SELECT email FROM users WHERE id = $1', [userId], (err, res) => {
+        pool.query('SELECT email, username FROM users WHERE id = $1', [userId], (err, res) => {
             if (err) {
                 reject(err);
             }
@@ -32,5 +32,5 @@ const GetUserEmail = (userId) => {
 
 module.exports = {
     WriteConfirmationToken,
-    GetUserEmail
+    GetUserData
 }

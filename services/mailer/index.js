@@ -13,7 +13,7 @@ process.log = {};
 process.log = log;
 
 const { Worker } = require('bullmq');
-const { WriteConfirmationToken, GetUserEmail } = require('@lib/postgres');
+const { WriteConfirmationToken, GetUserData } = require('@lib/postgres');
 
 const connection = {
     port: parseInt(process.env.Redis_Port) || 6379,
@@ -24,7 +24,7 @@ const connection = {
 };
 
 const emailWorker = new Worker('q:mail', async (job) => {
-  const userEmail = await GetUserEmail(job.data);
+  const userEmail = await GetUserData(job.data);
   switch (job.name) {
     case 'user:email_verification':
       // Send email verification
