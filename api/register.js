@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
     });
 
     // Send E-Mail Verification
-    sendMail('user:email_verification', userId, false);
+    await sendMail('user:email_verification', userId, false);
 
     res.json({ success: true });
 });
