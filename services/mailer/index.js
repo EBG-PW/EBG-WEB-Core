@@ -17,20 +17,26 @@ const { Worker } = require('bullmq');
 const nodemailer = require("nodemailer");
 const ejs = require('ejs');
 const { WriteConfirmationToken, GetUserData } = require('@lib/postgres');
+const { convertPngFilesToBase64 } = require('@lib/template');
 
 const emailTemplateFolder = path.join(__dirname, 'templates');
 
 const mailTemplateStore = {
-  email_verification_css: await fs.readFileSync(path.join(emailTemplateFolder, 'assets','email_verification_css.ejs'), 'utf8'),
-  email_verification_light: await fs.readFileSync(path.join(emailTemplateFolder, 'email_verification_light.ejs'), 'utf8'),
-}
+  base64images: {},
+  email_verification_css: fs.readFileSync(path.join(emailTemplateFolder, 'assets', 'theme.css'), 'utf8'),
+  email_verification_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_verification_light.ejs'), 'utf8'),
+};
+
+const translationStore = {
+  de: require(path.join(emailTemplateFolder, 'lang', 'de.json')),
+};
 
 const connection = {
-    port: parseInt(process.env.Redis_Port) || 6379,
-    host: process.env.Redis_Host || "127.0.0.1",
-    username: process.env.Redis_User || "default",
-    password: process.env.Redis_Password || "default",
-    db: parseInt(process.env.Redis_DB) + 1 || 1,
+  port: parseInt(process.env.Redis_Port) || 6379,
+  host: process.env.Redis_Host || "127.0.0.1",
+  username: process.env.Redis_User || "default",
+  password: process.env.Redis_Password || "default",
+  db: parseInt(process.env.Redis_DB) + 1 || 1,
 };
 
 const emailtransporter = nodemailer.createTransport({
@@ -43,32 +49,43 @@ const emailtransporter = nodemailer.createTransport({
   },
 });
 
-const emailWorker = new Worker('q:mail', async (job) => {
-  const userEmail = await GetUserData(job.data);
-  switch (job.name) {
-    case 'user:email_verification':
-      // Send email verification
-      console.log(`Sending email verification to ${userEmail}`);
-      const renderdEmail = await ejs.render(mailTemplate, { });
+(async () => {
+  // Load email template images
+  mailTemplateStore.base64images = await convertPngFilesToBase64(path.join(emailTemplateFolder, 'assets'));
 
-      await emailtransporter.sendMail({
-        from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
-        to: userEmail,
-        subject: 'Email Verification',
-        html: renderdEmail,
-        
-      });
-      break;
-    case 'user:login':
-      // Send login email
-      break;
-    case 'user:reset_password':
-      // Send reset password email
-      break;
-    default:
-      throw new Error(`Invalid email type: ${job.name}`);
-  }
+  const emailWorker = new Worker('q:mail', async (job) => {
+    const userData = await GetUserData(job.data.userId);
+    switch (job.name) {
+      case 'user:email_verification':
+        // Render Email
+        const renderdEmail = await ejs.render(mailTemplateStore.email_verification_light, {
+          css: mailTemplateStore.email_verification_css,
+          images: mailTemplateStore.base64images,
+          username: userData.username,
+          lang: translationStore["de"],
+          registerCode: "123456",
+        });
+      
+        // Send email verification
+        await emailtransporter.sendMail({
+          from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
+          to: userData.email,
+          subject: translationStore["de"].subject.registerCode,
+          html: renderdEmail,
+      
+        });
+        break;
+      case 'user:login':
+        // Send login email
+        break;
+      case 'user:reset_password':
+        // Send reset password email
+        break;
+      default:
+        throw new Error(`Invalid email type: ${job.name}`);
+    }
 
-  return;
-  // Simulate email sending
-}, { connection: connection });
+    return;
+    // Simulate email sending
+  }, { connection: connection });
+})();

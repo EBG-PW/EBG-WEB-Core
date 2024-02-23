@@ -1,0 +1,24 @@
+{
+    "companyName": "EBG",
+    "companyEmail": "contact@ebg.pw",
+    "greeting": "Hallo,",
+    "registerCodeHeadline": "Dein Registrierungscode lautet:",
+    "otpCodeHeadline": "Dein Einmalpasswort lautet:",
+    "registerconfirm": "Verifiziere deine E-Mail-Adresse",
+    "companyContactText": "Wenn du irgendwelche Fragen hast, kontaktiere uns bitte unter:",
+    "subject": {
+        "registerCode": "Dein Registrierungscode für EBG",
+        "otpCode": "Dein Einmalpasswort für EBG"
+    },
+    "preHeader": {
+        "registerCode": "Bitte verifiziere deine E-Mail-Adresse mit diesem Code"
+    },
+    "links": {
+        "twitter": "https://twitter.com/ebg_pw",
+        "github": "https://github.com/EBG-PW",
+        "instagram": "hhttps://www.instagram.com/ebg_official/"
+    },
+    "applicationLinks": {
+        "registerVerfiy": "https://ebg.pw/register/confirm"
+    }
+}
