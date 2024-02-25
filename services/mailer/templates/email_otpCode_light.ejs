@@ -32,7 +32,7 @@
       <table class="main bg-body" width="100%" cellspacing="0" cellpadding="0">
         <tr>
           <td align="center" valign="top">
-            <span class="preheader"><%= lang.preHeader.otp %></span>
+            <span class="preheader"><%= lang.preHeader.registerCode %></span>
             <table class="wrap" cellspacing="0" cellpadding="0">
               <tr>
                 <td class="p-sm">
@@ -57,14 +57,17 @@
                             <tr>
                               <td class="content">
                                 <p><%= lang.greeting %> <strong><%= username %></strong>!</p>
-                                <p class="mb-0"><%= lang.otpCodeHeadline %></p>
+                                <p class="mb-0"><%= lang.registerCodeHeadline %></p>
                                 <table>
                                   <tr>
                                     <td class="py-lg">
                                       <table cellspacing="0" cellpadding="0" class="w-auto" align="center">
                                         <tr>
                                           <td class="border-dashed border-wide border-dark text-center rounded px-lg py-md">
-                                            <div class="h1 font-strong m-0"><%= otpCode %></div>
+                                            <div class="h1 font-strong m-0"><%= registerCode %></div>
+                                            <a href="<%= regUrl %>" class="btn bg-green border-green" style="color: #ffffff; text-decoration: none; white-space: nowrap; font-weight: 500; font-size: 16px; border-radius: 4px; line-height: 100%; display: block; -webkit-transition: 0.3s background-color; -o-transition: 0.3s background-color; transition: 0.3s background-color; background-color: #2fb344; padding: 12px 32px; border: 1px solid #2fb344;">
+                                              <span class="btn-span" style="color: #ffffff; font-size: 16px; text-decoration: none; white-space: nowrap; font-weight: 500; line-height: 100%;"><%= lang.registerconfirm %></span>
+                                          </a>
                                           </td>
                                         </tr>
                                       </table>
@@ -108,7 +111,7 @@
                           <tr>
                             <td class="px-lg">
                               <%= lang.companyContactText %>
-                              <a href="mailto:support@tabler.io" class="text-muted"><%= lang.companyEmail %></a>.
+                              <a href="mailto:<%= lang.companyEmail %>" class="text-muted"><%= lang.companyEmail %></a>.
                             </td>
                           </tr>
                         </table>

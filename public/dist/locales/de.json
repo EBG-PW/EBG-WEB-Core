@@ -42,6 +42,11 @@
       "401": "Benuztername oder E-Mail Adresse bereits vergeben"
     }
   },
+  "RegisterVerify": {
+    "Title": "Account verifizieren",
+    "Headline": "Bestätige deinen Account mit dem klick auf den Knopf.",
+    "VerifyMail": "E-Mail bestätigen"
+  },
   "Dashboard": {
     "Header": {
       "Pagename": "EBG - Dashboard",

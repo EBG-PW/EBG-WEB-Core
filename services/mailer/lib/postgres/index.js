@@ -9,30 +9,20 @@ const pool = new db.Pool({
 })
 
 /**
- * Write a confirmation token to the database.
- * @param {Number} userId 
- * @param {Number} type 
- * @param {String} token 
- * @param {String} data 
- * @returns 
+ * @typedef {Object} UserObject
+ * @property {string} email - Email of the user
+ * @property {string} username - Username of the user
+ * @property {string} language - Language of the user
  */
-const WriteConfirmationToken = (userId, type, token, data) => {
-  return new Promise((resolve, reject) => {
-    pool.query('INSERT INTO confirmations (user_id, type, token, data) VALUES ($1, $2, $3, $4)', [userId, type, token, data], (err, res) => {
-      if (err) { reject(err); }
-      resolve(res);
-    })
-  })
-}
 
 /**
  * Get the email and username of a user by their id.
  * @param {Number} userId 
- * @returns {Object} - { email: String, username: String }
+ * @returns {UserObject}
  */
 const GetUserData = (userId) => {
   return new Promise((resolve, reject) => {
-    pool.query('SELECT email, username FROM users WHERE id = $1', [userId], (err, res) => {
+    pool.query('SELECT email, username, language FROM users JOIN users_settings ON users.id = users_settings.user_id WHERE id = $1', [userId], (err, res) => {
       if (err) { reject(err); }
       resolve(res.rows[0]);
     })
@@ -40,6 +30,5 @@ const GetUserData = (userId) => {
 }
 
 module.exports = {
-  WriteConfirmationToken,
   GetUserData
 }

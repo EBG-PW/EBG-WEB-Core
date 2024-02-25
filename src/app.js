@@ -139,8 +139,10 @@ app.get('/*', (req, res) => {
         res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
     } catch (error) {
         process.log.error(error)
-        res.status(404);
-        res.send("404 - Not Found");
+        ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), {statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", back_url: process.env.DOMAIN}, (err, str) => {
+            res.header('Content-Type', 'text/html');
+            res.send(str);
+        });
     };
 });
 

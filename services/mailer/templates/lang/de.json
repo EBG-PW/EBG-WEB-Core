@@ -2,7 +2,7 @@
     "companyName": "EBG",
     "companyEmail": "contact@ebg.pw",
     "greeting": "Hallo,",
-    "registerCodeHeadline": "Dein Registrierungscode lautet:",
+    "registerCodeHeadline": "Bitte klicke auf den Link um deine E-Mail-Adresse zu verifizieren:",
     "otpCodeHeadline": "Dein Einmalpasswort lautet:",
     "registerconfirm": "Verifiziere deine E-Mail-Adresse",
     "companyContactText": "Wenn du irgendwelche Fragen hast, kontaktiere uns bitte unter:",
@@ -17,8 +17,5 @@
         "twitter": "https://twitter.com/ebg_pw",
         "github": "https://github.com/EBG-PW",
         "instagram": "hhttps://www.instagram.com/ebg_official/"
-    },
-    "applicationLinks": {
-        "registerVerfiy": "https://ebg.pw/register/confirm"
     }
 }

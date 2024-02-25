@@ -1,15 +1,15 @@
+const fs = require('node:fs');
+const path = require('node:path');
 const Joi = require('joi');
 const { user, webtoken } = require('@lib/postgres');
-const { addWebtoken, logoutWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
-const { verifyRequest } = require('@middleware/verifyRequest');
+const { generateUrlPath } = require('@lib/utils');
 const { sendMail } = require('@lib/queues');
+const { checkCTRexists } = require('@lib/redis');
 const HyperExpress = require('hyper-express');
 const { default_group } = require('@config/permissions');
-const { PermissionsError, InvalidRouteInput, InvalidRegister, Invalid2FA, DBError } = require('@lib/errors');
-const useragent = require('express-useragent');
+const { InvalidRouteInput, InvalidRegister, DBError } = require('@lib/errors');
 const bcrypt = require('bcrypt');
-const randomstring = require('randomstring');
 const router = new HyperExpress.Router();
 
 /* Plugin info*/
@@ -25,6 +25,10 @@ const RegisterCheck = Joi.object({
     legal: Joi.boolean().required().valid(true)
 });
 
+const CheckURLPath = Joi.object({
+    urlPath: Joi.string().alphanum().required()
+});
+
 router.post('/', async (req, res) => {
     const value = await RegisterCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
@@ -33,16 +37,30 @@ router.post('/', async (req, res) => {
     const password_hash = await bcrypt.hash(value.password, parseInt(process.env.SALTROUNDS));
 
     // Add User to Database
-    const userId = await user.create(value.username, value.email, password_hash, value.language, 'white.center', default_group, null, null, null, null).catch((err) => {
+    const userId = await user.create(value.username, value.email, password_hash, value.language.split('-')[0], 'white.center', default_group, null, null, null, null).catch((err) => {
         if (err.code === '23505') {
             throw new InvalidRegister('User already exists');
         }
     });
 
-    // Send E-Mail Verification
-    await sendMail('user:email_verification', {userId: userId}, false);
+    const urlPath = generateUrlPath();
 
-    res.json({ success: true });
+    // Send E-Mail Verification
+    await sendMail('user:email_verification', {userId: userId, urlPath: urlPath, appDomain: process.env.DOMAIN}, false);
+
+    res.json({ urlPath: urlPath });
+});
+
+router.get('/:urlPath', async (req, res) => {
+    const value = await CheckURLPath.validateAsync(req.params);
+    if (!value) throw new InvalidRouteInput('Invalid Route Input');
+
+    // Check if the URLPath exists
+    const exists = await checkCTRexists(value.urlPath);
+    if (!exists) throw new InvalidRouteInput('Invalid Route Input');
+
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'public', 'auth', 'sign-up-verify.html')));
+    
 });
 
 module.exports = {
