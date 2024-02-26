@@ -5,7 +5,7 @@ const { user, webtoken } = require('@lib/postgres');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const { generateUrlPath } = require('@lib/utils');
 const { sendMail } = require('@lib/queues');
-const { checkCTRexists } = require('@lib/redis');
+const { CTR } = require('@lib/redis');
 const HyperExpress = require('hyper-express');
 const { default_group } = require('@config/permissions');
 const { InvalidRouteInput, InvalidRegister, DBError } = require('@lib/errors');
@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
     const urlPath = generateUrlPath();
 
     // Send E-Mail Verification
-    await sendMail('user:email_verification', {userId: userId, urlPath: urlPath, appDomain: process.env.DOMAIN}, false);
+    await sendMail('user:email_verification', { userId: userId, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
 
     res.json({ urlPath: urlPath });
 });
@@ -56,11 +56,31 @@ router.get('/:urlPath', async (req, res) => {
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
     // Check if the URLPath exists
-    const exists = await checkCTRexists(value.urlPath);
+    const exists = await CTR.check(value.urlPath);
     if (!exists) throw new InvalidRouteInput('Invalid Route Input');
 
     res.send(fs.readFileSync(path.join(__dirname, '..', 'public', 'auth', 'sign-up-verify.html')));
-    
+});
+
+router.post('/:urlPath/verify', async (req, res) => {
+    const value = await CheckURLPath.validateAsync(req.params);
+    if (!value) throw new InvalidRouteInput('Invalid Route Input');
+
+    // Check if the URLPath exists
+    const exists = await CTR.check(value.urlPath);
+    if (!exists) throw new InvalidRouteInput('Invalid Route Input');
+
+    const { userId } = await CTR.get(value.urlPath);
+
+    console.log(userId)
+
+    const dbUpdate_result = await user.update.verifyEmail(userId);
+    if (dbUpdate_result.rowCount === 0) throw new DBError('User.verifyEmail', 0, typeof 0, dbUpdate_result.rowCount, typeof dbUpdate_result.rowCount);
+
+    await CTR.delete(value.urlPath);
+
+
+    res.json({ verified: true });
 });
 
 module.exports = {
