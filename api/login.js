@@ -85,7 +85,7 @@ router.post('/', async (req, res) => {
 
         const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response.user_id, user_response.user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        await addWebtoken(WebToken, user_response.user_id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
         res.status(200)
         res.json({

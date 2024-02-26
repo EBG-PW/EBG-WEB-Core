@@ -151,7 +151,7 @@ app.use('/auth', auth_handler);
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {
-    //console.log(error)
+    console.log(error)
     process.log.debug(error);
     const outError = {
         message: error.message || "",
