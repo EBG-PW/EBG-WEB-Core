@@ -72,8 +72,6 @@ router.post('/:urlPath/verify', async (req, res) => {
 
     const { userId } = await CTR.get(value.urlPath);
 
-    console.log(userId)
-
     const dbUpdate_result = await user.update.verifyEmail(userId);
     if (dbUpdate_result.rowCount === 0) throw new DBError('User.verifyEmail', 0, typeof 0, dbUpdate_result.rowCount, typeof dbUpdate_result.rowCount);
 
