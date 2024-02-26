@@ -26,6 +26,28 @@
       "Password": "Passwort"
     }
   },
+  "Register": {
+    "HeadlineNewAcc": "Neuen Account erstellen",
+    "Username": "Benutzername",
+    "Password1": "Passwort",
+    "Password2": "Passwort wiederholen",
+    "Password": "Passwort",
+    "CreateNewAccount": "Neuen Account erstellen",
+    "GotAccount": "Sie haben bereits einen Account?",
+    "Legal": "Akzeptiere die Nutzungsbedingungen und Datenschutzrichtlinien",
+    "Placeholder": {
+      "Username": "Benutzername"
+    },
+    "Error": {
+      "401": "Benuztername oder E-Mail Adresse bereits vergeben"
+    }
+  },
+  "RegisterVerify": {
+    "Title": "Account verifizieren",
+    "Headline": "Bestätige deinen Account mit dem klick auf den Knopf.",
+    "VerifyMail": "E-Mail bestätigen",
+    "Success": "E-Mail erfolgreich bestätigt, du wirst gleich weitergeleitet."
+  },
   "Dashboard": {
     "Header": {
       "Pagename": "EBG - Dashboard",
@@ -181,6 +203,7 @@
         "min": "{{field}} muss mindestens {{limit}} Zeichen lang sein",
         "max": "{{field}} darf höchstens {{limit}} Zeichen lang sein",
         "email": "{{field}} muss eine gültige E-Mail-Adresse sein",
+        "alphanum": "{{field}} darf nur a-Z & 0-9 enthalten",
         "pattern": {
           "base": "{{field}} muss dem erforderlichen Muster entsprechen"
         }
@@ -195,10 +218,15 @@
         "min": "Das Datum von {{field}} muss nach dem {{limit}} liegen",
         "max": "Das Datum von {{field}} muss vor dem {{limit}} liegen"
       },
+      "any": {
+        "required": "{{field}} ist erforderlich",
+        "only": "{{field}} darf nur {{valids}} sein"
+      },
       "required": "{{field}} ist erforderlich"
     },
     "NewEventApplyBeforeStart": "Das Anmelde Datum muss vor dem Start Datum liegen",
-    "NewEventEndBeforeStart": "Das Start Datum muss vor dem End Datum liegen"
+    "NewEventEndBeforeStart": "Das Start Datum muss vor dem End Datum liegen",
+    "PasswordMatch": "Passwörter stimmen nicht überein"
   },
   "User_Groups": {
     "user": "Nutzer",

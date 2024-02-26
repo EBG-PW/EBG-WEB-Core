@@ -131,6 +131,9 @@ out
 # Template
 css_template/*
 
+# Email Template
+services/mailer/tabler_email_templates/*
+
 # Ignore config files with credentials
 config/auth.js
 
@@ -140,9 +143,7 @@ public/index.html
 public/profile.html
 public/settings-account.html
 public/settings-misc.html
-public/auth/sign-in.html
-public/auth/sign-up.html
-public/auth/forgot-password.html
+public/auth/*.*
 public/auth.html
 public/apps.html
 public/settings-links.html

@@ -44,6 +44,16 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-in.html'));
 });
 
+app.get('/register', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'sign-up.html'));
+});
+
+app.get('/passwordreset', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'forgot-password.html'));
+});
+
 app.get('/dashboard', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'dashboard.html'));
@@ -129,8 +139,10 @@ app.get('/*', (req, res) => {
         res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
     } catch (error) {
         process.log.error(error)
-        res.status(404);
-        res.send("404 - Not Found");
+        ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), {statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", back_url: process.env.DOMAIN}, (err, str) => {
+            res.header('Content-Type', 'text/html');
+            res.send(str);
+        });
     };
 });
 
@@ -139,7 +151,7 @@ app.use('/auth', auth_handler);
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {
-    console.log(error)
+    //console.log(error)
     process.log.debug(error);
     const outError = {
         message: error.message || "",

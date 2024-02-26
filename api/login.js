@@ -16,8 +16,13 @@ const PluginName = 'Login'; //This plugins name
 const PluginRequirements = []; //Put your Requirements and version here <Name, not file name>|Version
 const PluginVersion = '0.0.1'; //This plugins version
 
+const identifierSchema = Joi.alternatives().try(
+    Joi.string().email(), // First, try validating as an email
+    Joi.string().alphanum().min(6).max(56) // If not an email, validate as an alphanumeric string
+  );
+
 const LoginCheck = Joi.object({
-    identifier: Joi.string().min(6).max(56).required(),
+    identifier: identifierSchema.required(),
     password: Joi.string().min(6).max(56).required()
 });
 

@@ -24,6 +24,7 @@ const logout = async () => {
 
         if (response.status === 200) {
             localStorage.removeItem('user_id');
+            localStorage.removeItem('puuid');
             localStorage.removeItem('username');
             localStorage.removeItem('avatar_url');
             localStorage.removeItem('language');

@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="telephone=no" name="format-detection" />
+    <title></title>
+    <style type="text/css">
+      <%= css %>
+    </style>
+    <style data-premailer="ignore">
+      @media screen and (max-width: 600px) {
+        u + .body {
+          width: 100vw !important;
+        }
+      }
+
+      a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+      }
+    </style>
+    <link rel="stylesheet" href="./assets/theme.css" />
+  </head>
+
+  <body class="bg-body">
+    <center>
+      <table class="main bg-body" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top">
+            <span class="preheader"><%= lang.preHeader.registerCode %></span>
+            <table class="wrap" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="p-sm">
+                  <table cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="py-lg">
+                        <table cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td>
+                             <div class="text-center"><%= lang.companyName %></div>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                  <div class="main-content">
+                    <table class="box" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td>
+                          <table cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td class="content">
+                                <p><%= lang.greeting %> <strong><%= username %></strong>!</p>
+                                <p class="mb-0"><%= lang.registerCodeHeadline %></p>
+                                <table>
+                                  <tr>
+                                    <td class="py-lg">
+                                      <table cellspacing="0" cellpadding="0" class="w-auto" align="center">
+                                        <tr>
+                                          <td class="border-dashed border-wide border-dark text-center rounded px-lg py-md">
+                                            <div class="h1 font-strong m-0"><%= registerCode %></div>
+                                            <a href="<%= regUrl %>" class="btn bg-green border-green" style="color: #ffffff; text-decoration: none; white-space: nowrap; font-weight: 500; font-size: 16px; border-radius: 4px; line-height: 100%; display: block; -webkit-transition: 0.3s background-color; -o-transition: 0.3s background-color; transition: 0.3s background-color; background-color: #2fb344; padding: 12px 32px; border: 1px solid #2fb344;">
+                                              <span class="btn-span" style="color: #ffffff; font-size: 16px; text-decoration: none; white-space: nowrap; font-weight: 500; line-height: 100%;"><%= lang.registerconfirm %></span>
+                                          </a>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <table cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td class="py-xl">
+                        <table class="text-center text-muted" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="center" class="pb-md">
+                              <table class="w-auto" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td class="px-sm">
+                                    <a href="<%= lang.links.twitter %>">
+                                      <img src="<%= images.icons_gray_brand_twitter %>" class="va-middle" width="24" height="24" alt="brand-twitter" />
+                                    </a>
+                                  </td>
+                                  <td class="px-sm">
+                                    <a href="<%= lang.links.github %>">
+                                      <img src="<%= images.icons_gray_brand_github %>" class="va-middle" width="24" height="24" alt="brand-github" />
+                                    </a>
+                                  </td>
+                                  <td class="px-sm">
+                                    <a href="<%= lang.links.instagram %>">
+                                      <img src="<%= images.icons_gray_brand_instagram %>" class="va-middle" width="24" height="24" alt="brand-instagram" />
+                                    </a>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="px-lg">
+                              <%= lang.companyContactText %>
+                              <a href="mailto:<%= lang.companyEmail %>" class="text-muted"><%= lang.companyEmail %></a>.
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
+</html>
