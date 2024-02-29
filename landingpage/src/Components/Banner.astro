@@ -13,12 +13,12 @@ import Button from "./Button.astro";
       background-color: black;
 
       .background {
-         position: absolute;
+         position: fixed;
 
          width: 100%;
          height: 100%;
 
-         filter: brightness(0.65);
+         filter: brightness(0.55);
 
          img.bgImg {
             position: absolute;
@@ -86,7 +86,7 @@ import Button from "./Button.astro";
 </style>
 
 <div class="wrapper">
-   <div class="background">
+   <div class="background" id="bg">
       <Image
          src={bannerImage}
          alt=""
@@ -106,3 +106,15 @@ import Button from "./Button.astro";
       </div>
    </div>
 </div>
+
+<script>
+   const bg = document.getElementById("bg");
+
+   document.addEventListener("scroll", () => {
+      const offset = window.scrollY / 5;
+
+      if (bg) {
+         bg.style.transform = `translateY(-${offset}px)`;
+      }
+   });
+</script>
