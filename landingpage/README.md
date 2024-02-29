@@ -1,6 +1,6 @@
 # EBG Landingpage
 
-This EBG landing page is using Astro. 
+This EBG landing page is using Astro.
 
 ## Features
 
