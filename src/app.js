@@ -51,7 +51,7 @@ app.get('/register', (req, res) => {
 
 app.get('/passwordreset', (req, res) => {
     res.header('Content-Type', 'text/html');
-    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'forgot-password.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'auth', 'reset-password.html'));
 });
 
 app.get('/dashboard', (req, res) => {

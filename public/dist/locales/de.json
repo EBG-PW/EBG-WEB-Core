@@ -48,6 +48,16 @@
     "VerifyMail": "E-Mail bestätigen",
     "Success": "E-Mail erfolgreich bestätigt, du wirst gleich weitergeleitet."
   },
+  "ResetPassword": {
+    "Title": "Passwort zurücksetzen",
+    "ResetPassword": "Passwort zurücksetzen",
+    "EnterIdentifyer": "Gib deine E-Mail Adresse oder Benutzernamen ein",
+    "TakeMeBack": "Zurück zur Anmeldung",
+    "Button": {
+      "ResetPassword": "Passwort zurücksetzen"
+    },
+    "Success": "E-Mail wurde versendet, bitte überprüfe dein Postfach."
+  },
   "Dashboard": {
     "Header": {
       "Pagename": "EBG - Dashboard",

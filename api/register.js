@@ -2,7 +2,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 const Joi = require('joi');
 const { user, webtoken } = require('@lib/postgres');
-const { mergePermissions, checkPermission } = require('@lib/permission');
 const { generateUrlPath } = require('@lib/utils');
 const { sendMail } = require('@lib/queues');
 const { CTR } = require('@lib/redis');

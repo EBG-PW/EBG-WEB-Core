@@ -3,6 +3,7 @@ const Redis = require("ioredis");
 /**
  * RedisKeys
  * CFR: ConfirmationToken Registration
+ * RPW: ResetPassword
  */
 
 const redis = new Redis({
@@ -33,12 +34,22 @@ const addConfirmationToken = (token, userId) => {
     return new Promise(async (resolve, reject) => {
         await redis.set(`CFR:${token}`, JSON.stringify({
             userId: userId
-        }), "EX", process.env.CONFIRMATIONTOKEN_EXPIRE_REGISTRATION * 60);
+        }), "EX", parseInt(process.env.CONFIRMATIONTOKEN_EXPIRE_REGISTRATION) * 60);
         resolve();
     })
 }
 
+const addResetPasswordToken = (token, userId) => {
+    return new Promise(async (resolve, reject) => {
+        await redis.set(`RPW:${token}`, JSON.stringify({
+            userId: userId
+        }), "EX", parseInt(process.env.CONFIRMATIONTOKEN_EXPIRE_PASSWORDRESET) * 60);
+        resolve();
+    });
+}
+
 module.exports = {
     getMemoryUsage: getMemoryUsage,
-    addConfirmationToken: addConfirmationToken
+    addConfirmationToken: addConfirmationToken,
+    addResetPasswordToken: addResetPasswordToken
 }
