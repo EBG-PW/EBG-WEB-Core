@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
     const password_hash = await bcrypt.hash(value.password, parseInt(process.env.SALTROUNDS));
 
     // Add User to Database
-    const userId = await user.create(value.username, value.email, password_hash, value.language.split('-')[0], 'white.center', default_group, null, null, null, null).catch((err) => {
+    const userId = await user.create(value.username, value.email.toLowerCase(), password_hash, value.language.split('-')[0], 'white.center', default_group, null, null, null, null).catch((err) => {
         if (err.code === '23505') {
             throw new InvalidRegister('User already exists');
         }

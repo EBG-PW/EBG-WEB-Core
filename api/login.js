@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
     // Check if user exists in our database
-    const user_responses = await user.getByUseridentifyerWithSettings(value.identifier);
+    const user_responses = await user.getByUseridentifyerWithSettings(value.identifier.toLowerCase());
     if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
     const user_response = user_responses[0];
 

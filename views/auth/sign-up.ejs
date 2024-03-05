@@ -197,7 +197,7 @@
             for (const key in keys) {
               document.getElementById(keys[key]).classList.remove("is-invalid");
             }
-            document.getElementById('ErrorLine').innerHTML = '';
+            document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-success">' + i18next.t('Register.Success') + '</div>';
             document.getElementById("RegSubmitButton").classList.add("btn-success");
           } else {
             document.getElementById("RegSubmitButton").classList.toggle("btn-danger");

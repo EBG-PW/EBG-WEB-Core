@@ -35,6 +35,7 @@
     "CreateNewAccount": "Neuen Account erstellen",
     "GotAccount": "Sie haben bereits einen Account?",
     "Legal": "Akzeptiere die Nutzungsbedingungen und Datenschutzrichtlinien",
+    "Success": "E-Mail wurde versendet, bitte überprüfe dein Postfach.",
     "Placeholder": {
       "Username": "Benutzername"
     },
@@ -55,8 +56,7 @@
     "TakeMeBack": "Zurück zur Anmeldung",
     "Button": {
       "ResetPassword": "Passwort zurücksetzen"
-    },
-    "Success": "E-Mail wurde versendet, bitte überprüfe dein Postfach."
+    }
   },
   "Dashboard": {
     "Header": {

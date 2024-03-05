@@ -95,5 +95,9 @@ const emailtransporter = nodemailer.createTransport({
 
     return;
     // Simulate email sending
-  }, { connection: connection });
+  }, { 
+    connection: connection,
+    removeOnComplete: { count: 1 },
+    removeOnFail: { count: 50 },
+  });
 })();
