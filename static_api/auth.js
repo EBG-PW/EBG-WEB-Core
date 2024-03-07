@@ -8,6 +8,8 @@ const { PermissionsError, InvalidRouteInput, OAuthError, DBError, InvalidLogin }
 const useragent = require('express-useragent');
 const router = new HyperExpress.Router();
 const auth_config = require('@config/auth');
+const { generateUrlPath } = require('@lib/utils');
+const { sendMail } = require('@lib/queues');
 
 const OAuthCheck = Joi.object({
     code: Joi.string().required(),
@@ -83,32 +85,39 @@ router.get('/github/callback', async (req, res) => {
     const oauth2Response = await userResponse.json();
 
     const { login, email, avatar_url, bio, name, url } = oauth2Response
-    await user.oauth.git(login, email, avatar_url, bio, name, url);
+    const userResult = await user.oauth.git(login, email, avatar_url, bio, name, url);
 
-    const user_responses = await user.getByUseridentifyerWithSettings(email);
-    if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
-    const user_response = user_responses[0];
+    // If user is new, send email verification
+    if (userResult) {
+        const urlPath = generateUrlPath();
+        sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+    } else {
 
-    const PermissionsResponse = await user.permission.get(user_response.user_id)
-    const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response.user_group); // Format the permissions to a array
+        const user_responses = await user.getByUseridentifyerWithSettings(email);
+        if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
+        const user_response = user_responses[0];
 
-    const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
-    if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
+        const PermissionsResponse = await user.permission.get(user_response.user_id)
+        const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response.user_group); // Format the permissions to a array
 
-    const source = req.headers['user-agent']
-    const UserAgent = useragent.parse(source)
+        const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
+        if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-    const WebToken = randomstring.generate({
-        length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
-        charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
-    });
+        const source = req.headers['user-agent']
+        const UserAgent = useragent.parse(source)
 
-    const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
-    if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-    await addWebtoken(WebToken, user_response.user_id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        const WebToken = randomstring.generate({
+            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+            charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
+        });
 
-    res.status(200);
-    res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
+        if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
+        await addWebtoken(WebToken, user_response.user_id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+
+        res.status(200);
+        res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
+    }
 });
 
 router.get('/google/callback', async (req, res) => {
@@ -152,33 +161,38 @@ router.get('/google/callback', async (req, res) => {
     const oauth2Response = await userResponse.json();
     const { name, email, picture, given_name, family_name, locale } = oauth2Response
 
-    await user.oauth.google(name, email, picture, given_name, family_name, locale);
+    const userResult = await user.oauth.google(name, email, picture, given_name, family_name, locale);
 
-    const user_responses = await user.getByUseridentifyerWithSettings(email);
-    if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
-    const user_response = user_responses[0];
+    if (userResult) {
+        const urlPath = generateUrlPath();
+        sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+    } else {
 
-    const PermissionsResponse = await user.permission.get(user_response.user_id)
-    const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response.user_group); // Format the permissions to a array
+        const user_responses = await user.getByUseridentifyerWithSettings(email);
+        if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
+        const user_response = user_responses[0];
 
-    const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
-    if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
+        const PermissionsResponse = await user.permission.get(user_response.user_id)
+        const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response.user_group); // Format the permissions to a array
 
-    const source = req.headers['user-agent']
-    const UserAgent = useragent.parse(source)
+        const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
+        if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-    const WebToken = randomstring.generate({
-        length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
-        charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
-    });
+        const source = req.headers['user-agent']
+        const UserAgent = useragent.parse(source)
 
-    const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
-    if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-    await addWebtoken(WebToken, user_response.id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        const WebToken = randomstring.generate({
+            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+            charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
+        });
 
-    res.status(200);
-    res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
+        if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
+        await addWebtoken(WebToken, user_response.id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 
+        res.status(200);
+        res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
+    }
 });
 
 module.exports = router;
