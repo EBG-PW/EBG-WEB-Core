@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     // Send E-Mail Verification
     await sendMail('user:email_verification', { userId: userId, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
 
-    res.json({ urlPath: urlPath });
+    res.json({ status: true });
 });
 
 router.get('/:urlPath', async (req, res) => {

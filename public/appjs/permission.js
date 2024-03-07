@@ -60,7 +60,10 @@ const checkPermission = (user_permissions, required_permission) => {
 const checkSession = async () => {
   const token = localStorage.getItem("token");
   if (!token) {
-    if(!window.location.href.includes("login") && !window.location.href.includes("register") && !window.location.href.includes("passwordreset")) window.location.href = "/login";
+    if(!window.location.href.includes("login") &&
+      !window.location.href.includes("register") &&
+      !window.location.href.includes("requestresetpassword") && 
+      !window.location.href.includes("resetpassword")) window.location.href = "/login";
     return { result: false, reason: "No token found." };
   }
 

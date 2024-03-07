@@ -18,15 +18,17 @@ const nodemailer = require("nodemailer");
 const ejs = require('ejs');
 const { WriteConfirmationToken, GetUserData } = require('@lib/postgres');
 const { generateOneTimePassword, generateUrlPath } = require('@lib/util');
-const { addConfirmationToken } = require('@lib/redis');
+const { addConfirmationToken, addResetPasswordToken } = require('@lib/redis');
 const { convertPngFilesToBase64 } = require('@lib/template');
 
 const emailTemplateFolder = path.join(__dirname, 'templates');
 
 const mailTemplateStore = {
   base64images: {},
-  email_verification_css: fs.readFileSync(path.join(emailTemplateFolder, 'assets', 'theme.css'), 'utf8'),
+  email_tumbler_css: fs.readFileSync(path.join(emailTemplateFolder, 'assets', 'theme.css'), 'utf8'),
   email_verification_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_verification_light.ejs'), 'utf8'),
+  email_passwordReset_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_passwordReset_light.ejs'), 'utf8'),
+  email_otpCode_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_otpCode_light.ejs'), 'utf8'),
 };
 
 const translationStore = {
@@ -57,21 +59,20 @@ const emailtransporter = nodemailer.createTransport({
 
   const emailWorker = new Worker('q:mail', async (job) => {
     const userData = await GetUserData(job.data.userId);
-    const urlPath = job.data.urlPath;
-    const appDomain = job.data.appDomain;
-    const oneTimePassword = generateOneTimePassword();
+    let renderdEmail;
+
     switch (job.name) {
       case 'user:email_verification':
-        // Render Email
-        const renderdEmail = await ejs.render(mailTemplateStore.email_verification_light, {
-          css: mailTemplateStore.email_verification_css,
+        // const oneTimePassword = generateOneTimePassword();
+
+        renderdEmail = await ejs.render(mailTemplateStore.email_verification_light, {
+          css: mailTemplateStore.email_tumbler_css,
           images: mailTemplateStore.base64images,
           username: userData.username,
           lang: translationStore[userData.language],
-          registerCode: oneTimePassword,
-          regUrl: `${appDomain}/api/v1/register/${urlPath}`,
+          regUrl: `${job.data.appDomain}/api/v1/register/${job.data.urlPath}`,
         });
-      
+
         // Send email verification
         await emailtransporter.sendMail({
           from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
@@ -80,14 +81,32 @@ const emailtransporter = nodemailer.createTransport({
           html: renderdEmail,
         });
 
-        // Add one time password to redis
-        await addConfirmationToken(urlPath, job.data.userId);
+        // Add confirmation token to Redis
+        await addConfirmationToken(job.data.urlPath, job.data.userId);
         break;
       case 'user:login':
         // Send login email
         break;
       case 'user:reset_password':
-        // Send reset password email
+        // const oneTimePassword = generateOneTimePassword();
+        renderdEmail = await ejs.render(mailTemplateStore.email_passwordReset_light, {
+          css: mailTemplateStore.email_tumbler_css,
+          images: mailTemplateStore.base64images,
+          username: userData.username,
+          lang: translationStore[userData.language],
+          regUrl: `${job.data.appDomain}/api/v1/resetpassword/${job.data.urlPath}`,
+        });
+
+        // Send email verification
+        await emailtransporter.sendMail({
+          from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
+          to: userData.email,
+          subject: translationStore[userData.language].subject.registerCode,
+          html: renderdEmail,
+        });
+
+        // Add password reset token to Redis
+        await addResetPasswordToken(job.data.urlPath, job.data.userId);
         break;
       default:
         throw new Error(`Invalid email type: ${job.name}`);
@@ -95,7 +114,7 @@ const emailtransporter = nodemailer.createTransport({
 
     return;
     // Simulate email sending
-  }, { 
+  }, {
     connection: connection,
     removeOnComplete: { count: 1 },
     removeOnFail: { count: 50 },
