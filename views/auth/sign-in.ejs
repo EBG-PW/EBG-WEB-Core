@@ -101,6 +101,7 @@
                   </span>
                 </div>
               </div>
+              <div id="responseText"></div>
               <div class="form-footer">
                 <button
                   type="submit"
@@ -176,7 +177,6 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?1684106062"></script>
     <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script>
-
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
       document.getElementById("passwordToggle").addEventListener("click", function() {
         const passwordField = document.getElementById("login_password");
@@ -184,6 +184,23 @@
           passwordField.type = "text";
         } else {
           passwordField.type = "password";
+        }
+      });
+
+      // Wait till i18n is loaded, then translate the page
+      i18next.on("initialized", function() {
+        const localStorageEmailVerify = localStorage.getItem("emailVerifyInfo") || false;
+        if(localStorageEmailVerify) {
+          if(parseInt(localStorageEmailVerify) < 300) {
+            document.getElementById("responseText").innerHTML = `<div class="alert alert-success" role="alert">${`OAuth: ${i18next.t(`Login.OauthRegister`)}`}</div>`;
+            localStorage.removeItem("emailVerifyInfo");
+          } else {
+            document.getElementById("responseText").innerHTML = `<div class="alert alert-danger" role="alert">${`OAuth: ${i18next.t(`Login.Button.Error.${localStorageEmailVerify}`)}`}</div>`;
+            localStorage.removeItem("emailVerifyInfo");
+        }
+          setTimeout(function() {
+            document.getElementById("responseText").innerHTML = "";
+          }, 8000);
         }
       });
 
@@ -210,6 +227,7 @@
               document.querySelector("button[type=submit]").classList.toggle("btn-success");
               return response.json();
             } else {
+              let showErrorDuration = 1500;
               // Toggle submit button to red and write error message for 401, 403 and 500
               // updateElementText(element, i18next.t(key));
               document.querySelector("button[type=submit]").classList.toggle("btn-danger");
@@ -217,6 +235,9 @@
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.401"));
               } else if(response.status === 403) {
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.403"));
+              } else if(response.status === 423) {
+                updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.423"));
+                showErrorDuration += 1000;
               } else if(response.status === 500) {
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.500"));
               }
@@ -225,7 +246,7 @@
               setTimeout(function() {
                 document.querySelector("button[type=submit]").classList.toggle("btn-danger");
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.SignIn"));
-              }, 1500);
+              }, showErrorDuration);
 
               throw new Error(response.status);
             }

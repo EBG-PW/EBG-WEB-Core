@@ -190,6 +190,7 @@ app.set_error_handler((req, res, error) => {
     if (outError.headers) { res.header(outError.headers.name, outError.headers.value); }
 
     if (outError.back_url) {
+        outError.domain = process.env.DOMAIN; // Apend the domain to the error
         ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), outError, (err, str) => {
             if (err) {
                 res.json({

@@ -47,6 +47,24 @@ const generateReturnHTML = (message, user_id, username, avatar_url, user_group, 
     `;
 }
 
+const generateEmailVerificationHTML = (message, http_code) => {
+    return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Redirecting...</title>
+    </head>
+    <body>
+        <p>${message}. Redirecting to <a href="/">home page</a>...</p>
+    </body>
+    <script>
+        localStorage.setItem('emailVerifyInfo', ${http_code});
+        window.location.href = '/login';
+    </script>
+    </html>
+    `;
+}
+
 router.get('/github/callback', async (req, res) => {
     const value = await OAuthCheck.validateAsync(req.query);
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
@@ -90,12 +108,20 @@ router.get('/github/callback', async (req, res) => {
     // If user is new, send email verification
     if (userResult) {
         const urlPath = generateUrlPath();
-        sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        await sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        res.status(200);
+        res.send(generateEmailVerificationHTML('Please verify your email', 200));
     } else {
 
         const user_responses = await user.getByUseridentifyerWithSettings(email);
         if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
         const user_response = user_responses[0];
+
+        if (user_response.email_verified === null) {
+            res.status(423);
+            res.send(generateEmailVerificationHTML('Please verify your email', 423));
+            return;
+        }
 
         const PermissionsResponse = await user.permission.get(user_response.user_id)
         const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response.user_group); // Format the permissions to a array
@@ -163,14 +189,23 @@ router.get('/google/callback', async (req, res) => {
 
     const userResult = await user.oauth.google(name, email, picture, given_name, family_name, locale);
 
+    // If user is new, send email verification
     if (userResult) {
         const urlPath = generateUrlPath();
-        sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        await sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        res.status(200);
+        res.send(generateEmailVerificationHTML('Please verify your email', 200));
     } else {
 
         const user_responses = await user.getByUseridentifyerWithSettings(email);
         if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
         const user_response = user_responses[0];
+
+        if (user_response.email_verified === null) {
+            res.status(200);
+            res.send(generateEmailVerificationHTML('Please verify your email', 423));
+            return;
+        }
 
         const PermissionsResponse = await user.permission.get(user_response.user_id)
         const Formated_Permissions = mergePermissions(PermissionsResponse.rows, user_response.user_group); // Format the permissions to a array

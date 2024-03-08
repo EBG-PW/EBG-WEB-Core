@@ -99,7 +99,7 @@ router.post('/setpassword', verifyRequest('web.user.password.write'), limiter(10
     const user_response = user_responses[0];
 
     if (user_response.password === null) { // <-- Check if user has a password, if not we skip this check (This can happen if the user used OAuth to register)
-
+        
     }
 
     const bcrypt_response = await bcrypt.compare(value.old_password, user_response.password);

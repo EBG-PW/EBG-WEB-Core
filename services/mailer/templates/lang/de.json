@@ -9,12 +9,12 @@
     "passwordresetconfirm": "Passwort zurücksetzen",
     "companyContactText": "Wenn du irgendwelche Fragen hast, kontaktiere uns bitte unter:",
     "subject": {
-        "registerCode": "Dein Registrierungscode für EBG",
+        "registerMail": "Willkommen bei EBG, bitte verifiziere deine E-Mail-Adresse",
         "passwordReset": "Dein Passwort zurücksetzen für EBG",
         "otpCode": "Dein Einmalpasswort für EBG"
     },
     "preHeader": {
-        "registerCode": "Bitte verifiziere deine E-Mail-Adresse mit dieser Email",
+        "registerMail": "Bitte verifiziere deine E-Mail-Adresse mit dieser Email",
         "resetPassword": "Resette dein Passwort mit dieser Email"
     },
     "links": {

@@ -6,12 +6,14 @@
     "EmailAdress": "E-Mail Adresse",
     "Password": "Passwort",
     "ForgotPassword": "Passwort vergessen?",
+    "OauthRegister": "Dein Account wurde erstellt, dir wurde eine E-Mail gesendet.",
     "Button": {
       "Remember": "Angemeldet bleiben",
       "SignIn": "Anmelden",
       "Error": {
         "401": "E-Mail Adresse oder Passwort falsch",
         "403": "Gesperrter Account",
+        "423": "E-Mail Adresse nicht bestätigt",
         "500": "Serverfehler"
       }
     },

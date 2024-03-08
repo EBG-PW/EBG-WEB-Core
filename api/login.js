@@ -4,7 +4,7 @@ const { addWebtoken, logoutWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const HyperExpress = require('hyper-express');
-const { PermissionsError, InvalidRouteInput, InvalidLogin, Invalid2FA, DBError } = require('@lib/errors');
+const { PermissionsError, InvalidRouteInput, InvalidLogin, Invalid2FA, DBError, RequestBlocked } = require('@lib/errors');
 const useragent = require('express-useragent');
 const twofactor = require("node-2fa");
 const bcrypt = require('bcrypt');
@@ -40,6 +40,8 @@ router.post('/', async (req, res) => {
     const user_responses = await user.getByUseridentifyerWithSettings(value.identifier.toLowerCase());
     if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
     const user_response = user_responses[0];
+
+    if(user_response.email_verified === null) throw new RequestBlocked('Verify Email');
 
     // Compare passwort hash with passwort to check if they match
     if(user_response.password === null) throw new InvalidLogin('Invalid Login');

@@ -58,64 +58,69 @@ const emailtransporter = nodemailer.createTransport({
   mailTemplateStore.base64images = await convertPngFilesToBase64(path.join(emailTemplateFolder, 'assets'));
 
   const emailWorker = new Worker('q:mail', async (job) => {
-    const userData = await GetUserData(job.data.userId);
-    let renderdEmail;
+    try {
+      const userData = await GetUserData(job.data.userId);
+      let renderdEmail;
 
-    process.log.debug(`Sending email to ${userData.email} with type: ${job.name}`);
+      process.log.debug(`Sending email to ${userData.email} with type: ${job.name}`);
 
-    switch (job.name) {
-      case 'user:email_verification':
-        // const oneTimePassword = generateOneTimePassword();
+      switch (job.name) {
+        case 'user:email_verification':
+          // const oneTimePassword = generateOneTimePassword();
 
-        renderdEmail = await ejs.render(mailTemplateStore.email_verification_light, {
-          css: mailTemplateStore.email_tumbler_css,
-          images: mailTemplateStore.base64images,
-          username: userData.username,
-          lang: translationStore[userData.language],
-          regUrl: `${job.data.appDomain}/api/v1/register/${job.data.urlPath}`,
-        });
+          renderdEmail = await ejs.render(mailTemplateStore.email_verification_light, {
+            css: mailTemplateStore.email_tumbler_css,
+            images: mailTemplateStore.base64images,
+            username: userData.username,
+            lang: translationStore[userData.language] || translationStore[process.env.FALLBACKLANG],
+            regUrl: `${job.data.appDomain}/api/v1/register/${job.data.urlPath}`,
+          });
 
-        // Send email verification
-        await emailtransporter.sendMail({
-          from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
-          to: userData.email,
-          subject: translationStore[userData.language].subject.registerCode,
-          html: renderdEmail,
-        });
+          // Send email verification
+          await emailtransporter.sendMail({
+            from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
+            to: userData.email,
+            subject: translationStore[userData.language].subject.registerMail || translationStore[process.env.FALLBACKLANG].subject.registerMail,
+            html: renderdEmail,
+          });
 
-        // Add confirmation token to Redis
-        await addConfirmationToken(job.data.urlPath, job.data.userId);
-        break;
-      case 'user:login':
-        // Send login email
-        break;
-      case 'user:reset_password':
-        // const oneTimePassword = generateOneTimePassword();
-        renderdEmail = await ejs.render(mailTemplateStore.email_passwordReset_light, {
-          css: mailTemplateStore.email_tumbler_css,
-          images: mailTemplateStore.base64images,
-          username: userData.username,
-          lang: translationStore[userData.language],
-          regUrl: `${job.data.appDomain}/api/v1/resetpassword/${job.data.urlPath}`,
-        });
+          // Add confirmation token to Redis
+          await addConfirmationToken(job.data.urlPath, job.data.userId);
+          break;
+        case 'user:login':
+          // Send login email
+          break;
+        case 'user:reset_password':
+          // const oneTimePassword = generateOneTimePassword();
+          renderdEmail = await ejs.render(mailTemplateStore.email_passwordReset_light, {
+            css: mailTemplateStore.email_tumbler_css,
+            images: mailTemplateStore.base64images,
+            username: userData.username,
+            lang: translationStore[userData.language] || translationStore[process.env.FALLBACKLANG],
+            regUrl: `${job.data.appDomain}/api/v1/resetpassword/${job.data.urlPath}`,
+          });
 
-        // Send email verification
-        await emailtransporter.sendMail({
-          from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
-          to: userData.email,
-          subject: translationStore[userData.language].subject.registerCode,
-          html: renderdEmail,
-        });
+          // Send email verification
+          await emailtransporter.sendMail({
+            from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
+            to: userData.email,
+            subject: translationStore[userData.language].subject.passwordReset,
+            html: renderdEmail,
+          });
 
-        // Add password reset token to Redis
-        await addResetPasswordToken(job.data.urlPath, job.data.userId);
-        break;
-      default:
-        throw new Error(`Invalid email type: ${job.name}`);
+          // Add password reset token to Redis
+          await addResetPasswordToken(job.data.urlPath, job.data.userId);
+          break;
+        default:
+          throw new Error(`Invalid email type: ${job.name}`);
+      }
+
+    } catch (error) {
+      process.log.error(error);
+      throw error;
     }
 
     return;
-    // Simulate email sending
   }, {
     connection: connection,
     removeOnComplete: { count: 1 },
