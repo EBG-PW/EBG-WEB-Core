@@ -27,6 +27,7 @@
     }
   },
   "Register": {
+    "Titel": "Registrieren",
     "HeadlineNewAcc": "Neuen Account erstellen",
     "Username": "Benutzername",
     "Password1": "Passwort",

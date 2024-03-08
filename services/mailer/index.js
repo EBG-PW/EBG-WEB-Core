@@ -61,6 +61,8 @@ const emailtransporter = nodemailer.createTransport({
     const userData = await GetUserData(job.data.userId);
     let renderdEmail;
 
+    process.log.debug(`Sending email to ${userData.email} with type: ${job.name}`);
+
     switch (job.name) {
       case 'user:email_verification':
         // const oneTimePassword = generateOneTimePassword();

@@ -16,13 +16,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title data-translate="Login.Title"> </title>
     <!-- CSS files -->
-    <link href="./dist/css/tabler.min.css?1684106062" rel="stylesheet" />
-    <link href="./dist/css/tabler-flags.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet" />
     <link
-      href="./dist/css/tabler-payments.min.css?1684106062"
+      href="<%= domain %>/dist/css/tabler-payments.min.css?1684106062"
       rel="stylesheet" />
     <link
-      href="./dist/css/tabler-vendors.min.css?1684106062"
+      href="<%= domain %>/dist/css/tabler-vendors.min.css?1684106062"
       rel="stylesheet" />
     <style>
       @import url("https://rsms.me/inter/inter.css");
@@ -36,11 +36,11 @@
     </style>
   </head>
   <body class="d-flex flex-column">
-    <script src="/appjs/format.js"></script>
+    <script src="<%= domain %>/appjs/format.js"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"><img src="./dist/logo-transparent.png" height="36" alt=""/></a>
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="<%= domain %>/dist/logo-transparent.png" height="36" alt=""/></a>
         </div>
         <div class="card card-md">
           <div class="card-body">
@@ -62,7 +62,7 @@
                 <label class="form-label" data-translate="Login.Password">
                   <span class="form-label-description">
                     <a
-                      href="./requestresetpassword"
+                      href="<%= domain %>/requestresetpassword"
                       data-translate="Login.ForgotPassword">s</a>
                   </span>
                 </label>
@@ -163,7 +163,7 @@
         </div>
         <div class="text-center text-muted mt-3">
           <a
-            href="./register"
+            href="<%= domain %>/register"
             data-translate="Login.SignUPPhrase">
           </a>
         </div>
@@ -171,10 +171,10 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="./appjs/permission.js"></script>
-    <script src="./appjs/translate.js"></script>
-    <script src="./dist/js/tabler.min.js?1684106062"></script>
-    <script src="./dist/js/i18next.min.js?1684106062"></script>
+    <script src="<%= domain %>/appjs/permission.js"></script>
+    <script src="<%= domain %>/appjs/translate.js"></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?1684106062"></script>
+    <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script>
 
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
@@ -190,14 +190,12 @@
       // When the login form is submitted, send a POST request to the server (VanillaJS)
       document.getElementById("LoginForm").addEventListener("submit", function(event) {
         event.preventDefault();
-        const getUrl = window.location;
-        const baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
 
         const identifier = document.getElementById("login_identifier").value;
         const password = document.getElementById("login_password").value;
 
         // Check if status 200, if so, redirect to dashboard. If not, show error message.
-        fetch(baseUrl + "api/v1/login", {
+        fetch("/api/v1/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
