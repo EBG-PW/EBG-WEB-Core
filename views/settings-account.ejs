@@ -347,6 +347,7 @@
                         <div>
                           <div class="col-auto">
                             <a class="btn" data-translate="Settings.Main.Button.SetPassword" id="SettingsPasswordSubmit"></a>
+                            <div id="SettingsPasswordSubmitError"></div>
                           </div>
                         </div>
                       </div>
@@ -505,6 +506,14 @@
             document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
             updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
           }, 3000);
+        } else if(response.status == 409) { 
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.NoPassword"));
+          document.getElementById("SettingsPasswordSubmitError").innerHTML = i18next.t("Settings.Main.ExplainNoPassword");
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
         } else {
           document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
           updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Unknown"));
@@ -610,8 +619,6 @@
           document.getElementById("SettingsLastName").value = data.last_name;
           document.getElementById("SettingsBio").value = data.bio;
           document.getElementById("SettingsPrivacy").checked = !data.public;
-
-          console.log(data);
         }
       });
     </script>

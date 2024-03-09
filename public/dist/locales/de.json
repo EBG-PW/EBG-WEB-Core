@@ -123,6 +123,7 @@
       "PasswordRepeat": "Passwort wiederholen",
       "PasswordNew": "Neues Passwort",
       "ExplainPrivate": "Hier kannst du dein Profil auf Privat stellen.",
+      "ExplainNoPassword": "Dein Account wurde über eine Drittanbieter App erstellt, dir wurde eine E-Mail gesendet um dein Password zu setzen.",
       "Button": {
         "SetPassword": "Passwort ändern",
         "PrivacyActive": "Privatsphäre aktiviert",
@@ -130,6 +131,7 @@
       },
       "Error": {
         "Password": {
+          "NoPassword": "Du hast kein Passwort",
           "Empty": "Bitte gib ein Passwort ein",
           "NotEqual": "Die Passwörter stimmen nicht überein",
           "Unknown": "Ein unbekannter Fehler ist aufgetreten",

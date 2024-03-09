@@ -3,6 +3,8 @@ const { user } = require('@lib/postgres');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
+const { sendMail } = require('@lib/queues');
+const { generateUrlPath } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
 const { InvalidRouteInput, DBError, InvalidLogin } = require('@lib/errors');
@@ -99,6 +101,8 @@ router.post('/setpassword', verifyRequest('web.user.password.write'), limiter(10
     const user_response = user_responses[0];
 
     if (user_response.password === null) { // <-- Check if user has a password, if not we skip this check (This can happen if the user used OAuth to register)
+        const urlPath = generateUrlPath();
+        await sendMail('user:reset_password', { userId: req.user.user_id, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
         throw new InvalidRouteInput('User has no password set yet').withStatus(409).withBackUrl('none')
     }
 
