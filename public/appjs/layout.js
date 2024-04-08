@@ -128,3 +128,52 @@ const capitalizeFirstLetter = (string) => {
     if (!string) return string;
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+const generatePagination = (totalItems, pageSize, currentPage, callFunction) => {
+    console.log(totalItems, pageSize, currentPage, callFunction)
+    const totalPages = Math.ceil(totalItems / pageSize);
+    let paginationHTML = '<ul class="pagination">';
+
+    // Previous Button
+    paginationHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+      <a class="page-link" href="#" data-page="${currentPage - 1}">
+        <!-- SVG for Previous -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>
+      </a>
+    </li>`;
+
+    // Page Numbers
+    for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">${i}</a>
+          </li>`;
+    }
+
+    // Next Button
+    paginationHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+      <a class="page-link" href="#" data-page="${currentPage + 1}">
+        <!-- SVG for Next -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>
+      </a>
+    </li>`;
+
+    paginationHTML += '</ul>';
+
+    // Render the pagination HTML
+    document.getElementById('paginationContainer').innerHTML = paginationHTML;
+
+    callFunction(1, pageSize);
+
+    // Add click event listener to all pagination links
+    document.querySelectorAll('#paginationContainer .page-link').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const page = parseInt(this.getAttribute('data-page'), 10);
+            if (page > 0 && page <= totalPages) {
+                generatePagination(totalItems, pageSize, page, callFunction);
+                // Your function to fetch and render the data for the current page
+                callFunction(page, pageSize);
+            }
+        });
+    });
+}
