@@ -42,11 +42,22 @@ const NewEventCheck = Joi.object({
     description: Joi.sanitizedString().min(3).max(2048).required()
 });
 
+const ValidateUUID = Joi.object({
+    id: Joi.string().uuid().required()
+});
+
 router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
     const events = await event.GetByPage(Number(value.page) - 1, value.size);
     res.status(200);
     res.json(events);
+});
+
+router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const event_data = await event.GetByUUID(value.id);
+    res.status(200);
+    res.json(event_data[0]);
 });
 
 router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async (req, res) => {
