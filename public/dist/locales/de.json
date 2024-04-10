@@ -223,6 +223,12 @@
             "Cancel": "Abbrechen",
             "AddNew": "Neue Veranstaltung erstellen"
         }
+    },
+    "Settings": {
+      "Site": {
+        "General": "Allgemeine Einstellungen",
+        "OAuth": "OAuth Einstellungen"
+      }
     }
   },
   "Error": {

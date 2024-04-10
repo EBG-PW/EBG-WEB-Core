@@ -69,6 +69,16 @@ app.get('/events', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'events.html'));
 });
 
+app.get('/events/:id/settings', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'event-settings.html'));
+});
+
+app.get('/events/:id/settings-oauth', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'event-settings-oauth.html'));
+});
+
 app.get('/profile', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'profile.html'));
