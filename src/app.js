@@ -69,6 +69,11 @@ app.get('/events', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'events.html'));
 });
 
+app.get('/events/:id', (req, res) => {
+    res.header('Content-Type', 'text/html');
+    res.sendFile(path.join(__dirname, '..', 'public', 'event_dashboard.html'));
+});
+
 app.get('/events/:id/settings', (req, res) => {
     res.header('Content-Type', 'text/html');
     res.sendFile(path.join(__dirname, '..', 'public', 'event-settings.html'));
