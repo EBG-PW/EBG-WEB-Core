@@ -480,20 +480,22 @@
         });
       }
 
-      fetch(`api/v1/event/count`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + localStorage.getItem("token")
-        }
-      }).then(async (response) => {
-        const response_json = await response.json();
-        if (response.status == 200) {
-          generatePagination(parseInt(response_json, 10), 10, 1, loadPageContent);
-        } else {
-          // Error
-        }
-      });
+      const loadPage = () => {
+        fetch(`api/v1/event/count`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        }).then(async (response) => {
+          const response_json = await response.json();
+          if (response.status == 200) {
+            generatePagination(parseInt(response_json, 10), 10, 1, loadPageContent);
+          } else {
+            // Error
+          }
+        });
+      }
 
       const joinEvent = (puuid) => {
         fetch("api/v1/event/join", {
@@ -566,6 +568,7 @@
               document.getElementById(keys[key]).classList.remove("is-invalid");
             }
             closeModal("modal-report");
+            loadPage();
           } else {
             if(typeof response_json.reason === "string") {
               document.getElementById('NewEventErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.${response_json.message}`) + '</div>';
@@ -582,6 +585,8 @@
           }
         });
       });
+
+      loadPage();
     </script>
   </body>
 </html>
