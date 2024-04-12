@@ -67,6 +67,7 @@
           if (response.status == 200) {
             document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-success">' + i18next.t('RegisterVerify.Success') + '</div>';
             document.getElementById("RegVerifyButton").classList.add("btn-success");
+            document.getElementById("RegVerifyButton").disabled = true;
             setTimeout(() => {
               window.location.href = "/login";
             }, 5000);
