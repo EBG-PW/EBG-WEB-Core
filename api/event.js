@@ -1,7 +1,7 @@
 const Joi = require('@lib/sanitizer');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
-const { event } = require('@lib/postgres');
+const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
 const { InvalidRouteJson, DBError } = require('@lib/errors');
 const router = new HyperExpress.Router();
@@ -48,14 +48,14 @@ const ValidateUUID = Joi.object({
 
 router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
-    const events = await event.GetByPage(Number(value.page) - 1, value.size);
+    const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size);
     res.status(200);
     res.json(events);
 });
 
 router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
-    const event_data = await event.GetByUUID(value.id);
+    const event_data = await projectactivities.GetByUUID(value.id);
     res.status(200);
     res.json(event_data[0]);
 });
@@ -69,7 +69,7 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
     if (dateApply > dateStart) throw new InvalidRouteJson('NewEventApplyBeforeStart');
     if (dateStart > dateEnd) throw new InvalidRouteJson('NewEventEndBeforeStart');
 
-    const event_response = await event.create(eventName, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
+    const event_response = await projectactivities.create(eventName, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
 
     res.status(200);
     res.json({
@@ -78,7 +78,7 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
 });
 
 router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
-    const amount = await event.GetCount();
+    const amount = await projectactivities.GetCount();
     res.status(200);
     res.json(amount);
 });
