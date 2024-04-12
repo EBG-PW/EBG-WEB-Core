@@ -34,7 +34,13 @@ app.use(expressCspHeader({
 }));
 
 const renderer = new ViewRenderer(app, path.join(__dirname, '..', 'views'));
-renderer.registerStaticRoutes(path.join(__dirname, '..', 'views'), ["error-xxx.ejs", "landingpage.ejs"]);
+renderer.registerStaticRoutes(path.join(__dirname, '..', 'views'),
+    ["error-xxx.ejs", "landingpage.ejs", "sign-up-verify.ejs", "reset-password.ejs"],
+    {
+        "auth/sign-in.ejs": "/login",
+        "auth/sign-up.ejs": "/register",
+        "auth/reset-password-request.ejs": "/requestresetpassword",
+    });
 renderer.registerDynamicRoutes();
 
 const apiv1 = require('@api');
@@ -76,8 +82,8 @@ app.get('/*', (req, res) => {
         res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
     } catch (error) {
         process.log.error(error)
-        ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), {statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN}, (err, str) => {
-            if(err) throw err;
+        ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN }, (err, str) => {
+            if (err) throw err;
             res.header('Content-Type', 'text/html');
             res.send(str);
         });
@@ -123,7 +129,7 @@ app.set_error_handler((req, res, error) => {
     }
 
     if (log_errors[error.name]) process.log.error(`[${outError.statusCode}] ${req.method} "${req.url}" >> ${outError.message} in "${error.path}:${error.fileline}"`);
-    if(error.error) console.log(error.error)
+    if (error.error) console.log(error.error)
     res.status(outError.statusCode);
     if (outError.headers) { res.header(outError.headers.name, outError.headers.value); }
     if (outError.back_url) {

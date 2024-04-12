@@ -36,8 +36,6 @@ process.countryConfig = countryConfig; // Used for language dropdowns
 process.linkableapps = require('@config/linkable_apps.js');
 process.permissions_config = require('@config/permissions.js');
 
-// renderEJSToPublic(path.join(__dirname, 'views'), path.join(__dirname, 'public'), ["error-xxx.ejs", "landingpage.ejs"]);
-
 (async () => {
     const { createTables } = require('@lib/postgres');
     await createTables();

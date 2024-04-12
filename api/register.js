@@ -6,8 +6,10 @@ const { generateUrlPath } = require('@lib/utils');
 const { sendMail } = require('@lib/queues');
 const { CTR } = require('@lib/redis');
 const HyperExpress = require('hyper-express');
+const { getContextObject } = require('@lib/template');
+const ejs = require('ejs');
 const { default_group } = require('@config/permissions');
-const { InvalidRouteInput, InvalidRegister, DBError } = require('@lib/errors');
+const { InvalidRouteInput, InvalidRegister, DBError, RenderError } = require('@lib/errors');
 const bcrypt = require('bcrypt');
 const router = new HyperExpress.Router();
 
@@ -58,7 +60,11 @@ router.get('/:urlPath', async (req, res) => {
     const exists = await CTR.check(value.urlPath);
     if (!exists) throw new InvalidRouteInput('Invalid Route Input');
 
-    res.send(fs.readFileSync(path.join(__dirname, '..', 'public', 'auth', 'sign-up-verify.html')));
+    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'sign-up-verify.ejs'), { params: req.params, ...getContextObject() }, (err, str) => {
+        if (err) throw new RenderError("Rendering Error").setError(err);
+
+        res.send(str);
+    });
 });
 
 router.post('/:urlPath/verify', async (req, res) => {

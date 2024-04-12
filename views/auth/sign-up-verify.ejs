@@ -56,9 +56,8 @@
     <script>
       document.getElementById("RegVerifyButton").addEventListener("click", function () {
         const url = window.location.href;
-        const token = url.split("/").pop();
 
-        fetch(`<%= domain %>/api/v1/register/${token}/verify`, {
+        fetch(`<%= domain %>/api/v1/register/<%= params.urlPath %>/verify`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
