@@ -142,7 +142,7 @@ const generatePagination = (totalItems, pageSize, currentPage, callFunction) => 
 
     // Page Numbers
     for (let i = 1; i <= totalPages; i++) {
-            paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
             <a class="page-link" data-page="${i}">${i}</a>
           </li>`;
     }
@@ -171,4 +171,19 @@ const generatePagination = (totalItems, pageSize, currentPage, callFunction) => 
             }
         });
     });
+}
+
+/**
+ * Debauce function to limit the number of times a function is called
+ * @param {Function} func 
+ * @param {number} timeout 
+ * @returns 
+ */
+const debounce = (func, timeout = 300) => {
+    console.log('Debouncing', func, timeout);
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
 }

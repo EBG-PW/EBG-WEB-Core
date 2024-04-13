@@ -179,7 +179,7 @@
                 <div class="d-flex">
                   <div class="me-3">
                     <div class="input-icon">
-                      <input type="text" value="" class="form-control" id="PageSearch" data-translate-placeholder="Page.Search" placeholder="">
+                      <input type="text" value="" class="form-control" id="PageSearch" onkeypress="debouncedLoadPage()" data-translate-placeholder="Page.Search" placeholder="">
                       <span class="input-icon-addon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
                       </span>
@@ -412,7 +412,8 @@
     <script>
       // Load events and display them
       const loadPageContent = (page, size) => {
-        fetch(`api/v1/event?page=${page}&size=${size}`, {
+        const search = document.getElementById("PageSearch").value;
+        fetch(`api/v1/event?page=${page}&size=${size}&search=${search}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -443,7 +444,7 @@
                               <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
                               <path d="M15 19l2 2l4 -4"/>
                             </svg>
-                            <span>${i18next.t("Events.Body.Card.Participates")}</span>` : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;">
+                            <span>${i18next.t("Events.Body.Card.Participates")}</span>` : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event.puuid}">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5v14M5 12h14" /></svg>
                               <div>${i18next.t("Events.Body.Card.JoinButton")}</div>
                               </div>`}
@@ -482,7 +483,8 @@
       }
 
       const loadPage = () => {
-        fetch(`api/v1/event/count`, {
+        const search = document.getElementById("PageSearch").value;
+        fetch(`api/v1/event/count?search=${search}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -544,7 +546,7 @@
         const dateEnd = document.getElementById("NewEventDateEnd").value;
         const location = document.getElementById("NewEventLocation").value;
         const description = document.getElementById("NewEventDescription").value;
-        // Send request (fetch)
+
         fetch("/api/v1/event", {
           method: "POST",
           headers: {
@@ -588,6 +590,7 @@
       });
 
       loadPage();
+      const debouncedLoadPage = debounce(loadPage);
     </script>
   </body>
 </html>

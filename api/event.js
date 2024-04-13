@@ -26,8 +26,13 @@ const avaiableColors = [
 ];
 
 const pageCheck = Joi.object({
+    search: Joi.string().allow('').default(''),
     page: Joi.number().min(0).max(32000).default(0),
     size: Joi.number().min(0).max(50).default(10)
+});
+
+const pageCountCheck = Joi.object({
+    search: Joi.string().allow('').default('')
 });
 
 const NewEventCheck = Joi.object({
@@ -48,7 +53,7 @@ const ValidateUUID = Joi.object({
 
 router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
-    const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size);
+    const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, `%${value.search}%`);
     res.status(200);
     res.json(events);
 });
@@ -78,7 +83,8 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
 });
 
 router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
-    const amount = await projectactivities.GetCount();
+    const value = await pageCountCheck.validateAsync(req.query);
+    const amount = await projectactivities.GetCount(`%${value.search}%`);
     res.status(200);
     res.json(amount);
 });
