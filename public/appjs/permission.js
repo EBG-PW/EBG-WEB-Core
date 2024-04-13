@@ -7,14 +7,11 @@
 /**
  * [Route].[Endpoint].[Exact(Optional)]
  * It can use * to terminate early AND make all permissions below it true.
- * @param {String} user_permissions 
  * @param {String} required_permission 
  * @returns {PermissionResponse}
  */
-const checkPermission = (user_permissions, required_permission) => {
-  if (!user_permissions) {
-    return { result: false, reason: "Permission not found." };
-  }
+const checkPermission = (required_permission) => {
+  const user_permissions = JSON.parse(localStorage.getItem("permissions")) || [];
 
   let hasGeneralPermission = false;
   let specificDenySet = new Set();
