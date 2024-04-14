@@ -37,19 +37,23 @@ process.linkableapps = require('@config/linkable_apps.js');
 process.permissions_config = require('@config/permissions.js');
 
 (async () => {
-    const { createTables } = require('@lib/postgres');
-    await createTables();
-
-    setTimeout(() => {
-        const app = require('@src/app');
+    try {
+        const { createTables } = require('@lib/postgres');
+        await createTables();
 
         setTimeout(() => {
-            if (process.env.ExtraErrorWebDelay > 0) {
-                process.log.system(`Webserver was delayed by ${process.env.ExtraErrorWebDelay || 500}ms beause of a error.`);
-            }
-            app.listen(port)
-                .then((socket) => process.log.system(`Listening on port: ${port}`))
-                .catch((error) => process.log.error(`Failed to start webserver on: ${port}\nError: ${error}`));
-        }, 1500);
-    }, process.env.GlobalWaitTime || 100);
+            const app = require('@src/app');
+
+            setTimeout(() => {
+                if (process.env.ExtraErrorWebDelay > 0) {
+                    process.log.system(`Webserver was delayed by ${process.env.ExtraErrorWebDelay || 500}ms beause of a error.`);
+                }
+                app.listen(port)
+                    .then((socket) => process.log.system(`Listening on port: ${port}`))
+                    .catch((error) => process.log.error(`Failed to start webserver on: ${port}\nError: ${error}`));
+            }, 1500);
+        }, process.env.GlobalWaitTime || 100);
+    } catch (error) {
+        process.log.error(`Failed to start webserver on: ${port}\nError: ${error}`);
+    }
 })();
