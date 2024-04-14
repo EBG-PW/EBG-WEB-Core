@@ -51,6 +51,42 @@ const ValidateUUID = Joi.object({
     id: Joi.string().uuid().required()
 });
 
+const ValidateEventName = Joi.object({
+    name: Joi.fullysanitizedString().min(3).max(128).required()
+});
+
+const ValidateEventColor = Joi.object({
+    color: Joi.string().valid(...avaiableColors).required()
+});
+
+const ValidateEventMinGroup = Joi.object({
+    minGroup: Joi.string().valid(...['reg', 'member']).required()
+});
+
+const ValidateEventVisibility = Joi.object({
+    visibility: Joi.number().min(0).max(1).required()
+});
+
+const ValidateEventDateApply = Joi.object({
+    dateApply: Joi.date().required()
+});
+
+const ValidateEventDateStart = Joi.object({
+    dateStart: Joi.date().required()
+});
+
+const ValidateEventDateEnd = Joi.object({
+    dateEnd: Joi.date().required()
+});
+
+const ValidateEventLocation = Joi.object({
+    location: Joi.fullysanitizedString().min(3).max(256).required()
+});
+
+const ValidateEventDescription = Joi.object({
+    description: Joi.sanitizedString().min(3).max(2048).required()
+});
+
 router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
     const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, `%${value.search}%`);
@@ -87,6 +123,94 @@ router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async
     const amount = await projectactivities.GetCount(`%${value.search}%`);
     res.status(200);
     res.json(amount);
+});
+
+router.post('/:id/name', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const name = await ValidateEventName.validateAsync(await req.json());
+    if (!name) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateName(value.id, name.name);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/color', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const color = await ValidateEventColor.validateAsync(await req.json());
+    if (!color) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateColor(value.id, color.color);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/mingroup', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const minGroup = await ValidateEventMinGroup.validateAsync(await req.json());
+    if (!minGroup) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateMinGroup(value.id, minGroup.minGroup);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/visibility', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const visibility = await ValidateEventVisibility.validateAsync(await req.json());
+    if (!visibility) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateVisibility(value.id, visibility.visibility);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/dateapply', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const dateApply = await ValidateEventDateApply.validateAsync(await req.json());
+    if (!dateApply) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateDateApply(value.id, dateApply.dateApply);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/datestart', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const dateStart = await ValidateEventDateStart.validateAsync(await req.json());
+    if (!dateStart) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateDateStart(value.id, dateStart.dateStart);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/dateend', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const dateEnd = await ValidateEventDateEnd.validateAsync(await req.json());
+    if (!dateEnd) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateDateEnd(value.id, dateEnd.dateEnd);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/location', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const location = await ValidateEventLocation.validateAsync(await req.json());
+    if (!location) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateLocation(value.id, location.location);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.post('/:id/description', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const description = await ValidateEventDescription.validateAsync(await req.json());
+    if (!description) throw new InvalidRouteInput('Invalid Route Input');
+    const event_data = await projectactivities.UpdateDescription(value.id, description.description);
+    res.status(200);
+    res.json(event_data);
+});
+
+router.delete('/:id', verifyRequest('web.event.delete.event.write'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const event_data = await projectactivities.Delete(value.id);
+    res.status(200);
+    res.json(event_data);
 });
 
 module.exports = {

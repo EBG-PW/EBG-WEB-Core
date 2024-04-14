@@ -195,7 +195,8 @@
       "Head": {
         "Title": "Veranstaltungen",
         "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
-        "AddButton": "Veranstaltung erstellen"
+        "AddButton": "Veranstaltung erstellen",
+        "CardTileInfos": "Informationen"
       }
     },
     "Modal": {

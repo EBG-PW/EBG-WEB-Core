@@ -207,7 +207,7 @@
                       </div>
                       <div class="col">
                         <label class="form-label" data-translate="Events.Modal.NewEvent.EventName"></label>
-                        <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" class="form-control" />
+                        <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" onchange="handleInputChange(this.id)" class="form-control" />
                       </div>
                     </div>
                     <!-- Color & Event Visibility Row-->
@@ -283,11 +283,10 @@
                           </div>
                         </div>
                       </div>
-        
                       <div class="col-lg-5">
                         <div class="mb-5">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.Visibility"></label>
-                          <select class="form-select" id="EventVisibility">
+                          <select class="form-select" id="EventVisibility" onchange="handleInputChange(this.id)">
                             <option value="1" data-translate="Events.Modal.NewEvent.Visibility_Open" selected></option>
                             <option value="0" data-translate="Events.Modal.NewEvent.Visibility_Hidden"></option>
                           </select>
@@ -299,19 +298,19 @@
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.DateApply"></label>
-                          <input type="datetime-local" id="EventDateApply" class="form-control">
+                          <input type="datetime-local" id="EventDateApply" class="form-control" onchange="handleInputChange(this.id)">
                         </div>
                       </div>
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.DateStart"></label>
-                          <input type="datetime-local" id="EventDateStart" class="form-control">
+                          <input type="datetime-local" id="EventDateStart" class="form-control" onchange="handleInputChange(this.id)">
                         </div>
                       </div>
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.DateEnd"></label>
-                          <input type="datetime-local" id="EventDateEnd" class="form-control">
+                          <input type="datetime-local" id="EventDateEnd" class="form-control" onchange="handleInputChange(this.id)">
                         </div>
                       </div>
                     </div>
@@ -320,14 +319,13 @@
                       <div class="col-lg-8">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.Location"></label>
-                          <input type="text" id="EventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" class="form-control">
+                          <input type="text" id="EventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" onchange="handleInputChange(this.id)" class="form-control">
                         </div>
                       </div>
-        
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.MinGroup"></label>
-                          <select type="form-select" id="EventMinGroup" class="form-control">
+                          <select type="form-select" id="EventMinGroup" class="form-control" onchange="handleInputChange(this.id)">
                             <option value="reg" data-translate="Events.Modal.NewEvent.MinGroup_RegOnly" selected></option>
                             <option value="member" data-translate="Events.Modal.NewEvent.MinGroup_Members"></option>
                           </select>
@@ -339,11 +337,10 @@
                       <div class="col-lg-12">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.Description"></label>
-                          <textarea class="form-control" id="EventDescription" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Description" rows="3"></textarea>
+                          <textarea class="form-control" id="EventDescription" onchange="handleInputChange(this.id)" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Description" rows="3"></textarea>
                         </div>
                       </div>
                     </div>
-        
                     <div class="row">
                       <div class="col-lg-12">
                         <div id="NewEventErrorLine"></div>
@@ -418,55 +415,55 @@
 
       const apiEndpoints = {
         "EventName": {
-          "endpoint": "/api/v1/event/name",
+          "endpoint": "/api/v1/event/<%= params.id %>/name",
           "method": "POST",
           "field": "name",
           "value": "raw"
         },
         "EventColor": {
-          "endpoint": "/api/v1/event/color",
+          "endpoint": "/api/v1/event/<%= params.id %>/color",
           "method": "POST",
           "field": "color",
           "value": "raw"
         },
         "EventDescription": {
-          "endpoint": "/api/v1/event/description",
+          "endpoint": "/api/v1/event/<%= params.id %>/description",
           "method": "POST",
           "field": "description",
           "value": "raw"
         },
         "EventLocation": {
-          "endpoint": "/api/v1/event/location",
+          "endpoint": "/api/v1/event/<%= params.id %>/location",
           "method": "POST",
           "field": "location_address",
           "value": "raw"
         },
         "EventVisibility": {
-          "endpoint": "/api/v1/event/public",
+          "endpoint": "/api/v1/event/<%= params.id %>/public",
           "method": "POST",
           "field": "public",
           "value": "raw"
         },
         "EventDateApply": {
-          "endpoint": "/api/v1/event/date_apply",
+          "endpoint": "/api/v1/event/<%= params.id %>/date_apply",
           "method": "POST",
           "field": "date_apply",
           "value": "raw"
         },
         "EventDateStart": {
-          "endpoint": "/api/v1/event/date_start",
+          "endpoint": "/api/v1/event/<%= params.id %>/date_start",
           "method": "POST",
           "field": "date_start",
           "value": "raw"
         },
         "EventDateEnd": {
-          "endpoint": "/api/v1/event/date_end",
+          "endpoint": "/api/v1/event/<%= params.id %>/date_end",
           "method": "POST",
           "field": "date_end",
           "value": "raw"
         },
         "EventMinGroup": {
-          "endpoint": "/api/v1/event/min_group",
+          "endpoint": "/api/v1/event/<%= params.id %>/min_group",
           "method": "POST",
           "field": "min_group",
           "value": "raw"
@@ -480,9 +477,8 @@
 
       const setLoadedColorValue = (color) => {
         const colorInputs = document.querySelectorAll('input[name="color"]');
-        const selectedColor = getSelectedColorValue();
         colorInputs.forEach((input) => {
-          if (input.value === selectedColor) {
+          if (input.value === color) {
             input.checked = true;
           }
         });
@@ -540,9 +536,9 @@
           document.getElementById("EventDescription").value = data.description;
           document.getElementById("EventLocation").value = data.location_address;
           document.getElementById("EventVisibility").value = data.visibility;
-          document.getElementById("EventDateApply").value = data.date_apply;
-          document.getElementById("EventDateStart").value = data.date_start;
-          document.getElementById("EventDateEnd").value = data.date_end;
+          document.getElementById("EventDateApply").value = toDateTimeLocalString(data.date_apply);
+          document.getElementById("EventDateStart").value = toDateTimeLocalString(data.date_start);
+          document.getElementById("EventDateEnd").value = toDateTimeLocalString(data.date_end);
           document.getElementById("EventMinGroup").value = data.min_group;
         }
       });
