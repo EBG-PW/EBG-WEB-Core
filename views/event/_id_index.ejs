@@ -198,13 +198,7 @@
               </div>
               <div class="col-auto ms-auto">
                 <div class="btn-list">
-                    <a href="#" class="btn btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M5 12l5 5l10 -10" />
-                        </svg>
-                        <span>Register</span>
-                    </a>
+                   <spcan id="event_button"></span>
                 </div>
             </div>
           </div>
@@ -308,7 +302,7 @@
                     </div>
                   </li>
                   <li class="timeline-event">
-                    <div class="timeline-event-icon"><!-- Download SVG icon from http://tabler-icons.io/i/settings -->
+                    <div class="timeline-event-icon">
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
                     </div>
                     <div class="card timeline-event-card">
@@ -329,10 +323,7 @@
                       <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                           <div class="card-title" data-translate="Events.Body.Head.CardTileInfos"></div>
-                          <a href="/event/<%= params.id %>/settings" class="btn btn-primary btn-sm">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
-                            <span>Settings</span>
-                          </a>
+                            <span id="event_settings_button"></span>
                         </div>
                         <div class="mb-2">
                           <!-- Download SVG icon from http://tabler-icons.io/i/book -->
@@ -344,7 +335,7 @@
                             <path d="M12 6l0 13"/>
                             <path d="M21 6l0 13"/>
                           </svg>
-                          Went to: <strong>University of Ljubljana</strong>
+                          <span></span>
                         </div>
                       </div>
                     </div>
@@ -415,15 +406,34 @@
           });
 
           if(response.status == 200) {
-            const data = await response.json();
+            const event = await response.json();
 
-            console.log(data)
+            console.log(event)
 
-            document.getElementById("event_name").innerText = data.name;
+            document.getElementById("event_name").innerText = event.name;
             //document.getElementById("event_description").innerText = data.description;
-            document.getElementById("event_address").innerText = data.location_address;
-            document.getElementById("date_start").innerText = new Date(data.date_start).toLocaleString();
-            document.getElementById("date_end").innerText = new Date(data.date_end).toLocaleString();
+            document.getElementById("event_address").innerText = event.location_address;
+            document.getElementById("date_start").innerText = new Date(event.date_start).toLocaleString();
+            document.getElementById("date_end").innerText = new Date(event.date_end).toLocaleString();
+
+            const permResult = checkPermission("group.membership")
+            document.getElementById("event_button").innerHTML = event.user_participates ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
+                              <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
+                              <path d="M15 19l2 2l4 -4"/>
+                            </svg>
+                            <span>${i18next.t("Events.Body.Card.Participates")}</span>` : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event.puuid}">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5v14M5 12h14" /></svg>
+                              <div>${i18next.t("Events.Body.Card.JoinButton")}</div>
+                              </div>`
+
+            if(event.creator_user_id === 1) {
+              document.getElementById("event_settings_button").innerHTML = `<a href="/event/<%= params.id %>/settings" class="btn btn-primary btn-sm">
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
+                            <span>${i18next.t("Events.Settings.Button.Link")}</span>
+                          </a>`
+            }
           }
         });
       </script>

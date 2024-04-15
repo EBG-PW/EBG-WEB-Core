@@ -226,6 +226,9 @@
         }
     },
     "Settings": {
+      "Button": {
+        "Link": "Einstellungen"
+      },
       "Site": {
         "General": "Allgemeine Einstellungen",
         "OAuth": "OAuth Einstellungen"

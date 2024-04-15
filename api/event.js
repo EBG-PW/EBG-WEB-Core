@@ -96,7 +96,7 @@ router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (re
 
 router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
-    const event_data = await projectactivities.GetByUUID(value.id);
+    const event_data = await projectactivities.event.getDetails(value.id);
     res.status(200);
     res.json(event_data[0]);
 });
