@@ -125,92 +125,131 @@ router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async
     res.json(amount);
 });
 
+// Settings
 router.post('/:id/name', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const name = await ValidateEventName.validateAsync(await req.json());
     if (!name) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateName(value.id, name.name);
+    const sql_response = await projectactivities.event_update.name(value.id, name.name);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Name', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "Name changed",
+        name: value.name
+    });
 });
 
 router.post('/:id/color', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const color = await ValidateEventColor.validateAsync(await req.json());
     if (!color) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateColor(value.id, color.color);
+    const sql_response = await projectactivities.event_update.color(value.id, color.color);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Color', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "Color changed",
+        color: value.color
+    });
 });
 
 router.post('/:id/mingroup', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const minGroup = await ValidateEventMinGroup.validateAsync(await req.json());
     if (!minGroup) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateMinGroup(value.id, minGroup.minGroup);
+    const sql_response = await projectactivities.event_update.min_group(value.id, minGroup.minGroup);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.MinGroup', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "MinGroup changed",
+        mingroup: value.minGroup
+    });
 });
 
 router.post('/:id/visibility', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const visibility = await ValidateEventVisibility.validateAsync(await req.json());
     if (!visibility) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateVisibility(value.id, visibility.visibility);
+    const sql_response = await projectactivities.event_update.visibility(value.id, visibility.visibility);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Visibility', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "Visibility changed",
+        visibility: value.visibility
+    });
 });
 
 router.post('/:id/dateapply', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const dateApply = await ValidateEventDateApply.validateAsync(await req.json());
     if (!dateApply) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateDateApply(value.id, dateApply.dateApply);
+    const sql_response = await projectactivities.event_update.date_apply(value.id, dateApply.dateApply);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateApply', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before the start date');
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "DateApply changed",
+        dateapply: value.dateApply
+    });
 });
 
 router.post('/:id/datestart', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const dateStart = await ValidateEventDateStart.validateAsync(await req.json());
     if (!dateStart) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateDateStart(value.id, dateStart.dateStart);
+    const sql_response = await projectactivities.event_update.date_start(value.id, dateStart.dateStart);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateStart', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is after end date');
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "Datestart changed",
+        datestart: value.dateStart
+    });
 });
 
 router.post('/:id/dateend', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const dateEnd = await ValidateEventDateEnd.validateAsync(await req.json());
     if (!dateEnd) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateDateEnd(value.id, dateEnd.dateEnd);
+    const sql_response = await projectactivities.event_update.date_end(value.id, dateEnd.dateEnd);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateEnd', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before start date');
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "DateEnd changed",
+        dateend: value.dateEnd
+    });
 });
 
 router.post('/:id/location', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const location = await ValidateEventLocation.validateAsync(await req.json());
     if (!location) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateLocation(value.id, location.location);
+    const sql_response = await projectactivities.event_update.location_address(value.id, location.location);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Location', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    
     res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "Location changed",
+        location: value.location
+    });
 });
 
 router.post('/:id/description', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const description = await ValidateEventDescription.validateAsync(await req.json());
     if (!description) throw new InvalidRouteInput('Invalid Route Input');
-    const event_data = await projectactivities.UpdateDescription(value.id, description.description);
+    const sql_response = await projectactivities.event_update.description(value.id, description.description);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Description', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    
     res.status(200);
-    res.json(event_data);
-});
-
-router.delete('/:id', verifyRequest('web.event.delete.event.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
-    const event_data = await projectactivities.Delete(value.id);
-    res.status(200);
-    res.json(event_data);
+    res.json({
+        message: "Description changed",
+        description: value.description
+    });
 });
 
 module.exports = {

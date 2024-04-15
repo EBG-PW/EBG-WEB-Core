@@ -128,7 +128,8 @@ app.set_error_handler((req, res, error) => {
         statusCode = 429;
     }
 
-    if (log_errors[error.name]) process.log.error(`[${outError.statusCode}] ${req.method} "${req.url}" >> ${outError.message} in "${error.path}:${error.fileline}"`);
+    if (log_errors[error.name] && !error.secret_reason) process.log.error(`[${outError.statusCode}] ${req.method} "${req.url}" >> ${outError.message} in "${error.path}:${error.fileline}"`);
+    if (log_errors[error.name] && error.secret_reason) process.log.error(`[${outError.statusCode}] ${req.method} "${req.url}" >> ${outError.message} in "${error.path}:${error.fileline}" >> ${error.secret_reason}`);
     if (error.error) console.log(error.error)
     res.status(outError.statusCode);
     if (outError.headers) { res.header(outError.headers.name, outError.headers.value); }
