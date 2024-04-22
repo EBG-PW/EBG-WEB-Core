@@ -1,0 +1,66 @@
+---
+import Heading from "./Heading.astro";
+import { Icon } from "astro-icon/components";
+
+const { heading = "PLACEHOLDER", icon, text = "" } = Astro.props;
+---
+
+<div class="card">
+  <div class="icon">
+    <Icon name={icon} />
+  </div>
+  <div class="content">
+    <Heading level={3}>{heading}</Heading>
+    <p>{text}</p>
+  </div>
+</div>
+
+<style lang="scss">
+  .card {
+    width: 330px;
+    padding: 5px 0;
+
+    border-radius: 8px;
+
+    .icon {
+      margin: 20px calc(50% - 2.5rem) 0;
+      background-color: rgb(22, 35, 237);
+      aspect-ratio: 1/1;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      width: 5rem;
+
+      svg {
+        font-size: 3rem;
+        color: white;
+      }
+    }
+
+    .content {
+      padding: 5px 10px;
+      margin: 0 0 20px;
+
+      p {
+        padding: 0 20px;
+        color: rgba(25, 25, 25);
+        font-size: 1rem;
+        line-height: 1.5rem;
+        font-family: "Inter Variable", sans-serif;
+        text-wrap: balance;
+
+        text-align: center;
+      }
+    }
+
+    &:nth-child(2) .icon {
+      background-color: rgb(235, 229, 21);
+    }
+
+    &:nth-child(3n) .icon {
+      background-color: rgb(79, 40, 11);
+    }
+  }
+</style>

@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.5.4",
+    "@fontsource-variable/inter": "^5.0.17",
     "astro": "^4.4.0",
+    "astro-icon": "^1.1.0",
     "sass": "^1.71.0",
     "typescript": "^5.3.3"
   }

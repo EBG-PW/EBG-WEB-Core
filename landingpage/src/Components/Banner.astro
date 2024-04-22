@@ -5,116 +5,116 @@ import Button from "./Button.astro";
 ---
 
 <style lang="scss">
-   .wrapper {
+  .wrapper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+
+    background-color: black;
+
+    .background {
+      position: fixed;
+
       width: 100%;
-      height: 100vh;
+      height: 100%;
+
+      filter: brightness(0.55);
+
+      img.bgImg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        z-index: 1;
+        filter: grayscale(1);
+      }
+
+      .gradient {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(22, 35, 237, 0.5) 10%,
+          rgba(235, 229, 21, 0.5) 50%,
+          rgba(79, 40, 11, 0.9) 95%
+        );
+
+        position: absolute;
+        z-index: 2;
+      }
+    }
+
+    .content {
       position: relative;
+      z-index: 5;
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      align-items: center;
 
-      background-color: black;
+      display: flex;
 
-      .background {
-         position: fixed;
+      color: white;
+      font-family: "Inter Variable", sans-serif;
 
-         width: 100%;
-         height: 100%;
+      .left {
+        flex: 0 0 75%;
+        p {
+          font-size: 1rem;
+          color: rgb(250, 250, 250);
+        }
 
-         filter: brightness(0.55);
-
-         img.bgImg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-            z-index: 1;
-            filter: grayscale(1);
-         }
-
-         .gradient {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-               45deg,
-               rgba(22, 35, 237, 0.5) 10%,
-               rgba(235, 229, 21, 0.5) 50%,
-               rgba(79, 40, 11, 0.9) 95%
-            );
-
-            position: absolute;
-            z-index: 2;
-         }
+        h1 {
+          font-size: 2.5rem;
+          margin: 1rem 0;
+        }
       }
+    }
 
-      .content {
-         position: relative;
-         z-index: 5;
-         width: 1000px;
-         margin: 0 auto;
-         height: 100%;
-         align-items: center;
+    .right {
+      flex: 0 0 25%;
+      display: flex;
+      justify-content: center;
 
-         display: flex;
-
-         color: white;
-         font-family: Arial, Helvetica, sans-serif;
-
-         .left {
-            flex: 0 0 75%;
-            p {
-               font-size: 1rem;
-               color: rgb(250, 250, 250);
-            }
-
-            h1 {
-               font-size: 2.5rem;
-               margin: 1rem 0;
-            }
-         }
+      img {
+        height: 140px;
+        width: 140px;
       }
-
-      .right {
-         flex: 0 0 25%;
-         display: flex;
-         justify-content: center;
-
-         img {
-            height: 140px;
-            width: 140px;
-         }
-      }
-   }
+    }
+  }
 </style>
 
 <div class="wrapper">
-   <div class="background" id="bg">
-      <Image
-         src={bannerImage}
-         alt=""
-         class={"bgImg"}
-         widths={[240, 540, 720, 1080, 1280, bannerImage.width]}
-      />
-      <div class="gradient"></div>
-   </div>
-   <div class="content">
-      <div class="left">
-         <p>EBG.PW</p>
-         <h1>A place for video games, <br />opensource software and fun.</h1>
-         <Button>Explore services</Button>
-      </div>
-      <div class="right">
-         <img src="/logo.svg" alt="EBG.PW Logo" />
-      </div>
-   </div>
+  <div class="background" id="bg">
+    <Image
+      src={bannerImage}
+      alt=""
+      class={"bgImg"}
+      widths={[240, 540, 720, 1080, 1280, bannerImage.width]}
+    />
+    <div class="gradient"></div>
+  </div>
+  <div class="content">
+    <div class="left">
+      <p>EBG.PW</p>
+      <h1>A place for video games, <br />opensource software and fun.</h1>
+      <Button>Explore services</Button>
+    </div>
+    <div class="right">
+      <img src="/logo.svg" alt="EBG.PW Logo" />
+    </div>
+  </div>
 </div>
 
 <script>
-   const bg = document.getElementById("bg");
+  const bg = document.getElementById("bg");
 
-   document.addEventListener("scroll", () => {
-      const offset = window.scrollY / 5;
+  document.addEventListener("scroll", () => {
+    const offset = window.scrollY / 5;
 
-      if (bg) {
-         bg.style.transform = `translateY(-${offset}px)`;
-      }
-   });
+    if (bg) {
+      bg.style.transform = `translateY(-${offset}px)`;
+    }
+  });
 </script>
