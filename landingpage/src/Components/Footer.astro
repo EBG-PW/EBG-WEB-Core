@@ -1,0 +1,58 @@
+---
+const year = new Date().getFullYear();
+---
+
+<style lang="scss">
+  footer {
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 0 3px black;
+    position: relative;
+
+    padding: 20px 0;
+
+    .content {
+      width: 1000px;
+      margin: 0 auto;
+
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      font-family: "Inter Variable", sans-serif;
+
+      .logo {
+        display: grid;
+        grid-template-columns: 50px auto;
+        gap: 5px;
+
+        p {
+          color: rgba(25, 25, 25);
+          font-size: 1rem;
+          line-height: 1.2rem;
+
+          span {
+            font-size: 0.8rem;
+            line-height: 1rem;
+          }
+        }
+        img {
+          width: 50px;
+        }
+      }
+    }
+  }
+</style>
+
+<footer>
+  <div class="content">
+    <div class="logo">
+      <img src="/logo.svg" alt="EBG.PW Logo" />
+      <p>
+        EBG.PW
+        <br />
+        <span>Elektronische Begeisterung Gemeinsam. Projekt Werkstatt </span>
+        <br />
+        <span>&copy;2023-{year}</span>
+      </p>
+    </div>
+  </div>
+</footer>
