@@ -3,7 +3,8 @@ const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
-const { InvalidRouteJson, DBError } = require('@lib/errors');
+const { InvalidRouteJson, DBError, InvalidRouteInput } = require('@lib/errors');
+const { plublicStaticCache } = require('@middleware/cacheRequest');
 const router = new HyperExpress.Router();
 
 /* Plugin info*/
@@ -94,6 +95,7 @@ router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (re
     res.json(events);
 });
 
+// Should use publicStaticCache...
 router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id);
@@ -130,7 +132,7 @@ router.post('/:id/name', verifyRequest('web.event.update.event.write'), limiter(
     const value = await ValidateUUID.validateAsync(req.params);
     const name = await ValidateEventName.validateAsync(await req.json());
     if (!name) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.name(value.id, name.name);
+    const sql_response = await projectactivities.event_update.name(value.id, name.name, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Name', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
     
     res.status(200);
