@@ -21,7 +21,7 @@ module.exports = {
             ],
             "inherit": ["admin"]
         },
-        "user": {
+        "reg": {
             "permissions": [
             ],
             "inherit": [

@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
     if (user_response.twofa_secret !== null) {
         // Generate a random token, so we can check if the user who loged in also entered the 2FA code
         const FA_Token = randomstring.generate({
-            length: process.env.WebTokenLength, //DO NOT CHANCE!!!
+            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
@@ -87,24 +87,17 @@ router.post('/', async (req, res) => {
 
         const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response.user_id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser); // Add the webtoken to the cache
 
         res.status(200)
         res.json({
             message: 'Login successful',
-            user_id: user_response.id,
-            puuid: user_response.puuid,
-            username: user_response.username,
-            avatar_url: user_response.avatar_url,
-            user_group: user_response.user_group,
-            language: user_response.language,
-            design: user_response.design,
-            token: WebToken,
-            permissions: Formated_Permissions
+            return_data
         });
     }
 });
 
+/*
 router.post('/2fa', async (req, res) => {
     const value = await Login2FACheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
@@ -159,6 +152,7 @@ router.post('/2fa', async (req, res) => {
         permissions: Formated_Permissions
     });
 });
+*/
 
 router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     res.status(200)

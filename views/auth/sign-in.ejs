@@ -254,9 +254,11 @@
           .then((response) => {
             localStorage.setItem("user_id", response.user_id);
             localStorage.setItem("username", response.username);
+            localStorage.setItem("puuid", response.puuid);
             localStorage.setItem("avatar_url", response.avatar_url);
             localStorage.setItem("language", response.language);
             localStorage.setItem("tablerTheme", response.design);
+            localStorage.setItem("user_group", response.user_group)
             localStorage.setItem("token", response.token);
             localStorage.setItem("permissions", JSON.stringify(response.permissions));
             window.location.href = "/dashboard";

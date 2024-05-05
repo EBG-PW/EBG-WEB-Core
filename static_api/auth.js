@@ -22,7 +22,8 @@ const OAuthCheckGoogle = Joi.object({
     prompt: Joi.string().required(),
 });
 
-const generateReturnHTML = (message, user_id, username, avatar_url, user_group, language, design, token, permissions) => {
+const generateReturnHTML = (message, webtoken_result) => {
+    const { token, user_id, puuid, username, avatar_url, user_group, language, design, formated_Permissions } = webtoken_result;
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -35,12 +36,13 @@ const generateReturnHTML = (message, user_id, username, avatar_url, user_group, 
     <script>
         localStorage.setItem('user_id', '${user_id}');
         localStorage.setItem('username', '${username}');
+        localStorage.setItem('puuid', '${puuid}');
         localStorage.setItem('avatar_url', '${avatar_url}');
-        localStorage.setItem('user_group', '${user_group}');
         localStorage.setItem('language', '${language}');
         localStorage.setItem('tablerTheme', '${design}');
+        localStorage.setItem('user_group', '${user_group}');
         localStorage.setItem('token', '${token}');
-        localStorage.setItem('permissions', ${JSON.stringify(permissions)});
+        localStorage.setItem('permissions', '${JSON.stringify(formated_Permissions)}');
         window.location.href = '/dashboard';
     </script>
     </html>
@@ -139,10 +141,10 @@ router.get('/github/callback', async (req, res) => {
 
         const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response.user_id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser);
 
         res.status(200);
-        res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
+        res.send(generateReturnHTML('Login successful', return_data));
     }
 });
 
@@ -223,10 +225,10 @@ router.get('/google/callback', async (req, res) => {
 
         const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response.id, user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser);
 
         res.status(200);
-        res.send(generateReturnHTML('Login successful', user_response.user_id, user_response.username, user_response.avatar_url, user_response.user_group, user_response.language, user_response.design || "white.center", WebToken, Formated_Permissions));
+        res.send(generateReturnHTML('Login successful', return_data));
     }
 });
 

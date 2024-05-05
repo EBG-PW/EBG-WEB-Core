@@ -88,15 +88,21 @@ const ValidateEventDescription = Joi.object({
     description: Joi.sanitizedString().min(3).max(2048).required()
 });
 
-router.get('/', verifyRequest('web.event.get.events.read'), limiter(), async (req, res) => {
+router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
+    const value = await pageCountCheck.validateAsync(req.query);
+    const amount = await projectactivities.GetCount(`%${value.search}%`);
+    res.status(200);
+    res.json(amount);
+});
+
+router.get('/', verifyRequest('web.event.get.events.read'), plublicStaticCache(60_000, ["query"]), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
     const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, `%${value.search}%`);
     res.status(200);
     res.json(events);
 });
 
-// Should use publicStaticCache...
-router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), async (req, res) => {
+router.get('/:id', verifyRequest('web.event.get.event.read'), plublicStaticCache(60_000, ["params", "user.user_id"]), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id, req.user.user_id);
     res.status(200);
@@ -118,13 +124,6 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
     res.json({
         puuid: event_response,
     });
-});
-
-router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
-    const value = await pageCountCheck.validateAsync(req.query);
-    const amount = await projectactivities.GetCount(`%${value.search}%`);
-    res.status(200);
-    res.json(amount);
 });
 
 // Settings
