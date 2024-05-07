@@ -34,6 +34,8 @@ app.use(expressCspHeader({
 }));
 
 const renderer = new ViewRenderer(app, path.join(__dirname, '..', 'views'));
+
+// Register the static routes and overwrite some filename paths internaly
 renderer.registerStaticRoutes(path.join(__dirname, '..', 'views'),
     ["error-xxx.ejs", "landingpage.ejs", "sign-up-verify.ejs", "reset-password.ejs"],
     {
@@ -41,6 +43,8 @@ renderer.registerStaticRoutes(path.join(__dirname, '..', 'views'),
         "auth/sign-up.ejs": "/register",
         "auth/reset-password-request.ejs": "/requestresetpassword",
     });
+
+// Register the dynamic routes
 renderer.registerDynamicRoutes();
 
 const apiv1 = require('@api');

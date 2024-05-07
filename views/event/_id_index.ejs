@@ -410,8 +410,6 @@
           if(response.status == 200) {
             const event_data = await response.json();
 
-            console.log(event_data)
-
             document.getElementById("event_name").innerText = event_data.name;
             document.getElementById("event_description").innerHTML = event_data.description;
             document.getElementById("event_address").innerHTML = event_data.location_address;

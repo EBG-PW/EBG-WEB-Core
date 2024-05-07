@@ -90,14 +90,14 @@ const ValidateEventDescription = Joi.object({
 
 router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
     const value = await pageCountCheck.validateAsync(req.query);
-    const amount = await projectactivities.GetCount(`%${value.search}%`);
+    const amount = await projectactivities.GetCount(value.search, new Date());
     res.status(200);
     res.json(amount);
 });
 
 router.get('/', verifyRequest('web.event.get.events.read'), plublicStaticCache(60_000, ["query"]), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
-    const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, `%${value.search}%`);
+    const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, value.search, new Date());
     res.status(200);
     res.json(events);
 });
