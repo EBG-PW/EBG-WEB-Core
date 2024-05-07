@@ -12,8 +12,9 @@ module.exports = {
         "app.web.login",
         "app.web.logout"
     ],
-    "default_group": "user",
-    "groups": {
+    "default_group": "reg",
+    "default_member_group": "member",
+    "groups": { // Groups must be in order of inheritance
         "app": {
             "permissions": [
                 "app.web.login",

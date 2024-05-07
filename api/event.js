@@ -118,6 +118,8 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
     if (dateApply > dateStart) throw new InvalidRouteJson('NewEventApplyBeforeStart');
     if (dateStart > dateEnd) throw new InvalidRouteJson('NewEventEndBeforeStart');
 
+    //DoTo: Check if minGroup is ok. Currently a reg user can make a event for members only (Also ajust inputvalidation)
+
     const event_response = await projectactivities.create(eventName, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
 
     res.status(200);
