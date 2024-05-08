@@ -154,7 +154,7 @@ router.post('/:id/color', verifyRequest('web.event.update.event.write'), limiter
     const value = await ValidateUUID.validateAsync(req.params);
     const color = await ValidateEventColor.validateAsync(await req.json());
     if (!color) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.color(value.id, color.color);
+    const sql_response = await projectactivities.event_update.color(value.id, color.color, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Color', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
     
     res.status(200);
@@ -188,7 +188,7 @@ router.post('/:id/visibility', verifyRequest('web.event.update.event.write'), li
     const value = await ValidateUUID.validateAsync(req.params);
     const visibility = await ValidateEventVisibility.validateAsync(await req.json());
     if (!visibility) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.visibility(value.id, visibility.visibility);
+    const sql_response = await projectactivities.event_update.visibility(value.id, visibility.visibility, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Visibility', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
     
     res.status(200);
@@ -202,7 +202,7 @@ router.post('/:id/dateapply', verifyRequest('web.event.update.event.write'), lim
     const value = await ValidateUUID.validateAsync(req.params);
     const dateApply = await ValidateEventDateApply.validateAsync(await req.json());
     if (!dateApply) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_apply(value.id, dateApply.dateApply);
+    const sql_response = await projectactivities.event_update.date_apply(value.id, dateApply.dateApply, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateApply', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before the start date');
     
     res.status(200);
@@ -216,7 +216,7 @@ router.post('/:id/datestart', verifyRequest('web.event.update.event.write'), lim
     const value = await ValidateUUID.validateAsync(req.params);
     const dateStart = await ValidateEventDateStart.validateAsync(await req.json());
     if (!dateStart) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_start(value.id, dateStart.dateStart);
+    const sql_response = await projectactivities.event_update.date_start(value.id, dateStart.dateStart, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateStart', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is after end date');
     
     res.status(200);
@@ -230,7 +230,7 @@ router.post('/:id/dateend', verifyRequest('web.event.update.event.write'), limit
     const value = await ValidateUUID.validateAsync(req.params);
     const dateEnd = await ValidateEventDateEnd.validateAsync(await req.json());
     if (!dateEnd) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_end(value.id, dateEnd.dateEnd);
+    const sql_response = await projectactivities.event_update.date_end(value.id, dateEnd.dateEnd, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateEnd', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before start date');
     
     res.status(200);
@@ -244,7 +244,7 @@ router.post('/:id/location', verifyRequest('web.event.update.event.write'), limi
     const value = await ValidateUUID.validateAsync(req.params);
     const location = await ValidateEventLocation.validateAsync(await req.json());
     if (!location) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.location_address(value.id, location.location);
+    const sql_response = await projectactivities.event_update.location_address(value.id, location.location, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Location', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
     
     res.status(200);
@@ -258,7 +258,7 @@ router.post('/:id/description', verifyRequest('web.event.update.event.write'), l
     const value = await ValidateUUID.validateAsync(req.params);
     const description = await ValidateEventDescription.validateAsync(await req.json());
     if (!description) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.description(value.id, description.description);
+    const sql_response = await projectactivities.event_update.description(value.id, description.description, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Description', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
     
     res.status(200);
