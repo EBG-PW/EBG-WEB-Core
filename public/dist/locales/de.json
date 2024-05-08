@@ -190,6 +190,7 @@
     "Body": {
       "DescriptionCardHeadline": "Event Beschreibung",
       "Card": {
+        "LeaveButton": "Verlassen",
         "Participates": "Du nimmst teil",
         "JoinButton": "Beitreten",
         "Location": "Veranstaltungsort",

@@ -319,7 +319,7 @@
                       <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                           <div class="card-title" data-translate="Events.Body.Head.CardTileInfos"></div>
-                            <span id="event_settings_button"></span>
+                            <span id="event_information_button"></span>
                         </div>
                         <div class="mb-2">
                           <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-exclamation"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 21h-9a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /><path d="M19 16v3" /><path d="M19 22v.01" /></svg>
@@ -422,7 +422,7 @@
             document.getElementById("participants").innerText = `${i18next.t("Events.Body.Card.ParticipantWithCount", {count: Number(event_data.participants)})}` // Maybe add "participants_logged_in" there too
             document.getElementById("visibility").innerText = `${i18next.t("Events.Body.Card.Visibility")} ${i18next.t(`Events.Visibility.${event_data.visibility}`)}`
 
-            const permResult = checkPermission("group.membership")
+            const permResult = checkPermission("group.membership") // Check if the user is in the group of membersship (default_member_group)
             document.getElementById("event_button").innerHTML = event_data.user_participates ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                               <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
@@ -434,11 +434,16 @@
                               <div>${i18next.t("Events.Body.Card.JoinButton")}</div>
                               </div>`
 
-            if(event_data.creator_user_id === 1) {
-              document.getElementById("event_settings_button").innerHTML = `<a href="/event/<%= params.id %>/settings" class="btn btn-primary btn-sm">
+            if(event_data.creator_user_id === Number(localStorage.getItem("user_id"))) {
+              document.getElementById("event_information_button").innerHTML = `<a href="/event/<%= params.id %>/settings" class="btn btn-primary btn-sm">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
                             <span>${i18next.t("Events.Settings.Button.Link")}</span>
-                          </a>`
+                          </a>`;
+            } else {
+              document.getElementById("event_information_button").innerHTML = `<p class="btn btn-danger btn-sm">
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 12v.01" /><path d="M3 21h18" /><path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5" /><path d="M14 7h7m-3 -3l3 3l-3 3" /></svg>
+                <span>${i18next.t("Events.Body.Card.LeaveButton")}</span>
+                            `;
             }
           }
         });
