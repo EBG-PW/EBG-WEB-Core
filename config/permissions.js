@@ -12,9 +12,10 @@ module.exports = {
         "app.web.login",
         "app.web.logout"
     ],
+    // The default groups are used for event/activity permissions. The code will check the inheritance tree until it hits one of the 2 default groups.
     "default_group": "reg",
     "default_member_group": "member",
-    "groups": { // Groups must be in order of inheritance
+    "groups": {
         "app": {
             "permissions": [
                 "app.web.login",
@@ -34,15 +35,22 @@ module.exports = {
                 "group.membership"
             ],
             "inherit": [
-                "user"
+                "reg"
+            ]
+        },
+        "ops": {
+            "permissions": [
+                "*"
+            ],
+            "inherit": [
+                "member"
             ]
         },
         "admin": {
             "permissions": [
                 "*"
             ],
-            "inherit": [
-            ]
+            "inherit": []
         }
     }
 }

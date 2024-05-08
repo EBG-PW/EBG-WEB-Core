@@ -5,6 +5,8 @@ const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
 const { InvalidRouteJson, DBError, InvalidRouteInput } = require('@lib/errors');
 const { plublicStaticCache } = require('@middleware/cacheRequest');
+const { getNextLowerDefaultGroup } = require('@lib/permission');
+const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
 
 /* Plugin info*/
@@ -39,7 +41,7 @@ const pageCountCheck = Joi.object({
 const NewEventCheck = Joi.object({
     eventName: Joi.fullysanitizedString().min(3).max(128).required(),
     color: Joi.string().valid(...avaiableColors).required(),
-    minGroup: Joi.string().valid(...['reg', 'member']).required(),
+    minGroup: Joi.string().valid(...[default_group, default_member_group]).required(),
     visibility: Joi.number().min(0).max(1).required(),
     dateApply: Joi.date().required(),
     dateStart: Joi.date().required(),
@@ -61,7 +63,7 @@ const ValidateEventColor = Joi.object({
 });
 
 const ValidateEventMinGroup = Joi.object({
-    minGroup: Joi.string().valid(...['reg', 'member']).required()
+    minGroup: Joi.string().valid(...[default_group, default_member_group]).required()
 });
 
 const ValidateEventVisibility = Joi.object({
@@ -97,6 +99,7 @@ router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async
 
 router.get('/', verifyRequest('web.event.get.events.read'), plublicStaticCache(60_000, ["query"]), limiter(), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
+    console.log(req.user)
     const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, value.search, new Date());
     res.status(200);
     res.json(events);
@@ -118,7 +121,11 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
     if (dateApply > dateStart) throw new InvalidRouteJson('NewEventApplyBeforeStart');
     if (dateStart > dateEnd) throw new InvalidRouteJson('NewEventEndBeforeStart');
 
-    //DoTo: Check if minGroup is ok. Currently a reg user can make a event for members only (Also ajust inputvalidation)
+    const minDefaultGroup = getNextLowerDefaultGroup(req.user.user_group);
+
+    if (minDefaultGroup === default_group && minGroup !== minDefaultGroup) {
+        throw new InvalidRouteJson('InvalidMinGroupForDefaultGroup');
+    }
 
     const event_response = await projectactivities.create(eventName, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
 
@@ -160,8 +167,14 @@ router.post('/:id/color', verifyRequest('web.event.update.event.write'), limiter
 router.post('/:id/mingroup', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const minGroup = await ValidateEventMinGroup.validateAsync(await req.json());
-    if (!minGroup) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.min_group(value.id, minGroup.minGroup);
+
+    const minDefaultGroup = getNextLowerDefaultGroup(req.user.user_group);
+
+    if (minDefaultGroup === default_group && minGroup.minGroup !== minDefaultGroup) {
+        throw new InvalidRouteJson('InvalidMinGroupForDefaultGroup');
+    }
+
+    const sql_response = await projectactivities.event_update.min_group(value.id, minGroup.minGroup, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.MinGroup', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
     
     res.status(200);
