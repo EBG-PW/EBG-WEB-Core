@@ -1,4 +1,4 @@
-const { addPublicStaticResponse, getPublicStaticResponseSave, addPrivateStaticResponse, getPrivateStaticResponseSave } = require('@lib/cache');
+const { deleteOverwriteCacheKey, addPublicStaticResponse, getPublicStaticResponseSave, addPrivateStaticResponse, getPrivateStaticResponseSave } = require('@lib/cache');
 const { CustomError } = require('@lib/errors');
 
 const oHash = require('object-hash');
@@ -7,9 +7,10 @@ const oHash = require('object-hash');
  * Will only work on send and json
  * @param {Number} duration | In ms
  * @param {Array} objOptions | Array that MUST contain all important req_object keys for this cache
+ * @param {String} overwrite | Update the cache if this key exists within the cache
  * @returns 
  */
-const plublicStaticCache = (duration, objOptions = []) => {
+const plublicStaticCache = (duration, objOptions = [], overwrite = null) => {
     return async (req, res) => {
         try {
             // Save the original methods into a temp variable
@@ -51,14 +52,23 @@ const plublicStaticCache = (duration, objOptions = []) => {
                 oldJson.call(this, obj);
             };
 
-            const cacheResult = await getPublicStaticResponseSave(`${req.route.id}-${cachHash}`, duration);
-            // If we get a cache hit we will return the data
-            if (cacheResult) {
-                process.log.debug(`Public Static Cache Hit on ${req.route.pattern}`)
-                res.status(cacheResult.statusCode);
-                if (cacheResult.type === 0) return res.send(cacheResult.data)
-                if (cacheResult.type === 1) return res.json(JSON.parse(cacheResult.data))
-            };
+            let override_del_result; // Store if there was a cache key that was deleted
+            if (overwrite) {
+                override_del_result = await deleteOverwriteCacheKey(overwrite)
+            }
+
+            if (override_del_result === 0) {
+                const cacheResult = await getPublicStaticResponseSave(`${req.route.id}-${cachHash}`, duration);
+                // If we get a cache hit we will return the data
+                if (cacheResult) {
+                    process.log.debug(`Public Static Cache Hit on ${req.route.pattern}`)
+                    res.status(cacheResult.statusCode);
+                    if (cacheResult.type === 0) return res.send(cacheResult.data)
+                    if (cacheResult.type === 1) return res.json(JSON.parse(cacheResult.data))
+                };
+            } else {
+                process.log.debug(`Cache result for ${req.route.pattern} was deleted because of overwrite key ${overwrite}`)
+            }
 
             res.on('finish', () => {
                 // Cache the data if the request was successful
