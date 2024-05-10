@@ -92,7 +92,7 @@ router.post('/', async (req, res) => {
         res.status(200)
         res.json({
             message: 'Login successful',
-            return_data
+            ...return_data
         });
     }
 });
