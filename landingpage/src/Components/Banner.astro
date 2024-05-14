@@ -45,6 +45,29 @@ import Button from "./Button.astro";
       }
     }
 
+    svg.wave {
+      position: absolute;
+      width: 100%;
+      height: 120px;
+      bottom: 0;
+
+      z-index: 3;
+
+      use {
+        animation: move 15s linear infinite;
+
+        &#w2 {
+          animation-delay: -7s;
+          animation-duration: 11s;
+        }
+
+        &#w3 {
+          animation-delay: -2s;
+          animation-duration: 8s;
+        }
+      }
+    }
+
     .content {
       position: relative;
       z-index: 5;
@@ -83,6 +106,15 @@ import Button from "./Button.astro";
       }
     }
   }
+
+  @keyframes move {
+    from {
+      transform: translate(85px, 0%);
+    }
+    to {
+      transform: translate(-90px, 0%);
+    }
+  }
 </style>
 
 <div class="wrapper">
@@ -95,11 +127,31 @@ import Button from "./Button.astro";
     />
     <div class="gradient"></div>
   </div>
+  <svg
+    class="wave"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 24 150 28"
+    preserveAspectRatio="none"
+  >
+    <defs>
+      <path
+        id="wave"
+        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+      >
+      </path>
+    </defs>
+    <use id="w1" xlink:href="#wave" x="50" y="0" fill="rgba(255,255,255, .3)"
+    ></use>
+    <use id="w2" xlink:href="#wave" x="50" y="3" fill="rgba(255,255,255, .7)"
+    ></use>
+    <use id="w3" xlink:href="#wave" x="50" y="6" fill="rgb(255,255,255)"></use>
+  </svg>
   <div class="content">
     <div class="left">
       <p>EBG.PW</p>
       <h1>A place for video games, <br />opensource software and fun.</h1>
-      <Button>Explore services</Button>
+      <a href="#goals"><Button>Explore services</Button></a>
     </div>
     <div class="right">
       <img src="/logo.svg" alt="EBG.PW Logo" />

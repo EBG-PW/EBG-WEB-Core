@@ -15,17 +15,31 @@ const { level = 2 } = Astro.props;
 }
 
 <style lang="scss">
+  $text: #303030;
   h2,
   h3 {
     font-family: "Inter Variable", sans-serif;
-    color: black;
+    color: $text;
+    display: inline-block;
 
     text-align: center;
+    position: relative;
   }
 
   h2 {
     font-size: 2rem;
-    margin: 1rem 0;
+    margin: 1rem 0 2rem;
+
+    &::after {
+      width: 90%;
+      content: "";
+      bottom: -0.75rem;
+      position: absolute;
+      height: 3px;
+      border-radius: 3px;
+      left: 5%;
+      background-color: $text;
+    }
   }
 
   h3 {
