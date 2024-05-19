@@ -222,7 +222,7 @@ router.post('/public', verifyRequest('web.user.public.write'), limiter(10), asyn
     });
 });
 
-router.delete('/avatar', verifyRequest('web.user.delete'), limiter(10), async (req, res) => {
+router.delete('/avatar', verifyRequest('web.user.avatar.write'), limiter(10), async (req, res) => {
     const sql_response = await user.update.avatar(req.user.user_id, null);
     if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 

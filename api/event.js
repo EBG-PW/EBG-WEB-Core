@@ -138,7 +138,7 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
     });
 });
 
-router.post('/:id/join', verifyRequest('web.event.join.event.join'), limiter(), async (req, res) => {
+router.post('/:id/join', verifyRequest('web.event.join.event.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const sql_response = await projectactivities.event.join(value.id, req.user.user_id, req.user.user_group);
     if(sql_response instanceof CustomError) throw sql_response;
@@ -153,7 +153,7 @@ router.post('/:id/join', verifyRequest('web.event.join.event.join'), limiter(), 
     });
 });
 
-router.post('/:id/leave', verifyRequest('web.event.leave.event.leave'), limiter(), async (req, res) => {
+router.post('/:id/leave', verifyRequest('web.event.leave.event.read'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const sql_response = await projectactivities.event.leave(value.id, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Leave', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
