@@ -21,10 +21,13 @@ module.exports = {
                 "app.web.login",
                 "app.web.logout",
             ],
-            "inherit": ["admin"]
+            "inherit": []
         },
         "reg": {
             "permissions": [
+                "group.reg",
+                "app.*",
+                "web.*",
             ],
             "inherit": [
                 "app"
@@ -32,10 +35,10 @@ module.exports = {
         },
         "member": {
             "permissions": [
-                "group.membership"
+                "group.member"
             ],
             "inherit": [
-                "reg"
+                "admin"
             ]
         },
         "ops": {

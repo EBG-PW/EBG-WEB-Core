@@ -425,7 +425,7 @@
             const eventContainer = document.getElementById("event-container");
             eventContainer.innerHTML = "";
             response_json.forEach(event => {
-              const permResult = checkPermission("group.membership")
+              const permResult = checkPermission(`group.${event.min_group}`)
               eventContainer.innerHTML += `<div class="col-12">
                 <a class="card card-link" href="/event/${event.puuid}">
                   <div class="card-status-top bg-${event.color}"></div>
@@ -500,25 +500,23 @@
         });
       }
 
-      const joinEvent = (puuid) => {
-        fetch("api/v1/event/join", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          },
-          body: JSON.stringify({
-            puuid: puuid
-          })
-        }).then(async (response) => {
-          const response_json = await response.json();
-          if (response.status == 200) {
-            // Success
+      const joinEvent = async (id) => {
+          const response = await fetch(`/api/v1/event/${id}/join`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+          });
+
+          if(response.status == 200) {
+            const event_data = await response.json();
+
+            loadPage();
           } else {
-            // Error
+            // ToDo: Snackbar Error
           }
-        });
-      }
+        }
 
       const keys = {
         "eventName": "NewEventEventName",

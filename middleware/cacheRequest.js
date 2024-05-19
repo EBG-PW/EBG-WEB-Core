@@ -54,28 +54,33 @@ const plublicStaticCache = (duration, objOptions = [], overwrite = null) => {
 
             let override_del_result; // Store if there was a cache key that was deleted
             if (overwrite) {
-                override_del_result = await deleteOverwriteCacheKey(overwrite)
+                overwrite = overwrite.replace(/:(\w+)/g, (match, p1) => {
+                    return req.params[p1];
+                });
+                override_del_result = await deleteOverwriteCacheKey(overwrite);
             }
 
+            // A 0 is returned if no key was delted, so we can serve the cache
+            // But if a anything above 0 is returned we wanna overwrite the cache
             if (override_del_result === 0) {
                 const cacheResult = await getPublicStaticResponseSave(`${req.route.id}-${cachHash}`, duration);
                 // If we get a cache hit we will return the data
                 if (cacheResult) {
-                    process.log.debug(`Public Static Cache Hit on ${req.route.pattern}`)
+                    process.log.debug(`Public Static Cache Hit on ${req.route.pattern}`);
                     res.status(cacheResult.statusCode);
-                    if (cacheResult.type === 0) return res.send(cacheResult.data)
-                    if (cacheResult.type === 1) return res.json(JSON.parse(cacheResult.data))
+                    if (cacheResult.type === 0) return res.send(cacheResult.data);
+                    if (cacheResult.type === 1) return res.json(JSON.parse(cacheResult.data));
                 };
             } else {
-                process.log.debug(`Cache result for ${req.route.pattern} was deleted because of overwrite key ${overwrite}`)
+                process.log.debug(`Cache result for ${req.route.pattern} was deleted because of overwrite key ${overwrite}`);
             }
 
             res.on('finish', () => {
                 // Cache the data if the request was successful
                 if (res.statusCode >= 200 && res.statusCode < 300) {
-                    addPublicStaticResponse(`${req.route.id}-${cachHash}`, res.bodyType, res.body, res.statusCode, duration)
+                    addPublicStaticResponse(`${req.route.id}-${cachHash}`, res.bodyType, res.body, res.statusCode, duration);
                 } else {
-                    process.log.debug(`Not caching ${req.route.pattern} because of status code ${res.statusCode}`)
+                    process.log.debug(`Not caching ${req.route.pattern} because of status code ${res.statusCode}`);
                 }
             });
         } catch (error) {

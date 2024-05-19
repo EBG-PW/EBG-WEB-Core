@@ -397,12 +397,15 @@
       <script src="<%= domain %>/appjs/layout.js"></script>
       <script>
         // Auto-fill user data (VanillaJS)
-        document.addEventListener("DOMContentLoaded", async () => {
+        document.addEventListener("DOMContentLoaded", () => {
+          loadEventDetails();
+        });
+
+        const loadEventDetails = async () => {
           const response = await fetch(`/api/v1/event/<%= params.id %>`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-
               "Authorization": "Bearer " + localStorage.getItem("token")
             }
           });
@@ -422,7 +425,7 @@
             document.getElementById("participants").innerText = `${i18next.t("Events.Body.Card.ParticipantWithCount", {count: Number(event_data.participants)})}` // Maybe add "participants_logged_in" there too
             document.getElementById("visibility").innerText = `${i18next.t("Events.Body.Card.Visibility")} ${i18next.t(`Events.Visibility.${event_data.visibility}`)}`
 
-            const permResult = checkPermission("group.membership") // Check if the user is in the group of membersship (default_member_group)
+            const permResult = checkPermission(`group.${event_data.min_group}`) // Check if the user is in the group of membersship (default_member_group)
             document.getElementById("event_button").innerHTML = event_data.user_participates ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                               <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
@@ -439,14 +442,52 @@
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
                             <span>${i18next.t("Events.Settings.Button.Link")}</span>
                           </a>`;
-            } else {
+            } else if(event_data.user_participates) {
               document.getElementById("event_information_button").innerHTML = `<p class="btn btn-danger btn-sm">
                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 12v.01" /><path d="M3 21h18" /><path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5" /><path d="M14 7h7m-3 -3l3 3l-3 3" /></svg>
-                <span>${i18next.t("Events.Body.Card.LeaveButton")}</span>
+                <span onclick="event.stopPropagation(); leaveEvent(this.id); return false;" id="${event_data.puuid}">${i18next.t("Events.Body.Card.LeaveButton")}</span>
                             `;
+            } else {
+              document.getElementById("event_information_button").innerHTML = "";
             }
           }
-        });
+        }
+
+        const joinEvent = async (id) => {
+          const response = await fetch(`/api/v1/event/${id}/join`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+          });
+
+          if(response.status == 200) {
+            const event_data = await response.json();
+
+            loadEventDetails();
+          } else {
+            // ToDo: Snackbar Error
+          }
+        }
+
+        const leaveEvent = async (id) => {
+          const response = await fetch(`/api/v1/event/${id}/leave`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+          });
+
+          if(response.status == 200) {
+            const event_data = await response.json();
+
+            loadEventDetails();
+          } else {
+            // ToDo: Snackbar Error
+          }
+        }
       </script>
   </body>
 </html>

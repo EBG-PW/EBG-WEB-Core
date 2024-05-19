@@ -4,9 +4,9 @@ const { limiter } = require('@middleware/limiter');
 const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
 const { writeOverwriteCacheKey } = require('@lib/cache');
-const { InvalidRouteJson, DBError, InvalidRouteInput } = require('@lib/errors');
+const { InvalidRouteJson, DBError, InvalidRouteInput, CustomError } = require('@lib/errors');
 const { plublicStaticCache } = require('@middleware/cacheRequest');
-const { getNextLowerDefaultGroup } = require('@lib/permission');
+const { getNextLowerDefaultGroup, checkPermission } = require('@lib/permission');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
 
@@ -93,20 +93,20 @@ const ValidateEventDescription = Joi.object({
 
 router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
     const value = await pageCountCheck.validateAsync(req.query);
-    const amount = await projectactivities.GetCount(value.search, new Date());
+    const amount = await projectactivities.event.GetCount(value.search, new Date());
     res.status(200);
     res.json(amount);
 });
 
-router.get('/', verifyRequest('web.event.get.events.read'), limiter(), plublicStaticCache(60_000, ["query"], "public_event_index"), async (req, res) => {
+router.get('/', verifyRequest('web.event.get.events.read'), limiter(), plublicStaticCache(60_000, ["query", "user.user_id"], "public_event_index"), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
     console.log(req.user)
-    const events = await projectactivities.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, value.search, new Date());
+    const events = await projectactivities.event.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, value.search, new Date());
     res.status(200);
     res.json(events);
 });
 
-router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_id"), async (req, res) => {
+router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id, req.user.user_id);
     res.status(200);
@@ -130,11 +130,40 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
 
     await writeOverwriteCacheKey("public_event_index");
 
-    const event_response = await projectactivities.create(eventName, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
+    const event_response = await projectactivities.event.create(eventName, description, '', color, location, dateStart, dateEnd, dateApply, minGroup, visibility, 0, req.user.user_id);
 
     res.status(200);
     res.json({
         puuid: event_response,
+    });
+});
+
+router.post('/:id/join', verifyRequest('web.event.join.event.join'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const sql_response = await projectactivities.event.join(value.id, req.user.user_id, req.user.user_group);
+    if(sql_response instanceof CustomError) throw sql_response;
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Join', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_index");
+
+    res.status(200);
+    res.json({
+        message: "Joined event"
+    });
+});
+
+router.post('/:id/leave', verifyRequest('web.event.leave.event.leave'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const sql_response = await projectactivities.event.leave(value.id, req.user.user_id);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Leave', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_index");
+
+    res.status(200);
+    res.json({
+        message: "Left event"
     });
 });
 
