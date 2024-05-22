@@ -482,22 +482,22 @@
         });
       }
 
-      const loadPage = () => {
+      const loadPage = async () => {
         const search = document.getElementById("PageSearch").value;
-        fetch(`api/v1/event/count?search=${search}`, {
+        const pagerequest = await fetch(`api/v1/event/count?search=${search}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + localStorage.getItem("token")
           }
-        }).then(async (response) => {
-          const response_json = await response.json();
-          if (response.status == 200) {
-            generatePagination(parseInt(response_json, 10), 10, 1, loadPageContent);
-          } else {
-            // Error
-          }
         });
+
+        if(pagerequest.status == 200) {
+          const response_json = await pagerequest.json();
+          generatePagination(parseInt(response_json, 10), 10, 1, loadPageContent);
+        } else {
+          // Error
+        }
       }
 
       const joinEvent = async (id) => {
