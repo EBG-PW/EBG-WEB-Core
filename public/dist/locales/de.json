@@ -225,6 +225,7 @@
         }
     },
     "Settings": {
+      "Title": "Veranstaltungs Einstellungen",
       "Site": {
         "General": "Allgemeine Einstellungen",
         "OAuth": "OAuth Einstellungen"
