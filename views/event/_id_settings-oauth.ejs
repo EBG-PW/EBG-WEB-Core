@@ -169,20 +169,11 @@
         <!-- Page header -->
         <div class="page-header d-print-none">
           <div class="container-xl">
-            <div class="row g-0 align-items-center">
+            <div class="row g-2 align-items-center">
               <div class="col">
-                <h2 class="page-title" data-translate="Events.Settings.Title"></h2>
+                <h2 class="page-title" data-translate="Settings.Main.SettingsName"></h2>
               </div>
-              <div class="col-auto">
-                <span>
-                </div>
-                  <a href="./." class="btn btn-primary">
-                    <!-- Download SVG icon from http://tabler-icons.io/i/arrow-left -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l14 0"></path><path d="M5 12l6 6"></path><path d="M5 12l6 -6"></path></svg>
-                    Take me home to the place I belong
-                  </a>
-                </span>
-              </div>
+            </div>
           </div>
         </div>
         <!-- Page body -->
@@ -193,8 +184,8 @@
                 <div class="col-3 d-none d-md-block border-end">
                   <div class="card-body">
                     <div class="list-group list-group-transparent">
-                      <a href="/events/7cbe3152-195c-49ce-8ae3-c232fc32117d/settings" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Events.Settings.Site.General"></a>
-                      <a href="/events/7cbe3152-195c-49ce-8ae3-c232fc32117d/settings-oauth" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Events.Settings.Site.OAuth"></a>
+                      <a href="/event/<%= params.id %>/settings" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Events.Settings.Site.General"></a>
+                      <a href="/event/<%= params.id %>/settings-oauth" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Events.Settings.Site.OAuth"></a>
                     </div>
                   </div>
                 </div>
@@ -216,7 +207,7 @@
                       </div>
                       <div class="col">
                         <label class="form-label" data-translate="Events.Modal.NewEvent.EventName"></label>
-                        <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" class="form-control" />
+                        <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" onchange="handleInputChange(this.id)" class="form-control" />
                       </div>
                     </div>
                     <!-- Color & Event Visibility Row-->
@@ -226,77 +217,76 @@
                         <div class="row g-2">
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="dark" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="dark" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-dark"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput form-colorinput-light">
-                              <input name="color" type="radio" value="white" class="form-colorinput-input"  checked/>
+                              <input name="color" type="radio" value="white" onchange="handleColorChange(this.value)" class="form-colorinput-input"  checked/>
                               <span class="form-colorinput-color bg-white"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="blue" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="blue" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-blue"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="azure" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="azure" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-azure"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="indigo" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="indigo" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-indigo"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="purple" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="purple" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-purple"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="pink" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="pink" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-pink"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="red" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="red" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-red"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="orange" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="orange" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-orange"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="yellow" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="yellow" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-yellow"></span>
                             </label>
                           </div>
                           <div class="col-auto">
                             <label class="form-colorinput">
-                              <input name="color" type="radio" value="lime" class="form-colorinput-input" />
+                              <input name="color" type="radio" value="lime" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
                               <span class="form-colorinput-color bg-lime"></span>
                             </label>
                           </div>
                         </div>
                       </div>
-        
                       <div class="col-lg-5">
                         <div class="mb-5">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.Visibility"></label>
-                          <select class="form-select" id="EventVisibility">
+                          <select class="form-select" id="EventVisibility" onchange="handleInputChange(this.id)">
                             <option value="1" data-translate="Events.Modal.NewEvent.Visibility_Open" selected></option>
                             <option value="0" data-translate="Events.Modal.NewEvent.Visibility_Hidden"></option>
                           </select>
@@ -308,19 +298,19 @@
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.DateApply"></label>
-                          <input type="datetime-local" id="EventDateApply" class="form-control">
+                          <input type="datetime-local" id="EventDateApply" class="form-control" onchange="handleInputChange(this.id)">
                         </div>
                       </div>
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.DateStart"></label>
-                          <input type="datetime-local" id="EventDateStart" class="form-control">
+                          <input type="datetime-local" id="EventDateStart" class="form-control" onchange="handleInputChange(this.id)">
                         </div>
                       </div>
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.DateEnd"></label>
-                          <input type="datetime-local" id="EventDateEnd" class="form-control">
+                          <input type="datetime-local" id="EventDateEnd" class="form-control" onchange="handleInputChange(this.id)">
                         </div>
                       </div>
                     </div>
@@ -329,14 +319,13 @@
                       <div class="col-lg-8">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.Location"></label>
-                          <input type="text" id="EventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" class="form-control">
+                          <input type="text" id="EventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" onchange="handleInputChange(this.id)" class="form-control">
                         </div>
                       </div>
-        
                       <div class="col-lg-4">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.MinGroup"></label>
-                          <select type="form-select" id="EventMinGroup" class="form-control">
+                          <select type="form-select" id="EventMinGroup" class="form-control" onchange="handleInputChange(this.id)">
                             <option value="reg" data-translate="Events.Modal.NewEvent.MinGroup_RegOnly" selected></option>
                             <option value="member" data-translate="Events.Modal.NewEvent.MinGroup_Members"></option>
                           </select>
@@ -348,11 +337,10 @@
                       <div class="col-lg-12">
                         <div class="mb-4">
                           <label class="form-label" data-translate="Events.Modal.NewEvent.Description"></label>
-                          <textarea class="form-control" id="EventDescription" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Description" rows="3"></textarea>
+                          <textarea class="form-control" id="EventDescription" onchange="handleInputChange(this.id)" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Description" rows="3"></textarea>
                         </div>
                       </div>
                     </div>
-        
                     <div class="row">
                       <div class="col-lg-12">
                         <div id="NewEventErrorLine"></div>
@@ -422,139 +410,5 @@
     <script src="<%= domain %>/dist/js/demo.min.js?1684106062" defer></script>
     <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
-    <script>
-      // Handle changes to all imput fields (VanillaJS)
-
-      const apiEndpoints = {
-        "EventName": {
-          "endpoint": "/api/v1/event/name",
-          "method": "POST",
-          "field": "name",
-          "value": "raw"
-        },
-        "EventColor": {
-          "endpoint": "/api/v1/event/color",
-          "method": "POST",
-          "field": "color",
-          "value": "raw"
-        },
-        "EventDescription": {
-          "endpoint": "/api/v1/event/description",
-          "method": "POST",
-          "field": "description",
-          "value": "raw"
-        },
-        "EventLocation": {
-          "endpoint": "/api/v1/event/location",
-          "method": "POST",
-          "field": "location_address",
-          "value": "raw"
-        },
-        "EventVisibility": {
-          "endpoint": "/api/v1/event/public",
-          "method": "POST",
-          "field": "public",
-          "value": "raw"
-        },
-        "EventDateApply": {
-          "endpoint": "/api/v1/event/date_apply",
-          "method": "POST",
-          "field": "date_apply",
-          "value": "raw"
-        },
-        "EventDateStart": {
-          "endpoint": "/api/v1/event/date_start",
-          "method": "POST",
-          "field": "date_start",
-          "value": "raw"
-        },
-        "EventDateEnd": {
-          "endpoint": "/api/v1/event/date_end",
-          "method": "POST",
-          "field": "date_end",
-          "value": "raw"
-        },
-        "EventMinGroup": {
-          "endpoint": "/api/v1/event/min_group",
-          "method": "POST",
-          "field": "min_group",
-          "value": "raw"
-        },
-      };
-
-      const getSelectedColorValue = () => {
-        const colorInputs = document.querySelectorAll('input[name="color"]:checked');
-        return colorInputs.length > 0 ? colorInputs[0].value : null;
-      }
-
-      const setLoadedColorValue = (color) => {
-        const colorInputs = document.querySelectorAll('input[name="color"]');
-        const selectedColor = getSelectedColorValue();
-        colorInputs.forEach((input) => {
-          if (input.value === selectedColor) {
-            input.checked = true;
-          }
-        });
-      }
-
-      const handleInputChange = async (id) => {
-        const inputElement = document.getElementById(id);
-        let value_send;
-
-        if(apiEndpoints[id].value == "raw") {
-          value_send = inputElement.value;
-        } else if(apiEndpoints[id].value == "bool") {
-          value_send = inputElement.checked;
-        }
-
-        const response = await fetch(apiEndpoints[id].endpoint, {
-          method: apiEndpoints[id].method,
-          headers: {
-            "Content-Type": "application/json",
-
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          },
-          body: JSON.stringify({
-            [apiEndpoints[id].field]: value_send
-          })
-        });
-
-        if (response.ok) {
-          inputElement.classList.remove("is-invalid");
-          inputElement.classList.add("is-valid");
-
-          setTimeout(() => {
-            inputElement.classList.remove("is-valid");
-          }, 3000);
-        } else {
-          inputElement.classList.add("is-invalid");
-        }
-      }
-
-      // Auto-fill user data (VanillaJS)
-      document.addEventListener("DOMContentLoaded", async () => {
-        const response = await fetch("/api/v1/event/7cbe3152-195c-49ce-8ae3-c232fc32117d", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
-        });
-
-        if(response.status == 200) {
-          const data = await response.json();
-          setLoadedColorValue(data.color);
-          document.getElementById("EventName").value = data.name;
-          document.getElementById("EventDescription").value = data.description;
-          document.getElementById("EventLocation").value = data.location_address;
-          document.getElementById("EventVisibility").value = data.visibility;
-          document.getElementById("EventDateApply").value = data.date_apply;
-          document.getElementById("EventDateStart").value = data.date_start;
-          document.getElementById("EventDateEnd").value = data.date_end;
-          document.getElementById("EventMinGroup").value = data.min_group;
-        }
-      });
-    </script>
   </body>
 </html>

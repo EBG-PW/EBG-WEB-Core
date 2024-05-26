@@ -183,19 +183,31 @@
     }
   },
   "Events": {
+    "Visibility": {
+      "1": "Öffentlich",
+      "0": "Privat"
+    },
     "Body": {
+      "DescriptionCardHeadline": "Event Beschreibung",
       "Card": {
+        "LeaveButton": "Verlassen",
         "Participates": "Du nimmst teil",
         "JoinButton": "Beitreten",
         "Location": "Veranstaltungsort",
         "JoinDate": "Anmeldung bis",
         "StartDate": "Start Datum",
-        "EndDate": "End Datum"
+        "EndDate": "End Datum",
+        "MinGroup": "Sichtbar ab",
+        "Visibility": "Sichtbarkeit",
+        "ParticipantWithCount_zero": "{{count}} Teilnehmer",
+        "ParticipantWithCount_one": "{{count}} Teilnehmer",
+        "ParticipantWithCount_other": "{{count}} Teilnehmer"
       },
       "Head": {
         "Title": "Veranstaltungen",
         "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
-        "AddButton": "Veranstaltung erstellen"
+        "AddButton": "Veranstaltung erstellen",
+        "CardTileInfos": "Informationen"
       }
     },
     "Modal": {
@@ -225,6 +237,9 @@
         }
     },
     "Settings": {
+      "Button": {
+        "Link": "Einstellungen"
+      },
       "Title": "Veranstaltungs Einstellungen",
       "Site": {
         "General": "Allgemeine Einstellungen",
@@ -267,6 +282,10 @@
   "User_Groups": {
     "user": "Nutzer",
     "kassierer": "Kassierer",
-    "admin": "Administrator"
+    "admin": "Administrator",
+    "virtualGroups": {
+      "reg": "Registrierte Nutzer",
+      "member": "Vereinsmitglieder"
+    }
   }
 }

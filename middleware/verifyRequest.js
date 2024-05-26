@@ -46,7 +46,7 @@ const verifyRequest = (permission) => {
                 if (WebTokenResponse.DidExist) {
                     // The token existed, but was invalid for this request. Delete it from the database and cache
                     process.log.debug(`Deleting Token ${UserToken} from database`);
-                    await webtoken.delete(UserToken)
+                    // await webtoken.delete(UserToken)
                     delWebtoken(UserToken);
                 } else {
                     // The token did not exist, lets add the reuqest IP to the cache to stop brute force attacks andreduce DB stress

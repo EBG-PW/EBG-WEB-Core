@@ -142,7 +142,7 @@ const generatePagination = (totalItems, pageSize, currentPage, callFunction) => 
 
     // Page Numbers
     for (let i = 1; i <= totalPages; i++) {
-            paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        paginationHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
             <a class="page-link" data-page="${i}">${i}</a>
           </li>`;
     }
@@ -171,4 +171,35 @@ const generatePagination = (totalItems, pageSize, currentPage, callFunction) => 
             }
         });
     });
+}
+
+/**
+ * Converts a date to a local date string
+ * @param {String} date 
+ * @returns 
+ */
+const toDateTimeLocalString = (date) => {
+    date = new Date(date);
+    const ten = i => (i < 10 ? '0' : '') + i;
+    const YYYY = date.getFullYear();
+    const MM = ten(date.getMonth() + 1);
+    const DD = ten(date.getDate());
+    const HH = ten(date.getHours());
+    const mm = ten(date.getMinutes());
+
+    return `${YYYY}-${MM}-${DD}T${HH}:${mm}`;
+}
+
+/**
+ * Debauce function to limit the number of times a function is called
+ * @param {Function} func 
+ * @param {number} timeout 
+ * @returns 
+ */
+const debounce = (func, timeout = 300) => {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
 }
