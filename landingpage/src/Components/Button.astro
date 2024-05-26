@@ -1,5 +1,5 @@
 ---
-const { onClick = () => {} } = Astro.props;
+const { onClick = () => {}, id = "" } = Astro.props;
 ---
 
 <style lang="scss">
@@ -27,4 +27,4 @@ const { onClick = () => {} } = Astro.props;
   }
 </style>
 
-<button onclick={onClick} role="button"><slot /></button>
+<button onclick={onClick} role="button" id={id}><slot /></button>

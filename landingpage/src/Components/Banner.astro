@@ -4,6 +4,7 @@ import bannerImage from "../assets/banner.jpg";
 import Button from "./Button.astro";
 ---
 
+<script></script>
 <style lang="scss">
   .wrapper {
     width: 100%;
@@ -151,7 +152,7 @@ import Button from "./Button.astro";
     <div class="left">
       <p>EBG.PW</p>
       <h1>A place for video games, <br />opensource software and fun.</h1>
-      <a href="#goals"><Button>Explore services</Button></a>
+      <Button id="explore">Explore services</Button>
     </div>
     <div class="right">
       <img src="/logo.svg" alt="EBG.PW Logo" />
@@ -168,5 +169,13 @@ import Button from "./Button.astro";
     if (bg) {
       bg.style.transform = `translateY(-${offset}px)`;
     }
+  });
+
+  document.getElementById("explore")?.addEventListener("click", () => {
+    console.log(document.getElementById("goals"));
+    window.scrollTo({
+      top: document.getElementById("goals")?.getBoundingClientRect().top ?? 1,
+      behavior: "smooth",
+    });
   });
 </script>
