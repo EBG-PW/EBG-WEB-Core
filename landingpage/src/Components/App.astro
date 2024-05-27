@@ -1,6 +1,7 @@
 ---
 import Banner from "./Banner.astro";
 import Goals from "./Goals.astro";
+import Events from "./Events.astro";
 import Footer from "./Footer.astro";
 
 import "@fontsource-variable/inter";
@@ -36,6 +37,8 @@ import staticData from "../data/static.json";
   <body>
     <Banner translation={translation.banner} />
     <Goals translation={translation.goals} />
+    <Events translation={translation.events} />
+
     <Footer translation={translation.footer} />
   </body>
 </html>

@@ -23,7 +23,6 @@ const { level = 2, fullWidth = false } = Astro.props;
     color: $text;
     display: inline-block;
 
-    text-align: center;
     position: relative;
 
     &.full {
@@ -50,6 +49,9 @@ const { level = 2, fullWidth = false } = Astro.props;
 
   h3 {
     font-size: 1.5rem;
-    margin: 0.8rem 0;
+
+    &.full {
+      margin: 0.8rem 0;
+    }
   }
 </style>

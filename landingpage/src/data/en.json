@@ -26,6 +26,10 @@
       "icon": "infra"
     }
   },
+  "events": {
+    "heading": "Events",
+    "click": "More infos"
+  },
   "footer": {
     "links": "Links",
     "resources": "Resources",
