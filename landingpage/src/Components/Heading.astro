@@ -1,14 +1,14 @@
 ---
-const { level = 2 } = Astro.props;
+const { level = 2, fullWidth = false } = Astro.props;
 ---
 
 {
   level === 2 ? (
-    <h2>
+    <h2 class={fullWidth ? "full" : ""}>
       <slot />
     </h2>
   ) : (
-    <h3>
+    <h3 class={fullWidth ? "full" : ""}>
       <slot />
     </h3>
   )
@@ -16,6 +16,7 @@ const { level = 2 } = Astro.props;
 
 <style lang="scss">
   $text: #303030;
+
   h2,
   h3 {
     font-family: "Inter Variable", sans-serif;
@@ -24,6 +25,11 @@ const { level = 2 } = Astro.props;
 
     text-align: center;
     position: relative;
+
+    &.full {
+      width: 100%;
+      text-align: center;
+    }
   }
 
   h2 {

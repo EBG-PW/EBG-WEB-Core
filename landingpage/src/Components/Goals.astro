@@ -39,17 +39,19 @@ import Card from "./Card.astro";
 
       .connection {
         width: 70%;
-        height: 2px;
-        background-color: black;
+        padding-bottom: 40px;
+        border-top: 2px solid black;
         position: relative;
+
+        $h: 15px;
 
         &::before {
           position: absolute;
           content: "";
           left: 0;
-          bottom: 0;
+          top: -$h;
           background-color: black;
-          height: 15px;
+          height: $h;
           width: 2px;
         }
 
@@ -57,9 +59,9 @@ import Card from "./Card.astro";
           position: absolute;
           content: "";
           right: 0;
-          bottom: 0;
+          top: -$h;
           background-color: black;
-          height: 15px;
+          height: $h;
           width: 2px;
         }
       }
@@ -100,5 +102,10 @@ import Card from "./Card.astro";
     <div class="connection">
       <div class="line"></div>
     </div>
+    <Card
+      heading="Placeholder text"
+      icon="opensource"
+      text="Placeholder text Lorem lorem lorem lorem.  Lorem lorem lorem lorem.  Lorem lorem lorem lorem. "
+    />
   </div>
 </div>
