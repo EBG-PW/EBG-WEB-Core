@@ -2,6 +2,9 @@
 import { Image } from "astro:assets";
 import bannerImage from "../assets/banner.jpg";
 import Button from "./Button.astro";
+
+// TRANSLATION
+import staticData from "../data/static.json";
 ---
 
 <script></script>
@@ -150,12 +153,12 @@ import Button from "./Button.astro";
   </svg>
   <div class="content">
     <div class="left">
-      <p>EBG.PW</p>
+      <p>{staticData.name}</p>
       <h1>A place for video games, <br />opensource software and fun.</h1>
       <Button id="explore">Explore services</Button>
     </div>
     <div class="right">
-      <img src="/logo.svg" alt="EBG.PW Logo" />
+      <img src="/logo.svg" alt={staticData.name + " Logo"} />
     </div>
   </div>
 </div>

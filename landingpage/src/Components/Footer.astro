@@ -1,5 +1,8 @@
 ---
 const year = new Date().getFullYear();
+
+// TRANSLATION
+import staticData from "../data/static.json";
 ---
 
 <style lang="scss">
@@ -85,13 +88,13 @@ const year = new Date().getFullYear();
 <footer>
   <div class="content">
     <div class="logo">
-      <img src="/logo.svg" alt="EBG.PW Logo" />
+      <img src="/logo.svg" alt={staticData.name + " Logo"} />
       <p>
-        EBG.PW
+        {staticData.name}
         <br />
-        <span>Elektronische Begeisterung Gemeinsam. Projekt Werkstatt </span>
+        <span>{staticData.name_full} </span>
         <br /><br />
-        <span>&copy;2023-{year}</span>
+        <span>&copy;{staticData.fouding_year}-{year}</span>
       </p>
     </div>
     <div class="links">
@@ -100,9 +103,11 @@ const year = new Date().getFullYear();
       <div class="group">
         <p>Links</p>
 
-        <a href="/#" target="_blank">GitHub</a>
-        <a href="/#" target="_blank">Instagram?</a>
-        <a href="/#" target="_blank">Youtube? Telegram? idk</a>
+        <a href={staticData.github_link} target="_blank">GitHub</a>
+        <a href={staticData.instagram_link} target="_blank">Instagram?</a>
+        <a href={staticData.youtube_link} target="_blank"
+          >Youtube? Telegram? idk</a
+        >
         <!-- TODO: REMOVE/ADD LINKS IF NEEDED -->
       </div>
 
