@@ -6,6 +6,7 @@ import Footer from "./Footer.astro";
 import "@fontsource-variable/inter";
 
 // TRANSLATION
+const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
 ---
 
@@ -21,11 +22,20 @@ import staticData from "../data/static.json";
         margin: 0;
         padding: 0;
       }
+
+      h1,
+      h2,
+      h3,
+      p,
+      span,
+      a {
+        white-space: pre-wrap;
+      }
     </style>
   </head>
   <body>
-    <Banner />
-    <Goals />
-    <Footer />
+    <Banner translation={translation.banner} />
+    <Goals translation={translation.goals} />
+    <Footer translation={translation.footer} />
   </body>
 </html>

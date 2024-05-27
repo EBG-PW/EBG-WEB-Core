@@ -1,0 +1,42 @@
+{
+  "banner": {
+    "heading": "A place for video games, \nopensource software and fun.",
+    "cta": "Explore services"
+  },
+  "goals": {
+    "heading": "Our Goals",
+    "1": {
+      "title": "Developing for everyone",
+      "text": "We teach programming, the current and future IT technologies for all ages so that you can fully utilize the digital world.",
+      "icon": "learn"
+    },
+    "2": {
+      "title": "Infrastructure for projects",
+      "text": "We provide infrastructure to realize projects. Lorem lorem lorem lorem",
+      "icon": "infra"
+    },
+    "3": {
+      "title": "Supporting Open-Source",
+      "text": "We support open-source projects in various ways. Lorem lorem lorem lorem lorem",
+      "icon": "opensource"
+    },
+    "4": {
+      "title": "Placeholder text",
+      "text": "Placeholder text Lorem lorem lorem lorem.  Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
+      "icon": "infra"
+    }
+  },
+  "footer": {
+    "links": "Links",
+    "resources": "Resources",
+    "github": "GitHub",
+    "instagram": "Instagram !?",
+    "youtube": "YOUTUBE!?????",
+    "imprint": "Imprint TODO",
+    "imprint_url": "/imprint",
+    "privacy": "Privacy TODO",
+    "privacy_url": "/privacy",
+    "tos": "Terms of Service TODO",
+    "tos_url": "/tos"
+  }
+}

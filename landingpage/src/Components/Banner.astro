@@ -4,6 +4,7 @@ import bannerImage from "../assets/banner.jpg";
 import Button from "./Button.astro";
 
 // TRANSLATION
+const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
 ---
 
@@ -154,8 +155,8 @@ import staticData from "../data/static.json";
   <div class="content">
     <div class="left">
       <p>{staticData.name}</p>
-      <h1>A place for video games, <br />opensource software and fun.</h1>
-      <Button id="explore">Explore services</Button>
+      <h1>{translation.heading}</h1>
+      <Button id="explore">{translation.cta}</Button>
     </div>
     <div class="right">
       <img src="/logo.svg" alt={staticData.name + " Logo"} />

@@ -1,6 +1,9 @@
 ---
 import Heading from "./Heading.astro";
 import Card from "./Card.astro";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
 ---
 
 <style lang="scss">
@@ -80,32 +83,32 @@ import Card from "./Card.astro";
 
 <div class="wrapper">
   <div class="content" id="goals">
-    <Heading level={2}>Our Goals</Heading>
+    <Heading level={2}>{translation.heading}</Heading>
 
     <div class="goals">
       <Card
-        heading="Developing for everyone"
-        icon="learn"
-        text="We teach programming, the current and future IT technologies for all ages so that you can fully utilize the digital world."
+        heading={translation["1"].title}
+        text={translation["1"].text}
+        icon={translation["1"].icon}
       />
       <Card
-        heading="Infrastructure for projects"
-        icon="infra"
-        text="We provide infrastructure to realize projects. Lorem lorem lorem lorem"
+        heading={translation["2"].title}
+        text={translation["2"].text}
+        icon={translation["2"].icon}
       />
       <Card
-        heading="Supporting Open-Source"
-        icon="opensource"
-        text="We support open-source projects in various ways. Lorem lorem lorem lorem lorem"
+        heading={translation["3"].title}
+        text={translation["3"].text}
+        icon={translation["3"].icon}
       />
     </div>
     <div class="connection">
       <div class="line"></div>
     </div>
     <Card
-      heading="Placeholder text"
-      icon="opensource"
-      text="Placeholder text Lorem lorem lorem lorem.  Lorem lorem lorem lorem.  Lorem lorem lorem lorem. "
+      heading={translation["4"].title}
+      text={translation["4"].text}
+      icon={translation["4"].icon}
     />
   </div>
 </div>

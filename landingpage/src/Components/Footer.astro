@@ -2,6 +2,7 @@
 const year = new Date().getFullYear();
 
 // TRANSLATION
+const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
 ---
 
@@ -31,14 +32,12 @@ import staticData from "../data/static.json";
           color: rgba(25, 25, 25);
           font-size: 1rem;
           line-height: 1.2rem;
-          font-weight: bold;
 
-          span {
-            display: inline-block;
-            margin-top: 10px;
-            font-weight: normal;
-            // font-size: 0.8rem;
-            // line-height: 1rem;
+          // MAKE FIRST <p> BOLD, MOVE ALL OTHER TAGS BY 10PX
+          margin-top: 10px;
+          &:nth-child(1) {
+            font-weight: bold;
+            margin: 0;
           }
         }
         img {
@@ -89,34 +88,35 @@ import staticData from "../data/static.json";
   <div class="content">
     <div class="logo">
       <img src="/logo.svg" alt={staticData.name + " Logo"} />
-      <p>
-        {staticData.name}
-        <br />
-        <span>{staticData.name_full} </span>
-        <br /><br />
-        <span>&copy;{staticData.fouding_year}-{year}</span>
-      </p>
+      <div class="text">
+        <p class="name">{staticData.name}</p>
+        <p>{staticData.name_full}</p>
+        <p>&copy;{staticData.fouding_year}-{year}</p>
+      </div>
     </div>
     <div class="links">
       <!-- TODO -->
 
       <div class="group">
-        <p>Links</p>
+        <p>{translation.links}</p>
 
-        <a href={staticData.github_link} target="_blank">GitHub</a>
-        <a href={staticData.instagram_link} target="_blank">Instagram?</a>
-        <a href={staticData.youtube_link} target="_blank"
-          >Youtube? Telegram? idk</a
+        <a href={staticData.github_link} target="_blank">{translation.github}</a
         >
-        <!-- TODO: REMOVE/ADD LINKS IF NEEDED -->
+        <a href={staticData.instagram_link} target="_blank"
+          >{translation.instagram}</a
+        >
+        <a href={staticData.youtube_link} target="_blank"
+          >{translation.youtube}</a
+        >
       </div>
+      <!-- TODO: REMOVE/ADD LINKS IF NEEDED -->
 
       <div class="group">
-        <p>Resources</p>
+        <p>{translation.resources}</p>
 
-        <a href="/imprint">Imprint TODO</a>
-        <a href="/privacy">Privacy Policy TODO</a>
-        <a href="/tos">Terms of Service TODO</a>
+        <a href={translation.imprint_url}>{translation.imprint}</a>
+        <a href={translation.privacy_url}>{translation.privacy}</a>
+        <a href={translation.tos_url}>{translation.tos}</a>
       </div>
     </div>
   </div>
