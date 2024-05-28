@@ -30,12 +30,23 @@
     "heading": "Events",
     "click": "More infos"
   },
+  "team": {
+    "heading": "Team",
+    "no_role": "No role",
+    "no_description": "No description",
+    "member": {
+      "unique_id": {
+        "role": "Role",
+        "description": "Test description"
+      }
+    }
+  },
   "footer": {
     "links": "Links",
     "resources": "Resources",
     "github": "GitHub",
     "instagram": "Instagram !?",
-    "youtube": "YOUTUBE!?????",
+    "x": "X (Twitter)",
     "imprint": "Imprint TODO",
     "imprint_url": "/imprint",
     "privacy": "Privacy TODO",

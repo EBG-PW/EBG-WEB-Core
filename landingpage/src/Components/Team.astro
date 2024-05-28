@@ -1,0 +1,192 @@
+---
+import Heading from "./Heading.astro";
+import { Icon } from "astro-icon/components";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
+import staticData from "../data/static.json";
+---
+
+<style lang="scss">
+  .wrapper {
+    width: 100%;
+    position: relative;
+
+    background-color: white;
+
+    .content {
+      position: relative;
+      z-index: 5;
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      padding: 20px 0;
+
+      display: flex;
+
+      // I TOTALLY DID NOT JUST COPY THAT
+      .team {
+        display: flex;
+        font-family: "Inter Variable", sans-serif;
+        gap: 15px;
+        flex-wrap: wrap;
+
+        .member {
+          background-color: #ebebeb;
+          border-radius: 8px;
+          overflow: hidden;
+
+          width: 200px;
+          position: relative;
+
+          img {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            z-index: 1;
+
+          }
+
+          .links {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: flex-end;
+            box-sizing: border-box;
+
+            z-index: 2;
+            padding: 5px;
+            gap: 11px;
+
+            a {
+              text-decoration: none;
+
+              transition: 0.25s box-shadow;
+
+              width: 1.8rem;
+              height: 1.8rem;
+              background-color: #303030;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              svg {
+                font-size: 1.2rem;
+                color: white;
+              }
+
+              &:hover {
+                box-shadow: 0 0 5px white;
+              }
+            }
+          }
+
+          .container {
+            position: relative;
+            z-index: 6;
+            margin-top: 140px;
+
+            padding: 10px;
+
+            &::before {
+              content: "";
+              width: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 60px;
+              background: linear-gradient(transparent 0%, #ebebeb 40%);
+            }
+
+            p {
+              position: relative;
+              color: rgba(25, 25, 25);
+            }
+            p.role {
+              font-weight: bold;
+              font-size: 1rem;
+              line-height: 1rem;
+            }
+
+            p.langs {
+              font-size: 0.8rem;
+              line-height: 1rem;
+            }
+
+            p.description {
+              font-size: 1rem;
+              line-height: 1.5rem;
+              margin: 0.3rem 0;
+              text-align: justify;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<div class="wrapper">
+  <div class="content" id="team">
+    <Heading level={2}>{translation.heading}</Heading>
+    <div class="team">
+      {
+        staticData.team.map((member) => {
+          return (
+            <div class="member">
+              <div class="links">
+                {member.socials.github ? (
+                  <a href={member.socials.github} target="_blank">
+                    <Icon name="github" />
+                  </a>
+                ) : null}
+
+                {member.socials.telegram ? (
+                  <a href={member.socials.telegram} target="_blank">
+                    <Icon name="telegram" />
+                  </a>
+                ) : null}
+
+                {member.socials.steam ? (
+                  <a href={member.socials.steam} target="_blank">
+                    <Icon name="steam" />
+                  </a>
+                ) : null}
+
+                {member.socials.twitter ? (
+                  <a href={member.socials.twitter} target="_blank">
+                    <Icon name="x" />
+                  </a>
+                ) : null}
+
+                {member.socials.website ? (
+                  <a href={member.socials.website} target="_blank">
+                    <Icon name="website" />
+                  </a>
+                ) : null}
+              </div>
+              <img src={member.icon} alt={member.name} />
+              <div class="container">
+                <Heading level="3">{member.name}</Heading>
+                <p class="role"><!-- 
+                  -->{translation?.member[member.id]?.role ?? translation.no_role}
+                </p>
+                <p class="langs">{member.languages}</p>
+                <p class="description"><!-- 
+                  -->{translation?.member[member.id]?.description ??
+                    translation.no_description}
+                </p>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
