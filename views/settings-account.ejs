@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>EBG - Dashboard</title>
     <!-- CSS files -->
-    <link href="./dist/css/tabler.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
+    <link href="<%= domain %>/dist/css/tabler.min.css?1684106062" rel="stylesheet"/>
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
+    <link href="<%= domain %>/dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
+    <link href="<%= domain %>/dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -347,6 +347,7 @@
                         <div>
                           <div class="col-auto">
                             <a class="btn" data-translate="Settings.Main.Button.SetPassword" id="SettingsPasswordSubmit"></a>
+                            <div id="SettingsPasswordSubmitError"></div>
                           </div>
                         </div>
                       </div>
@@ -371,9 +372,9 @@
             <div class="row text-center align-items-center flex-row-reverse">
               <div class="col-lg-auto ms-lg-auto">
                 <ul class="list-inline list-inline-dots mb-0">
-                  <li class="list-inline-item"><a href="/legal/legal#imprint" data-translate="Dashboard.Footer.Links.Imprint" class="link-secondary" rel="noopener"></a></li>
-                  <li class="list-inline-item"><a href="/legal/legal#privacy" data-translate="Dashboard.Footer.Links.Privacy" class="link-secondary"></a></li>
-                  <li class="list-inline-item"><a href="/legal/guidelines" data-translate="Dashboard.Footer.Links.Guidelines" class="link-secondary" rel="noopener"></a></li>
+                  <li class="list-inline-item"><a href="<%= domain %>/legal/legal#imprint" data-translate="Dashboard.Footer.Links.Imprint" class="link-secondary" rel="noopener"></a></li>
+                  <li class="list-inline-item"><a href="<%= domain %>/legal/legal#privacy" data-translate="Dashboard.Footer.Links.Privacy" class="link-secondary"></a></li>
+                  <li class="list-inline-item"><a href="<%= domain %>/legal/guidelines" data-translate="Dashboard.Footer.Links.Guidelines" class="link-secondary" rel="noopener"></a></li>
                 </ul>
               </div>
               <div class="col-12 col-lg-auto mt-3 mt-lg-0">
@@ -418,12 +419,12 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="./appjs/permission.js"></script>
-    <script src="./appjs/translate.js"></script>
-    <script src="./dist/js/tabler.min.js?1684106062" defer></script>
-    <script src="./dist/js/demo.min.js?1684106062" defer></script>
-    <script src="./dist/js/i18next.min.js?1684106062"></script>
-    <script src="./appjs/layout.js"></script>
+    <script src="<%= domain %>/appjs/permission.js"></script>
+    <script src="<%= domain %>/appjs/translate.js"></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?1684106062" defer></script>
+    <script src="<%= domain %>/dist/js/demo.min.js?1684106062" defer></script>
+    <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
+    <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
       document.getElementById("passwordToggle_old").addEventListener("click", function() {
@@ -501,6 +502,14 @@
         } else if(response.status == 401 || response.status == 403 || response.status == 400) {
           document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
           updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Wrong"));
+          setTimeout(function() {
+            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
+          }, 3000);
+        } else if(response.status == 409) { 
+          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
+          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.NoPassword"));
+          document.getElementById("SettingsPasswordSubmitError").innerHTML = i18next.t("Settings.Main.ExplainNoPassword");
           setTimeout(function() {
             document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
             updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
@@ -610,8 +619,6 @@
           document.getElementById("SettingsLastName").value = data.last_name;
           document.getElementById("SettingsBio").value = data.bio;
           document.getElementById("SettingsPrivacy").checked = !data.public;
-
-          console.log(data);
         }
       });
     </script>

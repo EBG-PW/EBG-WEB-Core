@@ -1,0 +1,25 @@
+{
+    "companyName": "EBG",
+    "companyEmail": "contact@ebg.pw",
+    "greeting": "Hallo,",
+    "registerCodeHeadline": "Bitte klicke auf den Link um deine E-Mail-Adresse zu verifizieren:",
+    "resetPasswordHeadline": "Bitte klicke auf den Link um dein Passwort zurückzusetzen:",
+    "otpCodeHeadline": "Dein Einmalpasswort lautet:",
+    "registerconfirm": "Verifiziere deine E-Mail-Adresse",
+    "passwordresetconfirm": "Passwort zurücksetzen",
+    "companyContactText": "Wenn du irgendwelche Fragen hast, kontaktiere uns bitte unter:",
+    "subject": {
+        "registerMail": "Willkommen bei EBG, bitte verifiziere deine E-Mail-Adresse",
+        "passwordReset": "Dein Passwort zurücksetzen für EBG",
+        "otpCode": "Dein Einmalpasswort für EBG"
+    },
+    "preHeader": {
+        "registerMail": "Bitte verifiziere deine E-Mail-Adresse mit dieser Email",
+        "resetPassword": "Resette dein Passwort mit dieser Email"
+    },
+    "links": {
+        "twitter": "https://twitter.com/ebg_pw",
+        "github": "https://github.com/EBG-PW",
+        "instagram": "hhttps://www.instagram.com/ebg_official/"
+    }
+}

@@ -3,6 +3,8 @@ const { user } = require('@lib/postgres');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
+const { sendMail } = require('@lib/queues');
+const { generateUrlPath } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
 const { InvalidRouteInput, DBError, InvalidLogin } = require('@lib/errors');
@@ -99,7 +101,9 @@ router.post('/setpassword', verifyRequest('web.user.password.write'), limiter(10
     const user_response = user_responses[0];
 
     if (user_response.password === null) { // <-- Check if user has a password, if not we skip this check (This can happen if the user used OAuth to register)
-
+        const urlPath = generateUrlPath();
+        await sendMail('user:reset_password', { userId: req.user.user_id, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        throw new InvalidRouteInput('User has no password set yet').withStatus(409).withBackUrl('none')
     }
 
     const bcrypt_response = await bcrypt.compare(value.old_password, user_response.password);
@@ -218,7 +222,7 @@ router.post('/public', verifyRequest('web.user.public.write'), limiter(10), asyn
     });
 });
 
-router.delete('/avatar', verifyRequest('web.user.delete'), limiter(10), async (req, res) => {
+router.delete('/avatar', verifyRequest('web.user.avatar.write'), limiter(10), async (req, res) => {
     const sql_response = await user.update.avatar(req.user.user_id, null);
     if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 

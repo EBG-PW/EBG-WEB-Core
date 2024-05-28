@@ -16,13 +16,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title data-translate="Login.Title"> </title>
     <!-- CSS files -->
-    <link href="./dist/css/tabler.min.css?1684106062" rel="stylesheet" />
-    <link href="./dist/css/tabler-flags.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet" />
     <link
-      href="./dist/css/tabler-payments.min.css?1684106062"
+      href="<%= domain %>/dist/css/tabler-payments.min.css?1684106062"
       rel="stylesheet" />
     <link
-      href="./dist/css/tabler-vendors.min.css?1684106062"
+      href="<%= domain %>/dist/css/tabler-vendors.min.css?1684106062"
       rel="stylesheet" />
     <style>
       @import url("https://rsms.me/inter/inter.css");
@@ -36,13 +36,11 @@
     </style>
   </head>
   <body class="d-flex flex-column">
-    <script src="/appjs/format.js"></script>
+    <script src="<%= domain %>/appjs/format.js"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"
-            ><img src="./dist/logo-transparent.png" height="36" alt=""
-          /></a>
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="<%= domain %>/dist/logo-transparent.png" height="36" alt=""/></a>
         </div>
         <div class="card card-md">
           <div class="card-body">
@@ -64,7 +62,7 @@
                 <label class="form-label" data-translate="Login.Password">
                   <span class="form-label-description">
                     <a
-                      href="./forgot-password.html"
+                      href="<%= domain %>/requestresetpassword"
                       data-translate="Login.ForgotPassword">s</a>
                   </span>
                 </label>
@@ -78,7 +76,6 @@
                     autocomplete="off" />
                   <span class="input-group-text">
                     <a
-                      href="#"
                       id="passwordToggle"
                       class="link-secondary"
                       title="Show password"
@@ -104,6 +101,7 @@
                   </span>
                 </div>
               </div>
+              <div id="responseText"></div>
               <div class="form-footer">
                 <button
                   type="submit"
@@ -166,7 +164,7 @@
         </div>
         <div class="text-center text-muted mt-3">
           <a
-            href="./sign-up.html"
+            href="<%= domain %>/register"
             data-translate="Login.SignUPPhrase">
           </a>
         </div>
@@ -174,13 +172,11 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="./appjs/permission.js"></script>
-    <script src="./appjs/translate.js"></script>
-    <script src="./dist/js/tabler.min.js?1684106062" defer></script>
-    <script src="./dist/js/demo.min.js?1684106062" defer></script>
-    <script src="./dist/js/i18next.min.js?1684106062"></script>
+    <script src="<%= domain %>/appjs/permission.js"></script>
+    <script src="<%= domain %>/appjs/translate.js"></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?1684106062"></script>
+    <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script>
-
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
       document.getElementById("passwordToggle").addEventListener("click", function() {
         const passwordField = document.getElementById("login_password");
@@ -191,17 +187,32 @@
         }
       });
 
+      // Wait till i18n is loaded, then translate the page
+      i18next.on("initialized", function() {
+        const localStorageEmailVerify = localStorage.getItem("emailVerifyInfo") || false;
+        if(localStorageEmailVerify) {
+          if(parseInt(localStorageEmailVerify) < 300) {
+            document.getElementById("responseText").innerHTML = `<div class="alert alert-success" role="alert">${`OAuth: ${i18next.t(`Login.OauthRegister`)}`}</div>`;
+            localStorage.removeItem("emailVerifyInfo");
+          } else {
+            document.getElementById("responseText").innerHTML = `<div class="alert alert-danger" role="alert">${`OAuth: ${i18next.t(`Login.Button.Error.${localStorageEmailVerify}`)}`}</div>`;
+            localStorage.removeItem("emailVerifyInfo");
+        }
+          setTimeout(function() {
+            document.getElementById("responseText").innerHTML = "";
+          }, 8000);
+        }
+      });
+
       // When the login form is submitted, send a POST request to the server (VanillaJS)
       document.getElementById("LoginForm").addEventListener("submit", function(event) {
         event.preventDefault();
-        const getUrl = window.location;
-        const baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
 
         const identifier = document.getElementById("login_identifier").value;
         const password = document.getElementById("login_password").value;
 
         // Check if status 200, if so, redirect to dashboard. If not, show error message.
-        fetch(baseUrl + "api/v1/login", {
+        fetch("/api/v1/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -213,8 +224,10 @@
         })
           .then((response) => {
             if (response.status === 200) {
+              document.querySelector("button[type=submit]").classList.toggle("btn-success");
               return response.json();
             } else {
+              let showErrorDuration = 1500;
               // Toggle submit button to red and write error message for 401, 403 and 500
               // updateElementText(element, i18next.t(key));
               document.querySelector("button[type=submit]").classList.toggle("btn-danger");
@@ -222,15 +235,18 @@
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.401"));
               } else if(response.status === 403) {
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.403"));
+              } else if(response.status === 423) {
+                updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.423"));
+                showErrorDuration += 1000;
               } else if(response.status === 500) {
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.Error.500"));
               }
 
-              // Toggle back to normal after 3 seconds
+              // Toggle back to normal after 1.5 seconds
               setTimeout(function() {
                 document.querySelector("button[type=submit]").classList.toggle("btn-danger");
                 updateElementText(document.querySelector("button[type=submit]"), i18next.t("Login.Button.SignIn"));
-              }, 3000);
+              }, showErrorDuration);
 
               throw new Error(response.status);
             }
@@ -238,9 +254,11 @@
           .then((response) => {
             localStorage.setItem("user_id", response.user_id);
             localStorage.setItem("username", response.username);
+            localStorage.setItem("puuid", response.puuid);
             localStorage.setItem("avatar_url", response.avatar_url);
             localStorage.setItem("language", response.language);
             localStorage.setItem("tablerTheme", response.design);
+            localStorage.setItem("user_group", response.user_group)
             localStorage.setItem("token", response.token);
             localStorage.setItem("permissions", JSON.stringify(response.permissions));
             window.location.href = "/dashboard";

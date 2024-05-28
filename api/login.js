@@ -4,7 +4,7 @@ const { addWebtoken, logoutWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const HyperExpress = require('hyper-express');
-const { PermissionsError, InvalidRouteInput, InvalidLogin, Invalid2FA, DBError } = require('@lib/errors');
+const { PermissionsError, InvalidRouteInput, InvalidLogin, Invalid2FA, DBError, RequestBlocked } = require('@lib/errors');
 const useragent = require('express-useragent');
 const twofactor = require("node-2fa");
 const bcrypt = require('bcrypt');
@@ -16,8 +16,13 @@ const PluginName = 'Login'; //This plugins name
 const PluginRequirements = []; //Put your Requirements and version here <Name, not file name>|Version
 const PluginVersion = '0.0.1'; //This plugins version
 
+const identifierSchema = Joi.alternatives().try(
+    Joi.string().email(), // First, try validating as an email
+    Joi.string().alphanum().min(6).max(56) // If not an email, validate as an alphanumeric string
+  );
+
 const LoginCheck = Joi.object({
-    identifier: Joi.string().min(6).max(56).required(),
+    identifier: identifierSchema.required(),
     password: Joi.string().min(6).max(56).required()
 });
 
@@ -32,9 +37,11 @@ router.post('/', async (req, res) => {
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
     // Check if user exists in our database
-    const user_responses = await user.getByUseridentifyerWithSettings(value.identifier);
+    const user_responses = await user.getByUseridentifyerWithSettings(value.identifier.toLowerCase());
     if (!user_responses || user_responses.length === 0) throw new InvalidLogin('Invalid Login');
     const user_response = user_responses[0];
+
+    if(user_response.email_verified === null) throw new RequestBlocked('Verify Email');
 
     // Compare passwort hash with passwort to check if they match
     if(user_response.password === null) throw new InvalidLogin('Invalid Login');
@@ -45,7 +52,7 @@ router.post('/', async (req, res) => {
     if (user_response.twofa_secret !== null) {
         // Generate a random token, so we can check if the user who loged in also entered the 2FA code
         const FA_Token = randomstring.generate({
-            length: process.env.WebTokenLength, //DO NOT CHANCE!!!
+            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
@@ -80,24 +87,17 @@ router.post('/', async (req, res) => {
 
         const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
-        await addWebtoken(WebToken, user_response.user_id, user_response.user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
+        const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser); // Add the webtoken to the cache
 
         res.status(200)
         res.json({
             message: 'Login successful',
-            user_id: user_response.id,
-            puuid: user_response.puuid,
-            username: user_response.username,
-            avatar_url: user_response.avatar_url,
-            user_group: user_response.user_group,
-            language: user_response.language,
-            design: user_response.design,
-            token: WebToken,
-            permissions: Formated_Permissions
+            ...return_data
         });
     }
 });
 
+/*
 router.post('/2fa', async (req, res) => {
     const value = await Login2FACheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
@@ -152,6 +152,7 @@ router.post('/2fa', async (req, res) => {
         permissions: Formated_Permissions
     });
 });
+*/
 
 router.post('/check', verifyRequest('app.web.login'), async (req, res) => {
     res.status(200)

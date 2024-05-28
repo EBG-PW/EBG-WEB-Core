@@ -1,17 +1,22 @@
 {
   "de": "Deutsch",
+  "Page": {
+    "Search": "Suche..."
+  },
   "Login": {
     "Title": "Anmelden",
     "Header": "Anmelden",
     "EmailAdress": "E-Mail Adresse",
     "Password": "Passwort",
     "ForgotPassword": "Passwort vergessen?",
+    "OauthRegister": "Dein Account wurde erstellt, dir wurde eine E-Mail gesendet.",
     "Button": {
       "Remember": "Angemeldet bleiben",
       "SignIn": "Anmelden",
       "Error": {
         "401": "E-Mail Adresse oder Passwort falsch",
         "403": "Gesperrter Account",
+        "423": "E-Mail Adresse nicht bestätigt",
         "500": "Serverfehler"
       }
     },
@@ -24,6 +29,42 @@
     "Placeholder": {
       "EmailAdress": "E-Mail Adresse",
       "Password": "Passwort"
+    }
+  },
+  "Register": {
+    "Titel": "Registrieren",
+    "HeadlineNewAcc": "Neuen Account erstellen",
+    "Username": "Benutzername",
+    "Password1": "Passwort",
+    "Password2": "Passwort wiederholen",
+    "Password": "Passwort",
+    "CreateNewAccount": "Neuen Account erstellen",
+    "GotAccount": "Sie haben bereits einen Account?",
+    "Legal": "Akzeptiere die Nutzungsbedingungen und Datenschutzrichtlinien",
+    "Success": "E-Mail wurde versendet, bitte überprüfe dein Postfach.",
+    "Placeholder": {
+      "Username": "Benutzername"
+    },
+    "Error": {
+      "401": "Benuztername oder E-Mail Adresse bereits vergeben"
+    }
+  },
+  "RegisterVerify": {
+    "Title": "Account verifizieren",
+    "Headline": "Bestätige deinen Account mit dem klick auf den Knopf.",
+    "VerifyMail": "E-Mail bestätigen",
+    "Success": "E-Mail erfolgreich bestätigt, du wirst gleich weitergeleitet."
+  },
+  "ResetPassword": {
+    "Title": "Passwort zurücksetzen",
+    "ResetPassword": "Passwort zurücksetzen",
+    "Email": "E-Mail Adresse",
+    "EnterIdentifyer": "Gib deine E-Mail Adresse oder Benutzernamen ein",
+    "TakeMeBack": "Zurück zur Anmeldung",
+    "Success": "Fals diese Email existiert, wird eine E-Mail an dich gesendet.",
+    "SuccessReset": "Passwort erfolgreich zurückgesetzt, du wirst gleich weitergeleitet.",
+    "Button": {
+      "ResetPassword": "Passwort zurücksetzen"
     }
   },
   "Dashboard": {
@@ -85,6 +126,7 @@
       "PasswordRepeat": "Passwort wiederholen",
       "PasswordNew": "Neues Passwort",
       "ExplainPrivate": "Hier kannst du dein Profil auf Privat stellen.",
+      "ExplainNoPassword": "Dein Account wurde über eine Drittanbieter App erstellt, dir wurde eine E-Mail gesendet um dein Password zu setzen.",
       "Button": {
         "SetPassword": "Passwort ändern",
         "PrivacyActive": "Privatsphäre aktiviert",
@@ -92,6 +134,7 @@
       },
       "Error": {
         "Password": {
+          "NoPassword": "Du hast kein Passwort",
           "Empty": "Bitte gib ein Passwort ein",
           "NotEqual": "Die Passwörter stimmen nicht überein",
           "Unknown": "Ein unbekannter Fehler ist aufgetreten",
@@ -140,11 +183,31 @@
     }
   },
   "Events": {
+    "Visibility": {
+      "1": "Öffentlich",
+      "0": "Privat"
+    },
     "Body": {
+      "DescriptionCardHeadline": "Event Beschreibung",
+      "Card": {
+        "LeaveButton": "Verlassen",
+        "Participates": "Du nimmst teil",
+        "JoinButton": "Beitreten",
+        "Location": "Veranstaltungsort",
+        "JoinDate": "Anmeldung bis",
+        "StartDate": "Start Datum",
+        "EndDate": "End Datum",
+        "MinGroup": "Sichtbar ab",
+        "Visibility": "Sichtbarkeit",
+        "ParticipantWithCount_zero": "{{count}} Teilnehmer",
+        "ParticipantWithCount_one": "{{count}} Teilnehmer",
+        "ParticipantWithCount_other": "{{count}} Teilnehmer"
+      },
       "Head": {
         "Title": "Veranstaltungen",
         "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
-        "AddButton": "Veranstaltung erstellen"
+        "AddButton": "Veranstaltung erstellen",
+        "CardTileInfos": "Informationen"
       }
     },
     "Modal": {
@@ -172,6 +235,16 @@
             "Cancel": "Abbrechen",
             "AddNew": "Neue Veranstaltung erstellen"
         }
+    },
+    "Settings": {
+      "Button": {
+        "Link": "Einstellungen"
+      },
+      "Title": "Veranstaltungs Einstellungen",
+      "Site": {
+        "General": "Allgemeine Einstellungen",
+        "OAuth": "OAuth Einstellungen"
+      }
     }
   },
   "Error": {
@@ -181,6 +254,7 @@
         "min": "{{field}} muss mindestens {{limit}} Zeichen lang sein",
         "max": "{{field}} darf höchstens {{limit}} Zeichen lang sein",
         "email": "{{field}} muss eine gültige E-Mail-Adresse sein",
+        "alphanum": "{{field}} darf nur a-Z & 0-9 enthalten",
         "pattern": {
           "base": "{{field}} muss dem erforderlichen Muster entsprechen"
         }
@@ -195,14 +269,23 @@
         "min": "Das Datum von {{field}} muss nach dem {{limit}} liegen",
         "max": "Das Datum von {{field}} muss vor dem {{limit}} liegen"
       },
+      "any": {
+        "required": "{{field}} ist erforderlich",
+        "only": "{{field}} darf nur {{valids}} sein"
+      },
       "required": "{{field}} ist erforderlich"
     },
     "NewEventApplyBeforeStart": "Das Anmelde Datum muss vor dem Start Datum liegen",
-    "NewEventEndBeforeStart": "Das Start Datum muss vor dem End Datum liegen"
+    "NewEventEndBeforeStart": "Das Start Datum muss vor dem End Datum liegen",
+    "PasswordMatch": "Passwörter stimmen nicht überein"
   },
   "User_Groups": {
     "user": "Nutzer",
     "kassierer": "Kassierer",
-    "admin": "Administrator"
+    "admin": "Administrator",
+    "virtualGroups": {
+      "reg": "Registrierte Nutzer",
+      "member": "Vereinsmitglieder"
+    }
   }
 }

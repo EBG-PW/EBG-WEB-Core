@@ -131,6 +131,9 @@ out
 # Template
 css_template/*
 
+# Email Template
+services/mailer/tabler_email_templates/*
+
 # Ignore config files with credentials
 config/auth.js
 
@@ -140,38 +143,24 @@ public/index.html
 public/profile.html
 public/settings-account.html
 public/settings-misc.html
-public/auth/sign-in.html
-public/auth/sign-up.html
-public/auth/forgot-password.html
+public/auth/*.*
 public/auth.html
 public/apps.html
 public/settings-links.html
 public/events.html
 public/projects.html
-public/legal/legal#imprint.html
-public/legal/legal#privacypolicy.html
+public<%= domain %>/legal/legal#imprint.html
+public<%= domain %>/legal/legal#privacypolicy.html
 public/legal/imprint.html
 public/legal/legal.html
 public/legal/privacypolicy.html
+public/event-settings.html
+public/event_dashboard.html
 
+#ASTRO
 # build output
-dist/
+landingpage/dist/
 # generated types
-.astro/
-
+landingpage/.astro/
 # dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
+landingpage/node_modules/

@@ -7,20 +7,17 @@
 /**
  * [Route].[Endpoint].[Exact(Optional)]
  * It can use * to terminate early AND make all permissions below it true.
- * @param {String} user_permissions 
  * @param {String} required_permission 
  * @returns {PermissionResponse}
  */
-const checkPermission = (user_permissions, required_permission) => {
-  if (!user_permissions) {
-    return { result: false, reason: "Permission not found." };
-  }
+const checkPermission = (required_permission) => {
+  const user_permissions = JSON.parse(localStorage.getItem("permissions")) || [];
 
   let hasGeneralPermission = false;
   let specificDenySet = new Set();
 
   for (let perm of user_permissions) {
-    // CHeck if the permission is explicitly set
+    // Check if the permission is explicitly set
     if (perm === required_permission) {
       return { result: true, reason: perm };
     }
@@ -60,7 +57,10 @@ const checkPermission = (user_permissions, required_permission) => {
 const checkSession = async () => {
   const token = localStorage.getItem("token");
   if (!token) {
-    if(!window.location.href.includes("login")) window.location.href = "/login";
+    if(!window.location.href.includes("login") &&
+      !window.location.href.includes("register") &&
+      !window.location.href.includes("requestresetpassword") && 
+      !window.location.href.includes("resetpassword")) window.location.href = "/login";
     return { result: false, reason: "No token found." };
   }
 
@@ -76,24 +76,26 @@ const checkSession = async () => {
     const data = await response.json();
 
     localStorage.setItem("user_id", data.user_id);
-    localStorage.setItem("puuid", data.puuid);
     localStorage.setItem("username", data.username);
+    localStorage.setItem("puuid", data.puuid);
     localStorage.setItem("avatar_url", data.avatar_url);
     localStorage.setItem("language", data.language);
     localStorage.setItem("tablerTheme", data.design);
+    localStorage.setItem("user_group", data.user_group);
     localStorage.setItem("token", data.token);
     localStorage.setItem("permissions", JSON.stringify(data.permissions));
 
     if(window.location.href.includes("login")) window.location.href = "/dashboard";
   } else {
     localStorage.removeItem("user_id");
-    localStorage.removeItem("puuid");
     localStorage.removeItem("username");
+    localStorage.removeItem("puuid");
     localStorage.removeItem("avatar_url");
     localStorage.removeItem("language");
+    localStorage.removeItem("user_group");
     localStorage.removeItem("token");
     localStorage.removeItem("permissions");
-    if(!window.location.href.includes("login")) window.location.href = "/login";
+    if(!window.location.href.includes("login") && !window.location.href.includes("register") && !window.location.href.includes("passwordreset")) window.location.href = "/login";
     throw new Error(response.statusText);
   }
 }
