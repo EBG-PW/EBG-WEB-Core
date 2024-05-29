@@ -28,6 +28,12 @@ const { translation = {} } = Astro.props;
 
       display: flex;
 
+      @media only screen and (max-width: 1050px) {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
       .goals {
         width: 100%;
         background-color: white;
@@ -38,6 +44,17 @@ const { translation = {} } = Astro.props;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         justify-items: center;
+
+        @media only screen and (max-width: 1050px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media only screen and (max-width: 1050px) {
+        .connection,
+        .line {
+          display: none;
+        }
       }
 
       .connection {

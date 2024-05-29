@@ -56,11 +56,21 @@ const events = [
 
       display: flex;
 
+      @media only screen and (max-width: 1050px) {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
       .events {
         display: flex;
         font-family: "Inter Variable", sans-serif;
         gap: 15px;
         flex-wrap: wrap;
+
+        @media only screen and (max-width: 1050px) {
+          justify-content: center;
+        }
 
         .event {
           background-color: #ebebeb;
