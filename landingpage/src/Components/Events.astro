@@ -1,0 +1,156 @@
+---
+import Heading from "./Heading.astro";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
+
+// HUGE TODO;
+// I HAVE NO CLUE WHICH DATA I ACTUALLY GET LOL
+const events = [
+  {
+    name: "Test Event",
+    image: "/favicon.svg",
+    description:
+      "Test event description. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
+    click: "https://ebg.pw/event/test",
+    timestamp: "2024-06-06",
+  },
+  {
+    name: "Test Event",
+    image: "/favicon.svg",
+    description:
+      "Test event description. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
+    click: "https://ebg.pw/event/test",
+    timestamp: "2024-06-06",
+  },
+  {
+    name: "Test Event",
+    image: "/favicon.svg",
+    description:
+      "Test event description. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
+    click: "https://ebg.pw/event/test",
+    timestamp: "2024-06-06",
+  },
+];
+---
+
+<style lang="scss">
+  .wrapper {
+    width: 100%;
+    position: relative;
+
+    background-color: white;
+
+    .content {
+      position: relative;
+      z-index: 5;
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      padding: 20px 0;
+
+      display: flex;
+
+      @media only screen and (max-width: 1050px) {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .events {
+        display: flex;
+        font-family: "Inter Variable", sans-serif;
+        gap: 15px;
+        flex-wrap: wrap;
+
+        @media only screen and (max-width: 1050px) {
+          justify-content: center;
+        }
+
+        .event {
+          background-color: #ebebeb;
+          border-radius: 8px;
+          overflow: hidden;
+
+          width: 270px;
+          position: relative;
+
+          img {
+            width: 100%;
+            height: 150px;
+
+            object-fit: cover;
+          }
+
+          .container {
+            width: 250px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+
+            p.date {
+              color: rgba(25, 25, 25);
+              font-size: 0.8rem;
+              line-height: 1rem;
+            }
+
+            p.description {
+              color: rgba(25, 25, 25);
+              font-size: 1rem;
+              line-height: 1.5rem;
+
+              text-align: justify;
+            }
+
+            a.cta {
+              margin-left: auto;
+
+              text-decoration: none;
+              display: inline-block;
+              color: rgba(25, 25, 25);
+              font-size: 0.8rem;
+              line-height: 1rem;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<div class="wrapper">
+  <div class="content" id="events">
+    <Heading level={2}>{translation.heading}</Heading>
+    <div class="events">
+      {
+        events.map((event) => {
+          return (
+            <div class="event">
+              <img src={event.image} alt={event.name} />
+              <div class="container">
+                <Heading level="3">{event.name}</Heading>
+                <p class="date">{event.timestamp}</p>
+                <p class="description">{event.description}</p>
+                {event.click ? (
+                  <a href={event.click} class="cta">
+                    {/* TODO: REMOVE WHITESPACE  */}
+                    {translation.click}
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>

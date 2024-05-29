@@ -1,0 +1,191 @@
+---
+import { Image } from "astro:assets";
+import bannerImage from "../assets/banner.jpg";
+import Button from "./Button.astro";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
+import staticData from "../data/static.json";
+---
+
+<script></script>
+<style lang="scss">
+  .wrapper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+
+    background-color: black;
+
+    .background {
+      position: fixed;
+
+      width: 100%;
+      height: 100%;
+
+      filter: brightness(0.55);
+
+      img.bgImg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        z-index: 1;
+        filter: grayscale(1);
+      }
+
+      .gradient {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(22, 35, 237, 0.5) 10%,
+          rgba(235, 229, 21, 0.5) 50%,
+          rgba(79, 40, 11, 0.9) 95%
+        );
+
+        position: absolute;
+        z-index: 2;
+      }
+    }
+
+    svg.wave {
+      position: absolute;
+      width: 100%;
+      height: 120px;
+      bottom: 0;
+
+      z-index: 3;
+
+      use {
+        animation: move 15s linear infinite;
+
+        &#w2 {
+          animation-delay: -7s;
+          animation-duration: 11s;
+        }
+
+        &#w3 {
+          animation-delay: -2s;
+          animation-duration: 8s;
+        }
+      }
+    }
+
+    .content {
+      position: relative;
+      z-index: 5;
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      align-items: center;
+
+      display: flex;
+
+      color: white;
+      font-family: "Inter Variable", sans-serif;
+
+      @media only screen and (max-width: 1050px) {
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+
+      .left {
+        flex: 0 0 75%;
+        p {
+          font-size: 1rem;
+          color: rgb(250, 250, 250);
+        }
+
+        h1 {
+          font-size: 2.5rem;
+          margin: 1rem 0;
+        }
+      }
+    }
+
+    .right {
+      flex: 0 0 25%;
+      display: flex;
+      justify-content: center;
+
+      img {
+        height: 140px;
+        width: 140px;
+      }
+    }
+  }
+
+  @keyframes move {
+    from {
+      transform: translate(85px, 0%);
+    }
+    to {
+      transform: translate(-90px, 0%);
+    }
+  }
+</style>
+
+<div class="wrapper">
+  <div class="background" id="bg">
+    <Image
+      src={bannerImage}
+      alt=""
+      class={"bgImg"}
+      widths={[240, 540, 720, 1080, 1280, bannerImage.width]}
+    />
+    <div class="gradient"></div>
+  </div>
+  <svg
+    class="wave"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 24 150 28"
+    preserveAspectRatio="none"
+  >
+    <defs>
+      <path
+        id="wave"
+        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+      >
+      </path>
+    </defs>
+    <use id="w1" xlink:href="#wave" x="50" y="0" fill="rgba(255,255,255, .3)"
+    ></use>
+    <use id="w2" xlink:href="#wave" x="50" y="3" fill="rgba(255,255,255, .7)"
+    ></use>
+    <use id="w3" xlink:href="#wave" x="50" y="6" fill="rgb(255,255,255)"></use>
+  </svg>
+  <div class="content">
+    <div class="left">
+      <p>{staticData.name}</p>
+      <h1>{translation.heading}</h1>
+      <Button id="explore">{translation.cta}</Button>
+    </div>
+    <div class="right">
+      <img src="/logo.svg" alt={staticData.name + " Logo"} />
+    </div>
+  </div>
+</div>
+
+<script>
+  const bg = document.getElementById("bg");
+
+  document.addEventListener("scroll", () => {
+    const offset = window.scrollY / 5;
+
+    if (bg) {
+      bg.style.transform = `translateY(-${offset}px)`;
+    }
+  });
+
+  document.getElementById("explore")?.addEventListener("click", () => {
+    console.log(document.getElementById("goals"));
+    window.scrollTo({
+      top: document.getElementById("goals")?.getBoundingClientRect().top ?? 1,
+      behavior: "smooth",
+    });
+  });
+</script>

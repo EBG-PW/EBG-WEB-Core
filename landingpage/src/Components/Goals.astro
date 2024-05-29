@@ -1,0 +1,131 @@
+---
+import Heading from "./Heading.astro";
+import Card from "./Card.astro";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
+---
+
+<style lang="scss">
+  .wrapper {
+    width: 100%;
+    position: relative;
+
+    background-color: white;
+
+    .content {
+      position: relative;
+      z-index: 5;
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      padding: 20px 0;
+
+      display: flex;
+
+      @media only screen and (max-width: 1050px) {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .goals {
+        width: 100%;
+        background-color: white;
+        // box-shadow: 0 0 8px -2px rgba(25, 25, 25.4);
+        // border: 1px solid black;
+        border-radius: 8px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-items: center;
+
+        @media only screen and (max-width: 1050px) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media only screen and (max-width: 1050px) {
+        .connection,
+        .line {
+          display: none;
+        }
+      }
+
+      .connection {
+        width: 70%;
+        padding-bottom: 40px;
+        border-top: 2px solid black;
+        position: relative;
+
+        $h: 15px;
+
+        &::before {
+          position: absolute;
+          content: "";
+          left: 0;
+          top: -$h;
+          background-color: black;
+          height: $h;
+          width: 2px;
+        }
+
+        &::after {
+          position: absolute;
+          content: "";
+          right: 0;
+          top: -$h;
+          background-color: black;
+          height: $h;
+          width: 2px;
+        }
+      }
+
+      .line {
+        position: absolute;
+        left: calc(50% - 1px);
+        top: -13px;
+        background-color: black;
+        width: 2px;
+        height: 45px;
+      }
+    }
+  }
+</style>
+
+<div class="wrapper">
+  <div class="content" id="goals">
+    <Heading level={2}>{translation.heading}</Heading>
+
+    <div class="goals">
+      <Card
+        heading={translation["1"].title}
+        text={translation["1"].text}
+        icon={translation["1"].icon}
+      />
+      <Card
+        heading={translation["2"].title}
+        text={translation["2"].text}
+        icon={translation["2"].icon}
+      />
+      <Card
+        heading={translation["3"].title}
+        text={translation["3"].text}
+        icon={translation["3"].icon}
+      />
+    </div>
+    <div class="connection">
+      <div class="line"></div>
+    </div>
+    <Card
+      heading={translation["4"].title}
+      text={translation["4"].text}
+      icon={translation["4"].icon}
+    />
+  </div>
+</div>

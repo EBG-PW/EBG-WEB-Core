@@ -1,0 +1,48 @@
+---
+import Banner from "./Banner.astro";
+import Goals from "./Goals.astro";
+import Events from "./Events.astro";
+import Team from "./Team.astro";
+import Projects from "./Projects.astro";
+import Footer from "./Footer.astro";
+
+import "@fontsource-variable/inter";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
+import staticData from "../data/static.json";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{staticData.name}</title>
+    <style lang="scss" is:global>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      p,
+      span,
+      a {
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <Banner translation={translation.banner} />
+    <Goals translation={translation.goals} />
+    <Events translation={translation.events} />
+    <Team translation={translation.team} />
+    <Projects translation={translation.projects} />
+
+    <Footer translation={translation.footer} />
+  </body>
+</html>
