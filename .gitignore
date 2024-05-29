@@ -157,3 +157,10 @@ public/legal/privacypolicy.html
 public/event-settings.html
 public/event_dashboard.html
 
+#ASTRO
+# build output
+landingpage/dist/
+# generated types
+landingpage/.astro/
+# dependencies
+landingpage/node_modules/

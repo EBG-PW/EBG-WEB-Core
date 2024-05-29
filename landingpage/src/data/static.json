@@ -1,0 +1,23 @@
+{
+  "name": "EBG.PW",
+  "name_full": "Elektronische Begeisterung Gemeinsam. Projekt Werkstatt",
+  "fouding_year": "2023",
+  "github_link": "TODO",
+  "instagram_link": "TODO",
+  "x_link": "TODO",
+  "team": [
+    {
+      "id": "unique_id",
+      "name": "member",
+      "icon": "/favicon.svg",
+      "languages": "programming langs",
+      "socials": {
+        "twitter": "link (remove field if not needed)",
+        "github": "link (remove field if not needed)",
+        "telegram": "link (remove field if not needed)",
+        "steam": "link (remove field if not needed)",
+        "website": "link (remove field if not needed)"
+      }
+    }
+  ]
+}
