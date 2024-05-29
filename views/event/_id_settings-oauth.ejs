@@ -32,7 +32,7 @@
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href="/dashboard">
               <img src="/dist/logo-transparent.png" width="110" height="32" alt="EBG" class="navbar-brand-image">
-              <div data-translate="Dashboard.Header.Pagename">
+              <div data-translate="Dashboard.Header.Pagename"></div>
             </a>
           </h1>
           <div class="navbar-nav flex-row order-md-last">
@@ -197,150 +197,9 @@
                       </div>
                     </div>
                     <h2 class="mb-4" data-translate="Events.Settings.Site.General"></h2>
-                    <div class="row mb-3 align-items-end">
-                      <div class="col-auto">
-                        <a href="#" class="avatar avatar-upload rounded">
-                          <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                          <span class="avatar-upload-text" data-translate="Events.Modal.NewEvent.AvatarAdd"></span>
-                        </a>
-                      </div>
-                      <div class="col">
-                        <label class="form-label" data-translate="Events.Modal.NewEvent.EventName"></label>
-                        <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" onchange="handleInputChange(this.id)" class="form-control" />
-                      </div>
-                    </div>
-                    <!-- Color & Event Visibility Row-->
-                    <div class="row">
-                      <div class="col-lg-7">
-                        <label class="form-label" data-translate="Events.Modal.NewEvent.Color"></label>
-                        <div class="row g-2">
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="dark" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-dark"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput form-colorinput-light">
-                              <input name="color" type="radio" value="white" onchange="handleColorChange(this.value)" class="form-colorinput-input"  checked/>
-                              <span class="form-colorinput-color bg-white"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="blue" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-blue"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="azure" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-azure"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="indigo" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-indigo"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="purple" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-purple"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="pink" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-pink"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="red" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-red"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="orange" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-orange"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="yellow" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-yellow"></span>
-                            </label>
-                          </div>
-                          <div class="col-auto">
-                            <label class="form-colorinput">
-                              <input name="color" type="radio" value="lime" onchange="handleColorChange(this.value)" class="form-colorinput-input" />
-                              <span class="form-colorinput-color bg-lime"></span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-lg-5">
-                        <div class="mb-5">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.Visibility"></label>
-                          <select class="form-select" id="EventVisibility" onchange="handleInputChange(this.id)">
-                            <option value="1" data-translate="Events.Modal.NewEvent.Visibility_Open" selected></option>
-                            <option value="0" data-translate="Events.Modal.NewEvent.Visibility_Hidden"></option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Date Row-->
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <div class="mb-4">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.DateApply"></label>
-                          <input type="datetime-local" id="EventDateApply" class="form-control" onchange="handleInputChange(this.id)">
-                        </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="mb-4">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.DateStart"></label>
-                          <input type="datetime-local" id="EventDateStart" class="form-control" onchange="handleInputChange(this.id)">
-                        </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="mb-4">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.DateEnd"></label>
-                          <input type="datetime-local" id="EventDateEnd" class="form-control" onchange="handleInputChange(this.id)">
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Location & MinGroup Row-->
-                    <div class="row">
-                      <div class="col-lg-8">
-                        <div class="mb-4">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.Location"></label>
-                          <input type="text" id="EventLocation" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Location" onchange="handleInputChange(this.id)" class="form-control">
-                        </div>
-                      </div>
-                      <div class="col-lg-4">
-                        <div class="mb-4">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.MinGroup"></label>
-                          <select type="form-select" id="EventMinGroup" class="form-control" onchange="handleInputChange(this.id)">
-                            <option value="reg" data-translate="Events.Modal.NewEvent.MinGroup_RegOnly" selected></option>
-                            <option value="member" data-translate="Events.Modal.NewEvent.MinGroup_Members"></option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Description Row-->
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div class="mb-4">
-                          <label class="form-label" data-translate="Events.Modal.NewEvent.Description"></label>
-                          <textarea class="form-control" id="EventDescription" onchange="handleInputChange(this.id)" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.Description" rows="3"></textarea>
-                        </div>
-                      </div>
-                    </div>
+                    <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-create-oauth-client">
+                      Create oAuth Client
+                    </a>
                     <div class="row">
                       <div class="col-lg-12">
                         <div id="NewEventErrorLine"></div>
@@ -376,28 +235,154 @@
         </footer>
       </div>
     </div>
-    <div class="modal modal-blur fade" id="modal-danger-delete-avatar" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal modal-blur fade" id="modal-create-oauth-client" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <div class="modal-status bg-danger"></div>
-          <div class="modal-body text-center py-4">
-            <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
-            <h3>Are you sure?</h3>
-            <div class="text-muted">Do you really want to remove your avatar? What you've done cannot be undone.</div>
+          <div class="modal-header">
+            <h5 class="modal-title" data-translate="Events.Settings.OAuth.Create"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-footer">
-            <div class="w-100">
-              <div class="row">
-                <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
-                    Cancel
-                  </a></div>
-                <div class="col"><a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                    Delete
-                  </a></div>
+          <div class="modal-body">
+            <div class="row mb-3 align-items-end">
+              <div class="col-auto">
+                <a href="#" class="avatar avatar-upload rounded">
+                  <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+                  <span class="avatar-upload-text" data-translate="Events.Modal.NewEvent.AvatarAdd"></span>
+                </a>
+              </div>
+              <div class="col">
+                <label class="form-label" data-translate="Events.Settings.OAuth.Name"></label>
+                <input type="text" id="NewEventEventName" data-translate-placeholder="Events.Settings.OAuth.Sample" class="form-control" />
               </div>
             </div>
+            <div class="col">
+              <div class="col">
+                <label class="form-label" data-translate="Events.Settings.OAuth.Redirect"></label>
+                <input type="text" class="form-control" name="example-text-input" placeholder="https://example.com/oauth">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" data-translate="Events.Settings.OAuth.Permission.Title"></label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserIdRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserIdRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserIdWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserIdWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserUsernameRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserUsernameRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserUsernameWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserUsernameWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserEmailRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserEmailRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserEmailWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserEmailWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserRealnameRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserRealnameRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserRealnameWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserRealnameWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserBioRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserBioRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserBioWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserBioWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAvatarRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAvatarRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAvatarWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAvatarWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserGroupRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserGroupRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserGroupWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserGroupWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAddressRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAddressRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAddressWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAddressWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.SettingsDesignRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.SettingsDesignRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.SettingsDesignWrite"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.SettingsDesignWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.EventsListRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.EventsListRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" type="checkbox">
+                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.ProjectsListRead"></span>
+                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.ProjectsListRead"></span>
+                </label>
+            </div>
+
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div id="NewEventErrorLine"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a class="btn btn-link link-secondary" data-bs-dismiss="modal" data-translate="Events.Modal.NewEvent.Cancel"></a>
+            <a class="btn btn-primary ms-auto" id="NewEventSubmitBtn">
+              <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 5l0 14" />
+                <path d="M5 12l14 0" />
+              </svg>
+              <span data-translate="Events.Modal.NewEvent.AddNew"></span>
+            </a>
           </div>
         </div>
       </div>

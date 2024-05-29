@@ -244,6 +244,59 @@
       "Site": {
         "General": "Allgemeine Einstellungen",
         "OAuth": "OAuth Einstellungen"
+      },
+      "OAuth": {
+        "Create": "OAuth Client Erstellen",
+        "Name": "OAuth Client Name",
+        "Sample": "oauth-client",
+        "Redirect": "Redirect URI",
+        "Permission":{
+          "Title": "Berechtigungen",
+          "Name": {
+            "UserIdRead": "Nutzer Id Lesen",
+            "UserIdWrite": "Nutzer Id Schreiben",
+            "UserUsernameRead": "Nutzername Lesen",
+            "UserUsernameWrite": "Nutzername Schreiben",
+            "UserEmailRead": "Email Adresse Lesen",
+            "UserEmailWrite": "Email Adresse Schreiben",
+            "UserRealnameRead": "Klarname Lesen",
+            "UserRealnameWrite": "Klarname Schreiben",
+            "UserBioRead": "Biographie Lesen",
+            "UserBioWrite": "Biographie Schreiben",
+            "UserAvatarRead": "Avatar Lesen",
+            "UserAvatarWrite": "Avatar Verändern",
+            "UserGroupRead": "Gruppe Lesen",
+            "UserGroupWrite": "Gruppe Schreiben",
+            "UserAddressRead": "Adresse Lesen",
+            "UserAddressWrite": "Adresse Schreiben",
+            "SettingsDesignRead": "Einstellungsdesign Lesen",
+            "SettingsDesignWrite": "Einstellungsdesign Schreiben",
+            "EventsListRead": "Veranstaltungsliste Lesen",
+            "ProjectsListRead": "Projektliste Lesen"
+          },
+          "Description": {
+            "UserIdRead": "Nutzer Id Lesen",
+            "UserIdWrite": "Nutzer Id Schreiben",
+            "UserUsernameRead": "Nutzername Lesen",
+            "UserUsernameWrite": "Nutzername Schreiben",
+            "UserEmailRead": "Email Adresse Lesen",
+            "UserEmailWrite": "Email Adresse Schreiben",
+            "UserRealnameRead": "Klarname Lesen",
+            "UserRealnameWrite": "Klarname Schreiben",
+            "UserBioRead": "Biographie Lesen",
+            "UserBioWrite": "Biographie Schreiben",
+            "UserAvatarRead": "Avatar Lesen",
+            "UserAvatarWrite": "Avatar Verändern",
+            "UserGroupRead": "Gruppe Lesen",
+            "UserGroupWrite": "Gruppe Schreiben",
+            "UserAddressRead": "Adresse Lesen",
+            "UserAddressWrite": "Adresse Schreiben",
+            "SettingsDesignRead": "Einstellungsdesign Lesen",
+            "SettingsDesignWrite": "Einstellungsdesign Schreiben",
+            "EventsListRead": "Veranstaltungsliste Lesen",
+            "ProjectsListRead": "Projektliste Lesen"
+          }
+        }
       }
     }
   },
