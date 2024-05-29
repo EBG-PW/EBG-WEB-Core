@@ -30,6 +30,10 @@
     "heading": "Events",
     "click": "More infos"
   },
+  "projects": {
+    "heading": "Projects",
+    "click": "More infos"
+  },
   "team": {
     "heading": "Team",
     "no_role": "No role",
