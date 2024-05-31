@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
 * Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
 * @version 1.0.0-beta19
@@ -9,56 +9,42 @@
 -->
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title data-translate="Register.Title"></title>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?1684106062" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
+    <link href="<%= domain %>/dist/css/tabler.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-payments.min.css?1684106062" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet" />
     <style>
-      @import url('https://rsms.me/inter/inter.css');
+      @import url("https://rsms.me/inter/inter.css");
       :root {
-      	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+        --tblr-font-sans-serif: "Inter Var", -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
       }
       body {
-      	font-feature-settings: "cv03", "cv04", "cv11";
+        font-feature-settings: "cv03", "cv04", "cv11";
       }
     </style>
   </head>
-  <body  class=" d-flex flex-column">
+  <body class="d-flex flex-column">
     <script src="/appjs/format.js"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"><img src="<%= domain %>/dist/logo-transparent.png" height="36" alt=""/></a>
+          <a href="." class="navbar-brand navbar-brand-autodark"><img src="<%= domain %>/dist/logo-transparent.png" height="36" alt="" /></a>
         </div>
         <div class="card card-md">
           <div class="card-body">
-            <h2 class="card-title text-center mb-4" data-translate="Register.HeadlineNewAcc"></h2>
+            <h2 class="card-title text-center mb-4" data-translate="oAuth.HeadlineNewAcc"></h2>
             <div class="mb-3">
-              <label class="form-label" data-translate="Register.Username"></label>
-              <input type="text" id="username" class="form-control" data-translate-placeholder="Register.Placeholder.Username">
+              <div id="ErrorLine"></div>
             </div>
-            <div class="mb-3">
-              <label class="form-label" data-translate="Login.EmailAdress"></label>
-              <input type="email" id="email" class="form-control" data-translate-placeholder="Login.Placeholder.EmailAdress">
-            </div>
-            <div class="mb-3">
-              <label class="form-check">
-                <input type="checkbox" id="legal" class="form-check-input"/>
-                <span class="form-check-label"><a href="<%= domain %>/legal/legal" tabindex="-1" data-translate="Register.Legal"></a></span>
-              </label>
-            </div>
-            <div id="ErrorLine"></div>
             <div class="form-footer">
               <button type="submit" id="RegSubmitButton" class="btn btn-primary w-100" data-translate="Register.CreateNewAccount"></button>
             </div>
           </div>
-        </div>
-        <div class="text-center text-muted mt-3"><a href="<%= domain %>/login" tabindex="-1" data-translate="Register.GotAccount"></a>
         </div>
       </div>
     </div>
@@ -70,8 +56,15 @@
     <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams(url.search);
+      if(params.has("client_id") || params.has("scope")) {
+
+      }
+      document.on("DOMContentLoaded", function () {});
+
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
-      document.getElementById("passwordToggle1").addEventListener("click", function() {
+      document.getElementById("passwordToggle1").addEventListener("click", function () {
         const passwordField = document.getElementById("password1");
         if (passwordField.type === "password") {
           passwordField.type = "text";
@@ -80,7 +73,7 @@
         }
       });
 
-      document.getElementById("passwordToggle2").addEventListener("click", function() {
+      document.getElementById("passwordToggle2").addEventListener("click", function () {
         const passwordField = document.getElementById("password2");
         if (passwordField.type === "password") {
           passwordField.type = "text";
@@ -91,26 +84,26 @@
 
       // Compatibility with html IDs and i18next
       const keys = {
-        "username": "username",
-        "email": "email",
-        "password1": "password1",
-        "password2": "password2",
-        "legal": "legal"
+        username: "username",
+        email: "email",
+        password1: "password1",
+        password2: "password2",
+        legal: "legal",
       };
 
       // When the regForm is submitted, check if the passwords match
-      document.getElementById("RegSubmitButton").addEventListener("click", function() {
+      document.getElementById("RegSubmitButton").addEventListener("click", function () {
         const password1 = document.getElementById("password1").value;
         const password2 = document.getElementById("password2").value;
         if (password1 !== password2) {
           document.getElementById("password1").classList.add("is-invalid");
           document.getElementById("password2").classList.add("is-invalid");
-          document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t("Error.PasswordMatch") + '</div>';
+          document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t("Error.PasswordMatch") + "</div>";
           document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
-            setTimeout(() => {
-              document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
-            }, 1500);
-          return false; 
+          setTimeout(() => {
+            document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
+          }, 1500);
+          return false;
         } else {
           document.getElementById("password1").classList.remove("is-invalid");
           document.getElementById("password2").classList.remove("is-invalid");
@@ -120,22 +113,22 @@
         fetch("/api/v1/register", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             username: document.getElementById("username").value,
             email: document.getElementById("email").value,
             password: password1,
             language: navigator.language,
-            legal: document.getElementById("legal").checked
-          })
+            legal: document.getElementById("legal").checked,
+          }),
         }).then(async (response) => {
           const response_json = await response.json();
           if (response.status == 200) {
             for (const key in keys) {
               document.getElementById(keys[key]).classList.remove("is-invalid");
             }
-            document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-success">' + i18next.t('Register.Success') + '</div>';
+            document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-success">' + i18next.t("Register.Success") + "</div>";
             document.getElementById("RegSubmitButton").classList.add("btn-success");
           } else {
             document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
@@ -143,25 +136,25 @@
               document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
             }, 1500);
             if (response.status == 400) {
-              if(typeof response_json.reason === "string") {
-              document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.${response_json.message}`) + '</div>';
-              return;
+              if (typeof response_json.reason === "string") {
+                document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.${response_json.message}`) + "</div>";
+                return;
               }
               const input_name = response_json.reason[0].path[0];
               const input_type = response_json.reason[0].type;
               for (const key in keys) {
                 document.getElementById(keys[key]).classList.remove("is-invalid");
               }
-              
-              document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.Joi.${input_type}`, { field: i18next.t(`Register.${capitalizeFirstLetter(input_name)}`), limit: response_json.reason[0].context?.limit, valids: response_json.reason[0].context?.valids?.join() }) + '</div>';
-              if(input_name === "password") {
+
+              document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.Joi.${input_type}`, { field: i18next.t(`Register.${capitalizeFirstLetter(input_name)}`), limit: response_json.reason[0].context?.limit, valids: response_json.reason[0].context?.valids?.join() }) + "</div>";
+              if (input_name === "password") {
                 document.getElementById("password1").classList.add("is-invalid");
                 document.getElementById("password2").classList.add("is-invalid");
               } else {
                 document.getElementById(keys[input_name]).classList.add("is-invalid");
               }
             } else {
-              document.getElementById('ErrorLine').innerHTML = '<div class="alert alert-danger">' + i18next.t(`Register.Error.${response.status}`) + '</div>';
+              document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t(`Register.Error.${response.status}`) + "</div>";
             }
           }
         });

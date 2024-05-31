@@ -300,6 +300,9 @@
       }
     }
   },
+  "oAuth": {
+    
+  },
   "Error": {
     "Joi": {
       "string": {
