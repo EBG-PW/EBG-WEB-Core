@@ -60,9 +60,10 @@
     <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
-      i18next.on("initialized", function () {
+      i18next.on("initialized", async () => {
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
+
         if (!params.has("client_id") || !params.has("scope")) {
           const errorLine = document.getElementById("ErrorLine");
           const params = new URLSearchParams(window.location.search);
@@ -82,83 +83,22 @@
 
           errorLine.innerHTML = errorMessage;
         }
-      });
 
-      // Compatibility with html IDs and i18next
-      const keys = {
-        username: "username",
-        email: "email",
-        password1: "password1",
-        password2: "password2",
-        legal: "legal",
-      };
-
-      // When the regForm is submitted, check if the passwords match
-      document.getElementById("RegSubmitButton").addEventListener("click", function () {
-        const password1 = document.getElementById("password1").value;
-        const password2 = document.getElementById("password2").value;
-        if (password1 !== password2) {
-          document.getElementById("password1").classList.add("is-invalid");
-          document.getElementById("password2").classList.add("is-invalid");
-          document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t("Error.PasswordMatch") + "</div>";
-          document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
-          setTimeout(() => {
-            document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
-          }, 1500);
-          return false;
-        } else {
-          document.getElementById("password1").classList.remove("is-invalid");
-          document.getElementById("password2").classList.remove("is-invalid");
+        const token = localStorage.getItem("token");
+        if (!token) {
+          localStorage.setItem("oauth:client_id", params.get("client_id"));
+          localStorage.setItem("oauth:scope", params.get("scope"));
         }
 
-        // Send request (fetch)
-        fetch("/api/v1/register", {
-          method: "POST",
+        const oauth_client_response = await fetch("/oauth", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: document.getElementById("username").value,
-            email: document.getElementById("email").value,
-            password: password1,
-            language: navigator.language,
-            legal: document.getElementById("legal").checked,
+            client_id: params.get("client_id"),
+            scope: params.get("scope"),
           }),
-        }).then(async (response) => {
-          const response_json = await response.json();
-          if (response.status == 200) {
-            for (const key in keys) {
-              document.getElementById(keys[key]).classList.remove("is-invalid");
-            }
-            document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-success">' + i18next.t("Register.Success") + "</div>";
-            document.getElementById("RegSubmitButton").classList.add("btn-success");
-          } else {
-            document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
-            setTimeout(() => {
-              document.getElementById("RegSubmitButton").classList.toggle("btn-danger");
-            }, 1500);
-            if (response.status == 400) {
-              if (typeof response_json.reason === "string") {
-                document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.${response_json.message}`) + "</div>";
-                return;
-              }
-              const input_name = response_json.reason[0].path[0];
-              const input_type = response_json.reason[0].type;
-              for (const key in keys) {
-                document.getElementById(keys[key]).classList.remove("is-invalid");
-              }
-
-              document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t(`Error.Joi.${input_type}`, { field: i18next.t(`Register.${capitalizeFirstLetter(input_name)}`), limit: response_json.reason[0].context?.limit, valids: response_json.reason[0].context?.valids?.join() }) + "</div>";
-              if (input_name === "password") {
-                document.getElementById("password1").classList.add("is-invalid");
-                document.getElementById("password2").classList.add("is-invalid");
-              } else {
-                document.getElementById(keys[input_name]).classList.add("is-invalid");
-              }
-            } else {
-              document.getElementById("ErrorLine").innerHTML = '<div class="alert alert-danger">' + i18next.t(`Register.Error.${response.status}`) + "</div>";
-            }
-          }
         });
       });
     </script>
