@@ -253,8 +253,8 @@
         "Permission":{
           "Title": "Berechtigungen",
           "Name": {
-            "UserIdRead": "Nutzer Id Lesen",
-            "UserIdWrite": "Nutzer Id Schreiben",
+            "UserIdRead": "Nutzer ID Lesen",
+            "UserIdWrite": "Nutzer ID Schreiben",
             "UserUsernameRead": "Nutzername Lesen",
             "UserUsernameWrite": "Nutzername Schreiben",
             "UserEmailRead": "Email Adresse Lesen",
@@ -275,8 +275,8 @@
             "ProjectsListRead": "Projektliste Lesen"
           },
           "Description": {
-            "UserIdRead": "Nutzer Id Lesen",
-            "UserIdWrite": "Nutzer Id Schreiben",
+            "UserIdRead": "Nutzer ID Lesen",
+            "UserIdWrite": "Nutzer ID Schreiben",
             "UserUsernameRead": "Nutzername Lesen",
             "UserUsernameWrite": "Nutzername Schreiben",
             "UserEmailRead": "Email Adresse Lesen",
@@ -300,8 +300,64 @@
       }
     }
   },
-  "oAuth": {
-    
+  "OAuth": {
+    "Headline": "Mit oAuth Anmelden",
+    "Login": "Anmelden",
+    "Error": "Leider ist ein Fehler aufgetreten.",
+    "Missing": "Es fehlen einige Informationen um dich anzumelden.",
+    "ClientID": "Client ID (client_id)",
+    "Scope": "Berechtigungen (scope)",
+    "Permission":{
+      "Title": "Berechtigungen",
+      "Name": {
+        "UserIdRead": "Nutzer ID Lesen",
+        "UserIdWrite": "Nutzer ID Schreiben",
+        "UserUsernameRead": "Nutzername Lesen",
+        "UserUsernameWrite": "Nutzername Schreiben",
+        "UserEmailRead": "Email Adresse Lesen",
+        "UserEmailWrite": "Email Adresse Schreiben",
+        "UserRealnameRead": "Klarname Lesen",
+        "UserRealnameWrite": "Klarname Schreiben",
+        "UserBioRead": "Biographie Lesen",
+        "UserBioWrite": "Biographie Schreiben",
+        "UserAvatarRead": "Avatar Lesen",
+        "UserAvatarWrite": "Avatar Verändern",
+        "UserGroupRead": "Gruppe Lesen",
+        "UserGroupWrite": "Gruppe Schreiben",
+        "UserAddressRead": "Adresse Lesen",
+        "UserAddressWrite": "Adresse Schreiben",
+        "SettingsDesignRead": "Einstellungsdesign Lesen",
+        "SettingsDesignWrite": "Einstellungsdesign Schreiben",
+        "SettingsLanguageRead": "Sprache Lesen",
+        "SettingsLanguageWrite": "Sprache Schreiben",
+        "EventsListRead": "Veranstaltungsliste Lesen",
+        "ProjectsListRead": "Projektliste Lesen"
+      },
+      "Description": {
+        "UserIdRead": "Die Anwendung kann die Nutzer einzigartige ID lesen",
+        "UserIdWrite": "Die Anwendung kann die Nutzer einzigartige ID ändern",
+        "UserUsernameRead": "Die Anwendung kann den Nutzernamen lesen",
+        "UserUsernameWrite": "Die Anwendung kann den Nutzernamen ändern",
+        "UserEmailRead": "Die Anwendung kann die E-Mail Adresse lesen",
+        "UserEmailWrite": "Die Anwendung kann die E-Mail Adresse ändern",
+        "UserRealnameRead": "Die Anwendung kann den Klarname lesen",
+        "UserRealnameWrite": "Die Anwendung kann den Klarname ändern",
+        "UserBioRead": "Die Anwendung kann die Biographie lesen",
+        "UserBioWrite": "Die Anwendung kann die Biographie ändern",
+        "UserAvatarRead": "Die Anwendung kann den Avatar lesen",
+        "UserAvatarWrite": "Die Anwendung kann den Avatar ändern",
+        "UserGroupRead": "Die Anwendung kann die Berechtigungsgruppe lesen",
+        "UserGroupWrite": "Die Anwendung kann die Berechtigungsgruppe ändern",
+        "UserAddressRead": "Die Anwendung kann die Adresse lesen",
+        "UserAddressWrite": "Die Anwendung kann die Adresse ändern",
+        "SettingsDesignRead": "Die Anwendung kann das Einstellungsdesign lesen",
+        "SettingsDesignWrite": "Die Anwendung kann das Einstellungsdesign ändern",
+        "SettingsLanguageRead": "Die Anwendung kann die Sprache lesen",
+        "SettingsLanguageWrite": "Die Anwendung kann die Sprache ändern",
+        "EventsListRead": "Die Anwendung kann die Veranstaltungsliste lesen",
+        "ProjectsListRead": "Die Anwendung kann die Projektliste lesen"
+      }
+    }
   },
   "Error": {
     "Joi": {

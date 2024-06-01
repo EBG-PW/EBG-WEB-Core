@@ -37,12 +37,16 @@
         </div>
         <div class="card card-md">
           <div class="card-body">
-            <h2 class="card-title text-center mb-4" data-translate="oAuth.HeadlineNewAcc"></h2>
+            <h2 class="card-title text-center mb-4" data-translate="OAuth.Headline"></h2>
             <div class="mb-3">
+              <div id="LoginLine"></div>
               <div id="ErrorLine"></div>
             </div>
+            <div class="mb-3">
+              <div id="PermissionsList"></div>
+            </div>
             <div class="form-footer">
-              <button type="submit" id="RegSubmitButton" class="btn btn-primary w-100" data-translate="Register.CreateNewAccount"></button>
+              <button type="submit" id="RegSubmitButton" class="btn btn-primary w-100" data-translate="OAuth.Login" style="display: none"></button>
             </div>
           </div>
         </div>
@@ -56,29 +60,27 @@
     <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
-      const url = new URL(window.location.href);
-      const params = new URLSearchParams(url.search);
-      if(params.has("client_id") || params.has("scope")) {
+      i18next.on("initialized", function () {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        if (!params.has("client_id") || !params.has("scope")) {
+          const errorLine = document.getElementById("ErrorLine");
+          const params = new URLSearchParams(window.location.search);
+          let errorMessage = `${i18next.t("OAuth.Error")} ${i18next.t("OAuth.Missing")}`;
+          let missingItems = "";
 
-      }
-      document.on("DOMContentLoaded", function () {});
+          if (!params.has("client_id")) {
+            missingItems += `<li><span class="text-muted">${i18next.t("OAuth.ClientID")}</span></li>`;
+          }
+          if (!params.has("scope")) {
+            missingItems += `<li><span class="text-muted">${i18next.t("OAuth.Scope")}</span></li>`;
+          }
 
-      // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
-      document.getElementById("passwordToggle1").addEventListener("click", function () {
-        const passwordField = document.getElementById("password1");
-        if (passwordField.type === "password") {
-          passwordField.type = "text";
-        } else {
-          passwordField.type = "password";
-        }
-      });
+          if (missingItems) {
+            errorMessage += `<ul>${missingItems}</ul>`;
+          }
 
-      document.getElementById("passwordToggle2").addEventListener("click", function () {
-        const passwordField = document.getElementById("password2");
-        if (passwordField.type === "password") {
-          passwordField.type = "text";
-        } else {
-          passwordField.type = "password";
+          errorLine.innerHTML = errorMessage;
         }
       });
 
