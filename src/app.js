@@ -49,6 +49,7 @@ renderer.registerDynamicRoutes();
 
 const apiv1 = require('@api');
 const auth_handler = require('@static_api/auth');
+const oauth_handler = require('@static_api/oauth');
 
 app.get('/*', (req, res) => {
     // Split the URL to separate the path and query string
@@ -96,6 +97,7 @@ app.get('/*', (req, res) => {
 
 app.use('/api/v1', apiv1);
 app.use('/auth', auth_handler);
+app.use('/oauth', oauth_handler);
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {

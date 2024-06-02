@@ -303,6 +303,7 @@
   "OAuth": {
     "Headline": "Mit oAuth Anmelden",
     "Login": "Anmelden",
+    "LoginAs": "Anmelden als {{username}}. Der Dienst {{app_name}} möchte folgende Berechtigungen:",
     "Error": "Leider ist ein Fehler aufgetreten.",
     "Missing": "Es fehlen einige Informationen um dich anzumelden.",
     "ClientID": "Client ID (client_id)",
@@ -356,6 +357,14 @@
         "SettingsLanguageWrite": "Die Anwendung kann die Sprache ändern",
         "EventsListRead": "Die Anwendung kann die Veranstaltungsliste lesen",
         "ProjectsListRead": "Die Anwendung kann die Projektliste lesen"
+      }
+    },
+    "Errors": {
+      "GetRoute": {
+        "500": "Serverfehler",
+        "404": "OAuth Client nicht gefunden",
+        "403": "Abweichende Berechtigungen",
+        "401": "Nutzer nicht Teil der Veranstaltung"
       }
     }
   },

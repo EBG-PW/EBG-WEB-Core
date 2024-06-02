@@ -88,18 +88,51 @@
         if (!token) {
           localStorage.setItem("oauth:client_id", params.get("client_id"));
           localStorage.setItem("oauth:scope", params.get("scope"));
+          window.location.href = "/login";
         }
 
-        const oauth_client_response = await fetch("/oauth", {
+        const oauth_client_response = await fetch(`/oauth?client_id=${params.get("client_id")}&scope=${params.get("scope")}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            client_id: params.get("client_id"),
-            scope: params.get("scope"),
-          }),
+            "Authorization": `Bearer ${token}`,
+          }
         });
+
+        if(oauth_client_response.status === 200) {
+          const oauth_client = await oauth_client_response.json();
+          const permissionsList = document.getElementById("PermissionsList");
+          const loginLine = document.getElementById("LoginLine");
+          const regSubmitButton = document.getElementById("RegSubmitButton");
+
+          loginLine.innerHTML = `${i18next.t("OAuth.LoginAs", { username: localStorage.getItem("username"), app_name: oauth_client.name })}`;
+          regSubmitButton.style.display = "block";
+
+          const permissions = oauth_client.permissions;
+          for (const permission of permissions) {
+            const permissionElement = document.createElement("div");
+            permissionElement.innerHTML = `<span class="text-muted">${i18next.t(`OAuth.Permission.Name.${permission}`)}</span>`;
+            permissionsList.appendChild(permissionElement);
+          }
+
+          regSubmitButton.addEventListener("click", async () => {
+            const oauth_response = await fetch("/oauth", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                client_id: params.get("client_id"),
+                scope: params.get("scope"),
+              }),
+            });
+          });
+        } else {
+          const errorLine = document.getElementById("ErrorLine");
+          const error = await oauth_client_response.json();
+          errorLine.innerHTML = `${i18next.t("OAuth.Error")} ${i18next.t(`OAuth.Errors.GetRoute.${oauth_client_response.status}`)}`;
+        }
       });
     </script>
   </body>
