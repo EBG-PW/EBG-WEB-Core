@@ -240,95 +240,18 @@
     <script src="<%= domain %>/dist/js/i18next.min.js?1684106062"></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
-
-      let linkableapps = {};
-
-      document.addEventListener('DOMContentLoaded', async () => {
-        // Pupulate the LinkTable
-        await loadTable();
-      });
-
-      const updateInputField = () => {
-        document.getElementById("SettingsProfile").value = linkableapps[document.getElementById("SettingsPlatform").value] ?? "";
-      }
-
-      const loadTable = async () => {
-        const response = await fetch('/api/v1/user/links', {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
-        });
-
-        if (response.ok) {
-          const { links } = await response.json();
-
-          const tableData = document.getElementById("Settings.Links.TableData");
-
-          // Clear the table
-          tableData.innerHTML = "";
-          linkableapps = {};
-          
-          for (const element of links) {
-            linkableapps[element.platform] = element.data_val;
-            // Set current value to the input field
-            if(document.getElementById("SettingsPlatform").value === element.platform) {
-              document.getElementById("SettingsProfile").value = element.data_val;
-            }
-
-            const row = document.createElement("tr");
-
-            const platform = document.createElement("td");
-            platform.innerText = element.platform;
-
-            const data = document.createElement("td");
-            data.innerText = element.data_val;
-
-            const deleteButton = document.createElement("td");
-            const deleteButtonSVG = document.createElement("svg");
-            deleteButton.innerHTML = `<a class="icon" onclick="deleteLink('${element.platform}')"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-              stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path
-              d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path
-              d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path
-              d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></a>`;
-
-            row.appendChild(platform);
-            row.appendChild(data);
-            row.appendChild(deleteButton);
-            tableData.appendChild(row);
-          }
-        }
-      }
-
-      const deleteLink = async (platform) => {
-        const response = await fetch(`/api/v1/user/links/${platform}`, {
-          method: 'DELETE',
-          headers: {
-            "Content-Type": "application/json",
-
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
-        });
-
-        if (response.ok) {
-          await loadTable();
-        }
-      }
-
       // Handle changes to all imput fields (VanillaJS)
-      const handleInputChange = async () => {
-        const inputElement = document.getElementById("SettingsProfile");
-        const response = await fetch('/api/v1/user/links', {
+      const handleInputChange = async (id) => {
+        const inputElement = document.getElementById(id);
+        const response = await fetch('/api/v1/integrations', {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + localStorage.getItem("token")
           },
           body: JSON.stringify({
-            value: document.getElementById("SettingsProfile").value,
-            platform: document.getElementById("SettingsPlatform").value
+            id: id,
+            value: document.getElementById(id).value
           })
         });
 
