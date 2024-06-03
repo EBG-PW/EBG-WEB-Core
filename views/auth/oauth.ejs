@@ -82,13 +82,22 @@
           }
 
           errorLine.innerHTML = errorMessage;
+          return;
         }
 
+        // Check if user is logged in, if now redirect to login
         const token = localStorage.getItem("token");
         if (!token) {
           localStorage.setItem("oauth:client_id", params.get("client_id"));
           localStorage.setItem("oauth:scope", params.get("scope"));
           window.location.href = "/login";
+        }
+
+        // If redirected after login then we fill in the data to the url
+        if(localStorage.getItem("oauth:client_id")) {
+          window.location.href = `/oauth?client_id=${localStorage.getItem("oauth:client_id")}&scope=${localStorage.getItem("oauth:scope")}`;
+          localStorage.removeItem("oauth:client_id");
+          localStorage.removeItem("oauth:scope");
         }
 
         const oauth_client_response = await fetch(`/oauth?client_id=${params.get("client_id")}&scope=${params.get("scope")}`, {
@@ -116,6 +125,7 @@
           }
 
           regSubmitButton.addEventListener("click", async () => {
+            document.getElementById("RegSubmitButton").disabled = true;
             const oauth_response = await fetch("/oauth", {
               method: "POST",
               headers: {
@@ -127,6 +137,17 @@
                 scope: params.get("scope"),
               }),
             });
+
+            if(oauth_response.status === 200) {
+              const oauth = await oauth_response.json();
+              // Redirect to the new URL with the code
+              const newRedirectUrl = new URL(`${oauth.redirect_uri}?code=${oauth.code}`);
+              window.location.href = newRedirectUrl;
+            } else {
+              const errorLine = document.getElementById("ErrorLine");
+              const error = await oauth_response.json();
+              errorLine.innerHTML = `${i18next.t("OAuth.Error")} ${i18next.t(`OAuth.Errors.PostRoute.${oauth_response.status}`)}`;
+            }
           });
         } else {
           const errorLine = document.getElementById("ErrorLine");
