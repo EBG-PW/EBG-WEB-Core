@@ -109,7 +109,8 @@
     "Side": {
       "Account": "Account",
       "Misc": "Design, Sprache & Sonstiges",
-      "Links": "Verlinkbare Seiten"
+      "Links": "Verlinkbare Seiten",
+      "Integrations": "Integrationen"
     },
     "Main": {
       "SettingsName": "Account Einstellungen",
@@ -180,6 +181,12 @@
       "AvatarIcon": "Avatar Icon",
       "SetAvatarIcon": "NOT IMPLEMENTED",
       "DeleteAvatarIcon": "Avatar löschen"
+    },
+    "Integrations":{
+      "IntegrationsHeadline": "Integrationen",
+      "Integrations": "Integrationen",
+      "Telegram": "Telegram ID",
+      "EditDescription": "Trage für die Integration mit Telegram bitte hier deine TG ID ein, klicke aus dem Feld um zu speichern."
     }
   },
   "Events": {
