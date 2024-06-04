@@ -38,7 +38,7 @@ router.get('/', verifyRequest('app.web.login'), limiter(10), async (req, res) =>
     if (has_authorized) {
         const code = randomstring.generate(128);
 
-        await oAuthSession.addSession(code, { "user_id": user_id, "oAuthApp_id": oAuthClientResponse.id });
+        await oAuthSession.addSession(code, { "user_id": user_id, "oAuthApp_id": oAuthClientResponse.id, "secret": oAuthClientResponse.secret });
 
         res.json({
             redirect_uri: oAuthClientResponse.redirect_url,
