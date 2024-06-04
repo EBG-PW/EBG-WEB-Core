@@ -19,8 +19,20 @@ const LinkCheck = Joi.object({
     value: Joi.string().min(1).pattern(/^[a-zA-Z0-9_]*$/).required(),
 });
 
+router.get('/', verifyRequest('web.user.layout.read'), limiter(1), async (req, res) => {
+    const integrations = await integration.get(req.user.user_id);
 
-router.post('/', verifyRequest('web.user.layout.write'), limiter(10), async (req, res) => {
+    for (let i = 0; i < integrations.length; i++) {
+        if(integrations[i].platform === 'TELEGRAM') {
+            integrations[i].id = 'SettingsIntegrationTelegram';
+        }
+    }
+
+    res.status(200);
+    res.json(integrations);
+});
+
+router.post('/', verifyRequest('web.user.layout.write'), limiter(1), async (req, res) => {
     const value = await LinkCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
