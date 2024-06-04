@@ -12,6 +12,7 @@ module.exports = {
         "InvalidLogin": true,
         "InvalidRouteInput": true,
         "PermissionsError": true,
+        "OAuthError": true,
         "SQLError": true,
         "DBError": true
     }

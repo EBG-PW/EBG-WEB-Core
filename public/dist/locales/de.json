@@ -109,7 +109,8 @@
     "Side": {
       "Account": "Account",
       "Misc": "Design, Sprache & Sonstiges",
-      "Links": "Verlinkbare Seiten"
+      "Links": "Verlinkbare Seiten",
+      "Integrations": "Integrationen"
     },
     "Main": {
       "SettingsName": "Account Einstellungen",
@@ -180,6 +181,12 @@
       "AvatarIcon": "Avatar Icon",
       "SetAvatarIcon": "NOT IMPLEMENTED",
       "DeleteAvatarIcon": "Avatar löschen"
+    },
+    "Integrations":{
+      "IntegrationsHeadline": "Integrationen",
+      "Integrations": "Integrationen",
+      "Telegram": "Telegram ID",
+      "EditDescription": "Trage für die Integration mit Telegram bitte hier deine TG ID ein, klicke aus dem Feld um zu speichern."
     }
   },
   "Events": {
@@ -244,6 +251,145 @@
       "Site": {
         "General": "Allgemeine Einstellungen",
         "OAuth": "OAuth Einstellungen"
+      },
+      "OAuth": {
+        "Create": "OAuth Client Erstellen",
+        "Name": "OAuth Client Name",
+        "Sample": "oauth-client",
+        "Redirect": "Redirect URI",
+        "Permission":{
+          "Title": "Berechtigungen",
+          "Name": {
+            "UserIdRead": "Nutzer ID Lesen",
+            "UserIdWrite": "Nutzer ID Schreiben",
+            "UserUsernameRead": "Nutzername Lesen",
+            "UserUsernameWrite": "Nutzername Schreiben",
+            "UserEmailRead": "Email Adresse Lesen",
+            "UserEmailWrite": "Email Adresse Schreiben",
+            "UserRealnameRead": "Klarname Lesen",
+            "UserRealnameWrite": "Klarname Schreiben",
+            "UserBioRead": "Biographie Lesen",
+            "UserBioWrite": "Biographie Schreiben",
+            "UserAvatarRead": "Avatar Lesen",
+            "UserAvatarWrite": "Avatar Verändern",
+            "UserGroupRead": "Gruppe Lesen",
+            "UserGroupWrite": "Gruppe Schreiben",
+            "UserAddressRead": "Adresse Lesen",
+            "UserAddressWrite": "Adresse Schreiben",
+            "SettingsDesignRead": "Einstellungsdesign Lesen",
+            "SettingsDesignWrite": "Einstellungsdesign Schreiben",
+            "EventsListRead": "Veranstaltungsliste Lesen",
+            "ProjectsListRead": "Projektliste Lesen",
+            "IntegrationTelegramRead": "Telegram Intentität Lesen",
+            "IntegrationDiscordRead": "Discord Intentität Lesen",
+            "NotificationsRead": "Benachrichtigungen Empfangen",
+            "NotificationsWrite": "Benachrichtigungen Senden"
+          },
+          "Description": {
+            "UserIdRead": "Die Anwendung kann die Nutzer einzigartige ID lesen",
+            "UserIdWrite": "Die Anwendung kann die Nutzer einzigartige ID ändern",
+            "UserUsernameRead": "Die Anwendung kann den Nutzernamen lesen",
+            "UserUsernameWrite": "Die Anwendung kann den Nutzernamen ändern",
+            "UserEmailRead": "Die Anwendung kann die E-Mail Adresse lesen",
+            "UserEmailWrite": "Die Anwendung kann die E-Mail Adresse ändern",
+            "UserRealnameRead": "Die Anwendung kann den Klarname lesen",
+            "UserRealnameWrite": "Die Anwendung kann den Klarname ändern",
+            "UserBioRead": "Die Anwendung kann die Biographie lesen",
+            "UserBioWrite": "Die Anwendung kann die Biographie ändern",
+            "UserAvatarRead": "Die Anwendung kann den Avatar lesen",
+            "UserAvatarWrite": "Die Anwendung kann den Avatar ändern",
+            "UserGroupRead": "Die Anwendung kann die Berechtigungsgruppe lesen",
+            "UserGroupWrite": "Die Anwendung kann die Berechtigungsgruppe ändern",
+            "UserAddressRead": "Die Anwendung kann die Adresse lesen",
+            "UserAddressWrite": "Die Anwendung kann die Adresse ändern",
+            "SettingsDesignRead": "Die Anwendung kann das Einstellungsdesign lesen",
+            "SettingsDesignWrite": "Die Anwendung kann das Einstellungsdesign ändern",
+            "SettingsLanguageRead": "Die Anwendung kann die Sprache lesen",
+            "SettingsLanguageWrite": "Die Anwendung kann die Sprache ändern",
+            "EventsListRead": "Die Anwendung kann die Veranstaltungsliste lesen",
+            "ProjectsListRead": "Die Anwendung kann die Projektliste lesen",
+            "IntegrationTelegramRead": "Die Anwendung kann die Telegram Intentität lesen",
+            "IntegrationDiscordRead": "Die Anwendung kann die Discord Intentität lesen",
+            "NotificationsRead": "Die Anwendung kann deine Benachrichtigungen lesen",
+            "NotificationsWrite": "Die Anwendung kann dir Benachrichtigungen senden"
+          }
+        }
+      }
+    }
+  },
+  "OAuth": {
+    "Headline": "Mit oAuth Anmelden",
+    "Login": "Anmelden",
+    "LoginAs": "Anmelden als {{username}}. Der Dienst {{app_name}} möchte folgende Berechtigungen:",
+    "Error": "Leider ist ein Fehler aufgetreten.",
+    "Missing": "Es fehlen einige Informationen um dich anzumelden.",
+    "ClientID": "Client ID (client_id)",
+    "Scope": "Berechtigungen (scope)",
+    "Permission":{
+      "Title": "Berechtigungen",
+      "Name": {
+        "UserIdRead": "Nutzer ID Lesen",
+        "UserIdWrite": "Nutzer ID Schreiben",
+        "UserUsernameRead": "Nutzername Lesen",
+        "UserUsernameWrite": "Nutzername Schreiben",
+        "UserEmailRead": "Email Adresse Lesen",
+        "UserEmailWrite": "Email Adresse Schreiben",
+        "UserRealnameRead": "Klarname Lesen",
+        "UserRealnameWrite": "Klarname Schreiben",
+        "UserBioRead": "Biographie Lesen",
+        "UserBioWrite": "Biographie Schreiben",
+        "UserAvatarRead": "Avatar Lesen",
+        "UserAvatarWrite": "Avatar Verändern",
+        "UserGroupRead": "Gruppe Lesen",
+        "UserGroupWrite": "Gruppe Schreiben",
+        "UserAddressRead": "Adresse Lesen",
+        "UserAddressWrite": "Adresse Schreiben",
+        "SettingsDesignRead": "Einstellungsdesign Lesen",
+        "SettingsDesignWrite": "Einstellungsdesign Schreiben",
+        "SettingsLanguageRead": "Sprache Lesen",
+        "SettingsLanguageWrite": "Sprache Schreiben",
+        "EventsListRead": "Veranstaltungsliste Lesen",
+        "ProjectsListRead": "Projektliste Lesen",
+        "IntegrationTelegramRead": "Telegram Intentität Lesen",
+        "IntegrationDiscordRead": "Discord Intentität Lesen",
+        "NotificationsRead": "Benachrichtigungen Empfangen",
+        "NotificationsWrite": "Benachrichtigungen Senden"
+      },
+      "Description": {
+        "UserIdRead": "Die Anwendung kann die Nutzer einzigartige ID lesen",
+        "UserIdWrite": "Die Anwendung kann die Nutzer einzigartige ID ändern",
+        "UserUsernameRead": "Die Anwendung kann den Nutzernamen lesen",
+        "UserUsernameWrite": "Die Anwendung kann den Nutzernamen ändern",
+        "UserEmailRead": "Die Anwendung kann die E-Mail Adresse lesen",
+        "UserEmailWrite": "Die Anwendung kann die E-Mail Adresse ändern",
+        "UserRealnameRead": "Die Anwendung kann den Klarname lesen",
+        "UserRealnameWrite": "Die Anwendung kann den Klarname ändern",
+        "UserBioRead": "Die Anwendung kann die Biographie lesen",
+        "UserBioWrite": "Die Anwendung kann die Biographie ändern",
+        "UserAvatarRead": "Die Anwendung kann den Avatar lesen",
+        "UserAvatarWrite": "Die Anwendung kann den Avatar ändern",
+        "UserGroupRead": "Die Anwendung kann die Berechtigungsgruppe lesen",
+        "UserGroupWrite": "Die Anwendung kann die Berechtigungsgruppe ändern",
+        "UserAddressRead": "Die Anwendung kann die Adresse lesen",
+        "UserAddressWrite": "Die Anwendung kann die Adresse ändern",
+        "SettingsDesignRead": "Die Anwendung kann das Einstellungsdesign lesen",
+        "SettingsDesignWrite": "Die Anwendung kann das Einstellungsdesign ändern",
+        "SettingsLanguageRead": "Die Anwendung kann die Sprache lesen",
+        "SettingsLanguageWrite": "Die Anwendung kann die Sprache ändern",
+        "EventsListRead": "Die Anwendung kann die Veranstaltungsliste lesen",
+        "ProjectsListRead": "Die Anwendung kann die Projektliste lesen",
+        "IntegrationTelegramRead": "Die Anwendung kann die Telegram Intentität lesen",
+        "IntegrationDiscordRead": "Die Anwendung kann die Discord Intentität lesen",
+        "NotificationsRead": "Die Anwendung kann deine Benachrichtigungen lesen",
+        "NotificationsWrite": "Die Anwendung kann dir Benachrichtigungen senden"
+      }
+    },
+    "Errors": {
+      "GetRoute": {
+        "500": "Serverfehler",
+        "404": "OAuth Client nicht gefunden",
+        "403": "Abweichende Berechtigungen",
+        "401": "Nutzer nicht Teil der Veranstaltung"
       }
     }
   },

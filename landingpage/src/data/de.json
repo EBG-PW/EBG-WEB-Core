@@ -1,1 +1,61 @@
-{}
+{
+  "banner": {
+    "heading": "Ein Ort für Videospiele,\nOpen-Source-Software und Spaß.",
+    "cta": "Dienste erkunden"
+  },
+  "goals": {
+    "heading": "Unsere Ziele",
+    "1": {
+      "title": "Entwicklung für alle",
+      "text": "Wir lehren Programmierung, die aktuellen und zukünftigen IT-Technologien für alle Altersgruppen, damit Sie die digitale Welt voll nutzen können.",
+      "icon": "learn"
+    },
+    "2": {
+      "title": "Infrastruktur für Projekte",
+      "text": "Wir bieten Infrastruktur zur Realisierung von Projekten. Lorem lorem lorem lorem",
+      "icon": "infra"
+    },
+    "3": {
+      "title": "Unterstützung von Open-Source",
+      "text": "Wir unterstützen Open-Source-Projekte auf verschiedene Weise. Lorem lorem lorem lorem lorem",
+      "icon": "opensource"
+    },
+    "4": {
+      "title": "Platzhaltertext",
+      "text": "Platzhaltertext Lorem lorem lorem lorem. Lorem lorem lorem lorem. Lorem lorem lorem lorem.",
+      "icon": "infra"
+    }
+  },
+  "events": {
+    "heading": "Veranstaltungen",
+    "click": "Mehr Infos"
+  },
+  "projects": {
+    "heading": "Projekte",
+    "click": "Mehr Infos"
+  },
+  "team": {
+    "heading": "Team",
+    "no_role": "Keine Rolle",
+    "no_description": "Keine Beschreibung",
+    "member": {
+      "unique_id": {
+        "role": "Rolle",
+        "description": "Testbeschreibung"
+      }
+    }
+  },
+  "footer": {
+    "links": "Links",
+    "resources": "Ressourcen",
+    "github": "GitHub",
+    "instagram": "Instagram !?",
+    "x": "X (Twitter)",
+    "imprint": "Impressum TODO",
+    "imprint_url": "/imprint",
+    "privacy": "Datenschutz TODO",
+    "privacy_url": "/privacy",
+    "tos": "Nutzungsbedingungen TODO",
+    "tos_url": "/tos"
+  }
+}
