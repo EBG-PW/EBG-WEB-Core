@@ -141,10 +141,9 @@ const events = [
                 <p class="date">{event.timestamp}</p>
                 <p class="description">{event.description}</p>
                 {event.click ? (
-                  <a href={event.click} class="cta">
-                    {/* TODO: REMOVE WHITESPACE  */}
-                    {translation.click}
-                  </a>
+                  <a href={event.click} class="cta"><!-- 
+                    -->{translation.click}<!--
+                    --></a>
                 ) : null}
               </div>
             </div>

@@ -124,10 +124,9 @@ const projects = [
                 <p class="date">{project.timestamp}</p>
                 <p class="description">{project.description}</p>
                 {project.click ? (
-                  <a href={project.click} class="cta">
-                    {/* TODO: REMOVE WHITESPACE  */}
-                    {translation.click}
-                  </a>
+                  <a href={project.click} class="cta"><!--
+                    -->{translation.click}<!--
+                    --></a>
                 ) : null}
               </div>
             </div>
