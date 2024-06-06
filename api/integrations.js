@@ -32,7 +32,7 @@ router.get('/', verifyRequest('web.user.layout.read'), limiter(1), async (req, r
     res.json(integrations);
 });
 
-router.post('/', verifyRequest('web.user.layout.write'), limiter(1), async (req, res) => {
+router.post('/', verifyRequest('web.user.integration.write'), limiter(1), async (req, res) => {
     const value = await LinkCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 

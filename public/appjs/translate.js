@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </li>`
 
         // Add Projects
-        if(checkPermission('app.projects.user.*').result) {
+        if(checkPermission('app.project.user.*').result) {
             navbar.innerHTML += `
             <li class="nav-item">
                 <a class="nav-link" href="/projects" >
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         // Add Events
-        if(checkPermission('app.events.user.*').result) {
+        if(checkPermission('app.event.user.*').result) {
             navbar.innerHTML += `
             <li class="nav-item">
                 <a class="nav-link" href="/events" >
@@ -132,11 +132,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Add Service(s) the user has access to
         let services_string = "";
 
-        if(checkPermission('app.service.game.user.*').result) {
+        if(checkPermission('service.game.user.*').result) {
             services_string += `<a class="dropdown-item" href="/services/game">${i18next.t('Dashboard.Header.Navbar.Services.Game')}</a>`
         }
 
-        if(checkPermission('app.service.vm.user.*').result) {
+        if(checkPermission('service.vm.user.*').result) {
             services_string += `<a class="dropdown-item" href="/services/vm">${i18next.t('Dashboard.Header.Navbar.Services.Vm')}</a>`
         }
 
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Admin und Vereins Management
         // User Management
-        if(checkPermission('app.usermanagment.*').result) {
+        if(checkPermission('app.admin.usermgm.*').result) {
             navbar.innerHTML += `
             <li class="nav-item">
                 <a class="nav-link" href="/admin" >

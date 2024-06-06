@@ -13,7 +13,7 @@ module.exports = {
         "app.web.logout"
     ],
     // The default groups are used for event/activity permissions. The code will check the inheritance tree until it hits one of the 2 default groups.
-    "default_group": "reg",
+    "default_group": "user",
     "default_member_group": "member",
     "groups": {
         "app": {
@@ -23,33 +23,66 @@ module.exports = {
             ],
             "inherit": []
         },
-        "reg": {
+        // The user group is the default group for all users. This group is granted to new users.
+        "user": {
             "permissions": [
                 "group.reg",
-                "app.*",
-                "web.*",
+                "web.event.*",
+                "web.user.*",
+                "app.user.settings.*",
+                "app.event.user.*"
             ],
             "inherit": [
                 "app"
             ]
         },
+        // The member group is the default group for party members.
         "member": {
             "permissions": [
-                "group.member"
+                "group.member",
+                "web.event.*",
+                "web.user.*",
+                "app.user.settings.*",
+                "app.event.user.*"
+            ],
+            "inherit": [
+                "app"
+            ]
+        },
+        // The party leader groups, all derived from basic admin group.
+        "kassierer": {
+            "permissions": [
             ],
             "inherit": [
                 "admin"
             ]
         },
-        "ops": {
+        "schriftführer": {
             "permissions": [
-                "*"
+            ],
+            "inherit": [
+                "admin"
+            ]
+        },
+        "obmann": {
+            "permissions": [
+            ],
+            "inherit": [
+                "admin"
+            ]
+        },
+        // The admin group is the default group for administrators.
+        "admin": {
+            "permissions": [
+                "service.*",
+                "app.admin.*",
             ],
             "inherit": [
                 "member"
             ]
         },
-        "admin": {
+        // The root group with general permissions.
+        "root": {
             "permissions": [
                 "*"
             ],

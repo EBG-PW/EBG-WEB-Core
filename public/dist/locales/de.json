@@ -431,8 +431,11 @@
   },
   "User_Groups": {
     "user": "Nutzer",
+    "member": "Vereinsmitglieder",
     "kassierer": "Kassierer",
-    "admin": "Administrator",
+    "schriftführer": "Schriftführer",
+    "obmann": "Obmann",
+    "root": "root",
     "virtualGroups": {
       "reg": "Registrierte Nutzer",
       "member": "Vereinsmitglieder"

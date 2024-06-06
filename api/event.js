@@ -98,7 +98,7 @@ router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async
     res.json(amount);
 });
 
-router.get('/', verifyRequest('web.event.get.events.read'), limiter(), plublicStaticCache(60_000, ["query", "user.user_id"], "public_event_index"), async (req, res) => {
+router.get('/', verifyRequest('web.event.get.eventlist.read'), limiter(), plublicStaticCache(60_000, ["query", "user.user_id"], "public_event_index"), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
     const events = await projectactivities.event.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, value.search, new Date());
     res.status(200);
