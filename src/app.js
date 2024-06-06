@@ -57,6 +57,12 @@ app.get('/', (req, res) => {
     res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'index.html')));
 });
 
+app.get('/en', (req, res) => {
+    res.header('Cache-Control', 'public, max-age=172800');
+    res.header('Content-Type', 'text/html');
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'en', 'index.html')));
+});
+
 app.get('/*', (req, res) => {
     // Split the URL to separate the path and query string
     const filePath = req.url.split('?')[0];
