@@ -60,7 +60,7 @@
     <script src="<%= domain %>/dist/js/demo.min.js?1684106062" defer></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
-      i18next.on("loaded", async () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         const url = new URL(window.location.href);
         const params = new URLSearchParams(url.search);
 

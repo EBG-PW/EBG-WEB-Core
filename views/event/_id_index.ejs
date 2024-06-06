@@ -290,7 +290,7 @@
       <script src="<%= domain %>/appjs/layout.js"></script>
       <script>
         // Auto-fill user data (VanillaJS)
-        i18next.on("loaded", async () => {
+        document.addEventListener("DOMContentLoaded", async () => {
           loadEventDetails();
         });
 
