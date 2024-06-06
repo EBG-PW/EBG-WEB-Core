@@ -46,7 +46,7 @@
       "Username": "Benutzername"
     },
     "Error": {
-      "401": "Benuztername oder E-Mail Adresse bereits vergeben"
+      "401": "Benutzername oder E-Mail Adresse bereits vergeben"
     }
   },
   "RegisterVerify": {
@@ -61,7 +61,7 @@
     "Email": "E-Mail Adresse",
     "EnterIdentifyer": "Gib deine E-Mail Adresse oder Benutzernamen ein",
     "TakeMeBack": "Zurück zur Anmeldung",
-    "Success": "Fals diese Email existiert, wird eine E-Mail an dich gesendet.",
+    "Success": "Falls diese Email existiert, wird eine E-Mail an dich gesendet.",
     "SuccessReset": "Passwort erfolgreich zurückgesetzt, du wirst gleich weitergeleitet.",
     "Button": {
       "ResetPassword": "Passwort zurücksetzen"
@@ -155,7 +155,7 @@
       "Layout": "Layout",
       "LayoutOptions": {
         "Fluid": "Vollbild",
-        "Center": "Zenriert"
+        "Center": "Zentriert"
       },
       "NavBarLock": "Navigation fixieren",
       "NavBarLockOptions": {
@@ -169,7 +169,7 @@
       "Platform": "Plattform",
       "Profile": "Profil / ID / Username",
       "CurrentLinks": "Aktuelle Verlinkungen",
-      "EditDiscription": "Hier kannst du deine verlinkbaren Seiten bearbeiten. Wähle die Platform und editire den Wert, klicke aus dem Feld um zu speichern.",
+      "EditDiscription": "Hier kannst du deine verlinkbaren Seiten bearbeiten. Wähle die Platform und editiere den Wert, klicke aus dem Feld um zu speichern.",
       "CurrentLinksDescription": "Hier siehst alle deine verlinkbaren Seiten. Du kannst sie auch oben bearbeiten oder hier löschen.",
       "LinksListLable": {
         "HeadPlatform": "Plattform",
