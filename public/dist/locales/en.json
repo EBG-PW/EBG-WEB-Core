@@ -1,17 +1,22 @@
 {
   "en": "English",
+  "Page": {
+    "Search": "Search..."
+  },
   "Login": {
     "Title": "Login",
     "Header": "Login",
-    "EmailAdress": "Email Adress",
+    "EmailAdress": "Email Address",
     "Password": "Password",
     "ForgotPassword": "Forgot Password?",
+    "OauthRegister": "Your account has been created and an email has been sent to you.",
     "Button": {
       "Remember": "Remember me",
       "SignIn": "Sign In",
       "Error": {
         "401": "Wrong Email or Password",
         "403": "Forbidden",
+        "423": "Email address not confirmed",
         "500": "Internal Server Error"
       }
     },
@@ -26,33 +31,399 @@
       "Password": "Password"
     }
   },
-  "Error": {
-    "Joi": {
-      "string": {
-        "empty": "{{field}} cannot be empty",
-        "min": "{{field}} must be at least {{limit}} characters long",
-        "max": "{{field}} must be less than or equal to {{limit}} characters long",
-        "email": "{{field}} must be a valid email address",
-        "pattern": {
-          "base": "{{field}} must match the required pattern"
-        }
-      },
-      "number": {
-        "base": "{{field}} must be a number",
-        "min": "{{field}} must be greater than or equal to {{limit}}",
-        "max": "{{field}} must be less than or equal to {{limit}}"
-      },
-      "date": {
-        "base": "{{field}} must be a valid date",
-        "min": "{{field}} date must be after {{limit}}",
-        "max": "{{field}} date must be before {{limit}}"
-      },
-      "required": "{{field}} is required"
+  "Register": {
+    "Titel": "Register",
+    "HeadlineNewAcc": "Create a new account",
+    "Username": "Username",
+    "Password1": "Password",
+    "Password2": "Repeat Password",
+    "Password": "Password",
+    "CreateNewAccount": "Create a new account",
+    "GotAccount": "Do you already have an account?",
+    "Legal": "Accept the terms of use and privacy policy",
+    "Success": "Email has been sent, please check your inbox.",
+    "Placeholder": {
+      "Username": "Username"
+    },
+    "Error": {
+      "401": "Username or email address already taken"
     }
   },
-  "User_Groups": {
-    "user": "User",
-    "kassierer": "Cashier",
-    "admin": "Administrator"
+  "RegisterVerify": {
+    "Title": "Verify account",
+    "Headline": "Confirm your account by clicking the button.",
+    "VerifyMail": "Confirm email address",
+    "Success": "Email successfully confirmed, you will be redirected shortly."
+  },
+  "ResetPassword": {
+    "Title": "Reset Password",
+    "ResetPassword": "Reset Password",
+    "Email": "Email address",
+    "EnterIdentifyer": "Enter your email address or username",
+    "TakeMeBack": "Back to Login",
+    "Success": "If this email exists, an email will be sent to you.",
+    "SuccessReset": "Password reset successfully, you will be redirected shortly.",
+    "Button": {
+      "ResetPassword": "Reset Password"
+    }
+  },
+  "Dashboard": {
+    "Header": {
+      "Pagename": "EBG - Dashboard",
+      "Field": {
+        "Monitoring": "Monitoring"
+      },
+      "Profile": {
+        "Profile": "Profile",
+        "Settings": "Settings",
+        "Apps": "Connected Apps",
+        "Logout": "Logout"
+      },
+      "Navbar": {
+        "Home": "Home",
+        "Projects": "Projects",
+        "Events": "Events",
+        "UserManagment": "User managment",
+        "Services": {
+          "Name": "Services",
+          "Game": "Game servers",
+          "Vm": "VM server"
+        }
+      },
+      "Buttons": {
+        "ToggleColor": {
+          "Light": "Lightmode",
+          "Dark": "Darkmode"
+        }
+      }
+    },
+    "Footer": {
+      "Links": {
+        "Guidelines": "Guidelines",
+        "Imprint": "Imprint",
+        "Privacy": "Privacy Policy"
+      }
+    }
+  },
+  "Settings": {
+    "Side": {
+      "Account": "Account",
+      "Misc": "Design, Language & Others",
+      "Links": "Linkable pages",
+      "Integrations": "Integrations"
+    },
+    "Main": {
+      "SettingsName": "Account Settings",
+      "ProfileHeadline": "Profile Settings",
+      "AccountHeadline": "Account Settings",
+      "PasswordHeadline": "Password Settings",
+      "PublicHeadline": "Privacy Settings",
+      "Username": "User name",
+      "Email": "Email address",
+      "FirstName": "First name",
+      "LastName": "Last name",
+      "Bio": "Biography",
+      "PasswordOld": "Old Password",
+      "PasswordRepeat": "Repeat Password",
+      "PasswordNew": "New Password",
+      "ExplainPrivate": "Here you can set your profile to private.",
+      "ExplainNoPassword": "Your account was created through a third-party app and you have been sent an email to set your password.",
+      "Button": {
+        "SetPassword": "Change Password",
+        "PrivacyActive": "Privacy Activated",
+        "PrivacyDeactive": "Privacy Disabled"
+      },
+      "Error": {
+        "Password": {
+          "NoPassword": "You don't have a password",
+          "Empty": "Please enter a password",
+          "NotEqual": "The passwords do not match",
+          "Unknown": "An unknown error has occurred",
+          "Wrong": "The password is wrong",
+          "401": "Old password incorrect",
+          "500": "Server error"
+        }
+      },
+      "Success": {
+        "Password": "Password successfully changed"
+      }
+    },
+    "Misc": {
+      "SettingsName": "Misc Settings",
+      "DesignLangHeadline": "Design & Language",
+      "Language": "Language",
+      "Layout": "Layout",
+      "LayoutOptions": {
+        "Fluid": "Fullscreen",
+        "Center": "Centered"
+      },
+      "NavBarLock": "Fix navigation",
+      "NavBarLockOptions": {
+        "Top": "Top",
+        "Side": "Side"
+      }
+    },
+    "Links": {
+      "LingsHeadline": "Linkable pages",
+      "Links": "Links",
+      "Platform": "Platform",
+      "Profile": "Profile / ID / Username",
+      "CurrentLinks": "Current links",
+      "EditDiscription": "Here you can edit your linked pages. Select the platform and edit the value, click out of the field to save.",
+      "CurrentLinksDescription": "Here you can see all your linkable pages. You can also edit them above or delete them here.",
+      "LinksListLable": {
+        "HeadPlatform": "Platform",
+        "HeadData": "Profile / ID / Username",
+        "Delete": "Delete"
+      }
+    },
+    "Profile": {
+      "AvatarIcon": "Avatar Icon",
+      "SetAvatarIcon": "NOT IMPLEMENTED",
+      "DeleteAvatarIcon": "Delete avatar"
+    },
+    "Integrations": {
+      "IntegrationsHeadline": "Integrations",
+      "Integrations": "Integrations",
+      "Telegram": "Telegram ID",
+      "EditDescription": "To integrate with Telegram, please enter your TG ID here and click out of the field to save."
+    }
+  },
+  "Events": {
+    "Visibility": {
+      "1": "Public",
+      "0": "Private"
+    },
+    "Body": {
+      "DescriptionCardHeadline": "Event Description",
+      "Card": {
+        "LeaveButton": "Leave",
+        "Participates": "You participate",
+        "JoinButton": "Join",
+        "Location": "Venue",
+        "JoinDate": "Registration Until",
+        "StartDate": "Start Date",
+        "EndDate": "End Date",
+        "MinGroup": "Visible for",
+        "Visibility": "Visibility",
+        "ParticipantWithCount_zero": "{{count}} Participants",
+        "ParticipantWithCount_one": "{{count}} Participant",
+        "ParticipantWithCount_other": "{{count}} Participants"
+      },
+      "Head": {
+        "Title": "Events",
+        "SubTitle": "Here you can create, join or manage events.",
+        "AddButton": "Create an event",
+        "CardTileInfos": "Information"
+      }
+    },
+    "Modal": {
+      "NewEvent": {
+        "Title": "Title",
+        "AvatarAdd": "Icon",
+        "Visibility_Open": "Public",
+        "Visibility_Hidden": "Hidden",
+        "MinGroup_RegOnly": "All registered users",
+        "MinGroup_Members": "Members only",
+        "EventName": "Event Name",
+        "Color": "Color",
+        "MinGroup": "Target Group",
+        "Visibility": "Visibility",
+        "DateApply": "Registration until",
+        "DateStart": "Start Date",
+        "DateEnd": "End Date",
+        "Location": "Location",
+        "Description": "Description",
+        "Placeholder": {
+          "EventName": "Name of the event",
+          "Description": "A brief description of the event, you can use styling HTML tags.",
+          "Location": "An address, coordinates, or similar"
+        },
+        "Cancel": "Cancel",
+        "AddNew": "Create new event"
+      }
+    },
+    "Settings": {
+      "Button": {
+        "Link": "Settings"
+      },
+      "Title": "Event Settings",
+      "Site": {
+        "General": "General Settings",
+        "OAuth": "OAuth Settings"
+      },
+      "OAuth": {
+        "Create": "Create OAuth Client",
+        "Name": "OAuth Client Name",
+        "Sample": "oauth-client",
+        "Redirect": "Redirect URI",
+        "Permission": {
+          "Title": "Permissions",
+          "Name": {
+            "UserIdRead": "Read User ID",
+            "UserIdWrite": "Write User ID",
+            "UserUsernameRead": "Read Username",
+            "UserUsernameWrite": "Write Username",
+            "UserEmailRead": "Read Email Address",
+            "UserEmailWrite": "Write Email Address",
+            "UserRealnameRead": "Read Real Name",
+            "UserRealnameWrite": "Write Real Name",
+            "UserBioRead": "Read Biography",
+            "UserBioWrite": "Write Biography",
+            "UserAvatarRead": "Read Avatar",
+            "UserAvatarWrite": "Write Avatar",
+            "UserGroupRead": "Read Group",
+            "UserGroupWrite": "Write Group",
+            "UserAddressRead": "Read Address",
+            "UserAddressWrite": "Write Address",
+            "SettingsDesignRead": "Read Settings Design",
+            "SettingsDesignWrite": "Write Settings Design",
+            "EventsListRead": "Read Events List",
+            "ProjectsListRead": "Read Projects List",
+            "IntegrationTelegramRead": "Read Telegram Identity",
+            "IntegrationDiscordRead": "Read Discord Identity",
+            "NotificationsRead": "Receive Notifications",
+            "NotificationsWrite": "Send Notifications"
+          },
+          "Description": {
+            "UserIdRead": "The application can read the user's unique ID",
+            "UserIdWrite": "The application can modify the user's unique ID",
+            "UserUsernameRead": "The application can read the username",
+            "UserUsernameWrite": "The application can modify the username",
+            "UserEmailRead": "The application can read the email address",
+            "UserEmailWrite": "The application can modify the email address",
+            "UserRealnameRead": "The application can read the real name",
+            "UserRealnameWrite": "The application can modify the real name",
+            "UserBioRead": "The application can read the biography",
+            "UserBioWrite": "The application can modify the biography",
+            "UserAvatarRead": "The application can read the avatar",
+            "UserAvatarWrite": "The application can modify the avatar",
+            "UserGroupRead": "The application can read the permission group",
+            "UserGroupWrite": "The application can modify the permission group",
+            "UserAddressRead": "The application can read the address",
+            "UserAddressWrite": "The application can modify the address",
+            "SettingsDesignRead": "The application can read the settings design",
+            "SettingsDesignWrite": "The application can modify the settings design",
+            "SettingsLanguageRead": "The application can read the language",
+            "SettingsLanguageWrite": "The application can modify the language",
+            "EventsListRead": "The application can read the events list",
+            "ProjectsListRead": "The application can read the projects list",
+            "IntegrationTelegramRead": "The application can read the Telegram identity",
+            "IntegrationDiscordRead": "The application can read the Discord identity",
+            "NotificationsRead": "The application can read your notifications",
+            "NotificationsWrite": "The application can send you notifications"
+          }
+        }
+      }
+    },
+    "OAuth": {
+      "Headline": "Login with OAuth",
+      "Login": "Login",
+      "LoginAs": "Login as {{username}}. The service {{app_name}} requests the following permissions:",
+      "Error": "Unfortunately, an error occurred.",
+      "Missing": "Some information is missing to log you in.",
+      "ClientID": "Client ID (client_id)",
+      "Scope": "Permissions (scope)",
+      "Permission": {
+        "Title": "Permissions",
+        "Name": {
+          "UserIdRead": "Read User ID",
+          "UserIdWrite": "Write User ID",
+          "UserUsernameRead": "Read Username",
+          "UserUsernameWrite": "Write Username",
+          "UserEmailRead": "Read Email Address",
+          "UserEmailWrite": "Write Email Address",
+          "UserRealnameRead": "Read Real Name",
+          "UserRealnameWrite": "Write Real Name",
+          "UserBioRead": "Read Biography",
+          "UserBioWrite": "Write Biography",
+          "UserAvatarRead": "Read Avatar",
+          "UserAvatarWrite": "Modify Avatar",
+          "UserGroupRead": "Read Group",
+          "UserGroupWrite": "Write Group",
+          "UserAddressRead": "Read Address",
+          "UserAddressWrite": "Write Address",
+          "SettingsDesignRead": "Read Settings Design",
+          "SettingsDesignWrite": "Write Settings Design",
+          "SettingsLanguageRead": "Read Language",
+          "SettingsLanguageWrite": "Write Language",
+          "EventsListRead": "Read Events List",
+          "ProjectsListRead": "Read Projects List",
+          "IntegrationTelegramRead": "Read Telegram Identity",
+          "IntegrationDiscordRead": "Read Discord Identity",
+          "NotificationsRead": "Receive Notifications",
+          "NotificationsWrite": "Send Notifications"
+        },
+        "Description": {
+          "UserIdRead": "The application can read the user's unique ID",
+          "UserIdWrite": "The application can modify the user's unique ID",
+          "UserUsernameRead": "The application can read the username",
+          "UserUsernameWrite": "The application can modify the username",
+          "UserEmailRead": "The application can read the email address",
+          "UserEmailWrite": "The application can modify the email address",
+          "UserRealnameRead": "The application can read the real name",
+          "UserRealnameWrite": "The application can modify the real name",
+          "UserBioRead": "The application can read the biography",
+          "UserBioWrite": "The application can modify the biography",
+          "UserAvatarRead": "The application can read the avatar",
+          "UserAvatarWrite": "The application can modify the avatar",
+          "UserGroupRead": "The application can read the permission group",
+          "UserGroupWrite": "The application can modify the permission group",
+          "UserAddressRead": "The application can read the address",
+          "UserAddressWrite": "The application can modify the address",
+          "SettingsDesignRead": "The application can read the settings design",
+          "SettingsDesignWrite": "The application can modify the settings design",
+          "SettingsLanguageRead": "The application can read the language",
+          "SettingsLanguageWrite": "The application can modify the language",
+          "EventsListRead": "The application can read the events list",
+          "ProjectsListRead": "The application can read the projects list",
+          "IntegrationTelegramRead": "The application can read the Telegram identity",
+          "IntegrationDiscordRead": "The application can read the Discord identity",
+          "NotificationsRead": "The application can read your notifications",
+          "NotificationsWrite": "The application can send you notifications"
+        }
+      },
+      "Errors": {
+        "GetRoute": {
+          "500": "Server Error",
+          "404": "OAuth Client not found",
+          "403": "Mismatched Permissions",
+          "401": "User not part of the event"
+        }
+      }
+    },
+    "Error": {
+      "Joi": {
+        "string": {
+          "empty": "{{field}} cannot be empty",
+          "min": "{{field}} must be at least {{limit}} characters long",
+          "max": "{{field}} must be less than or equal to {{limit}} characters long",
+          "email": "{{field}} must be a valid email address",
+          "pattern": {
+            "base": "{{field}} must match the required pattern"
+          }
+        },
+        "number": {
+          "base": "{{field}} must be a number",
+          "min": "{{field}} must be greater than or equal to {{limit}}",
+          "max": "{{field}} must be less than or equal to {{limit}}"
+        },
+        "date": {
+          "base": "{{field}} must be a valid date",
+          "min": "{{field}} date must be after {{limit}}",
+          "max": "{{field}} date must be before {{limit}}"
+        },
+        "required": "{{field}} is required"
+      }
+    },
+    "User_Groups": {
+      "user": "User",
+      "kassierer": "Treasurer",
+      "admin": "Administrator",
+      "virtualGroups": {
+        "reg": "Registered Users",
+        "member": "Club Members"
+      }
+    }
   }
 }
