@@ -26,7 +26,7 @@ module.exports = {
         // The user group is the default group for all users. This group is granted to new users.
         "user": {
             "permissions": [
-                "group.reg",
+                "group.user",
                 "web.event.*",
                 "web.user.*",
                 "app.user.settings.*",
