@@ -421,7 +421,7 @@
       "kassierer": "Treasurer",
       "admin": "Administrator",
       "virtualGroups": {
-        "reg": "Registered Users",
+        "user": "Registered Users",
         "member": "Club Members"
       }
     }

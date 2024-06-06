@@ -437,7 +437,7 @@
     "obmann": "Obmann",
     "root": "root",
     "virtualGroups": {
-      "reg": "Registrierte Nutzer",
+      "user": "Registrierte Nutzer",
       "member": "Vereinsmitglieder"
     }
   }
