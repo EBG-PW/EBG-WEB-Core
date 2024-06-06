@@ -271,7 +271,7 @@
       }
 
       // Auto-fill user data (VanillaJS)
-      document.addEventListener("DOMContentLoaded", async () => {
+      i18next.on("loaded", async () => {
         const response = await fetch("/api/v1/integrations", {
           method: "GET",
           headers: {

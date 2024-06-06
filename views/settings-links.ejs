@@ -267,7 +267,7 @@
 
       let linkableapps = {};
 
-      document.addEventListener('DOMContentLoaded', async () => {
+      i18next.on("loaded", async () => {
         // Pupulate the LinkTable
         await loadTable();
       });

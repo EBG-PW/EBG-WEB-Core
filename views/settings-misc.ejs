@@ -251,7 +251,7 @@
     <script src="<%= domain %>/dist/js/demo.min.js?1684106062" defer></script>
     <script src="<%= domain %>/appjs/layout.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
+      i18next.on("loaded", async () => {
         const selectLayoutElement = document.getElementById('select-layout');
         let design = localStorage.getItem('tablerTheme');
         let parts = design ? design.split('.') : ['light', 'centered']; // default values
