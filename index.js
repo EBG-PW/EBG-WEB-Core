@@ -2,7 +2,7 @@ require('dotenv').config();
 require('module-alias/register')
 
 const port = process.env.PORT || 80;
-const bindip = process.env.BINDIP || '127.0.0.1'
+const bindip = process.env.BINDIP || 'localhost';
 //This timeout is used to delay accepting connections until the server is fully loaded. 
 //It could come to a crash if a request comes in before the settings cache was fully laoded.
 

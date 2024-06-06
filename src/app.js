@@ -103,7 +103,7 @@ app.get('/*', (req, res) => {
         } else if (fs.existsSync(path.join(__dirname, '..', 'landingpage', 'dist', filePath))) {
             file_to_send = path.join(__dirname, '..', 'landingpage', 'dist', filePath);
         } else {
-            throw new Error("File not found");
+            throw new Error(`File not found - ${filePath}`);
         }
         res.send(fs.readFileSync(file_to_send));
     } catch (error) {
