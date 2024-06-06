@@ -9,7 +9,7 @@ module.exports = {
     "Google": {
         "url": "https://accounts.google.com/o/oauth2/v2/auth",
         "url_auth": "https://oauth2.googleapis.com/token",
-        "url_redirect": "http://localhost/auth/google/callback",
+        "url_redirect": "https://ebg.pw/auth/google/callback",
         "url_scope": ["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"],
         "clientID": process.env.GOOGLE_CLIENT_ID,
         "clientSecret": process.env.GOOGLE_SECRET
