@@ -1,0 +1,59 @@
+---
+const { lang = "en" } = Astro.props;
+
+import { Icon } from "astro-icon/components";
+// it is required that the language code in the translation file matches with the code in the static file
+import staticData from "../data/static.json";
+---
+
+<style lang="scss">
+  .change-lang {
+    position: fixed;
+    display: block;
+    text-decoration: none;
+
+    z-index: 50;
+
+    bottom: 50px;
+    right: 50px;
+
+    background-color: white;
+    height: 50px;
+    width: 120px;
+    border-radius: 25px;
+    box-shadow: 0 0 15px rgb(25, 25, 25);
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    font-family: "Inter Variable", sans-serif;
+
+    p {
+      font-size: 0.8rem;
+      color: rgba(25, 25, 25);
+      line-height: 1rem;
+    }
+
+    svg {
+      margin-left: 5px;
+      font-size: 25px;
+      line-height: 25px;
+      border-radius: 5px;
+    }
+  }
+</style>
+
+<a
+  href={staticData[lang === "en" ? "location_de" : "location_en"]}
+  class="change-lang"
+  ><!--
+  -->
+  <p>{staticData[lang === "en" ? "change_from_en" : "change_from_de"]}</p>
+  <Icon name={lang === "en" ? "de" : "en"} /><!--
+--></a
+>

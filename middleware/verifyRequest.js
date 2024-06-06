@@ -2,6 +2,7 @@ const { checkPermission } = require('@lib/permission');
 const { checkWebToken } = require('@lib/token');
 const { delWebtoken, IPLimit, IPCheck } = require('@lib/cache');
 const { InvalidToken, TooManyRequests, PermissionsError } = require('@lib/errors');
+const Joi = require('joi');
 const { webtoken } = require('@lib/postgres');
 const useragent = require('express-useragent');
 
@@ -39,6 +40,16 @@ const verifyRequest = (permission) => {
             } else {
                 throw new InvalidToken('No Token Provided');
             }
+
+            // Validate the token with joi, code below is how to generate a token
+            const TokenSchema = Joi.string().pattern(/^[a-zA-Z0-9!]*$/).required();
+            await TokenSchema.validateAsync(UserToken);
+            /*
+            const FA_Token = randomstring.generate({
+                length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+                charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
+            });
+            */
 
             // Check if the token is valid
             const WebTokenResponse = await checkWebToken(UserToken, UserAgent.browser);

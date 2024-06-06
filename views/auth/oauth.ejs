@@ -94,7 +94,7 @@
         }
 
         // If redirected after login then we fill in the data to the url
-        if(localStorage.getItem("oauth:client_id")) {
+        if (localStorage.getItem("oauth:client_id")) {
           window.location.href = `/oauth?client_id=${localStorage.getItem("oauth:client_id")}&scope=${localStorage.getItem("oauth:scope")}`;
           localStorage.removeItem("oauth:client_id");
           localStorage.removeItem("oauth:scope");
@@ -104,12 +104,21 @@
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`,
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
-        if(oauth_client_response.status === 200) {
+        if (oauth_client_response.status === 200) {
           const oauth_client = await oauth_client_response.json();
+
+          if (oauth_client.redirect_uri) {
+            console.log("Redirecting to", oauth_client.redirect_uri);
+            // Redirect to the new URL with the code
+            const newRedirectUrl = new URL(`${oauth_client.redirect_uri}?code=${oauth_client.code}`);
+            window.location.href = newRedirectUrl;
+            return;
+          }
+  
           const permissionsList = document.getElementById("PermissionsList");
           const loginLine = document.getElementById("LoginLine");
           const regSubmitButton = document.getElementById("RegSubmitButton");
@@ -130,7 +139,7 @@
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
                 client_id: params.get("client_id"),
@@ -138,7 +147,7 @@
               }),
             });
 
-            if(oauth_response.status === 200) {
+            if (oauth_response.status === 200) {
               const oauth = await oauth_response.json();
               // Redirect to the new URL with the code
               const newRedirectUrl = new URL(`${oauth.redirect_uri}?code=${oauth.code}`);

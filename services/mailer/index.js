@@ -36,11 +36,11 @@ const translationStore = {
 };
 
 const connection = {
-  port: parseInt(process.env.Redis_Port) || 6379,
-  host: process.env.Redis_Host || "127.0.0.1",
-  username: process.env.Redis_User || "default",
-  password: process.env.Redis_Password || "default",
-  db: parseInt(process.env.Redis_DB) + 1 || 1,
+  port: parseInt(process.env.REDIS_PORT) || 6379,
+  host: process.env.REDIS_HOST || "127.0.0.1",
+  username: process.env.REDIS_USER || "default",
+  password: process.env.REDIS_PASSWORD || "default",
+  db: parseInt(process.env.REDIS_DB) + 1 || 1,
 };
 
 const emailtransporter = nodemailer.createTransport({
@@ -50,7 +50,7 @@ const emailtransporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD,
-  },
+  }
 });
 
 (async () => {

@@ -42,6 +42,7 @@ router.post('/', async (req, res) => {
         if (err.code === '23505') {
             throw new InvalidRegister('User already exists');
         }
+        console.error(err);
     });
 
     const urlPath = generateUrlPath();

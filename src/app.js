@@ -51,6 +51,18 @@ const apiv1 = require('@api');
 const auth_handler = require('@static_api/auth');
 const oauth_handler = require('@static_api/oauth');
 
+app.get('/', (req, res) => {
+    res.header('Cache-Control', 'public, max-age=172800');
+    res.header('Content-Type', 'text/html');
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'index.html')));
+});
+
+app.get('/en', (req, res) => {
+    res.header('Cache-Control', 'public, max-age=172800');
+    res.header('Content-Type', 'text/html');
+    res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'en', 'index.html')));
+});
+
 app.get('/*', (req, res) => {
     // Split the URL to separate the path and query string
     const filePath = req.url.split('?')[0];
@@ -84,7 +96,16 @@ app.get('/*', (req, res) => {
         // Read the file from the filesystem without the query string
         // Add cache poloicy to cache 48h
         res.header('Cache-Control', 'public, max-age=172800');
-        res.send(fs.readFileSync(path.join(__dirname, '..', 'public', filePath)));
+
+        let file_to_send = null;
+        if (fs.existsSync(path.join(__dirname, '..', 'public', filePath))) {
+            file_to_send = path.join(__dirname, '..', 'public', filePath);
+        } else if (fs.existsSync(path.join(__dirname, '..', 'landingpage', 'dist', filePath))) {
+            file_to_send = path.join(__dirname, '..', 'landingpage', 'dist', filePath);
+        } else {
+            throw new Error(`File not found - ${filePath}`);
+        }
+        res.send(fs.readFileSync(file_to_send));
     } catch (error) {
         process.log.error(error)
         ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN }, (err, str) => {
