@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
-i18next.on("initialized", async () => {
+i18next.on("loaded", async () => {
     /* Translate all elements marked with spesific html tags */
     document.querySelectorAll("[data-translate]").forEach((element) => {
         const key = element.getAttribute("data-translate");
