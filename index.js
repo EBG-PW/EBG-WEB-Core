@@ -17,8 +17,9 @@ process.log = log;
 const path = require('path');
 /* Load some config data, thats needed to render the HTML pages on startup */
 // Get all translation files from \public\dist\locales and generate a context object ({ [language]: [file key.language] })
-const localesDir = path.join(__dirname, 'public', 'dist', 'locales');
+const localesDir = path.join(__dirname, 'config', 'locales');
 let countryConfig = {};
+let availableLanguages = {};
 const files = fs.readdirSync(localesDir);
 
 files.forEach(file => {
@@ -29,10 +30,12 @@ files.forEach(file => {
         let jsonData = JSON.parse(fileContents);
         if (jsonData[langCode]) {
             countryConfig[langCode] = jsonData[langCode];
+            availableLanguages[langCode] = jsonData;
         }
     }
 });
 
+process.availableLanguages = availableLanguages; // Used for template rendering for different languages
 process.countryConfig = countryConfig; // Used for language dropdowns
 process.linkableapps = require('@config/linkable_apps.js');
 process.permissions_config = require('@config/permissions.js');

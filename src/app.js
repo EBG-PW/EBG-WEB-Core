@@ -37,7 +37,7 @@ const renderer = new ViewRenderer(app, path.join(__dirname, '..', 'views'));
 
 // Register the static routes and overwrite some filename paths internaly
 renderer.registerStaticRoutes(path.join(__dirname, '..', 'views'),
-    ["error-xxx.ejs", "landingpage.ejs", "sign-up-verify.ejs", "reset-password.ejs"],
+    ["error-xxx.ejs", "landingpage.ejs", "sign-up-verify.ejs", "reset-password.ejs", "navbar.ejs"],
     {
         "auth/sign-in.ejs": "/login",
         "auth/sign-up.ejs": "/register",
@@ -111,6 +111,7 @@ app.get('/*', (req, res) => {
         ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN }, (err, str) => {
             if (err) throw err;
             res.header('Content-Type', 'text/html');
+            res.status(404);
             res.send(str);
         });
     };
