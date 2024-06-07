@@ -236,9 +236,11 @@
             localStorage.setItem("token", response.token);
             localStorage.setItem("permissions", JSON.stringify(response.permissions));
             if(localStorage.getItem("oauth:client_id")) {
-              window.location.href = `/oauth?client_id=${localStorage.getItem("oauth:client_id")}&scope=${localStorage.getItem("oauth:scope")}`;
+              const oauth_client_id = localStorage.getItem("oauth:client_id");
+              const oauth_scope = localStorage.getItem("oauth:scope");
               localStorage.removeItem("oauth:client_id");
               localStorage.removeItem("oauth:scope");
+              window.location.href = `/oauth?client_id=${oauth_client_id}&scope=${oauth_scope}`;
             } else {
               window.location.href = "/dashboard";
             }

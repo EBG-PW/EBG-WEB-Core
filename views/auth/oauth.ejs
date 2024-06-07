@@ -89,9 +89,11 @@
 
         // If redirected after login then we fill in the data to the url
         if (localStorage.getItem("oauth:client_id")) {
-          window.location.href = `/oauth?client_id=${localStorage.getItem("oauth:client_id")}&scope=${localStorage.getItem("oauth:scope")}`;
+          const oauth_client_id = localStorage.getItem("oauth:client_id");
+          const oauth_scope = localStorage.getItem("oauth:scope");
           localStorage.removeItem("oauth:client_id");
           localStorage.removeItem("oauth:scope");
+          window.location.href = `/oauth?client_id=${oauth_client_id}&scope=${oauth_scope}`;
         }
 
         const oauth_client_response = await fetch(`/oauth?client_id=${params.get("client_id")}&scope=${params.get("scope")}`, {
