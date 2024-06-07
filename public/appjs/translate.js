@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             if(checkPermission('app.user.settings.*').result) {
                 dropdown.innerHTML += `<a href="/settings-account" class="dropdown-item">${i18next.t('Dashboard.Header.Profile.Settings')}</a>`;
             }
-            dropdown.innerHTML += `<div class="dropdown-divider"></div>`;
             if(checkPermission('app.user.apps.*').result) {
+                dropdown.innerHTML += `<div class="dropdown-divider"></div>`;
                 dropdown.innerHTML += `<a href="/apps" class="dropdown-item">${i18next.t('Dashboard.Header.Profile.Apps')}</a>`;
             }
             dropdown.innerHTML += `<div class="dropdown-divider"></div>`;
