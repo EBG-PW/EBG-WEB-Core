@@ -49,10 +49,10 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="<%= domain %>/appjs/permission.js" defer></script>
-    <script src="<%= domain %>/appjs/translate.js"></script>
-    <script src="<%= domain %>/appjs/layout.js"></script>
-    <script src="<%= domain %>/dist/js/tabler.min.js" defer></script>
+    <script src="<%= domain %>/appjs/permission.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
         const url = new URL(window.location.href);

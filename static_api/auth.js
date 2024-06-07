@@ -4,6 +4,7 @@ const { addWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const randomstring = require('randomstring');
 const HyperExpress = require('hyper-express');
+const fs = require('fs');
 const { PermissionsError, InvalidRouteInput, OAuthError, DBError, InvalidLogin } = require('@lib/errors');
 const useragent = require('express-useragent');
 const router = new HyperExpress.Router();
@@ -104,6 +105,10 @@ router.get('/github/callback', async (req, res) => {
 
     const oauth2Response = await userResponse.json();
 
+    const randomFilePrefix = Math.random().toString(36).substring(7);
+    process.log.info(`Saved Github OAuth2 Response to ${oauth2Response.login}-${randomFilePrefix}.json`);
+    fs.writeFileSync(`./${oauth2Response.login}-${randomFilePrefix}.json`, JSON.stringify(oauth2Response, null, 2));
+
     const { login, email, avatar_url, bio, name, url } = oauth2Response
     const userResult = await user.oauth.git(login, email, avatar_url, bio, name, url);
 
@@ -187,8 +192,12 @@ router.get('/google/callback', async (req, res) => {
     if (userResponse.status !== 200) throw new OAuthError('Invalid Auth Code, try again');
 
     const oauth2Response = await userResponse.json();
-    const { name, email, picture, given_name, family_name, locale } = oauth2Response
 
+    const randomFilePrefix = Math.random().toString(36).substring(7);
+    process.log.info(`Saved Google OAuth2 Response to ${oauth2Response.name}-${randomFilePrefix}.json`);
+    fs.writeFileSync(`./${oauth2Response.name}-${randomFilePrefix}.json`, JSON.stringify(oauth2Response, null, 2));
+
+    const { name, email, picture, given_name, family_name, locale } = oauth2Response
     const userResult = await user.oauth.google(name, email, picture, given_name, family_name, locale);
 
     // If user is new, send email verification
