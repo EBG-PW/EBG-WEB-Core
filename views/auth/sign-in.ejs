@@ -178,23 +178,6 @@
         }
       });
 
-      // Wait till i18n is loaded, then translate the page
-      i18next.on("initialized", function() {
-        const localStorageEmailVerify = localStorage.getItem("emailVerifyInfo") || false;
-        if(localStorageEmailVerify) {
-          if(parseInt(localStorageEmailVerify) < 300) {
-            document.getElementById("responseText").innerHTML = `<div class="alert alert-success" role="alert">${`OAuth: ${i18next.t(`Login.OauthRegister`)}`}</div>`;
-            localStorage.removeItem("emailVerifyInfo");
-          } else {
-            document.getElementById("responseText").innerHTML = `<div class="alert alert-danger" role="alert">${`OAuth: ${i18next.t(`Login.Button.Error.${localStorageEmailVerify}`)}`}</div>`;
-            localStorage.removeItem("emailVerifyInfo");
-        }
-          setTimeout(function() {
-            document.getElementById("responseText").innerHTML = "";
-          }, 8000);
-        }
-      });
-
       // When the login form is submitted, send a POST request to the server (VanillaJS)
       document.getElementById("LoginForm").addEventListener("submit", function(event) {
         event.preventDefault();
@@ -257,7 +240,22 @@
           .catch((error) => {
             console.error(error);
           });
-        
+      });
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const localStorageEmailVerify = localStorage.getItem("emailVerifyInfo") || false;
+        if(localStorageEmailVerify) {
+          if(parseInt(localStorageEmailVerify) < 300) {
+            document.getElementById("responseText").innerHTML = `<div class="alert alert-success" role="alert">${`OAuth: ${i18next.t(`Login.OauthRegister`)}`}</div>`;
+            localStorage.removeItem("emailVerifyInfo");
+          } else {
+            document.getElementById("responseText").innerHTML = `<div class="alert alert-danger" role="alert">${`OAuth: ${i18next.t(`Login.Button.Error.${localStorageEmailVerify}`)}`}</div>`;
+            localStorage.removeItem("emailVerifyInfo");
+        }
+          setTimeout(function() {
+            document.getElementById("responseText").innerHTML = "";
+          }, 8000);
+        }
       });
     </script>
   </body>
