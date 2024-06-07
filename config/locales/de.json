@@ -183,7 +183,7 @@
       "SetAvatarIcon": "NOT IMPLEMENTED",
       "DeleteAvatarIcon": "Avatar löschen"
     },
-    "Integrations":{
+    "Integrations": {
       "IntegrationsHeadline": "Integrationen",
       "Integrations": "Integrationen",
       "Telegram": "Telegram ID",
@@ -219,30 +219,30 @@
       }
     },
     "Modal": {
-        "NewEvent": {
-            "Title": "Titel",
-            "AvatarAdd": "Icon",
-            "Visibility_Open": "Öffentlich",
-            "Visibility_Hidden": "Versteckt",
-            "MinGroup_RegOnly": "Alle registrierten Nutzer",
-            "MinGroup_Members": "Nur für Mitglieder",
-            "EventName": "Event Name",
-            "Color": "Farbe",
-            "MinGroup": "Zielgruppe",
-            "Visibility": "Sichtbarkeit",
-            "DateApply": "Anmeldung bis",
-            "DateStart": "Start Datum",
-            "DateEnd": "End Datum",
-            "Location": "Örtlichkeit",
-            "Description": "Beschreibung",
-            "Placeholder": {
-                "EventName": "Name des Events",
-                "Description": "Eine kleine Beschreibung des Events, du kannst Styling-HTML Tags verwenden.",
-                "Location": "Eine Adresse, Goordianten oder ähnliches"
-            },
-            "Cancel": "Abbrechen",
-            "AddNew": "Neue Veranstaltung erstellen"
-        }
+      "NewEvent": {
+        "Title": "Titel",
+        "AvatarAdd": "Icon",
+        "Visibility_Open": "Öffentlich",
+        "Visibility_Hidden": "Versteckt",
+        "MinGroup_RegOnly": "Alle registrierten Nutzer",
+        "MinGroup_Members": "Nur für Mitglieder",
+        "EventName": "Event Name",
+        "Color": "Farbe",
+        "MinGroup": "Zielgruppe",
+        "Visibility": "Sichtbarkeit",
+        "DateApply": "Anmeldung bis",
+        "DateStart": "Start Datum",
+        "DateEnd": "End Datum",
+        "Location": "Örtlichkeit",
+        "Description": "Beschreibung",
+        "Placeholder": {
+          "EventName": "Name des Events",
+          "Description": "Eine kleine Beschreibung des Events, du kannst Styling-HTML Tags verwenden.",
+          "Location": "Eine Adresse, Goordianten oder ähnliches"
+        },
+        "Cancel": "Abbrechen",
+        "AddNew": "Neue Veranstaltung erstellen"
+      }
     },
     "Settings": {
       "Button": {
@@ -259,7 +259,7 @@
         "Sample": "oauth-client",
         "Redirect": "Redirect URI",
         "PermissionsLine": "Berechtigungen",
-        "Permission":{
+        "Permission": {
           "Title": "Berechtigungen",
           "Name": {
             "UserIdRead": "Nutzer ID Lesen",
@@ -320,14 +320,16 @@
     }
   },
   "OAuth": {
-    "Headline": "Mit oAuth Anmelden",
-    "Login": "Anmelden",
-    "LoginAs": "Anmelden als {{username}}. Der Dienst {{app_name}} möchte folgende Berechtigungen:",
+    "Headline": "möchte Zugriff auf deinen EBG Account.",
+    "Login": "Authorisieren",
+    "Cancel": "Abbrechen",
+    "LoginAs": "Angemeldet als {{username}} ",
+    "PermissionList": "\"{{app_name}}\" benötigt hierfür folgende Berechtigungen:",
     "Error": "Leider ist ein Fehler aufgetreten.",
     "Missing": "Es fehlen einige Informationen um dich anzumelden.",
     "ClientID": "Client ID (client_id)",
     "Scope": "Berechtigungen (scope)",
-    "Permission":{
+    "Permission": {
       "Title": "Berechtigungen",
       "Name": {
         "UserIdRead": "Nutzer ID Lesen",
