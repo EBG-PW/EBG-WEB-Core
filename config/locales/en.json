@@ -257,6 +257,7 @@
         "Name": "OAuth Client Name",
         "Sample": "oauth-client",
         "Redirect": "Redirect URI",
+        "PermissionsLine": "Permissions",
         "Permission": {
           "Title": "Permissions",
           "Name": {
@@ -392,6 +393,9 @@
         }
       }
     },
+    "Button": {
+      "GoBack": "Back"
+    },
     "Error": {
       "Joi": {
         "string": {
@@ -399,6 +403,7 @@
           "min": "{{field}} must be at least {{limit}} characters long",
           "max": "{{field}} must be less than or equal to {{limit}} characters long",
           "email": "{{field}} must be a valid email address",
+          "alphanum": "{{field}} may only contain a-Z and 0-9",
           "pattern": {
             "base": "{{field}} must match the required pattern"
           }
@@ -413,13 +418,23 @@
           "min": "{{field}} date must be after {{limit}}",
           "max": "{{field}} date must be before {{limit}}"
         },
+        "any": {
+          "required": "{{field}} is required",
+          "only": "{{field}} must only be {{valids}}"
+        },
         "required": "{{field}} is required"
-      }
+      },
+      "NewEventApplyBeforeStart": "The registration date must be before the start date",
+      "NewEventEndBeforeStart": "The start date must be before the end date",
+      "PasswordMatch": "Passwords do not match"
     },
     "User_Groups": {
       "user": "User",
+      "member": "Club member",
       "kassierer": "Treasurer",
-      "admin": "Administrator",
+      "schriftführer": "Secretary",
+      "obmann": "Chairman",
+      "root": "root",
       "virtualGroups": {
         "user": "Registered Users",
         "member": "Club Members"

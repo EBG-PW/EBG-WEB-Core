@@ -425,8 +425,8 @@
       },
       "required": "{{field}} ist erforderlich"
     },
-    "NewEventApplyBeforeStart": "Das Anmelde Datum muss vor dem Start Datum liegen",
-    "NewEventEndBeforeStart": "Das Start Datum muss vor dem End Datum liegen",
+    "NewEventApplyBeforeStart": "Das Anmeldedatum muss vor dem Startdatum liegen",
+    "NewEventEndBeforeStart": "Das Startdatum muss vor dem Enddatum liegen",
     "PasswordMatch": "Passwörter stimmen nicht überein"
   },
   "User_Groups": {
