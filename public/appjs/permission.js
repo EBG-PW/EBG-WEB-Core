@@ -60,7 +60,8 @@ const checkSession = async () => {
     if(!window.location.href.includes("login") &&
       !window.location.href.includes("register") &&
       !window.location.href.includes("requestresetpassword") && 
-      !window.location.href.includes("resetpassword")) window.location.href = "/login";
+      !window.location.href.includes("resetpassword") &&
+      !window.location.href.includes("oauth")) window.location.href = "/login";
     return { result: false, reason: "No token found." };
   }
 

@@ -234,6 +234,7 @@
             localStorage.setItem("user_group", response.user_group)
             localStorage.setItem("token", response.token);
             localStorage.setItem("permissions", JSON.stringify(response.permissions));
+            
             if(localStorage.getItem("oauth:client_id")) {
               const oauth_client_id = localStorage.getItem("oauth:client_id");
               const oauth_scope = localStorage.getItem("oauth:scope");

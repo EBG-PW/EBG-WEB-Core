@@ -85,15 +85,16 @@
           localStorage.setItem("oauth:client_id", params.get("client_id"));
           localStorage.setItem("oauth:scope", params.get("scope"));
           window.location.href = "/login";
-        }
-
-        // If redirected after login then we fill in the data to the url
-        if (localStorage.getItem("oauth:client_id")) {
-          const oauth_client_id = localStorage.getItem("oauth:client_id");
-          const oauth_scope = localStorage.getItem("oauth:scope");
-          localStorage.removeItem("oauth:client_id");
-          localStorage.removeItem("oauth:scope");
-          window.location.href = `/auth/oauth?client_id=${oauth_client_id}&scope=${oauth_scope}`;
+        } else {
+          // If redirected after login then we fill in the data to the url
+          const client_id = localStorage.getItem("oauth:client_id");
+          if (client_id) {
+            const oauth_client_id = localStorage.getItem("oauth:client_id");
+            const oauth_scope = localStorage.getItem("oauth:scope");
+            localStorage.removeItem("oauth:client_id");
+            localStorage.removeItem("oauth:scope");
+            window.location.href = `/auth/oauth?client_id=${oauth_client_id}&scope=${oauth_scope}`;
+          }
         }
 
         const oauth_client_response = await fetch(`/oauth?client_id=${params.get("client_id")}&scope=${params.get("scope")}`, {

@@ -44,7 +44,15 @@ const generateReturnHTML = (message, webtoken_result) => {
         localStorage.setItem('user_group', '${user_group}');
         localStorage.setItem('token', '${token}');
         localStorage.setItem('permissions', '${JSON.stringify(formated_Permissions)}');
-        window.location.href = '/dashboard';
+        if(localStorage.getItem("oauth:client_id")) {
+            const oauth_client_id = localStorage.getItem("oauth:client_id");
+            const oauth_scope = localStorage.getItem("oauth:scope");
+            localStorage.removeItem("oauth:client_id");
+            localStorage.removeItem("oauth:scope");
+            window.location.href = \`/auth/oauth?client_id=\${oauth_client_id}&scope=\${oauth_scope}\`;
+        } else {
+            window.location.href = "/dashboard";
+        }
     </script>
     </html>
     `;
