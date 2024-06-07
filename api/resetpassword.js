@@ -58,7 +58,7 @@ router.get('/:urlPath', async (req, res) => {
     const exists = await RPW.check(value.urlPath);
     if (!exists) throw new InvalidRouteInput('Invalid Route Input');
 
-    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'reset-password.ejs'), { params: req.params, ...getContextObject() }, (err, str) => {
+    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'reset-password.ejs'), { params: req.params, language: process.availableLanguages[language], ...getContextObject() }, (err, str) => {
         if (err) throw new RenderError("Rendering Error").setError(err);
 
         res.send(str);

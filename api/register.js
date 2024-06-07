@@ -61,7 +61,7 @@ router.get('/:urlPath', async (req, res) => {
     const exists = await CTR.check(value.urlPath);
     if (!exists) throw new InvalidRouteInput('Invalid Route Input');
 
-    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'sign-up-verify.ejs'), { params: req.params, ...getContextObject() }, (err, str) => {
+    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'sign-up-verify.ejs'), { params: req.params, language: process.availableLanguages[language], ...getContextObject() }, (err, str) => {
         if (err) throw new RenderError("Rendering Error").setError(err);
 
         res.send(str);
