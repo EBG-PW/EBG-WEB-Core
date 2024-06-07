@@ -319,9 +319,11 @@
       }
     },
     "OAuth": {
-      "Headline": "Login with OAuth",
-      "Login": "Login",
-      "LoginAs": "Login as {{username}}. The service {{app_name}} requests the following permissions:",
+      "Headline": "wantd access to your EBG account",
+      "Login": "Authorize",
+      "Cancel": "Cancel",
+      "PermissionList": "\"{{app_name}}\" needs the following permissions:",
+      "LoginAs": "Login as {{username}}",
       "Error": "Unfortunately, an error occurred.",
       "Missing": "Some information is missing to log you in.",
       "ClientID": "Client ID (client_id)",
