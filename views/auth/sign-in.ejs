@@ -239,7 +239,7 @@
               const oauth_scope = localStorage.getItem("oauth:scope");
               localStorage.removeItem("oauth:client_id");
               localStorage.removeItem("oauth:scope");
-              window.location.href = `/oauth?client_id=${oauth_client_id}&scope=${oauth_scope}`;
+              window.location.href = `/auth/oauth?client_id=${oauth_client_id}&scope=${oauth_scope}`;
             } else {
               window.location.href = "/dashboard";
             }
