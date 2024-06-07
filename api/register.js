@@ -61,7 +61,14 @@ router.get('/:urlPath', async (req, res) => {
     const exists = await CTR.check(value.urlPath);
     if (!exists) throw new InvalidRouteInput('Invalid Route Input');
 
-    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'sign-up-verify.ejs'), { params: req.params, language: process.availableLanguages[language], ...getContextObject() }, (err, str) => {
+    let cookie_language = req.cookies.language || process.env.FALLBACKLANG;
+    // Check if cookie language is listed in process.countryConfig { de: 'Deutsch', en: 'English' }
+    if (!process.countryConfig[cookie_language]) {
+        process.log.warn(`Cookie language not found: ${cookie_language}`);
+        cookie_language = process.env.FALLBACKLANG;
+    }
+
+    ejs.renderFile(path.join(__dirname, '..', 'views', 'auth', 'sign-up-verify.ejs'), { params: req.params, language: process.availableLanguages[cookie_language], ...getContextObject() }, (err, str) => {
         if (err) throw new RenderError("Rendering Error").setError(err);
 
         res.send(str);
