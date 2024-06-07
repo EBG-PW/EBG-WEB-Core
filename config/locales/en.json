@@ -33,6 +33,7 @@
   },
   "Register": {
     "Titel": "Register",
+    "Title": "Register",
     "HeadlineNewAcc": "Create a new account",
     "Username": "Username",
     "Password1": "Password",
