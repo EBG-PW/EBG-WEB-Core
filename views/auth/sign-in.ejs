@@ -235,7 +235,13 @@
             localStorage.setItem("user_group", response.user_group)
             localStorage.setItem("token", response.token);
             localStorage.setItem("permissions", JSON.stringify(response.permissions));
-            window.location.href = "/dashboard";
+            if(localStorage.getItem("oauth:client_id")) {
+              window.location.href = `/oauth?client_id=${localStorage.getItem("oauth:client_id")}&scope=${localStorage.getItem("oauth:scope")}`;
+              localStorage.removeItem("oauth:client_id");
+              localStorage.removeItem("oauth:scope");
+            } else {
+              window.location.href = "/dashboard";
+            }
           })
           .catch((error) => {
             console.error(error);
