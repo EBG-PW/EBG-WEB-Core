@@ -8,6 +8,7 @@
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 -->
 <html lang="en">
+
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -19,29 +20,35 @@
     </script>
     <script src="<%= domain %>/appjs/i18next.js?<%= curentUnixTime %>"></script>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    </style>
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet" />
   </head>
+
   <body class="d-flex flex-column">
     <script src="/appjs/format.js"></script>
     <div class="page page-center">
       <div class="container container-tight py-4">
         <div class="text-center mb-4">
-          <a href="." class="navbar-brand navbar-brand-autodark"><img src="<%= domain %>/dist/logo-transparent.png" height="36" alt="" /></a>
+          <a href="/" class="navbar-brand navbar-brand-autodark"><img src="<%= domain %>/dist/logo-transparent.png"
+              height="36" alt="" /></a>
         </div>
         <div class="card card-md">
           <div class="card-body">
-            <h2 class="card-title text-center mb-4" data-translate="OAuth.Headline"></h2>
+            <h1 class="h1 text-center fw-bold mb-0" id="AppNameLine"></h1>
+            <h2 class="card-title text-center mb-1" data-translate="OAuth.Headline" id="HeaderThingy"
+              style="display:none;"></h2>
             <div class="mb-3">
-              <div id="LoginLine"></div>
+              <div id="LoginLine" class="text-center"></div>
               <div id="ErrorLine"></div>
             </div>
             <div class="mb-3">
               <div id="PermissionsList"></div>
             </div>
-            <div class="form-footer">
-              <button type="submit" id="RegSubmitButton" class="btn btn-primary w-100" data-translate="OAuth.Login" style="display: none"></button>
+            <div class="form-footer grid g-col-2" style="--tblr-columns:2;">
+              <button type="button" id="RegCancelButton" class="btn btn-secondary w-100"
+                data-translate="OAuth.Cancel"></button>
+              <button type="submit" id="RegSubmitButton" class="btn btn-primary w-100" data-translate="OAuth.Login"
+                style="display: none"></button>
             </div>
           </div>
         </div>
@@ -54,26 +61,32 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", async () => {
-        const url = new URL(window.location.href);
-        const params = new URLSearchParams(url.search);
+        document.addEventListener("DOMContentLoaded", async () => {
+          const url = new URL(window.location.href);
+          const params = new URLSearchParams(url.search);
 
-        if (!params.has("client_id") || !params.has("scope")) {
-          const errorLine = document.getElementById("ErrorLine");
-          const params = new URLSearchParams(window.location.search);
-          let errorMessage = `${i18next.t("OAuth.Error")} ${i18next.t("OAuth.Missing")}`;
-          let missingItems = "";
+          if (!params.has("client_id") || !params.has("scope")) {
+            const errorLine = document.getElementById("ErrorLine");
+            const params = new URLSearchParams(window.location.search);
+            let errorMessage = `${i18next.t("OAuth.Error")} ${i18next.t(
+              "OAuth.Missing"
+            )}`;
+            let missingItems = "";
 
-          if (!params.has("client_id")) {
-            missingItems += `<li><span class="text-muted">${i18next.t("OAuth.ClientID")}</span></li>`;
-          }
-          if (!params.has("scope")) {
-            missingItems += `<li><span class="text-muted">${i18next.t("OAuth.Scope")}</span></li>`;
-          }
+            if (!params.has("client_id")) {
+              missingItems += `<li><span>${i18next.t(
+                "OAuth.ClientID"
+              )}</span></li>`;
+            }
+            if (!params.has("scope")) {
+              missingItems += `<li><span>${i18next.t(
+                "OAuth.Scope"
+              )}</span></li>`;
+            }
 
-          if (missingItems) {
-            errorMessage += `<ul>${missingItems}</ul>`;
-          }
+            if (missingItems) {
+              errorMessage += `<ul>${missingItems}</ul>`;
+            }
 
           errorLine.innerHTML = errorMessage;
           return;
@@ -97,70 +110,89 @@
           }
         }
 
-        const oauth_client_response = await fetch(`/oauth?client_id=${params.get("client_id")}&scope=${params.get("scope")}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (oauth_client_response.status === 200) {
-          const oauth_client = await oauth_client_response.json();
-
-          if (oauth_client.redirect_uri) {
-            console.log("Redirecting to", oauth_client.redirect_uri);
-            // Redirect to the new URL with the code
-            const newRedirectUrl = new URL(`${oauth_client.redirect_uri}?code=${oauth_client.code}`);
-            window.location.href = newRedirectUrl;
-            return;
+          const oauth_client_response = await fetch(`/oauth?client_id=${params.get("client_id")}&scope=${params.get("scope")}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           }
-  
-          const permissionsList = document.getElementById("PermissionsList");
-          const loginLine = document.getElementById("LoginLine");
-          const regSubmitButton = document.getElementById("RegSubmitButton");
+          );
 
-          loginLine.innerHTML = `${i18next.t("OAuth.LoginAs", { username: localStorage.getItem("username"), app_name: oauth_client.name })}`;
-          regSubmitButton.style.display = "block";
+          if (oauth_client_response.status === 200) {
+            const oauth_client = await oauth_client_response.json();
 
-          const permissions = oauth_client.permissions;
-          for (const permission of permissions) {
-            const permissionElement = document.createElement("div");
-            permissionElement.innerHTML = `<span class="text-muted">${i18next.t(`OAuth.Permission.Name.${permission}`)}</span>`;
-            permissionsList.appendChild(permissionElement);
-          }
-
-          regSubmitButton.addEventListener("click", async () => {
-            document.getElementById("RegSubmitButton").disabled = true;
-            const oauth_response = await fetch("/oauth", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                client_id: params.get("client_id"),
-                scope: params.get("scope"),
-              }),
-            });
-
-            if (oauth_response.status === 200) {
-              const oauth = await oauth_response.json();
+            if (oauth_client.redirect_uri) {
+              console.log("Redirecting to", oauth_client.redirect_uri);
               // Redirect to the new URL with the code
-              const newRedirectUrl = new URL(`${oauth.redirect_uri}?code=${oauth.code}`);
+              const newRedirectUrl = new URL(
+                `${oauth_client.redirect_uri}?code=${oauth_client.code}`
+              );
               window.location.href = newRedirectUrl;
-            } else {
-              const errorLine = document.getElementById("ErrorLine");
-              const error = await oauth_response.json();
-              errorLine.innerHTML = `${i18next.t("OAuth.Error")} ${i18next.t(`OAuth.Errors.PostRoute.${oauth_response.status}`)}`;
+              return;
             }
-          });
-        } else {
-          const errorLine = document.getElementById("ErrorLine");
-          const error = await oauth_client_response.json();
-          errorLine.innerHTML = `${i18next.t("OAuth.Error")} ${i18next.t(`OAuth.Errors.GetRoute.${oauth_client_response.status}`)}`;
-        }
-      });
+
+            const permissionsList = document.getElementById("PermissionsList");
+            const loginLine = document.getElementById("LoginLine");
+            const regSubmitButton = document.getElementById("RegSubmitButton");
+            const AppNameLine = document.getElementById("AppNameLine");
+
+            AppNameLine.innerText = oauth_client.name;
+            loginLine.innerHTML = `${i18next.t("OAuth.LoginAs", { username: localStorage.getItem("username"), })} <span class="avatar avatar-xs" style="background-image: url(${localStorage.getItem("avatar_url")})">${localStorage.getItem("avatar_url") === "null" ? localStorage.getItem("username").substring(0, 1) : ""}</span>`;
+            regSubmitButton.style.display = "block";
+            document.getElementById("HeaderThingy").style.display = "block";
+
+            permissionsList.innerHTML = `<span>${i18next.t(
+              "OAuth.PermissionList",
+              {
+                app_name: oauth_client.name,
+              }
+            )}</span>`;
+
+            const permissionListList = document.createElement("ul");
+            const permissions = oauth_client.permissions;
+            for (const permission of permissions) {
+              const permissionElement = document.createElement("li");
+              permissionElement.innerHTML = `<span>${i18next.t(`OAuth.Permission.Name.${permission}`)}</span>`;
+              permissionListList.appendChild(permissionElement);
+            }
+
+            permissionsList.appendChild(permissionListList);
+
+            regSubmitButton.addEventListener("click", async () => {
+              document.getElementById("RegSubmitButton").disabled = true;
+              const oauth_response = await fetch("/oauth", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  client_id: params.get("client_id"),
+                  scope: params.get("scope"),
+                }),
+              });
+
+              if (oauth_response.status === 200) {
+                const oauth = await oauth_response.json();
+                // Redirect to the new URL with the code
+                const newRedirectUrl = new URL(
+                  `${oauth.redirect_uri}?code=${oauth.code}`
+                );
+                window.location.href = newRedirectUrl;
+              } else {
+                const errorLine = document.getElementById("ErrorLine");
+                const error = await oauth_response.json();
+                errorLine.innerHTML = `${i18next.t("OAuth.Error")} ${i18next.t(`OAuth.Errors.PostRoute.${oauth_response.status}`)}`;
+              }
+            });
+          } else {
+            const errorLine = document.getElementById("ErrorLine");
+            const error = await oauth_client_response.json();
+            errorLine.innerHTML = `${i18next.t("OAuth.Error")} ${i18next.t(`OAuth.Errors.GetRoute.${oauth_client_response.status}`)}`;
+          }
+        });
     </script>
   </body>
+
 </html>
