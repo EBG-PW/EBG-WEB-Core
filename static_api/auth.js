@@ -111,11 +111,25 @@ router.get('/github/callback', async (req, res) => {
     //Check statuscode
     if (userResponse.status !== 200) throw new OAuthError('Invalid Auth Code, try again');
 
-    const oauth2Response = await userResponse.json();
+    let oauth2Response = await userResponse.json();
 
-    const randomFilePrefix = Math.random().toString(36).substring(7);
-    process.log.info(`Saved Github OAuth2 Response to ${oauth2Response.login}-${randomFilePrefix}.json`);
-    fs.writeFileSync(`./${oauth2Response.login}-${randomFilePrefix}.json`, JSON.stringify(oauth2Response, null, 2));
+    const emailResponse = await fetch('https://api.github.com/user/emails', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'User-Agent': 'EBG-Manager',
+
+            'Authorization': `${token_type} ${access_token}`,
+        },
+    });
+
+    const emailResponseJson = await emailResponse.json();
+    if (!emailResponseJson || emailResponseJson.length === 0) throw new OAuthError('No Email found, please make your email public');
+
+    const email_extrace = emailResponseJson.find(email => email.primary === true);
+    if (!email) throw new OAuthError('No Email found, please make your email public');
+    oauth2Response.email = email_extrace.email;
 
     const { login, email, avatar_url, bio, name, url } = oauth2Response
     const userResult = await user.oauth.git(login, email, avatar_url, bio, name, url);
@@ -200,10 +214,6 @@ router.get('/google/callback', async (req, res) => {
     if (userResponse.status !== 200) throw new OAuthError('Invalid Auth Code, try again');
 
     const oauth2Response = await userResponse.json();
-
-    const randomFilePrefix = Math.random().toString(36).substring(7);
-    process.log.info(`Saved Google OAuth2 Response to ${oauth2Response.name}-${randomFilePrefix}.json`);
-    fs.writeFileSync(`./${oauth2Response.name}-${randomFilePrefix}.json`, JSON.stringify(oauth2Response, null, 2));
 
     const { name, email, picture, given_name, family_name, locale } = oauth2Response
     const userResult = await user.oauth.google(name, email, picture, given_name, family_name, locale);
