@@ -319,6 +319,7 @@
       }
     },
     "OAuth": {
+      "Title": "EBG OAuth",
       "Headline": "wantd access to your EBG account",
       "Login": "Authorize",
       "Cancel": "Cancel",
