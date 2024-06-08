@@ -128,7 +128,7 @@ router.get('/github/callback', async (req, res) => {
     if (!emailResponseJson || emailResponseJson.length === 0) throw new OAuthError('No Email found, please make your email public');
 
     const email_extrace = emailResponseJson.find(email => email.primary === true);
-    if (!email) throw new OAuthError('No Email found, please make your email public');
+    if (!email_extrace) throw new OAuthError('No Email found, please make your email public');
     oauth2Response.email = email_extrace.email;
 
     const { login, email, avatar_url, bio, name, url } = oauth2Response
