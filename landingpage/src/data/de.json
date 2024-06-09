@@ -49,13 +49,13 @@
   "footer": {
     "links": "Links",
     "resources": "Ressourcen",
-    "github": "GitHub",
-    "instagram": "Instagram !?",
+    "github": "Github",
+    "instagram": "Instagram",
     "x": "X (Twitter)",
-    "imprint": "Impressum TODO",
-    "imprint_url": "/imprint",
-    "privacy": "Datenschutz TODO",
-    "privacy_url": "/privacy",
+    "imprint": "Impressum",
+    "imprint_url": "https://ebg.pw/legal/legal#imprint",
+    "privacy": "Datenschutz",
+    "privacy_url": "https://ebg.pw/legal/legal#privacy",
     "tos": "Nutzungsbedingungen TODO",
     "tos_url": "/tos"
   }
