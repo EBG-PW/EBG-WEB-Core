@@ -4,8 +4,10 @@
 - [ ] User management
 - [ ] Member management
 - [ ] Financial processing for members
+- [ ] Public API (Event/Poject/User/Power)
 - [ ] Event management
 - [ ] Project communities
+- [ ] Solar API
 - [ ] Pushnotification Hub (Split Service)
 - [ ] Server monitoring tool (Split Service)
   - [ ] Systemctl monitoring
@@ -18,9 +20,9 @@
 - [ ] Application Monitoring (Split Service)
   - [ ] Uptime
   - [ ] SSL
-- [ ] Virtual Server management (Proxmox)
-- [ ] Game server management (Pterodactyl)
 - [ ] Pay what you want system
+  - [ ] Virtual Server management (Proxmox)
+  - [ ] Game server management (Pterodactyl)
 # Documentation
 
 ## View Rendering
