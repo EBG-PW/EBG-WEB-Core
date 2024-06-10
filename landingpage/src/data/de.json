@@ -1,5 +1,8 @@
 {
   "lang": "de",
+  "header": {
+    "login": "Login"
+  },
   "banner": {
     "heading": "Ein Ort für Videospiele,\nOpen-Source-Software und Spaß.",
     "cta": "Dienste erkunden"

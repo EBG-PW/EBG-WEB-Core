@@ -194,7 +194,6 @@ import staticData from "../data/static.json";
   });
 
   document.getElementById("explore")?.addEventListener("click", () => {
-    console.log(document.getElementById("goals"));
     window.scrollTo({
       top: document.getElementById("goals")?.getBoundingClientRect().top ?? 1,
       behavior: "smooth",

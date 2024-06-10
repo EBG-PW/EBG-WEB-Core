@@ -1,4 +1,5 @@
 ---
+import Header from "./Header.astro";
 import Banner from "./Banner.astro";
 import Goals from "./Goals.astro";
 import Events from "./Events.astro";
@@ -11,7 +12,6 @@ import "@fontsource-variable/inter";
 // TRANSLATION
 const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
-import LanguageSwapper from "./LanguageSwapper.astro";
 ---
 
 <html lang="en">
@@ -38,7 +38,7 @@ import LanguageSwapper from "./LanguageSwapper.astro";
     </style>
   </head>
   <body>
-    <LanguageSwapper lang={translation.lang} />
+    <Header translation={translation.header} lang={translation.lang} />
     <Banner translation={translation.banner} />
     <Goals translation={translation.goals} />
     <Events translation={translation.events} />
