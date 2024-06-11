@@ -7,11 +7,14 @@ import Team from "./Team.astro";
 import Projects from "./Projects.astro";
 import Footer from "./Footer.astro";
 
+import { SEO } from "astro-seo";
 import "@fontsource-variable/inter";
 
 // TRANSLATION
 const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
+
+const lang = translation.lang;
 ---
 
 <html lang="en">
@@ -20,7 +23,30 @@ import staticData from "../data/static.json";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{staticData.name}</title>
+
+    <!-- SEO magic goes here -->
+    <SEO
+      title={staticData.name}
+      description={translation.SEO.description}
+      openGraph={{
+        basic: {
+          title: staticData.name,
+          type: "website",
+          image: "https://ebg.pw/dist/logo-transparent.png",
+        },
+      }}
+      extend={{
+        link: [
+          {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            href: "/apple-touch-icon.png",
+          },
+        ],
+        meta: [],
+      }}
+    />
+
     <style lang="scss" is:global>
       * {
         margin: 0;
@@ -38,7 +64,7 @@ import staticData from "../data/static.json";
     </style>
   </head>
   <body>
-    <Header translation={translation.header} lang={translation.lang} />
+    <Header translation={translation.header} lang={lang} />
     <Banner translation={translation.banner} />
     <Goals translation={translation.goals} />
     <Events translation={translation.events} />

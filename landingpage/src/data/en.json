@@ -1,5 +1,8 @@
 {
   "lang": "en",
+  "SEO": {
+    "description": "A place video games, opensource software and fun: EBG TODO"
+  },
   "header": {
     "login": "Login"
   },
