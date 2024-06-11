@@ -22,6 +22,10 @@ const { heading = "PLACEHOLDER", icon, text = "" } = Astro.props;
 
     border-radius: 8px;
 
+    @media only screen and (max-width: 350px) {
+      width: 100%;
+    }
+
     .icon {
       margin: 20px calc(50% - 2.5rem - 10px) 0;
       background-color: rgb(22, 35, 237);
