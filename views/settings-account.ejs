@@ -52,7 +52,7 @@
                     <h3 class="card-title" data-translate="Settings.Main.ProfileHeadline"></h3>
                     <div class="row align-items-center">
                       <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Profile.AvatarIcon" style="background-image: url()"></span></div>
-                      <div class="col-auto"><a class="btn" data-translate="Settings.Profile.SetAvatarIcon"></a></div>
+                      <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-upload-avatar" class="btn" data-translate="Settings.Profile.SetAvatarIcon"></a></div>
                       <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-danger-delete-avatar" class="btn btn-ghost-danger" data-translate="Settings.Profile.DeleteAvatarIcon" id="DelAvatarIcon"></a></div>
                     </div>
                     <h3 class="card-title mt-4" data-translate="Settings.Main.AccountHeadline"></h3>
@@ -247,6 +247,38 @@
         </footer>
       </div>
     </div>
+    <div class="modal fade" id="modal-upload-avatar" tabindex="-1" aria-labelledby="uploadAvatarModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="uploadAvatarModalLabel">Upload Avatar</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="col-md-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <h3 class="card-title">Custom Dropzone</h3>
+                              <form class="dropzone" id="dropzone-avatar-upload" autocomplete="off" novalidate style="border: 2px dashed #ccc; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; transition: border-color 0.3s, background-color 0.3s;">
+                                  <div class="fallback">
+                                      <input name="file" type="file" style="display: none;" />
+                                  </div>
+                                  <div class="dz-message">
+                                      <h3 class="dropzone-msg-title" style="font-size: 24px; margin-bottom: 10px;">Your text here</h3>
+                                      <span class="dropzone-msg-desc" style="font-size: 16px;">Your custom description here</span>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="upload-button">Upload</button>
+              </div>
+          </div>
+      </div>
+    </div>
     <div class="modal modal-blur fade" id="modal-danger-delete-avatar" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -279,6 +311,8 @@
     <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
+    <script src="<%= domain %>/dist/libs/dropzone/dist/dropzone-min.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/dist/libs/compressor/compressor.js?<%= curentUnixTime %>" defer></script>
     <script>
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
       document.getElementById("passwordToggle_old").addEventListener("click", function() {
@@ -452,9 +486,111 @@
           inputElement.classList.add("is-invalid");
         }
       }
+      // Dropzone Avatar
+      document.querySelector("#dropzone-avatar-upload").addEventListener("dragover", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.style.borderColor = '#000';
+            this.style.backgroundColor = '#f0f0f0';
+        });
+
+        document.querySelector("#dropzone-avatar-upload").addEventListener("dragleave", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.style.borderColor = '#ccc';
+            this.style.backgroundColor = '';
+        });
+
+        document.querySelector("#dropzone-avatar-upload").addEventListener("drop", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.style.borderColor = '#ccc';
+            this.style.backgroundColor = '';
+        });
 
       // Auto-fill user data (VanillaJS)
       document.addEventListener("DOMContentLoaded", async () => {
+
+        Dropzone.autoDiscover = false;
+
+        const dropzone = new Dropzone("#dropzone-avatar-upload", {
+            url: "/api/v1/user/avatar",
+            autoProcessQueue: false,
+            acceptedFiles: ".jpg,.jpeg",
+            maxFiles: 1,  // Ensure only one file is uploaded
+            previewsContainer: ".dropzone", // Preview in the same container
+            init: function() {
+              this.on("addedfile", function(file) {
+                  // Check if the file is already compressed to prevent loop
+                  if (file.isCompressed) {
+                      return;
+                  }
+
+                  if (this.files.length > 1) {
+                      this.removeFile(this.files[0]); // Remove the previous file if a new one is added
+                  }
+                  console.log("File added:", file);
+
+                  // Compress the image before adding it to the Dropzone file list
+                  new Compressor(file, {
+                      quality: 0.6,
+                      success: (compressedFile) => {
+                          const blobURL = URL.createObjectURL(compressedFile);
+                          const compressedImage = new File([compressedFile], file.name, { type: file.type });
+                          compressedImage.isCompressed = true; // Mark the file as compressed
+
+                          // Replace the original file with the compressed one
+                          this.removeFile(file);
+                          this.addFile(compressedImage);
+
+                          // Manually update the preview thumbnail
+                          const previewElement = document.querySelector("[data-dz-thumbnail]");
+                          if (previewElement) {
+                              previewElement.src = blobURL;
+                          }
+                          console.log("File compressed:", compressedFile);
+                      },
+                      error: (err) => {
+                          console.error("Compression error:", err);
+                      },
+                  });
+              });
+              this.on("removedfile", function(file) {
+                  console.log("File removed:", file);
+              });
+          },
+            previewTemplate: `
+                <div class="dz-preview dz-file-preview">
+                    <div class="dz-image"><img data-dz-thumbnail/></div>
+                    <div class="dz-details">
+                        <div class="dz-size"><span data-dz-size></span></div>
+                    </div>
+                    <button class="dz-remove" data-dz-remove><i class="fas fa-times"></i>❌</button>
+                </div>`
+        });
+
+        document.querySelector("#dropzone-avatar-upload").addEventListener("dragover", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.classList.add("dz-hover");
+        });
+
+        document.querySelector("#dropzone-avatar-upload").addEventListener("dragleave", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.classList.remove("dz-hover");
+        });
+
+        document.querySelector("#dropzone-avatar-upload").addEventListener("drop", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.classList.remove("dz-hover");
+        });
+
+        document.getElementById('upload-button').addEventListener('click', function() {
+            dropzone.processQueue();
+        });
+
         const response = await fetch("/api/v1/user", {
           method: "GET",
           headers: {

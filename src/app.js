@@ -20,6 +20,7 @@ app.use(expressCspHeader({
             SELF,
             INLINE,
             "data:",
+            "blob:",
             "https://avatars.githubusercontent.com/u/", // GitHub avatars
             "https://lh3.googleusercontent.com/", // Google profile images
         ],
