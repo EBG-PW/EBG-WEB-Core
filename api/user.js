@@ -4,9 +4,11 @@ const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
 const { sendMail } = require('@lib/queues');
-const { generateUrlPath } = require('@lib/utils');
+const { generateUrlPath, streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
+const Busboy = require('busboy');
+const { PassThrough } = require('stream');
 const { InvalidRouteInput, DBError, InvalidLogin, CustomError } = require('@lib/errors');
 const router = new HyperExpress.Router();
 
@@ -20,9 +22,6 @@ const minioClient = new Minio.Client({
     accessKey: process.env.S3_WEB_ACCESSKEY,
     secretKey: process.env.S3_WEB_SECRETKEY
 });
-
-const Busboy = require('busboy');
-const { PassThrough } = require('stream');
 
 /* Plugin info*/
 const PluginName = 'User'; //This plugins name
@@ -289,16 +288,21 @@ router.post('avatar', verifyRequest('web.user.avatar.write'), limiter(30), async
         const fileName = `user-avatar-${Date.now()}.jpg`;
         const passThrough = new PassThrough();
 
-        minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, passThrough, (err, etag) => {
-            if (err) {
-                throw new CustomError('S3 Upload Error');
-            }
+        streamToBuffer(passThrough).then((file_buffer) => {
+            const isJPG = verifyBufferIsJPG(file_buffer);
+            if (!isJPG) throw new CustomError('Invalid Image');
+            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, (err, etag) => {
+                if (err) {
+                    throw new CustomError('S3 Upload Error');
+                }
 
-            res.json({
-                message: 'Avatar uploaded',
-                fileName: fileName,
+                res.json({
+                    message: 'Avatar uploaded',
+                    fileName: fileName,
+                });
             });
         });
+
         file.pipe(passThrough);
     });
     req.pipe(busboy);
