@@ -119,6 +119,9 @@
       "AccountHeadline": "Account Einstellungen",
       "PasswordHeadline": "Passwort Einstellungen",
       "PublicHeadline": "Privatsphäre Einstellungen",
+      "AvatarHeadline": "Avatar Hochladen",
+      "AvatarUploadArea": "Bereich zum Hochladen des Avatars",
+      "AvatarDragHere": "Ziehe das Bild hierher oder klicke um es hochzuladen",
       "Username": "Benutzername",
       "Email": "E-Mail Adresse",
       "FirstName": "Vorname",
@@ -132,7 +135,9 @@
       "Button": {
         "SetPassword": "Passwort ändern",
         "PrivacyActive": "Privatsphäre aktiviert",
-        "PrivacyDeactive": "Privatsphäre deaktiviert"
+        "PrivacyDeactive": "Privatsphäre deaktiviert",
+        "Upload": "Hochladen",
+        "Cancel": "Abbrechen"
       },
       "Error": {
         "Password": {
@@ -180,7 +185,7 @@
     },
     "Profile": {
       "AvatarIcon": "Avatar Icon",
-      "SetAvatarIcon": "NOT IMPLEMENTED",
+      "SetAvatarIcon": "Avatar Hochladen",
       "DeleteAvatarIcon": "Avatar löschen"
     },
     "Integrations": {

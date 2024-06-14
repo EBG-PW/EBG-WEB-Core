@@ -7,8 +7,22 @@ const { sendMail } = require('@lib/queues');
 const { generateUrlPath } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
-const { InvalidRouteInput, DBError, InvalidLogin } = require('@lib/errors');
+const { InvalidRouteInput, DBError, InvalidLogin, CustomError } = require('@lib/errors');
 const router = new HyperExpress.Router();
+
+const Minio = require('minio');
+
+// Initialize MinIO client
+const minioClient = new Minio.Client({
+    endPoint: process.env.S3_WEB_ENDPOINT,
+    port: parseInt(process.env.S3_WEB_PORT),
+    useSSL: process.env.S3_WEB_USESSL === 'true',
+    accessKey: process.env.S3_WEB_ACCESSKEY,
+    secretKey: process.env.S3_WEB_SECRETKEY
+});
+
+const Busboy = require('busboy');
+const { PassThrough } = require('stream');
 
 /* Plugin info*/
 const PluginName = 'User'; //This plugins name
@@ -266,6 +280,28 @@ router.delete('/links/:platform', verifyRequest('web.user.links.delete'), limite
         message: 'Link deleted',
         platform: req.params.platform,
     });
+});
+
+router.post('avatar', verifyRequest('web.user.avatar.write'), limiter(30), async (req, res) => {
+    const busboy = Busboy({ headers: req.headers });
+
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        const fileName = `user-avatar-${Date.now()}.jpg`;
+        const passThrough = new PassThrough();
+
+        minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, passThrough, (err, etag) => {
+            if (err) {
+                throw new CustomError('S3 Upload Error');
+            }
+
+            res.json({
+                message: 'Avatar uploaded',
+                fileName: fileName,
+            });
+        });
+        file.pipe(passThrough);
+    });
+    req.pipe(busboy);
 });
 
 module.exports = {

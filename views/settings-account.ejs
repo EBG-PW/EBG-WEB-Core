@@ -251,21 +251,20 @@
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title" id="uploadAvatarModalLabel">Upload Avatar</h5>
+                  <h5 class="modal-title" id="uploadAvatarModalLabel" data-translate="Settings.Main.AvatarHeadline"></h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                   <div class="col-md-12">
                       <div class="card">
                           <div class="card-body">
-                              <h3 class="card-title">Custom Dropzone</h3>
+                              <h3 class="card-title" data-translate="Settings.Main.AvatarUploadArea"></h3>
                               <form class="dropzone" id="dropzone-avatar-upload" autocomplete="off" novalidate style="border: 2px dashed #ccc; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; transition: border-color 0.3s, background-color 0.3s;">
                                   <div class="fallback">
                                       <input name="file" type="file" style="display: none;" />
                                   </div>
                                   <div class="dz-message">
-                                      <h3 class="dropzone-msg-title" style="font-size: 24px; margin-bottom: 10px;">Your text here</h3>
-                                      <span class="dropzone-msg-desc" style="font-size: 16px;">Your custom description here</span>
+                                      <h3 class="dropzone-msg-title" style="font-size: 24px; margin-bottom: 10px;" data-translate="Settings.Main.AvatarDragHere"></h3>
                                   </div>
                               </form>
                           </div>
@@ -273,8 +272,8 @@
                   </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="upload-button">Upload</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="Settings.Main.Button.Cancel"></button>
+                  <button type="button" class="btn btn-primary" id="upload-button" data-translate="Settings.Main.Button.Upload"></button>
               </div>
           </div>
       </div>
@@ -312,7 +311,6 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/libs/dropzone/dist/dropzone-min.js?<%= curentUnixTime %>" defer></script>
-    <script src="<%= domain %>/dist/libs/compressor/compressor.js?<%= curentUnixTime %>" defer></script>
     <script>
       // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
       document.getElementById("passwordToggle_old").addEventListener("click", function() {
@@ -517,48 +515,45 @@
             url: "/api/v1/user/avatar",
             autoProcessQueue: false,
             acceptedFiles: ".jpg,.jpeg",
-            maxFiles: 1,  // Ensure only one file is uploaded
-            previewsContainer: ".dropzone", // Preview in the same container
+            maxFiles: 1,
+            previewsContainer: ".dropzone",
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem("token")
+            },
             init: function() {
               this.on("addedfile", function(file) {
-                  // Check if the file is already compressed to prevent loop
-                  if (file.isCompressed) {
-                      return;
-                  }
+                // Check if the file is already compressed to prevent loop
+                if (file.isCompressed) return;
+                if (this.files.length > 1) this.removeFile(this.files[0]);
+                // Compress and resize the image before adding it to the Dropzone file list
+                        const img = new Image();
+                        img.src = URL.createObjectURL(file);
+                        img.onload = () => {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            const size = Math.min(img.width, img.height);
+                            const x = (img.width - size) / 2;
+                            const y = (img.height - size) / 2;
+                            canvas.width = 1024;
+                            canvas.height = 1024;
+                            ctx.drawImage(img, x, y, size, size, 0, 0, canvas.width, canvas.height);
 
-                  if (this.files.length > 1) {
-                      this.removeFile(this.files[0]); // Remove the previous file if a new one is added
-                  }
-                  console.log("File added:", file);
+                            canvas.toBlob((blob) => {
+                                const croppedImage = new File([blob], file.name, { type: file.type });
+                                croppedImage.isCompressed = true; // Set compression flag, so we don't compress it again
 
-                  // Compress the image before adding it to the Dropzone file list
-                  new Compressor(file, {
-                      quality: 0.6,
-                      success: (compressedFile) => {
-                          const blobURL = URL.createObjectURL(compressedFile);
-                          const compressedImage = new File([compressedFile], file.name, { type: file.type });
-                          compressedImage.isCompressed = true; // Mark the file as compressed
+                                this.removeFile(file);
+                                this.addFile(croppedImage);
 
-                          // Replace the original file with the compressed one
-                          this.removeFile(file);
-                          this.addFile(compressedImage);
-
-                          // Manually update the preview thumbnail
-                          const previewElement = document.querySelector("[data-dz-thumbnail]");
-                          if (previewElement) {
-                              previewElement.src = blobURL;
-                          }
-                          console.log("File compressed:", compressedFile);
-                      },
-                      error: (err) => {
-                          console.error("Compression error:", err);
-                      },
-                  });
+                                // Update the preview image
+                                const previewElement = document.querySelector("[data-dz-thumbnail]");
+                                if (previewElement) {
+                                    previewElement.src = URL.createObjectURL(croppedImage);
+                                }
+                            }, file.type, 0.74);
+                        };
               });
-              this.on("removedfile", function(file) {
-                  console.log("File removed:", file);
-              });
-          },
+            },
             previewTemplate: `
                 <div class="dz-preview dz-file-preview">
                     <div class="dz-image"><img data-dz-thumbnail/></div>
