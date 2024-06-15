@@ -293,7 +293,7 @@
             <div class="w-100">
               <div class="row">
                 <div class="col"><a class="btn w-100" data-bs-dismiss="modal" data-translate="Common_Modals.Delete.Button.Cancel"></a></div>
-                <div class="col"><a class="btn btn-danger w-100" data-bs-dismiss="modal" data-translate="Common_Modals.Delete.Button.Delete"></a></div>
+                <div class="col"><a class="btn btn-danger w-100" data-bs-dismiss="modal" onclick="deleteAvatar()" data-translate="Common_Modals.Delete.Button.Delete"></a></div>
               </div>
             </div>
           </div>
@@ -502,6 +502,24 @@
             this.style.backgroundColor = '';
         });
 
+      const deleteAvatar = async () => {
+        const response = await fetch("/api/v1/user/avatar", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
+
+        if(response.status == 200) {
+          const response_json = await response.json();
+          closeModal("modal-danger-delete-avatar");
+          localStorage.setItem("avatar_url", response_json.fileName);
+          document.getElementById('Settings.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
+          document.getElementById('Dashboard.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
+        }
+      };
+
       // Auto-fill user data (VanillaJS)
       document.addEventListener("DOMContentLoaded", async () => {
 
@@ -552,6 +570,9 @@
               this.on("success", function(file, response) {
                 // Remove the image from the dropzone
                 this.removeFile(file);
+                localStorage.setItem("avatar_url", response.fileName);
+                document.getElementById('Settings.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
+                document.getElementById('Dashboard.Profile.AvatarIcon').style.backgroundImage = `url(${localStorage.getItem('avatar_url')})`;
                 closeModal("modal-upload-avatar");
               });
             },
