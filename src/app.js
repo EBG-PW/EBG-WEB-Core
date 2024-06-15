@@ -49,6 +49,7 @@ renderer.registerStaticRoutes(path.join(__dirname, '..', 'views'),
 renderer.registerDynamicRoutes();
 
 const apiv1 = require('@api');
+const images_handler = require('@static_api/images');
 const auth_handler = require('@static_api/auth');
 const oauth_handler = require('@static_api/oauth');
 
@@ -119,6 +120,7 @@ app.get('/*', (req, res) => {
 });
 
 app.use('/api/v1', apiv1);
+app.use('/i', images_handler);
 app.use('/auth', auth_handler);
 app.use('/oauth', oauth_handler);
 

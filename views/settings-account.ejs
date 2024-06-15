@@ -553,6 +553,11 @@
                             }, file.type, 0.74);
                         };
               });
+              this.on("success", function(file, response) {
+                // Remove the image from the dropzone
+                this.removeFile(file);
+                closeModal("modal-upload-avatar");
+              });
             },
             previewTemplate: `
                 <div class="dz-preview dz-file-preview">

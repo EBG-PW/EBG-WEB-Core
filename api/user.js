@@ -285,20 +285,22 @@ router.post('avatar', verifyRequest('web.user.avatar.write'), limiter(30), async
     const busboy = Busboy({ headers: req.headers });
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-        const fileName = `user-avatar-${Date.now()}.jpg`;
+        const fileName = `ua:${req.user.puuid}.jpg`;
         const passThrough = new PassThrough();
 
         streamToBuffer(passThrough).then((file_buffer) => {
             const isJPG = verifyBufferIsJPG(file_buffer);
             if (!isJPG) throw new CustomError('Invalid Image');
-            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, (err, etag) => {
-                if (err) {
-                    throw new CustomError('S3 Upload Error');
-                }
+            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
+                if (err) throw new CustomError('S3 Upload Error');
+
+                const sql_response = await user.update.avatar(req.user.user_id, `/i/a/${req.user.puuid}`);
+                if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+                await delWebtoken(req.authorization);
 
                 res.json({
                     message: 'Avatar uploaded',
-                    fileName: fileName,
+                    fileName: `/i/a/${req.user.puuid}`,
                 });
             });
         });
