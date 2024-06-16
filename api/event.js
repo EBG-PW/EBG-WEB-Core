@@ -105,14 +105,14 @@ router.get('/', verifyRequest('web.event.get.eventlist.read'), limiter(), plubli
     res.json(events);
 });
 
-router.get('/:id', verifyRequest('web.event.get.event.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
+router.get('/:id', verifyRequest('web.event.get.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id, req.user.user_id);
     res.status(200);
     res.json(event_data[0]);
 });
 
-router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async (req, res) => {
+router.post('/', verifyRequest('web.event.create.write'), limiter(), async (req, res) => {
     const value = await NewEventCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
     const { eventName, color, minGroup, visibility, dateApply, dateStart, dateEnd, location, description } = value;
@@ -137,7 +137,7 @@ router.post('/', verifyRequest('web.event.create.event.write'), limiter(), async
     });
 });
 
-router.post('/:id/join', verifyRequest('web.event.join.event.write'), limiter(), async (req, res) => {
+router.post('/:id/join', verifyRequest('web.event.join.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const sql_response = await projectactivities.event.join(value.id, req.user.user_id, req.user.user_group);
     if(sql_response instanceof CustomError) throw sql_response;
@@ -152,7 +152,7 @@ router.post('/:id/join', verifyRequest('web.event.join.event.write'), limiter(),
     });
 });
 
-router.post('/:id/leave', verifyRequest('web.event.leave.event.read'), limiter(), async (req, res) => {
+router.post('/:id/leave', verifyRequest('web.event.leave.read'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const sql_response = await projectactivities.event.leave(value.id, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Leave', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
@@ -167,7 +167,7 @@ router.post('/:id/leave', verifyRequest('web.event.leave.event.read'), limiter()
 });
 
 // Settings
-router.post('/:id/name', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/name', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const name = await ValidateEventName.validateAsync(await req.json());
     if (!name) throw new InvalidRouteInput('Invalid Route Input');
@@ -182,7 +182,7 @@ router.post('/:id/name', verifyRequest('web.event.update.event.write'), limiter(
     });
 });
 
-router.post('/:id/color', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/color', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const color = await ValidateEventColor.validateAsync(await req.json());
     if (!color) throw new InvalidRouteInput('Invalid Route Input');
@@ -197,7 +197,7 @@ router.post('/:id/color', verifyRequest('web.event.update.event.write'), limiter
     });
 });
 
-router.post('/:id/mingroup', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/mingroup', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const minGroup = await ValidateEventMinGroup.validateAsync(await req.json());
 
@@ -218,7 +218,7 @@ router.post('/:id/mingroup', verifyRequest('web.event.update.event.write'), limi
     });
 });
 
-router.post('/:id/visibility', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/visibility', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const visibility = await ValidateEventVisibility.validateAsync(await req.json());
     if (!visibility) throw new InvalidRouteInput('Invalid Route Input');
@@ -233,7 +233,7 @@ router.post('/:id/visibility', verifyRequest('web.event.update.event.write'), li
     });
 });
 
-router.post('/:id/dateapply', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/dateapply', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const dateApply = await ValidateEventDateApply.validateAsync(await req.json());
     if (!dateApply) throw new InvalidRouteInput('Invalid Route Input');
@@ -248,7 +248,7 @@ router.post('/:id/dateapply', verifyRequest('web.event.update.event.write'), lim
     });
 });
 
-router.post('/:id/datestart', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/datestart', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const dateStart = await ValidateEventDateStart.validateAsync(await req.json());
     if (!dateStart) throw new InvalidRouteInput('Invalid Route Input');
@@ -263,7 +263,7 @@ router.post('/:id/datestart', verifyRequest('web.event.update.event.write'), lim
     });
 });
 
-router.post('/:id/dateend', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/dateend', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const dateEnd = await ValidateEventDateEnd.validateAsync(await req.json());
     if (!dateEnd) throw new InvalidRouteInput('Invalid Route Input');
@@ -278,7 +278,7 @@ router.post('/:id/dateend', verifyRequest('web.event.update.event.write'), limit
     });
 });
 
-router.post('/:id/location', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/location', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const location = await ValidateEventLocation.validateAsync(await req.json());
     if (!location) throw new InvalidRouteInput('Invalid Route Input');
@@ -293,7 +293,7 @@ router.post('/:id/location', verifyRequest('web.event.update.event.write'), limi
     });
 });
 
-router.post('/:id/description', verifyRequest('web.event.update.event.write'), limiter(), async (req, res) => {
+router.post('/:id/description', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const description = await ValidateEventDescription.validateAsync(await req.json());
     if (!description) throw new InvalidRouteInput('Invalid Route Input');
@@ -305,6 +305,16 @@ router.post('/:id/description', verifyRequest('web.event.update.event.write'), l
     res.json({
         message: "Description changed",
         description: value.description
+    });
+});
+
+router.get('/:id/hasoauthclient', verifyRequest('web.event.oauth.read'), limiter(), async (req, res) => {
+    const value = await ValidateUUID.validateAsync(req.params);
+    const has_oauth = await projectactivities.event.has_oauth_client(value.id);
+    res.status(200);
+    res.json({
+        message: "Has OAuth Client",
+        result: has_oauth
     });
 });
 

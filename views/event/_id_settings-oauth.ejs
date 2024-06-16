@@ -51,10 +51,8 @@
                         <div id="NewEventErrorLine"></div>
                       </div>
                     </div>
-                    <h2 class="mb-4" data-translate="Events.Settings.Site.General"></h2>
-                    <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-create-oauth-client">
-                      Create oAuth Client
-                    </a>
+                    <h2 class="mb-4" data-translate="Events.Settings.Site.OAuth"></h2>
+                    <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-create-oauth-client" data-translate="Events.Settings.OAuth.Create"></a>
                     <div class="row">
                       <div class="col-lg-12">
                         <div id="NewEventErrorLine"></div>
@@ -253,5 +251,22 @@
     <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Check if event already has a oauth client and load them
+        const hasOauthClient = await fetch('/api/v1/event/<%= params.id %>/hasoauthclient', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        })
+
+        if(hasOauthClient.status === 200) {
+          const oauthClients = await hasOauthClient.json()
+          console.log(oauthClients)
+        }
+      });
+    </script>
   </body>
 </html>
