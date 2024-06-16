@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>EBG - Dashboard</title>
     <!-- Essential JS -->
     <script>
@@ -11,11 +11,10 @@
     </script>
     <script src="<%= domain %>/appjs/i18next.js?<%= curentUnixTime %>"></script>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    </style>
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet" />
   </head>
-  <body >
+  <body>
     <script src="/appjs/format.js"></script>
     <div class="page">
       <!-- Navbar -->
@@ -53,7 +52,7 @@
                     <div class="row g-3">
                       <div class="col-md">
                         <div class="form-label" data-translate="Settings.Integrations.Telegram"></div>
-                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsIntegrationTelegram">
+                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsIntegrationTelegram" />
                       </div>
                     </div>
                     <p class="text-muted" data-translate="Settings.Integrations.EditDescription"></p>
@@ -76,16 +75,16 @@
       // Handle changes to all imput fields (VanillaJS)
       const handleInputChange = async (id) => {
         const inputElement = document.getElementById(id);
-        const response = await fetch('/api/v1/integrations', {
-          method: 'POST',
+        const response = await fetch("/api/v1/integrations", {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
             id: id,
-            value: document.getElementById(id).value
-          })
+            value: document.getElementById(id).value,
+          }),
         });
 
         if (response.ok) {
@@ -100,7 +99,7 @@
         } else {
           inputElement.classList.add("is-invalid");
         }
-      }
+      };
 
       // Auto-fill user data (VanillaJS)
       document.addEventListener("DOMContentLoaded", async () => {
@@ -109,11 +108,11 @@
           headers: {
             "Content-Type": "application/json",
 
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         });
 
-        if(response.status == 200) {
+        if (response.status == 200) {
           const data = await response.json();
 
           data.forEach((element) => {

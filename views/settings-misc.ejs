@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>EBG - Dashboard</title>
     <!-- Essential JS -->
     <script>
@@ -11,11 +11,10 @@
     </script>
     <script src="<%= domain %>/appjs/i18next.js?<%= curentUnixTime %>"></script>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    </style>
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet" />
   </head>
-  <body >
+  <body>
     <script src="/appjs/format.js"></script>
     <div class="page">
       <!-- Navbar -->
@@ -55,15 +54,15 @@
                         <div class="form-label" data-translate="Settings.Misc.Language"></div>
                         <select type="text" class="form-select mb-3" id="select-lang" value="">
                           <% for(const code in countryConfig) { %>
-                            <option value="<%= code %>"><%= countryConfig[code] %></option>
+                          <option value="<%= code %>"><%= countryConfig[code] %></option>
                           <% } %>
                         </select>
                       </div>
                       <div class="col-md">
                         <div class="form-label" data-translate="Settings.Misc.Layout"></div>
                         <select type="text" class="form-select mb-3" id="select-layout" value="">
-                            <option value="fluid" data-translate="Settings.Misc.LayoutOptions.Fluid"></option>
-                            <option value="center" data-translate="Settings.Misc.LayoutOptions.Center"></option>
+                          <option value="fluid" data-translate="Settings.Misc.LayoutOptions.Fluid"></option>
+                          <option value="center" data-translate="Settings.Misc.LayoutOptions.Center"></option>
                         </select>
                       </div>
                     </div>
@@ -84,40 +83,40 @@
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
-        const selectLayoutElement = document.getElementById('select-layout');
-        let design = localStorage.getItem('tablerTheme');
-        let parts = design ? design.split('.') : ['light', 'centered']; // default values
+        const selectLayoutElement = document.getElementById("select-layout");
+        let design = localStorage.getItem("tablerTheme");
+        let parts = design ? design.split(".") : ["light", "centered"]; // default values
 
         // Determine the current layout setting
-        let currentLayout = parts[1] === 'fluid' ? 'fluid' : 'center';
+        let currentLayout = parts[1] === "fluid" ? "fluid" : "center";
 
         // Set the selected option in the <select> element
         for (let option of selectLayoutElement.options) {
-            if (option.value === currentLayout) {
-                option.selected = true;
-                break;
-            }
+          if (option.value === currentLayout) {
+            option.selected = true;
+            break;
+          }
         }
 
-        const selectLangElement = document.getElementById('select-lang');
+        const selectLangElement = document.getElementById("select-lang");
 
-        const currentLang = localStorage.getItem('language') || 'en';
+        const currentLang = localStorage.getItem("language") || "en";
 
         // Set the selected option in the <select> element
-          for (let option of selectLangElement.options) {
-            if (option.value === currentLang) {
-                option.selected = true;
-                break;
-            }
+        for (let option of selectLangElement.options) {
+          if (option.value === currentLang) {
+            option.selected = true;
+            break;
+          }
         }
 
         // Event listener for changes in the select element
-        selectLayoutElement.addEventListener('change', function() {
-            toggleFullscreen(this.value);
+        selectLayoutElement.addEventListener("change", function () {
+          toggleFullscreen(this.value);
         });
 
-        selectLangElement.addEventListener('change', function() {
-            changeLanguage(this.value);
+        selectLangElement.addEventListener("change", function () {
+          changeLanguage(this.value);
         });
       });
     </script>

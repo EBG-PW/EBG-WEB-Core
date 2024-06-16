@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
 * Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
 * @version 1.0.0-beta19
@@ -9,9 +9,9 @@
 -->
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>EBG - Dashboard</title>
     <!-- Essential JS -->
     <script>
@@ -19,11 +19,10 @@
     </script>
     <script src="<%= domain %>/appjs/i18next.js?<%= curentUnixTime %>"></script>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    </style>
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet" />
   </head>
-  <body >
+  <body>
     <script src="/appjs/format.js"></script>
     <div class="page">
       <!-- Navbar -->
@@ -39,71 +38,129 @@
                 <h1 class="fw-bold" id="event_name"></h1>
                 <div class="list-inline list-inline-dots text-muted">
                   <div class="list-inline-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7l6 -3l6 3l6 -3l0 13l-6 3l-6 -3l-6 3l0 -13" /><path d="M9 4l0 13" /><path d="M15 7l0 13" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M3 7l6 -3l6 3l6 -3l0 13l-6 3l-6 -3l-6 3l0 -13" />
+                      <path d="M9 4l0 13" />
+                      <path d="M15 7l0 13" />
+                    </svg>
                     <span id="event_address"></span>
                   </div>
                   <div class="list-inline-item">
-                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-clock"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.5 21h-4.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v3" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h10" /><path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M18 16.5v1.5l.5 .5" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-clock">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M10.5 21h-4.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v3" />
+                      <path d="M16 3v4" />
+                      <path d="M8 3v4" />
+                      <path d="M4 11h10" />
+                      <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                      <path d="M18 16.5v1.5l.5 .5" />
+                    </svg>
                     <span id="date_start_header"></span>
                   </div>
                 </div>
               </div>
               <div class="col-auto ms-auto">
                 <div class="btn-list">
-                   <spcan id="event_button"></span>
+                  <span id="event_button"></span>
                 </div>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Page body -->
-        <div class="page-body">
-          <div class="container-xl">
-            <div class="row g-3">
-              <div class="col">
-                <!-- Page content -->
-              </div>
-              <div class="col-lg-4">
-                <div class="row row-cards">
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                          <div class="card-title" data-translate="Events.Body.Head.CardTileInfos"></div>
+          <!-- Page body -->
+          <div class="page-body">
+            <div class="container-xl">
+              <div class="row g-3">
+                <div class="col">
+                  <!-- Page content -->
+                </div>
+                <div class="col-lg-4">
+                  <div class="row row-cards">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="card-title" data-translate="Events.Body.Head.CardTileInfos"></div>
                             <span id="event_information_button"></span>
-                        </div>
-                        <div class="mb-2">
-                          <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-exclamation"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 21h-9a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /><path d="M19 16v3" /><path d="M19 22v.01" /></svg>
-                          <span id="date_apply"></span>
-                        </div>
-                        <div class="mb-2">
-                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
-                          <span id="date_start"></span>
-                        </div>
-                        <div class="mb-2">
-                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg>
-                          <span id="date_end"></span>
-                        </div>
-                        <div class="mb-2">
-                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-group"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" /><path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M17 10h2a2 2 0 0 1 2 2v1" /><path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M3 13v-1a2 2 0 0 1 2 -2h2" /></svg>
-                          <span id="min_group"></span>
-                        </div>
-                        <div class="mb-2">
-                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
-                          <span id="participants"></span>
-                        </div>
-                        <div class="mb-2">
-                          <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-eye"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" /><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" /></svg>
-                          <span id="visibility"></span>
+                          </div>
+                          <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar-exclamation">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M15 21h-9a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5" />
+                              <path d="M16 3v4" />
+                              <path d="M8 3v4" />
+                              <path d="M4 11h16" />
+                              <path d="M11 15h1" />
+                              <path d="M12 15v3" />
+                              <path d="M19 16v3" />
+                              <path d="M19 22v.01" />
+                            </svg>
+                            <span id="date_apply"></span>
+                          </div>
+                          <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                              <path d="M16 3v4" />
+                              <path d="M8 3v4" />
+                              <path d="M4 11h16" />
+                              <path d="M11 15h1" />
+                              <path d="M12 15v3" />
+                            </svg>
+                            <span id="date_start"></span>
+                          </div>
+                          <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-calendar">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                              <path d="M16 3v4" />
+                              <path d="M8 3v4" />
+                              <path d="M4 11h16" />
+                              <path d="M11 15h1" />
+                              <path d="M12 15v3" />
+                            </svg>
+                            <span id="date_end"></span>
+                          </div>
+                          <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users-group">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                              <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1" />
+                              <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                              <path d="M17 10h2a2 2 0 0 1 2 2v1" />
+                              <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                              <path d="M3 13v-1a2 2 0 0 1 2 -2h2" />
+                            </svg>
+                            <span id="min_group"></span>
+                          </div>
+                          <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                              <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                              <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                            </svg>
+                            <span id="participants"></span>
+                          </div>
+                          <div class="mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                              <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                              <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                            </svg>
+                            <span id="visibility"></span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="card">
-                      <div class="card-body">
-                        <h2 class="card-title" data-translate="Events.Body.DescriptionCardHeadline"></h2>
-                        <div>
-                          <p id="event_description"></p>
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-body">
+                          <h2 class="card-title" data-translate="Events.Body.DescriptionCardHeadline"></h2>
+                          <div>
+                            <p id="event_description"></p>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -112,109 +169,111 @@
               </div>
             </div>
           </div>
-        </div>
-        <%- html_content.footer %>
+          <%- html_content.footer %>
         </div>
       </div>
-      <!-- Libs JS -->
-      <!-- Tabler Core -->
-      <script src="<%= domain %>/appjs/permission.js?<%= curentUnixTime %>" defer></script>
-      <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
-      <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
-      <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
-      <script>
-        // Auto-fill user data (VanillaJS)
-        document.addEventListener("DOMContentLoaded", async () => {
-          loadEventDetails();
+    </div>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="<%= domain %>/appjs/permission.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
+    <script>
+      // Auto-fill user data (VanillaJS)
+      document.addEventListener("DOMContentLoaded", async () => {
+        loadEventDetails();
+      });
+
+      const loadEventDetails = async () => {
+        const response = await fetch(`/api/v1/event/<%= params.id %>`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         });
 
-        const loadEventDetails = async () => {
-          const response = await fetch(`/api/v1/event/<%= params.id %>`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-          });
+        if (response.status == 200) {
+          const event_data = await response.json();
 
-          if(response.status == 200) {
-            const event_data = await response.json();
+          document.getElementById("event_name").innerText = event_data.name;
+          document.getElementById("event_description").innerHTML = event_data.description;
+          document.getElementById("event_address").innerHTML = event_data.location_address;
+          document.getElementById("date_start_header").innerText = new Date(event_data.date_start).toLocaleString("de-DE", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" });
 
-            document.getElementById("event_name").innerText = event_data.name;
-            document.getElementById("event_description").innerHTML = event_data.description;
-            document.getElementById("event_address").innerHTML = event_data.location_address;
-            document.getElementById("date_start_header").innerText = new Date(event_data.date_start).toLocaleString('de-DE', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'});
+          document.getElementById("date_apply").innerText = `${i18next.t("Events.Body.Card.JoinDate")} ${new Date(event_data.date_apply).toLocaleString("de-DE", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" })}`;
+          document.getElementById("date_start").innerText = `${i18next.t("Events.Body.Card.StartDate")} ${new Date(event_data.date_start).toLocaleString("de-DE", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" })}`;
+          document.getElementById("date_end").innerText = `${i18next.t("Events.Body.Card.EndDate")} ${new Date(event_data.date_end).toLocaleString("de-DE", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" })}`;
+          document.getElementById("min_group").innerText = `${i18next.t("Events.Body.Card.MinGroup")} ${i18next.t(`User_Groups.virtualGroups.${event_data.min_group}`)}`;
+          document.getElementById("participants").innerText = `${i18next.t("Events.Body.Card.ParticipantWithCount", { count: Number(event_data.participants) })}`; // Maybe add "participants_logged_in" there too
+          document.getElementById("visibility").innerText = `${i18next.t("Events.Body.Card.Visibility")} ${i18next.t(`Events.Visibility.${event_data.visibility}`)}`;
 
-            document.getElementById("date_apply").innerText = `${i18next.t("Events.Body.Card.JoinDate")} ${new Date(event_data.date_apply).toLocaleString('de-DE', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'})}`
-            document.getElementById("date_start").innerText = `${i18next.t("Events.Body.Card.StartDate")} ${new Date(event_data.date_start).toLocaleString('de-DE', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'})}`
-            document.getElementById("date_end").innerText = `${i18next.t("Events.Body.Card.EndDate")} ${new Date(event_data.date_end).toLocaleString('de-DE', {hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric'})}`
-            document.getElementById("min_group").innerText = `${i18next.t("Events.Body.Card.MinGroup")} ${i18next.t(`User_Groups.virtualGroups.${event_data.min_group}`)}`
-            document.getElementById("participants").innerText = `${i18next.t("Events.Body.Card.ParticipantWithCount", {count: Number(event_data.participants)})}` // Maybe add "participants_logged_in" there too
-            document.getElementById("visibility").innerText = `${i18next.t("Events.Body.Card.Visibility")} ${i18next.t(`Events.Visibility.${event_data.visibility}`)}`
-
-            const permResult = checkPermission(`group.${event_data.min_group}`) // Check if the user is in the group of membersship (default_member_group)
-            document.getElementById("event_button").innerHTML = event_data.user_participates ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
+          const permResult = checkPermission(`group.${event_data.min_group}`); // Check if the user is in the group of membersship (default_member_group)
+          document.getElementById("event_button").innerHTML = event_data.user_participates
+            ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                               <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"/>
                               <path d="M6 21v-2a4 4 0 0 1 4 -4h4"/>
                               <path d="M15 19l2 2l4 -4"/>
                             </svg>
-                            <span>${i18next.t("Events.Body.Card.Participates")}</span>` : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event_data.puuid}">
+                            <span>${i18next.t("Events.Body.Card.Participates")}</span>`
+            : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event_data.puuid}">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5v14M5 12h14" /></svg>
                               <div>${i18next.t("Events.Body.Card.JoinButton")}</div>
-                              </div>`
+                              </div>`;
 
-            if(event_data.creator_user_id === Number(localStorage.getItem("user_id"))) {
-              document.getElementById("event_information_button").innerHTML = `<a href="/event/<%= params.id %>/settings" class="btn btn-primary btn-sm">
+          if (event_data.creator_user_id === Number(localStorage.getItem("user_id"))) {
+            document.getElementById("event_information_button").innerHTML = `<a href="/event/<%= params.id %>/settings" class="btn btn-primary btn-sm">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" /></svg>
                             <span>${i18next.t("Events.Settings.Button.Link")}</span>
                           </a>`;
-            } else if(event_data.user_participates) {
-              document.getElementById("event_information_button").innerHTML = `<p class="btn btn-danger btn-sm">
+          } else if (event_data.user_participates) {
+            document.getElementById("event_information_button").innerHTML = `<p class="btn btn-danger btn-sm">
                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-door-exit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 12v.01" /><path d="M3 21h18" /><path d="M5 21v-16a2 2 0 0 1 2 -2h7.5m2.5 10.5v7.5" /><path d="M14 7h7m-3 -3l3 3l-3 3" /></svg>
                 <span onclick="event.stopPropagation(); leaveEvent(this.id); return false;" id="${event_data.puuid}">${i18next.t("Events.Body.Card.LeaveButton")}</span>
                             `;
-            } else {
-              document.getElementById("event_information_button").innerHTML = "";
-            }
-          }
-        }
-
-        const joinEvent = async (id) => {
-          const response = await fetch(`/api/v1/event/${id}/join`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-          });
-
-          if(response.status == 200) {
-            const event_data = await response.json();
-
-            loadEventDetails();
           } else {
-            // ToDo: Snackbar Error
+            document.getElementById("event_information_button").innerHTML = "";
           }
         }
+      };
 
-        const leaveEvent = async (id) => {
-          const response = await fetch(`/api/v1/event/${id}/leave`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-          });
+      const joinEvent = async (id) => {
+        const response = await fetch(`/api/v1/event/${id}/join`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
 
-          if(response.status == 200) {
-            const event_data = await response.json();
+        if (response.status == 200) {
+          const event_data = await response.json();
 
-            loadEventDetails();
-          } else {
-            // ToDo: Snackbar Error
-          }
+          loadEventDetails();
+        } else {
+          // ToDo: Snackbar Error
         }
-      </script>
+      };
+
+      const leaveEvent = async (id) => {
+        const response = await fetch(`/api/v1/event/${id}/leave`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (response.status == 200) {
+          const event_data = await response.json();
+
+          loadEventDetails();
+        } else {
+          // ToDo: Snackbar Error
+        }
+      };
+    </script>
   </body>
 </html>

@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>EBG - Dashboard</title>
     <!-- Essential JS -->
     <script>
@@ -11,11 +11,10 @@
     </script>
     <script src="<%= domain %>/appjs/i18next.js?<%= curentUnixTime %>"></script>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    </style>
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet" />
   </head>
-  <body >
+  <body>
     <script src="/appjs/format.js"></script>
     <div class="page">
       <!-- Navbar -->
@@ -55,13 +54,13 @@
                         <div class="form-label" data-translate="Settings.Links.Platform"></div>
                         <select type="text" class="form-select mb-3" id="SettingsPlatform" onchange="updateInputField()" value="">
                           <% for(const element in linkableapps) { %>
-                            <option value="<%= element %>"><%= element %></option>
+                          <option value="<%= element %>"><%= element %></option>
                           <% } %>
                         </select>
                       </div>
                       <div class="col-md">
                         <div class="form-label" data-translate="Settings.Links.Profile"></div>
-                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsProfile">
+                        <input type="text" class="form-control" value="" onchange="handleInputChange(this.id)" id="SettingsProfile" />
                       </div>
                     </div>
                     <p class="text-muted" data-translate="Settings.Links.EditDiscription"></p>
@@ -76,8 +75,7 @@
                             <th class="w-1"></th>
                           </tr>
                         </thead>
-                        <tbody id="Settings.Links.TableData">
-                        </tbody>
+                        <tbody id="Settings.Links.TableData"></tbody>
                       </table>
                     </div>
                   </div>
@@ -96,7 +94,6 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
-
       let linkableapps = {};
 
       document.addEventListener("DOMContentLoaded", async () => {
@@ -106,16 +103,16 @@
 
       const updateInputField = () => {
         document.getElementById("SettingsProfile").value = linkableapps[document.getElementById("SettingsPlatform").value] ?? "";
-      }
+      };
 
       const loadTable = async () => {
-        const response = await fetch('/api/v1/user/links', {
-          method: 'GET',
+        const response = await fetch("/api/v1/user/links", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
 
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         });
 
         if (response.ok) {
@@ -126,11 +123,11 @@
           // Clear the table
           tableData.innerHTML = "";
           linkableapps = {};
-          
+
           for (const element of links) {
             linkableapps[element.platform] = element.data_val;
             // Set current value to the input field
-            if(document.getElementById("SettingsPlatform").value === element.platform) {
+            if (document.getElementById("SettingsPlatform").value === element.platform) {
               document.getElementById("SettingsProfile").value = element.data_val;
             }
 
@@ -156,36 +153,36 @@
             tableData.appendChild(row);
           }
         }
-      }
+      };
 
       const deleteLink = async (platform) => {
         const response = await fetch(`/api/v1/user/links/${platform}`, {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
 
-            "Authorization": "Bearer " + localStorage.getItem("token")
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         });
 
         if (response.ok) {
           await loadTable();
         }
-      }
+      };
 
       // Handle changes to all imput fields (VanillaJS)
       const handleInputChange = async () => {
         const inputElement = document.getElementById("SettingsProfile");
-        const response = await fetch('/api/v1/user/links', {
-          method: 'POST',
+        const response = await fetch("/api/v1/user/links", {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("token")
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
             value: document.getElementById("SettingsProfile").value,
-            platform: document.getElementById("SettingsPlatform").value
-          })
+            platform: document.getElementById("SettingsPlatform").value,
+          }),
         });
 
         if (response.ok) {
@@ -200,7 +197,7 @@
         } else {
           inputElement.classList.add("is-invalid");
         }
-      }
+      };
     </script>
   </body>
 </html>
