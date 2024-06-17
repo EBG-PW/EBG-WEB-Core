@@ -6,7 +6,7 @@ const HyperExpress = require('hyper-express');
 const { writeOverwriteCacheKey } = require('@lib/cache');
 const { InvalidRouteJson, DBError, InvalidRouteInput, CustomError } = require('@lib/errors');
 const { plublicStaticCache } = require('@middleware/cacheRequest');
-const { getNextLowerDefaultGroup, checkPermission } = require('@lib/permission');
+const { getNextLowerDefaultGroup } = require('@lib/permission');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
 
@@ -305,16 +305,6 @@ router.post('/:id/description', verifyRequest('web.event.update.write'), limiter
     res.json({
         message: "Description changed",
         description: value.description
-    });
-});
-
-router.get('/:id/hasoauthclient', verifyRequest('web.event.oauth.read'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
-    const has_oauth = await projectactivities.event.has_oauth_client(value.id);
-    res.status(200);
-    res.json({
-        message: "Has OAuth Client",
-        result: has_oauth
     });
 });
 

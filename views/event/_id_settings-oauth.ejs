@@ -46,12 +46,7 @@
                 <div class="col d-flex flex-column">
                   <div class="card-body">
                     <h2 class="mb-4" data-translate="Events.Settings.Site.OAuth"></h2>
-                    <a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-create-oauth-client" data-translate="Events.Settings.OAuth.Create"></a>
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div id="NewEventErrorLine"></div>
-                      </div>
-                    </div>
+                    <scpan id="page_content"></scpan>
                   </div>
                 </div>
               </div>
@@ -83,121 +78,151 @@
               </div>
               <div class="col">
                 <label class="form-label" data-translate="Events.Settings.OAuth.Name"></label>
-                <input type="text" id="NewEventEventName" data-translate-placeholder="Events.Settings.OAuth.Sample" class="form-control" />
+                <input type="text" id="NewOAuthClientName" data-translate-placeholder="Events.Settings.OAuth.Sample" class="form-control" />
               </div>
             </div>
             <div class="row mb-3 align-items-end">
               <div class="col">
                 <label class="form-label" data-translate="Events.Settings.OAuth.Redirect"></label>
-                <input type="text" class="form-control" name="example-text-input" placeholder="https://example.com/oauth" />
+                <input type="text" id="NewOAuthClientRedirect" class="form-control" placeholder="https://example.com/oauth" />
               </div>
             </div>
             <div class="row">
               <label class="form-label" data-translate="Events.Settings.OAuth.PermissionsLine"></label>
               <div class="col">
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserIdRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserIdRead"></span>
+                  <input class="form-check-input" id="USER:ID:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserIdRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserIdRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserIdWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserIdWrite"></span>
+                  <input class="form-check-input" id="USER:ID:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserIdWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserIdWrite"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserUsernameRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserUsernameRead"></span>
+                  <input class="form-check-input" id="USER:USERNAME:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserUsernameRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserUsernameRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserUsernameWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserUsernameWrite"></span>
+                  <input class="form-check-input" id="USER:USERNAME:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserUsernameWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserUsernameWrite"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserEmailRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserEmailRead"></span>
+                  <input class="form-check-input" id="USER:EMAIL:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserEmailRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserEmailRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserEmailWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserEmailWrite"></span>
+                  <input class="form-check-input" id="USER:EMAIL:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserEmailWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserEmailWrite"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserRealnameRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserRealnameRead"></span>
+                  <input class="form-check-input" id="USER:REALNAME:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserRealnameRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserRealnameRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserRealnameWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserRealnameWrite"></span>
-                </label>
-              </div>
-              <div class="col">
-                <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserBioRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserBioRead"></span>
+                  <input class="form-check-input" id="USER:REALNAME:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserRealnameWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserRealnameWrite"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserBioWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserBioWrite"></span>
+                  <input class="form-check-input" id="USER:BIO:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserBioRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserBioRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.EventsListRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.EventsListRead"></span>
-                </label>
-                <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.ProjectsListRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.ProjectsListRead"></span>
-                </label>
-                <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAvatarRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAvatarRead"></span>
-                </label>
-                <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAvatarWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAvatarWrite"></span>
+                  <input class="form-check-input" id="USER:BIO:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserBioWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserBioWrite"></span>
                 </label>
               </div>
               <div class="col">
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserGroupRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserGroupRead"></span>
+                  <input class="form-check-input" id="EVENTS:LIST:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.EventsListRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.EventsListRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserGroupWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserGroupWrite"></span>
+                  <input class="form-check-input" id="PROJECTS:LIST:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.ProjectsListRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.ProjectsListRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAddressRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAddressRead"></span>
+                  <input class="form-check-input" id="USER:AVATAR:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserAvatarRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserAvatarRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.UserAddressWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.UserAddressWrite"></span>
+                  <input class="form-check-input" id="USER:AVATAR:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserAvatarWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserAvatarWrite"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.SettingsDesignRead"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.SettingsDesignRead"></span>
+                  <input class="form-check-input" id="USER:GROUP:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserGroupRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserGroupRead"></span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" type="checkbox" />
-                  <span class="form-check-label" data-translate="Events.Settings.OAuth.Permission.Name.SettingsDesignWrite"></span>
-                  <span class="form-check-description" data-translate="Events.Settings.OAuth.Permission.Description.SettingsDesignWrite"></span>
+                  <input class="form-check-input" id="USER:GROUP:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserGroupWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserGroupWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="USER:ADDRESS:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserAddressRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserAddressRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="USER:ADDRESS:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.UserAddressWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.UserAddressWrite"></span>
+                </label>
+              </div>
+              <div class="col">
+                <label class="form-check">
+                  <input class="form-check-input" id="SETTINGS:DESIGN:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.SettingsDesignRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.SettingsDesignRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="SETTINGS:DESIGN:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.SettingsDesignWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.SettingsDesignWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="SETTINGS:LANG:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.SettingsLanguageRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.SettingsLanguageRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="SETTINGS:LANG:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.SettingsLanguageWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.SettingsLanguageWrite"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="INTEGRATION:TELEGRAM:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.IntegrationTelegramRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.IntegrationTelegramRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="INTEGRATION:DISCORD:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.IntegrationDiscordRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.IntegrationDiscordRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="NOTIFICATIONS:READ" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.NotificationsRead"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.NotificationsRead"></span>
+                </label>
+                <label class="form-check">
+                  <input class="form-check-input" id="NOTIFICATIONS:WRITE" type="checkbox" />
+                  <span class="form-check-label" data-translate="OAuth.Permission.Name.NotificationsWrite"></span>
+                  <span class="form-check-description" data-translate="OAuth.Permission.Description.NotificationsWrite"></span>
                 </label>
               </div>
             </div>
@@ -209,14 +234,14 @@
           </div>
           <div class="modal-footer">
             <a class="btn btn-link link-secondary" data-bs-dismiss="modal" data-translate="Events.Modal.NewEvent.Cancel"></a>
-            <a class="btn btn-primary ms-auto" id="NewEventSubmitBtn">
+            <a class="btn btn-primary ms-auto" id="NewoAuthSubmitBtn">
               <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M12 5l0 14" />
                 <path d="M5 12l14 0" />
               </svg>
-              <span data-translate="Events.Modal.NewEvent.AddNew"></span>
+              <span data-translate="Events.Settings.OAuth.AddoAuthClient"></span>
             </a>
           </div>
         </div>
@@ -229,9 +254,87 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
+      const oAuthPermissions = {
+        "USER:ID:READ": 1 << 1,
+        "USER:ID:WRITE": 1 << 2,
+        "USER:USERNAME:READ": 1 << 3,
+        "USER:USERNAME:WRITE": 1 << 4,
+        "USER:EMAIL:READ": 1 << 5,
+        "USER:EMAIL:WRITE": 1 << 6,
+        "USER:REALNAME:READ": 1 << 7,
+        "USER:REALNAME:WRITE": 1 << 8,
+        "USER:BIO:READ": 1 << 9,
+        "USER:BIO:WRITE": 1 << 10,
+        "USER:AVATAR:READ": 1 << 11,
+        "USER:AVATAR:WRITE": 1 << 12,
+        "USER:GROUP:READ": 1 << 13,
+        "USER:GROUP:WRITE": 1 << 14,
+        "USER:ADDRESS:READ": 1 << 15,
+        "USER:ADDRESS:WRITE": 1 << 16,
+        "SETTINGS:DESIGN:READ": 1 << 17,
+        "SETTINGS:DESIGN:WRITE": 1 << 18,
+        "SETTINGS:LANG:READ": 1 << 19,
+        "SETTINGS:LANG:WRITE": 1 << 20,
+        "EVENTS:LIST:READ": 1 << 21,
+        "PROJECTS:LIST:READ": 1 << 22,
+        "INTEGRATION:TELEGRAM:READ": 1 << 23,
+        "INTEGRATION:DISCORD:READ": 1 << 24,
+        "NOTIFICATIONS:READ": 1 << 25,
+        "NOTIFICATIONS:WRITE": 1 << 26,
+      };
+
+      const calculateSelectedPermissionsScope = () => {
+        let selectedScope = 0;
+
+        document.querySelectorAll(".form-check-input").forEach((checkbox) => {
+          if (checkbox.checked) {
+            const permissionKey = checkbox.id;
+            if (oAuthPermissions[permissionKey]) {
+              selectedScope |= oAuthPermissions[permissionKey];
+            }
+          }
+        });
+
+        return selectedScope;
+      };
+
+      document.getElementById("NewoAuthSubmitBtn").addEventListener("click", async () => {
+        const name = document.getElementById("NewOAuthClientName").value;
+        const redirect = document.getElementById("NewOAuthClientRedirect").value;
+        const scope = calculateSelectedPermissionsScope();
+
+        const generateRequest = await fetch("/api/v1/oauthapp/<%= params.id %>/oauthclient", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            name,
+            redirect,
+            scope,
+          }),
+        })
+
+        if (generateRequest.status === 200) {
+          const result = await generateRequest.json();
+          console.log(result);
+        } else if (generateRequest.status === 400) {
+          const result = await generateRequest.json();
+          console.log(result);
+        } else if (generateRequest.status === 500) {
+          // Server Error
+          alert("Server Error");
+        } else {
+          // Unknown Error
+          alert("Unknown Error");
+        }
+        
+      });
+
       document.addEventListener("DOMContentLoaded", async () => {
         // Check if event already has a oauth client and load them
-        const hasOauthClient = await fetch("/api/v1/event/<%= params.id %>/hasoauthclient", {
+        const hasOauthClient = await fetch("/api/v1/oauthapp/<%= params.id %>/oauthclient", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -242,6 +345,10 @@
         if (hasOauthClient.status === 200) {
           const oauthClients = await hasOauthClient.json();
           console.log(oauthClients);
+          if (oauthClients.result === false) {
+            document.getElementById("page_content").innerHTML = `<a href="#" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-create-oauth-client">${i18next.t("Events.Settings.OAuth.Create")}</a>`;
+          } else {
+          }
         }
       });
     </script>
