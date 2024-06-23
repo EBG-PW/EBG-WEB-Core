@@ -3,11 +3,9 @@ const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
-const { writeOverwriteCacheKey } = require('@lib/cache');
+const randomstring = require('randomstring');
 const { InvalidRouteJson, DBError, InvalidRouteInput, CustomError } = require('@lib/errors');
-const { plublicStaticCache } = require('@middleware/cacheRequest');
-const { getNextLowerDefaultGroup } = require('@lib/permission');
-const { default_group, default_member_group } = require('@config/permissions');
+const oAuthPermissions = require('@lib/oauth/permissions');
 const router = new HyperExpress.Router();
 
 /* Plugin info*/
@@ -16,18 +14,18 @@ const PluginRequirements = []; //Put your Requirements and version here <Name, n
 const PluginVersion = '0.0.1'; //This plugins version
 
 const ValidateUUID = Joi.object({
-    id: Joi.string().uuid().required()
+    projectactivities_puuid: Joi.string().uuid().required()
 });
 
 const ValidateCreateOAuthApp = Joi.object({
-    name: Joi.string().required(),
+    name: Joi.fullysanitizedString().min(3).max(128).required(),
     redirect_uri: Joi.string().uri().required(),
-    scopes: Joi.array().items(Joi.string()).required()
+    scope: Joi.number().integer().min(0).max(Number.MAX_SAFE_INTEGER).required()
 });
 
-router.get('/:id/oauthclient', verifyRequest('web.event.oauth.read'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
-    const has_oauth = await projectactivities.oAuth.hasClient(value.id);
+router.get('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.read'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    const has_oauth = await projectactivities.oAuth.hasClient(param.projectactivities_puuid);
     res.status(200);
     res.json({
         message: "Has OAuth Client",
@@ -35,8 +33,37 @@ router.get('/:id/oauthclient', verifyRequest('web.event.oauth.read'), limiter(),
     });
 });
 
-router.post('/:id/oauthclient', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
-    const value = await ValidateCreateOAuthApp.validateAsync(req.body);
+router.post('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    const value = await ValidateCreateOAuthApp.validateAsync(await req.json());
+
+    const is_validScope = oAuthPermissions.validateCombInt(value.scope);
+    if (!is_validScope) throw new InvalidRouteInput("Invalid Scope");
+
+    const client_secret = randomstring.generate({
+        length: 128,
+        charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
+    });
+
+    const client_id = randomstring.generate({
+        length: 64,
+        charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
+    });
+
+    await projectactivities.oAuth.deleteTokens(param.projectactivities_puuid);
+    await projectactivities.oAuth.createClient(param.projectactivities_puuid, value.name, client_id, client_secret, value.redirect_uri, value.scope)
+
+    res.status(200);
+    res.json({
+        message: "OAuth Client Created",
+        result: {
+            client_id: client_id,
+            client_secret: client_secret,
+            name: value.name,
+            redirect_uri: value.redirect_uri,
+            scope: value.scope
+        }
+    });
 });
 
 module.exports = {
