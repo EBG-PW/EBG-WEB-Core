@@ -4,34 +4,29 @@ import Heading from "./Heading.astro";
 // TRANSLATION
 const { translation = {} } = Astro.props;
 
-// HUGE TODO;
-// I HAVE NO CLUE WHICH DATA I ACTUALLY GET LOL
-const events = [
-  {
-    name: "Test Event",
-    image: "/favicon.svg",
-    description:
-      "Test event description. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
-    click: "https://ebg.pw/event/test",
-    timestamp: "2024-06-06",
-  },
-  {
-    name: "Test Event",
-    image: "/favicon.svg",
-    description:
-      "Test event description. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
-    click: "https://ebg.pw/event/test",
-    timestamp: "2024-06-06",
-  },
-  {
-    name: "Test Event",
-    image: "/favicon.svg",
-    description:
-      "Test event description. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
-    click: "https://ebg.pw/event/test",
-    timestamp: "2024-06-06",
-  },
-];
+type EventDTO = {
+  id: number;
+  puuid: string;
+  type: number;
+  name: string;
+  description: string;
+  avatar_url: string;
+  color: string;
+  location_address: string;
+  date_start: string;
+  date_end: string;
+  date_created: string;
+  date_apply: string;
+  min_group: string;
+  visibility: number;
+  state: number;
+  creator_user_id: number;
+};
+
+const events: EventDTO[] =
+  ((await (
+    await fetch(`${import.meta.env.API_URL}/api/v1/public/events`)
+  ).json()) as EventDTO[]) ?? [];
 ---
 
 <style lang="scss">
@@ -133,18 +128,23 @@ const events = [
     <div class="events">
       {
         events.map((event) => {
+          const image = event.avatar_url;
+
           return (
             <div class="event">
-              <img src={event.image} alt={event.name} />
+              <img
+                src={image === "" ? "/favicon.svg" : image}
+                alt={event.name}
+              />
               <div class="container">
                 <Heading level="3">{event.name}</Heading>
-                <p class="date">{event.timestamp}</p>
+                <p class="date">{event.date_start}</p>
                 <p class="description">{event.description}</p>
-                {event.click ? (
+                {/* {event.click ? (
                   <a href={event.click} class="cta"><!-- 
                     -->{translation.click}<!--
                     --></a>
-                ) : null}
+                ) : null} */}
               </div>
             </div>
           );
