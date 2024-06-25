@@ -262,6 +262,7 @@
       "OAuth": {
         "Create": "OAuth Client Erstellen",
         "Name": "OAuth Client Name",
+        "NewClientCreated": "OAuth Client erfolgreich erstellt (Wird nur 1 mal angezeigt, klicke auf den Text um ihn zu kopieren):",
         "Sample": "oauth-client",
         "Redirect": "Redirect URI",
         "PermissionsLine": "Berechtigungen",

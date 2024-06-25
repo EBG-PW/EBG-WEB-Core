@@ -360,13 +360,14 @@
 
       const createOAuthHTML = (c) => {
         return `<div class="row mb-3 align-items-end">
-          <div class="alert alert-success" role="alert">
-            <h4 class="alert-title">Your client was created</h4>
+          ${c.client_id && c.client_secret ? `<div class="alert alert-success" role="alert">
+            <h4 class="alert-title">${i18next.t("Events.Settings.OAuth.NewClientCreated")}</h4>
             <div>
-              ClientID: <span class="click-to-copy" onclick="copyToClipboard('ClientID12345')">ClientID12345</span><br>
-              Secret: <span class="click-to-copy" onclick="copyToClipboard('Secret67890')">Secret67890</span>
+                ClientID: <kbd class="click-to-copy" onclick="copyToClipboard('${c.client_id}')">${c.client_id}</kbd><br>
+                Secret: <kbd class="click-to-copy" onclick="copyToClipboard('${c.client_secret}')">${c.client_secret}</kbd>
             </div>
           </div>
+          <hr>` : ''}
               <div class="col-auto">
                 <a class="avatar avatar-upload rounded">
                   <!-- Download SVG icon from http://tabler-icons.io/i/plus -->

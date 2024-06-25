@@ -126,6 +126,14 @@ const closeModal = (modal_id) => {
     }
 };
 
+const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(function () {
+        alert('Copied to clipboard: ' + text);
+    }, function (err) {
+        console.error('Could not copy text: ', err);
+    });
+}
+
 const capitalizeFirstLetter = (string) => {
     if (!string) return string;
     return string.charAt(0).toUpperCase() + string.slice(1);
