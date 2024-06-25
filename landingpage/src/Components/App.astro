@@ -12,6 +12,10 @@ import "@fontsource-variable/inter";
 const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
 import LanguageSwapper from "./LanguageSwapper.astro";
+
+if (!import.meta.env.API_URL) {
+  throw new Error("required env file API_URL not set");
+}
 ---
 
 <html lang="en">
