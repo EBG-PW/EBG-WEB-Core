@@ -39,10 +39,16 @@
     "heading": "Team",
     "no_role": "No role",
     "no_description": "No description",
-    "member": {
-      "unique_id": {
-        "role": "Role",
-        "description": "Test description"
+    "roles": {
+      "user": "User",
+      "member": "Club member",
+      "kassierer": "Treasurer",
+      "schriftführer": "Secretary",
+      "obmann": "Chairman",
+      "root": "root",
+      "virtualGroups": {
+        "user": "Registered Users",
+        "member": "Club Members"
       }
     }
   },
