@@ -22,5 +22,8 @@ module.exports = {
     },
     "Steam": {
         "ProfileURL": "https://steamcommunity.com/profiles/"
+    },
+    "Telegram": {
+        "ProfileURL": "https://t.me/"
     }
 }

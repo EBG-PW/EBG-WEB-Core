@@ -35,9 +35,16 @@ files.forEach(file => {
     }
 });
 
+const linkableapps = require('@config/linkable_apps.js');
+
 process.availableLanguages = availableLanguages; // Used for template rendering for different languages
 process.countryConfig = countryConfig; // Used for language dropdowns
-process.linkableapps = require('@config/linkable_apps.js');
+process.linkableapps = Object.keys(linkableapps)
+                        .sort()
+                        .reduce((acc, key) => {
+                            acc[key] = linkableapps[key];
+                            return acc;
+                        }, {});
 process.permissions_config = require('@config/permissions.js');
 
 (async () => {
