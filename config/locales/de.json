@@ -257,6 +257,7 @@
       "Title": "Veranstaltungs Einstellungen",
       "Site": {
         "General": "Allgemeine Einstellungen",
+        "Announce": "Ankündigungen",
         "OAuth": "OAuth Einstellungen"
       },
       "OAuth": {
