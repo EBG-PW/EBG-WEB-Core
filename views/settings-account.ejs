@@ -34,8 +34,14 @@
         <div class="page-body">
           <div class="container-xl">
             <div class="card">
+              <!-- Sidebar Toggle Button for Small Screens -->
+              <div class="card-body d-md-none">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              </div>
               <div class="row g-0">
-                <div class="col-3 d-none d-md-block border-end">
+                <div class="col-12 col-md-3 collapse d-md-block border-end" id="sidebar-menu">
                   <div class="card-body">
                     <div class="list-group list-group-transparent">
                       <a href="/settings-account" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Settings.Side.Account"></a>
