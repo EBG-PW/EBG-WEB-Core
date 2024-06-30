@@ -279,7 +279,7 @@ router.post('/avatar', verifyRequest('web.user.avatar.write'), limiter(30), asyn
         const passThrough = new PassThrough();
 
         streamToBuffer(passThrough).then((file_buffer) => {
-            const isJPG = verifyBufferIsJPG(file_buffer);
+            const isJPG = verifyBufferIsJPG(file_buffer, 1024, 1024);
             if (!isJPG) throw new CustomError('Invalid Image');
             minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
                 if (err) throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);

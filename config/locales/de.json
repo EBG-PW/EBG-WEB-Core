@@ -252,6 +252,8 @@
     },
     "Settings": {
       "Button": {
+        "SetAvatarIcon": "Event Avatar setzen",
+        "DeleteAvatarIcon": "Event Avatar löschen",
         "Link": "Einstellungen"
       },
       "Title": "Veranstaltungs Einstellungen",
@@ -260,11 +262,18 @@
         "Announce": "Ankündigungen",
         "OAuth": "OAuth Einstellungen"
       },
+      "Announce": {
+        "Headline": "Ankündigungen",
+        "Textfield": "Schreibe eine Ankündigung",
+        "Placeholder": {
+          "Textfield": "Hier kannst du eine Ankündigung schreiben, du kannst Styling-HTML Tags verwenden."
+        }
+      },
       "OAuth": {
         "Create": "OAuth Client Erstellen",
         "Name": "OAuth Client Name",
         "NewClientCreated": "OAuth Client erfolgreich erstellt (Wird nur 1 mal angezeigt, klicke auf den Text um ihn zu kopieren):",
-        "Sample": "oauth-client",
+        "Sample": "Oauth-client",
         "Redirect": "Redirect URI",
         "PermissionsLine": "Berechtigungen",
         "AddoAuthClient": "OAuth Client hinzufügen"

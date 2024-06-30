@@ -10,6 +10,17 @@ const { getNextLowerDefaultGroup } = require('@lib/permission');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
 
+const Minio = require('minio');
+
+// Initialize MinIO client
+const minioClient = new Minio.Client({
+    endPoint: process.env.S3_WEB_ENDPOINT,
+    port: parseInt(process.env.S3_WEB_PORT),
+    useSSL: process.env.S3_WEB_USESSL === 'true',
+    accessKey: process.env.S3_WEB_ACCESSKEY,
+    secretKey: process.env.S3_WEB_SECRETKEY
+});
+
 /* Plugin info*/
 const PluginName = 'Events'; //This plugins name
 const PluginRequirements = []; //Put your Requirements and version here <Name, not file name>|Version
@@ -108,6 +119,8 @@ router.get('/', verifyRequest('web.event.get.eventlist.read'), limiter(), plubli
 router.get('/:id', verifyRequest('web.event.get.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id, req.user.user_id);
+    if(event_data.length === 0) throw new DBError('Event.Get', 1, typeof 1, event_data.length, typeof event_data.length);
+    if(event_data[0].avatar_url === "" || event_data[0].avatar_url === null) event_data[0].avatar_url = "/i/e";
     res.status(200);
     res.json(event_data[0]);
 });
@@ -138,12 +151,12 @@ router.post('/', verifyRequest('web.event.create.write'), limiter(), async (req,
 });
 
 router.post('/:id/join', verifyRequest('web.event.join.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
-    const sql_response = await projectactivities.event.join(value.id, req.user.user_id, req.user.user_group);
+    const params = await ValidateUUID.validateAsync(req.params);
+    const sql_response = await projectactivities.event.join(params.id, req.user.user_id, req.user.user_group);
     if(sql_response instanceof CustomError) throw sql_response;
     if (sql_response.rowCount !== 1) throw new DBError('Event.Join', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     await writeOverwriteCacheKey("public_event_index");
 
     res.status(200);
@@ -153,11 +166,11 @@ router.post('/:id/join', verifyRequest('web.event.join.write'), limiter(), async
 });
 
 router.post('/:id/leave', verifyRequest('web.event.leave.read'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
-    const sql_response = await projectactivities.event.leave(value.id, req.user.user_id);
+    const params = await ValidateUUID.validateAsync(req.params);
+    const sql_response = await projectactivities.event.leave(params.id, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Leave', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     await writeOverwriteCacheKey("public_event_index");
 
     res.status(200);
@@ -168,37 +181,37 @@ router.post('/:id/leave', verifyRequest('web.event.leave.read'), limiter(), asyn
 
 // Settings
 router.post('/:id/name', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const name = await ValidateEventName.validateAsync(await req.json());
     if (!name) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.name(value.id, name.name, req.user.user_id);
+    const sql_response = await projectactivities.event_update.name(params.id, name.name, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Name', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
 
     res.status(200);
     res.json({
         message: "Name changed",
-        name: value.name
+        name: params.name
     });
 });
 
 router.post('/:id/color', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const color = await ValidateEventColor.validateAsync(await req.json());
     if (!color) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.color(value.id, color.color, req.user.user_id);
+    const sql_response = await projectactivities.event_update.color(params.id, color.color, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Color', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
 
     res.status(200);
     res.json({
         message: "Color changed",
-        color: value.color
+        color: params.color
     });
 });
 
 router.post('/:id/mingroup', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const minGroup = await ValidateEventMinGroup.validateAsync(await req.json());
 
     const minDefaultGroup = getNextLowerDefaultGroup(req.user.user_group);
@@ -207,104 +220,119 @@ router.post('/:id/mingroup', verifyRequest('web.event.update.write'), limiter(),
         throw new InvalidRouteJson('InvalidMinGroupForDefaultGroup');
     }
 
-    const sql_response = await projectactivities.event_update.min_group(value.id, minGroup.minGroup, req.user.user_id);
+    const sql_response = await projectactivities.event_update.min_group(params.id, minGroup.minGroup, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.MinGroup', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "MinGroup changed",
-        mingroup: value.minGroup
+        mingroup: params.minGroup
     });
 });
 
 router.post('/:id/visibility', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const visibility = await ValidateEventVisibility.validateAsync(await req.json());
     if (!visibility) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.visibility(value.id, visibility.visibility, req.user.user_id);
+    const sql_response = await projectactivities.event_update.visibility(params.id, visibility.visibility, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Visibility', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "Visibility changed",
-        visibility: value.visibility
+        visibility: params.visibility
     });
 });
 
 router.post('/:id/dateapply', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const dateApply = await ValidateEventDateApply.validateAsync(await req.json());
     if (!dateApply) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_apply(value.id, dateApply.dateApply, req.user.user_id);
+    const sql_response = await projectactivities.event_update.date_apply(params.id, dateApply.dateApply, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateApply', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before the start date');
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "DateApply changed",
-        dateapply: value.dateApply
+        dateapply: params.dateApply
     });
 });
 
 router.post('/:id/datestart', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const dateStart = await ValidateEventDateStart.validateAsync(await req.json());
     if (!dateStart) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_start(value.id, dateStart.dateStart, req.user.user_id);
+    const sql_response = await projectactivities.event_update.date_start(params.id, dateStart.dateStart, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateStart', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is after end date');
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "Datestart changed",
-        datestart: value.dateStart
+        datestart: params.dateStart
     });
 });
 
 router.post('/:id/dateend', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const dateEnd = await ValidateEventDateEnd.validateAsync(await req.json());
     if (!dateEnd) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_end(value.id, dateEnd.dateEnd, req.user.user_id);
+    const sql_response = await projectactivities.event_update.date_end(params.id, dateEnd.dateEnd, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateEnd', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before start date');
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "DateEnd changed",
-        dateend: value.dateEnd
+        dateend: params.dateEnd
     });
 });
 
 router.post('/:id/location', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const location = await ValidateEventLocation.validateAsync(await req.json());
     if (!location) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.location_address(value.id, location.location, req.user.user_id);
+    const sql_response = await projectactivities.event_update.location_address(params.id, location.location, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Location', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "Location changed",
-        location: value.location
+        location: params.location
     });
 });
 
 router.post('/:id/description', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
-    const value = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const description = await ValidateEventDescription.validateAsync(await req.json());
     if (!description) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.description(value.id, description.description, req.user.user_id);
+    const sql_response = await projectactivities.event_update.description(params.id, description.description, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Description', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: value.id});
+    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
     
     res.status(200);
     res.json({
         message: "Description changed",
-        description: value.description
+        description: params.description
+    });
+});
+
+router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), limiter(10), async (req, res) => {
+    const params = await ValidateUUID.validateAsync(req.params);
+    const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e`, req.user.user_id);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ea:${req.user.puuid}.jpg`], async (err) => {
+        if (err) throw new S3ErrorRead(err);
+
+        res.json({
+            message: 'Avatar uploaded',
+            fileName: `/i/e`,
+        });
     });
 });
 

@@ -333,7 +333,6 @@
       });
 
       // Handle changes to all imput fields (VanillaJS)
-
       const apiEndpoints = {
         SettingsUsername: {
           endpoint: "/api/v1/user/username",
@@ -406,10 +405,12 @@
           inputElement.classList.add("is-invalid");
         }
       };
+
       // Dropzone Avatar
       document.querySelector("#dropzone-avatar-upload").addEventListener("dragover", function (event) {
         event.preventDefault();
         event.stopPropagation();
+        this.classList.add("dz-hover");
         this.style.borderColor = "#000";
         this.style.backgroundColor = "#f0f0f0";
       });
@@ -417,6 +418,7 @@
       document.querySelector("#dropzone-avatar-upload").addEventListener("dragleave", function (event) {
         event.preventDefault();
         event.stopPropagation();
+        this.classList.remove("dz-hover");
         this.style.borderColor = "#ccc";
         this.style.backgroundColor = "";
       });
@@ -424,6 +426,7 @@
       document.querySelector("#dropzone-avatar-upload").addEventListener("drop", function (event) {
         event.preventDefault();
         event.stopPropagation();
+        this.classList.remove("dz-hover");
         this.style.borderColor = "#ccc";
         this.style.backgroundColor = "";
       });
@@ -446,7 +449,6 @@
         }
       };
 
-      // Auto-fill user data (VanillaJS)
       document.addEventListener("DOMContentLoaded", async () => {
         Dropzone.autoDiscover = false;
 
@@ -515,28 +517,11 @@
                 </div>`,
         });
 
-        document.querySelector("#dropzone-avatar-upload").addEventListener("dragover", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.classList.add("dz-hover");
-        });
-
-        document.querySelector("#dropzone-avatar-upload").addEventListener("dragleave", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.classList.remove("dz-hover");
-        });
-
-        document.querySelector("#dropzone-avatar-upload").addEventListener("drop", function (event) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.classList.remove("dz-hover");
-        });
-
         document.getElementById("upload-button").addEventListener("click", function () {
           dropzone.processQueue();
         });
 
+        // Auto-fill user data (VanillaJS)
         const response = await fetch("/api/v1/user", {
           method: "GET",
           headers: {
