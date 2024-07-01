@@ -61,6 +61,17 @@
                 <div class="col d-flex flex-column">
                   <div class="card-body">
                     <h2 class="mb-4" data-translate="Events.Settings.Announce.Headline"></h2>
+                    <!-- Announce Type -->
+                     <div class="row">
+                      <div class="col-lg-5">
+                        <div class="mb-5">
+                          <label class="form-label" data-translate="Events.Settings.Announce.SelectType"></label>
+                          <select class="form-select" id="EventAnnounceSelect" onchange="handleSelectChange(this.id)">
+                            <option value="text" data-translate="Events.Settings.Announce.Text" selected></option>
+                          </select>
+                        </div>
+                      </div>
+                     </div>
                     <!-- Description Row-->
                     <div class="row">
                       <div class="col-lg-12">

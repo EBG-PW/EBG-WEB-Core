@@ -265,6 +265,10 @@
       "Announce": {
         "Headline": "Ankündigungen",
         "Textfield": "Schreibe eine Ankündigung",
+        "SelectType": "Wähle die Art der ankündigung",
+        "Select": "Bitte Auswählen",
+        "Text": "Text",
+        "Image": "Bild",
         "Placeholder": {
           "Textfield": "Hier kannst du eine Ankündigung schreiben, du kannst Styling-HTML Tags verwenden."
         }
