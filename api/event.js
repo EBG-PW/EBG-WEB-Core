@@ -5,11 +5,14 @@ const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
 const { writeOverwriteCacheKey } = require('@lib/cache');
 const { InvalidRouteJson, DBError, InvalidRouteInput, CustomError } = require('@lib/errors');
+const { streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
 const { plublicStaticCache } = require('@middleware/cacheRequest');
 const { getNextLowerDefaultGroup } = require('@lib/permission');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
 
+const Busboy = require('busboy');
+const { PassThrough } = require('stream');
 const Minio = require('minio');
 
 // Initialize MinIO client
@@ -321,12 +324,41 @@ router.post('/:id/description', verifyRequest('web.event.update.write'), limiter
     });
 });
 
+router.post('/:id/avatar', verifyRequest('web.user.avatar.write'), limiter(30), async (req, res) => {
+    const params = await ValidateUUID.validateAsync(req.params);
+    const busboy = Busboy({ headers: req.headers });
+
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        const fileName = `ea:${params.id}.jpg`;
+        const passThrough = new PassThrough();
+
+        streamToBuffer(passThrough).then((file_buffer) => {
+            const isJPG = verifyBufferIsJPG(file_buffer, 1024, 1024);
+            if (!isJPG) throw new CustomError('Invalid Image');
+            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
+                if (err) throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
+
+                const sql_response = await  projectactivities.event_update.avatar(params.id, `/i/e/${params.id}`, req.user.user_id);
+                if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+                res.json({
+                    message: 'Avatar uploaded',
+                    fileName: `/i/e/${params.id}`,
+                });
+            });
+        });
+
+        file.pipe(passThrough);
+    });
+    req.pipe(busboy);
+});
+
 router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), limiter(10), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e`, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
-    minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ea:${req.user.puuid}.jpg`], async (err) => {
+    minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ea:${params.id}.jpg`], async (err) => {
         if (err) throw new S3ErrorRead(err);
 
         res.json({

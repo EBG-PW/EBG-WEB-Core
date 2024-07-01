@@ -484,7 +484,7 @@
         Dropzone.autoDiscover = false;
 
         const dropzone = new Dropzone("#dropzone-avatar-upload", {
-          url: "/api/v1/event/avatar",
+          url: "/api/v1/event/<%= params.id %>/avatar",
           autoProcessQueue: false,
           acceptedFiles: ".jpg,.jpeg",
           maxFiles: 1,
@@ -532,10 +532,8 @@
             this.on("success", function (file, response) {
               // Remove the image from the dropzone
               this.removeFile(file);
-              //localStorage.setItem("avatar_url", response.fileName);
-              document.getElementById("Settings.Profile.AvatarIcon").style.backgroundImage = `url(${localStorage.getItem("avatar_url")})`;
-              document.getElementById("Dashboard.Profile.AvatarIcon").style.backgroundImage = `url(${localStorage.getItem("avatar_url")})`;
-              closeModal("modal-upload-avatar");
+              document.getElementById("Settings.Event.AvatarIcon").style.backgroundImage = `url(${response.fileName})`;
+              closeModal("modal-upload-eavatar");
             });
           },
           previewTemplate: `
