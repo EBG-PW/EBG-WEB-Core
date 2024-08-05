@@ -9,7 +9,7 @@
     "clearRedis": "node ./tools/clearRedis.js",
     "start": "node index.js",
     "build": "cd ./landingpage && npm run build",
-    "prisma:generate": "prisma generate"
+    "migration": "node ./database/migrations.js"
   },
   "author": "BolverBlitz",
   "license": "AGPL-3.0",
@@ -21,9 +21,6 @@
     "@middleware": "./middleware",
     "@config": "./config",
     "@e2etest": "./e2e-test/*"
-  },
-  "prisma": {
-    "schema": "orm/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.15.0",
