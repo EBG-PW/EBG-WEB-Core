@@ -19,7 +19,7 @@ const pageQuerySchema = Joi.object({
 const querySchema_team = Joi.object({
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(100).default(10),
-    includes: Joi.string().pattern(/^(settings|accounts|links|projectActivities)(,(settings|accounts|links|projectActivities))*$/).optional(),
+    includes: Joi.string().pattern(/^(settings|links|projectActivities)(,(settings|links|projectActivities))*$/).optional(),
 });
 
 router.get('/events', limiter(), plublicStaticCache(30_000, ["query"], "public_event"), async (req, res) => {
