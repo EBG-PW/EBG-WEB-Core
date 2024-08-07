@@ -261,6 +261,7 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
+      const checkboxes_disabled = true;
       const oAuthPermissions = {
         "USER:ID:READ": 1 << 1,
         "USER:ID:WRITE": 1 << 2,
@@ -404,136 +405,136 @@
               <label class="form-label" data-translate="Events.Settings.OAuth.PermissionsLine"></label>
               <div class="col">
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:ID:READ" type="checkbox" ${isChecked(c.scope, "USER:ID:READ")} />
+                  <input class="form-check-input" id="USER:ID:READ" type="checkbox" ${isChecked(c.scope, "USER:ID:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserIdRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserIdRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:ID:WRITE" type="checkbox" ${isChecked(c.scope, "USER:ID:WRITE")} />
+                  <input class="form-check-input" id="USER:ID:WRITE" type="checkbox" ${isChecked(c.scope, "USER:ID:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserIdWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserIdWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:USERNAME:READ" type="checkbox" ${isChecked(c.scope, "USER:USERNAME:READ")} />
+                  <input class="form-check-input" id="USER:USERNAME:READ" type="checkbox" ${isChecked(c.scope, "USER:USERNAME:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserUsernameRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserUsernameRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:USERNAME:WRITE" type="checkbox" ${isChecked(c.scope, "USER:USERNAME:WRITE")} />
+                  <input class="form-check-input" id="USER:USERNAME:WRITE" type="checkbox" ${isChecked(c.scope, "USER:USERNAME:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserUsernameWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserUsernameWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:EMAIL:READ" type="checkbox" ${isChecked(c.scope, "USER:EMAIL:READ")} />
+                  <input class="form-check-input" id="USER:EMAIL:READ" type="checkbox" ${isChecked(c.scope, "USER:EMAIL:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserEmailRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserEmailRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:EMAIL:WRITE" type="checkbox" ${isChecked(c.scope, "USER:EMAIL:WRITE")} />
+                  <input class="form-check-input" id="USER:EMAIL:WRITE" type="checkbox" ${isChecked(c.scope, "USER:EMAIL:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserEmailWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserEmailWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:REALNAME:READ" type="checkbox" ${isChecked(c.scope, "USER:REALNAME:READ")} />
+                  <input class="form-check-input" id="USER:REALNAME:READ" type="checkbox" ${isChecked(c.scope, "USER:REALNAME:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserRealnameRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserRealnameRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:REALNAME:WRITE" type="checkbox" ${isChecked(c.scope, "USER:REALNAME:WRITE")} />
+                  <input class="form-check-input" id="USER:REALNAME:WRITE" type="checkbox" ${isChecked(c.scope, "USER:REALNAME:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserRealnameWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserRealnameWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:BIO:READ" type="checkbox" ${isChecked(c.scope, "USER:BIO:READ")} />
+                  <input class="form-check-input" id="USER:BIO:READ" type="checkbox" ${isChecked(c.scope, "USER:BIO:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserBioRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserBioRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:BIO:WRITE" type="checkbox" ${isChecked(c.scope, "USER:BIO:WRITE")} />
+                  <input class="form-check-input" id="USER:BIO:WRITE" type="checkbox" ${isChecked(c.scope, "USER:BIO:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserBioWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserBioWrite")}</span>
                 </label>
               </div>
               <div class="col">
                 <label class="form-check">
-                  <input class="form-check-input" id="EVENTS:LIST:READ" type="checkbox" ${isChecked(c.scope, "EVENTS:LIST:READ")} />
+                  <input class="form-check-input" id="EVENTS:LIST:READ" type="checkbox" ${isChecked(c.scope, "EVENTS:LIST:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.EventsListRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.EventsListRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="PROJECTS:LIST:READ" type="checkbox" ${isChecked(c.scope, "PROJECTS:LIST:READ")} />
+                  <input class="form-check-input" id="PROJECTS:LIST:READ" type="checkbox" ${isChecked(c.scope, "PROJECTS:LIST:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.ProjectsListRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.ProjectsListRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:AVATAR:READ" type="checkbox" ${isChecked(c.scope, "USER:AVATAR:READ")} />
+                  <input class="form-check-input" id="USER:AVATAR:READ" type="checkbox" ${isChecked(c.scope, "USER:AVATAR:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserAvatarRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserAvatarRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:AVATAR:WRITE" type="checkbox" ${isChecked(c.scope, "USER:AVATAR:WRITE")} />
+                  <input class="form-check-input" id="USER:AVATAR:WRITE" type="checkbox" ${isChecked(c.scope, "USER:AVATAR:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserAvatarWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserAvatarWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:GROUP:READ" type="checkbox" ${isChecked(c.scope, "USER:GROUP:READ")} />
+                  <input class="form-check-input" id="USER:GROUP:READ" type="checkbox" ${isChecked(c.scope, "USER:GROUP:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserGroupRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserGroupRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:GROUP:WRITE" type="checkbox" ${isChecked(c.scope, "USER:GROUP:WRITE")} />
+                  <input class="form-check-input" id="USER:GROUP:WRITE" type="checkbox" ${isChecked(c.scope, "USER:GROUP:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserGroupWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserGroupWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:ADDRESS:READ" type="checkbox" ${isChecked(c.scope, "USER:ADDRESS:READ")} />
+                  <input class="form-check-input" id="USER:ADDRESS:READ" type="checkbox" ${isChecked(c.scope, "USER:ADDRESS:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserAddressRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserAddressRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="USER:ADDRESS:WRITE" type="checkbox" ${isChecked(c.scope, "USER:ADDRESS:WRITE")} />
+                  <input class="form-check-input" id="USER:ADDRESS:WRITE" type="checkbox" ${isChecked(c.scope, "USER:ADDRESS:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.UserAddressWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.UserAddressWrite")}</span>
                 </label>
               </div>
               <div class="col">
                 <label class="form-check">
-                  <input class="form-check-input" id="SETTINGS:DESIGN:READ" type="checkbox" ${isChecked(c.scope, "SETTINGS:DESIGN:READ")} />
+                  <input class="form-check-input" id="SETTINGS:DESIGN:READ" type="checkbox" ${isChecked(c.scope, "SETTINGS:DESIGN:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.SettingsDesignRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.SettingsDesignRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="SETTINGS:DESIGN:WRITE" type="checkbox" ${isChecked(c.scope, "SETTINGS:DESIGN:WRITE")} />
+                  <input class="form-check-input" id="SETTINGS:DESIGN:WRITE" type="checkbox" ${isChecked(c.scope, "SETTINGS:DESIGN:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.SettingsDesignWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.SettingsDesignWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="SETTINGS:LANG:READ" type="checkbox" ${isChecked(c.scope, "SETTINGS:LANG:READ")} />
+                  <input class="form-check-input" id="SETTINGS:LANG:READ" type="checkbox" ${isChecked(c.scope, "SETTINGS:LANG:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.SettingsLanguageRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.SettingsLanguageRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="SETTINGS:LANG:WRITE" type="checkbox" ${isChecked(c.scope, "SETTINGS:LANG:WRITE")} />
+                  <input class="form-check-input" id="SETTINGS:LANG:WRITE" type="checkbox" ${isChecked(c.scope, "SETTINGS:LANG:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.SettingsLanguageWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.SettingsLanguageWrite")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="INTEGRATION:TELEGRAM:READ" type="checkbox" ${isChecked(c.scope, "INTEGRATION:TELEGRAM:READ")} />
+                  <input class="form-check-input" id="INTEGRATION:TELEGRAM:READ" type="checkbox" ${isChecked(c.scope, "INTEGRATION:TELEGRAM:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.IntegrationTelegramRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.IntegrationTelegramRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="INTEGRATION:DISCORD:READ" type="checkbox" ${isChecked(c.scope, "INTEGRATION:DISCORD:READ")} />
+                  <input class="form-check-input" id="INTEGRATION:DISCORD:READ" type="checkbox" ${isChecked(c.scope, "INTEGRATION:DISCORD:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.IntegrationDiscordRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.IntegrationDiscordRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="NOTIFICATIONS:READ" type="checkbox" ${isChecked(c.scope, "NOTIFICATIONS:READ")} />
+                  <input class="form-check-input" id="NOTIFICATIONS:READ" type="checkbox" ${isChecked(c.scope, "NOTIFICATIONS:READ")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.NotificationsRead")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.NotificationsRead")}</span>
                 </label>
                 <label class="form-check">
-                  <input class="form-check-input" id="NOTIFICATIONS:WRITE" type="checkbox" ${isChecked(c.scope, "NOTIFICATIONS:WRITE")} />
+                  <input class="form-check-input" id="NOTIFICATIONS:WRITE" type="checkbox" ${isChecked(c.scope, "NOTIFICATIONS:WRITE")} ${checkboxes_disabled ? "disabled" : ""} />
                   <span class="form-check-label">${i18next.t("OAuth.Permission.Name.NotificationsWrite")}</span>
                   <span class="form-check-description">${i18next.t("OAuth.Permission.Description.NotificationsWrite")}</span>
                 </label>
