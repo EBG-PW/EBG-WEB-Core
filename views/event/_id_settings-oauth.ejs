@@ -306,6 +306,56 @@
         return selectedScope;
       };
 
+      // Handle changes to all imput fields (VanillaJS)
+      const apiEndpoints = {
+        OAuthClientName: {
+          endpoint: "/api/v1/oauthapp/<%= params.id %>/oauthclient/name",
+          method: "POST",
+          field: "event_name",
+          value: "raw",
+        },
+        OAuthClientRedirect: {
+          endpoint: "/api/v1/oauthapp/<%= params.id %>/oauthclient/redirect_uri",
+          method: "POST",
+          field: "event_redirect_uri",
+          value: "raw",
+        },
+      };
+
+      const handleInputChange = async (id) => {
+        const inputElement = document.getElementById(id);
+        let value_send;
+
+        if (apiEndpoints[id].value == "raw") {
+          value_send = inputElement.value;
+        } else if (apiEndpoints[id].value == "bool") {
+          value_send = inputElement.checked;
+        }
+
+        const response = await fetch(apiEndpoints[id].endpoint, {
+          method: apiEndpoints[id].method,
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body: JSON.stringify({
+            [apiEndpoints[id].field]: value_send,
+          }),
+        });
+
+        if (response.ok) {
+          inputElement.classList.remove("is-invalid");
+          inputElement.classList.add("is-valid");
+
+          setTimeout(() => {
+            inputElement.classList.remove("is-valid");
+          }, 3000);
+        } else {
+          inputElement.classList.add("is-invalid");
+        }
+      };
+
       document.getElementById("NewoAuthSubmitBtn").addEventListener("click", async () => {
         const name = document.getElementById("NewOAuthClientName").value;
         const redirect_uri = document.getElementById("NewOAuthClientRedirect").value;
@@ -392,13 +442,13 @@
               </div>
               <div class="col">
                 <label class="form-label">${i18next.t("Events.Settings.OAuth.Name")}</label>
-                <input type="text" id="NewOAuthClientName" placeholder="${i18next.t("Events.Settings.OAuth.Sample")}" value="${c.name}" class="form-control" />
+                <input type="text" id="OAuthClientName" onchange="handleInputChange(this.id)" placeholder="${i18next.t("Events.Settings.OAuth.Sample")}" value="${c.name}" class="form-control" />
               </div>
             </div>
             <div class="row mb-3 align-items-end">
               <div class="col">
                 <label class="form-label">${i18next.t("Events.Settings.OAuth.Redirect")}</label>
-                <input type="text" id="NewOAuthClientRedirect" class="form-control" placeholder="https://example.com/oauth" value="${c.redirect_url}" />
+                <input type="text" id="OAuthClientRedirect" onchange="handleInputChange(this.id)" class="form-control" placeholder="https://example.com/oauth" value="${c.redirect_url}" />
               </div>
             </div>
             <div class="row mb-3">

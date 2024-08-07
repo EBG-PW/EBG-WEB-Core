@@ -17,6 +17,14 @@ const ValidateUUID = Joi.object({
     projectactivities_puuid: Joi.string().uuid().required()
 });
 
+const ValidateUpdateName = Joi.object({
+    name: Joi.fullysanitizedString().min(3).max(128).required()
+});
+
+const validateUpdateRedirectURI = Joi.object({
+    redirect_uri: Joi.string().uri().required()
+});
+
 const ValidateCreateOAuthApp = Joi.object({
     name: Joi.fullysanitizedString().min(3).max(128).required(),
     redirect_uri: Joi.string().uri().required(),
@@ -30,6 +38,38 @@ router.get('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oau
     res.json({
         message: "Has OAuth Client",
         result: has_oauth
+    });
+});
+
+router.post('/:projectactivities_puuid/oauthclient/avatar_url', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+
+});
+
+router.post('/:projectactivities_puuid/oauthclient/name', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    const value = await ValidateUpdateName.validateAsync(await req.json());
+
+    await projectactivities.oAuth.updateName(param.projectactivities_puuid, value.name);
+    res.status(200);
+    res.json({
+        message: "OAuth Client Name Updated",
+        result: {
+            name: value.name
+        }
+    });
+});
+
+router.post('/:projectactivities_puuid/oauthclient/redirect_uri', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    const value = await validateUpdateRedirectURI.validateAsync(await req.json());
+
+    await projectactivities.oAuth.updateRedirectURI(param.projectactivities_puuid, value.redirect_uri);
+    res.status(200);
+    res.json({
+        message: "OAuth Client Redirect URI Updated",
+        result: {
+            redirect_uri: value.redirect_uri
+        }
     });
 });
 
@@ -63,6 +103,15 @@ router.post('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oa
             redirect_uri: value.redirect_uri,
             scope: value.scope
         }
+    });
+});
+
+router.delete('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    await projectactivities.oAuth.deleteClient(param.projectactivities_puuid);
+    res.status(200);
+    res.json({
+        message: "OAuth Client Deleted"
     });
 });
 
