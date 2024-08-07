@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { limiter } = require('@middleware/limiter');
 const HyperExpress = require('hyper-express');
-const { public } = require('@lib/prisma');
+const { public } = require('@lib/postgres');
 const { plublicStaticCache } = require('@middleware/cacheRequest');
 const { fetchSolarData, fetchShellyMeterVData } = require('@lib/prometheus');
 const router = new HyperExpress.Router();

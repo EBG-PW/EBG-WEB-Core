@@ -49,6 +49,16 @@ module.exports = {
                 "app"
             ]
         },
+        // The admin group is the default group for administrators.
+        "admin": {
+            "permissions": [
+                "service.*",
+                "app.admin.*",
+            ],
+            "inherit": [
+                "member"
+            ]
+        },
         // The party leader groups, all derived from basic admin group.
         "kassierer": {
             "permissions": [
@@ -73,16 +83,6 @@ module.exports = {
                 "admin"
             ],
             "is_team": true
-        },
-        // The admin group is the default group for administrators.
-        "admin": {
-            "permissions": [
-                "service.*",
-                "app.admin.*",
-            ],
-            "inherit": [
-                "member"
-            ]
         },
         // The root group with general permissions.
         "root": {
