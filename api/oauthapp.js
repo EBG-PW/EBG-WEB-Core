@@ -18,11 +18,11 @@ const ValidateUUID = Joi.object({
 });
 
 const ValidateUpdateName = Joi.object({
-    name: Joi.fullysanitizedString().min(3).max(128).required()
+    event_name: Joi.fullysanitizedString().min(3).max(128).required()
 });
 
 const validateUpdateRedirectURI = Joi.object({
-    redirect_uri: Joi.string().uri().required()
+    event_redirect_uri: Joi.string().uri().required()
 });
 
 const ValidateCreateOAuthApp = Joi.object({
@@ -49,13 +49,11 @@ router.post('/:projectactivities_puuid/oauthclient/name', verifyRequest('web.eve
     const param = await ValidateUUID.validateAsync(req.params);
     const value = await ValidateUpdateName.validateAsync(await req.json());
 
-    await projectactivities.oAuth.updateName(param.projectactivities_puuid, value.name);
+    await projectactivities.oAuth.updateName(param.projectactivities_puuid, value.event_name);
     res.status(200);
     res.json({
         message: "OAuth Client Name Updated",
-        result: {
-            name: value.name
-        }
+        result: value.event_name
     });
 });
 
@@ -63,13 +61,11 @@ router.post('/:projectactivities_puuid/oauthclient/redirect_uri', verifyRequest(
     const param = await ValidateUUID.validateAsync(req.params);
     const value = await validateUpdateRedirectURI.validateAsync(await req.json());
 
-    await projectactivities.oAuth.updateRedirectURI(param.projectactivities_puuid, value.redirect_uri);
+    await projectactivities.oAuth.updateRedirectURL(param.projectactivities_puuid, value.event_redirect_uri);
     res.status(200);
     res.json({
         message: "OAuth Client Redirect URI Updated",
-        result: {
-            redirect_uri: value.redirect_uri
-        }
+        result: value.event_redirect_uri
     });
 });
 
