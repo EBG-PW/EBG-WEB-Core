@@ -474,14 +474,13 @@
                 Secret: <kbd class="click-to-copy" onclick="copyToClipboard('${c.client_secret}')">${c.client_secret}</kbd>
             </div>
           </div>
-          <hr>`
-              : ""
+          <hr>` : ""
           }
               <div class="col-auto">
                 <div class="row align-items-center">
-                  <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Event.AvatarIcon" style="background-image: url()"></span></div>
-                  <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-upload-eavatar" class="btn">${i18next.t("Events.Settings.Button.SetAvatarIcon")}</a></div>
-                  <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-danger-delete-eavatar" class="btn btn-ghost-danger" id="DelEAvatarIcon">${i18next.t("Events.Settings.Button.DeleteAvatarIcon")}</a></div>
+                  <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Event.AvatarIcon" style="background-image: url(${c.avatar_url})"></span></div>
+                  <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-upload-oavatar" class="btn">${i18next.t("Events.Settings.Button.SetAvatarIcon")}</a></div>
+                  <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-danger-delete-oavatar" class="btn btn-ghost-danger" id="DelEAvatarIcon">${i18next.t("Events.Settings.Button.DeleteAvatarIcon")}</a></div>
                 </div>
               </div>
             </div>
@@ -643,8 +642,8 @@
             </div>`;
       };
 
-      // Delete Event Avatar
-      const deleteEAvatar = async () => {
+      // Delete OAuth Avatar
+      const deleteOAvatar = async () => {
         const response = await fetch("/api/v1/oauthapp/<%= params.id %>/oauthclient/avatar", {
           method: "DELETE",
           headers: {

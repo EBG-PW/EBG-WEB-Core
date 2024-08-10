@@ -65,4 +65,25 @@ router.get('/e/:puuid', limiter(1), async (req, res) => {
     stream.pipe(res);
 });
 
+router.get('/o', limiter(1), async (req, res) => {
+    res.header('Content-Type', 'image/jpeg');
+    res.send(defaultAvatar);
+});
+
+router.get('/o/:puuid', limiter(1), async (req, res) => {
+    const { puuid } = await uuidCheck.validateAsync(req.params);
+
+    const stream = await new Promise((resolve, reject) => {
+        minioClient.getObject(process.env.S3_WEB_BUCKET, `oa:${puuid}.jpg`, (err, stream) => {
+            if (err) {
+                reject(new S3ErrorRead(err, process.env.S3_WEB_BUCKET, `oa:${puuid}s.jpg`).withStatus(404));
+            } else {
+                resolve(stream);
+            }
+        });
+    });
+
+    stream.pipe(res);
+});
+
 module.exports = router;
