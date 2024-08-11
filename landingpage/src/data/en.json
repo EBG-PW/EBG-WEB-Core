@@ -27,6 +27,13 @@
       "icon": "infra"
     }
   },
+  "solar": {
+    "heading": "TODO",
+    "text": "Insert inspirational text here",
+    "solar": "Solar",
+    "server": "Server",
+    "grid": "Grid"
+  },
   "events": {
     "heading": "Events",
     "click": "More infos"

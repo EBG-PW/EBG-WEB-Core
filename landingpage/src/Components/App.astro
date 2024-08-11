@@ -1,9 +1,10 @@
 ---
 import Banner from "./Banner.astro";
 import Goals from "./Goals.astro";
+import Solar from "./Solar.astro";
 import Events from "./Events.astro";
 import Team from "./Team.astro";
-import Projects from "./Projects.astro";
+// import Projects from "./Projects.astro";
 import Footer from "./Footer.astro";
 
 import "@fontsource-variable/inter";
@@ -46,9 +47,10 @@ if (!import.meta.env.API_URL) {
     <LanguageSwapper lang={translation.lang} />
     <Banner translation={translation.banner} />
     <Goals translation={translation.goals} />
+    <Solar translation={translation.solar} />
     <Events translation={translation.events} />
     <Team translation={translation.team} />
-    <Projects translation={translation.projects} />
+    <!-- <Projects translation={translation.projects} /> -->
 
     <Footer translation={translation.footer} />
   </body>

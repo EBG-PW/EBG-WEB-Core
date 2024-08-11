@@ -27,6 +27,13 @@
       "icon": "infra"
     }
   },
+  "solar": {
+    "heading": "Solar TODO (Solarstrom)? oder so",
+    "text": "Inspirierenden Text hier einfügen. ",
+    "solar": "Solar",
+    "server": "Server",
+    "grid": "Netz"
+  },
   "events": {
     "heading": "Veranstaltungen",
     "click": "Mehr Infos"

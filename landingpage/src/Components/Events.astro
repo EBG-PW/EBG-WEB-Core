@@ -121,7 +121,7 @@ const events: EventDTO[] =
     }
   }
 </style>
-
+{events.length > 0 ?
 <div class="wrapper">
   <div class="content" id="events">
     <Heading level={2}>{translation.heading}</Heading>
@@ -157,4 +157,4 @@ const events: EventDTO[] =
       }
     </div>
   </div>
-</div>
+</div> : null }

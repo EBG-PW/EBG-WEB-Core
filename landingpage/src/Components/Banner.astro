@@ -198,7 +198,7 @@ import staticData from "../data/static.json";
   </div>
 </div>
 
-<script define:vars={{ api_url: import.meta.env.API_URL }}>
+<script>
   const bg = document.getElementById("bg");
 
   document.addEventListener("scroll", () => {
@@ -210,66 +210,9 @@ import staticData from "../data/static.json";
   });
 
   document.getElementById("explore")?.addEventListener("click", () => {
-    console.log(document.getElementById("goals"));
     window.scrollTo({
       top: document.getElementById("goals")?.getBoundingClientRect().top ?? 1,
       behavior: "smooth",
     });
   });
-
-  const animationSpeeds = {
-    w1: 15,
-    w2: 11,
-    w3: 7,
-  };
-
-  let speed = 0.3;
-
-  async function fetchPower() {
-    if (document.visibilityState === "visible") {
-      const fetchUrl = `${api_url}/api/v1/public/power`;
-
-      try {
-        const data = await (await fetch(fetchUrl)).json();
-
-        const totalPower = data.power_a + data.power_b + data.power_c;
-        const solarPower = data.solar;
-
-        if (totalPower > 0) {
-          speed = Math.max(0.5, Math.min(1, solarPower / totalPower)) * 2;
-        }
-      } catch (e) {
-        speed = 0.3;
-        console.warn(e);
-      }
-    }
-
-    for (const use in animationSpeeds) {
-      if (Object.hasOwnProperty.call(animationSpeeds, use)) {
-        const baseSpeed = animationSpeeds[use];
-        const element = document.getElementById(use);
-
-        const calculatedSpeed = baseSpeed / speed;
-        element.style.animationDuration = calculatedSpeed + "s";
-        element.style.animationPlayState = "running";
-      }
-    }
-  }
-
-  // function applyNewSpeed(e) {
-  //   const element = e;
-  //   const baseSpeed = animationSpeeds[e.id];
-
-  //   const calculatedSpeed = baseSpeed / speed;
-  //   element.style.animationDuration = calculatedSpeed + "s";
-
-  //   console.log(calculatedSpeed);
-  //   console.log(baseSpeed);
-
-  //   setTimeout(() => applyNewSpeed(element), calculatedSpeed * 1000);
-  //   console.log("new speed applied");
-  // }
-
-  // setInterval(fetchPower, 4500);
-  fetchPower();
 </script>

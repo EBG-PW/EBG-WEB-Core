@@ -159,7 +159,7 @@ const team: TeamDTO[] =
     }
   }
 </style>
-
+{team.length > 0 ?
 <div class="wrapper">
   <div class="content" id="team">
     <Heading level={2}>{translation.heading}</Heading>
@@ -219,3 +219,4 @@ const team: TeamDTO[] =
     </div>
   </div>
 </div>
+: null }

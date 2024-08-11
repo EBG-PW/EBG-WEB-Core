@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.5.4",
+    "@astrojs/preact": "^3.5.1",
     "@fontsource-variable/inter": "^5.0.17",
     "astro": "^4.4.0",
     "astro-compress": "^2.2.26",
     "astro-icon": "^1.1.0",
+    "preact": "^10.23.1",
     "sass": "^1.71.0",
     "typescript": "^5.3.3"
   }
