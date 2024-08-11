@@ -4,11 +4,24 @@ const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
 const { sendMail } = require('@lib/queues');
-const { generateUrlPath } = require('@lib/utils');
+const { generateUrlPath, streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
-const { InvalidRouteInput, DBError, InvalidLogin } = require('@lib/errors');
+const Busboy = require('busboy');
+const { PassThrough } = require('stream');
+const { InvalidRouteInput, DBError, InvalidLogin, CustomError, S3ErrorWrite, S3ErrorRead, } = require('@lib/errors');
 const router = new HyperExpress.Router();
+
+const Minio = require('minio');
+
+// Initialize MinIO client
+const minioClient = new Minio.Client({
+    endPoint: process.env.S3_WEB_ENDPOINT,
+    port: parseInt(process.env.S3_WEB_PORT),
+    useSSL: process.env.S3_WEB_USESSL === 'true',
+    accessKey: process.env.S3_WEB_ACCESSKEY,
+    secretKey: process.env.S3_WEB_SECRETKEY
+});
 
 /* Plugin info*/
 const PluginName = 'User'; //This plugins name
@@ -222,16 +235,6 @@ router.post('/public', verifyRequest('web.user.public.write'), limiter(10), asyn
     });
 });
 
-router.delete('/avatar', verifyRequest('web.user.avatar.write'), limiter(10), async (req, res) => {
-    const sql_response = await user.update.avatar(req.user.user_id, null);
-    if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-
-    res.status(200);
-    res.json({
-        message: 'Avatar deleted',
-    });
-});
-
 router.get('/links', verifyRequest('web.user.links.read'), limiter(2), async (req, res) => {
     const sql_response = await user.getlinks(req.user.user_id);
     if (!sql_response) throw new DBError('User.Get.Links', 1, typeof 1, sql_response, typeof sql_response);
@@ -265,6 +268,51 @@ router.delete('/links/:platform', verifyRequest('web.user.links.delete'), limite
     res.json({
         message: 'Link deleted',
         platform: req.params.platform,
+    });
+});
+
+router.post('/avatar', verifyRequest('web.user.avatar.write'), limiter(30), async (req, res) => {
+    const busboy = Busboy({ headers: req.headers });
+
+    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        const fileName = `ua:${req.user.puuid}.jpg`;
+        const passThrough = new PassThrough();
+
+        streamToBuffer(passThrough).then((file_buffer) => {
+            const isJPG = verifyBufferIsJPG(file_buffer, 1024, 1024);
+            if (!isJPG) throw new CustomError('Invalid Image');
+            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
+                if (err) throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
+
+                const sql_response = await user.update.avatar(req.user.user_id, `/i/a/${req.user.puuid}`);
+                if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+                await delWebtoken(req.authorization);
+
+                res.json({
+                    message: 'Avatar uploaded',
+                    fileName: `/i/a/${req.user.puuid}`,
+                });
+            });
+        });
+
+        file.pipe(passThrough);
+    });
+    req.pipe(busboy);
+});
+
+router.delete('/avatar', verifyRequest('web.user.avatar.write'), limiter(10), async (req, res) => {
+    const sql_response = await user.update.avatar(req.user.user_id, `/i/a`);
+    if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ua:${req.user.puuid}.jpg`], async (err) => {
+        if (err) throw new S3ErrorRead(err);
+
+        await delWebtoken(req.authorization, process.env.S3_WEB_BUCKET, `ua:${req.user.puuid}.jpg`);
+
+        res.json({
+            message: 'Avatar uploaded',
+            fileName: `/i/a`,
+        });
     });
 });
 

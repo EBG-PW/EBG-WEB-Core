@@ -120,9 +120,18 @@ const changeLanguage = async (language) => {
 
 const closeModal = (modal_id) => {
     const modalElement = document.getElementById(modal_id);
-    modalElement.style.display = 'none';
-    document.body.classList.remove('modal-open');
-    document.querySelector('.modal-backdrop').remove();
+    const modalInstance = bootstrap.Modal.getInstance(modalElement); // Retrieve the modal instance
+    if (modalInstance) {
+        modalInstance.hide(); // Hide the modal using Bootstrap's method
+    }
+};
+
+const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(function () {
+        alert('Copied to clipboard: ' + text);
+    }, function (err) {
+        console.error('Could not copy text: ', err);
+    });
 }
 
 const capitalizeFirstLetter = (string) => {

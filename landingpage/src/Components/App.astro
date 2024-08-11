@@ -1,4 +1,5 @@
 ---
+import Header from "./Header.astro";
 import Banner from "./Banner.astro";
 import Goals from "./Goals.astro";
 import Solar from "./Solar.astro";
@@ -7,16 +8,18 @@ import Team from "./Team.astro";
 // import Projects from "./Projects.astro";
 import Footer from "./Footer.astro";
 
+import { SEO } from "astro-seo";
 import "@fontsource-variable/inter";
 
 // TRANSLATION
 const { translation = {} } = Astro.props;
 import staticData from "../data/static.json";
-import LanguageSwapper from "./LanguageSwapper.astro";
 
 if (!import.meta.env.API_URL) {
   throw new Error("required env file API_URL not set");
 }
+
+const lang = translation.lang;
 ---
 
 <html lang="en">
@@ -26,7 +29,30 @@ if (!import.meta.env.API_URL) {
     <link rel="icon" type="image/ico" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>{staticData.name}</title>
+
+    <!-- SEO magic goes here -->
+    <SEO
+      title={staticData.name}
+      description={translation.SEO.description}
+      openGraph={{
+        basic: {
+          title: staticData.name,
+          type: "website",
+          image: "https://ebg.pw/dist/logo-transparent.png",
+        },
+      }}
+      extend={{
+        link: [
+          {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            href: "/apple-touch-icon.png",
+          },
+        ],
+        meta: [],
+      }}
+    />
+
     <style lang="scss" is:global>
       * {
         margin: 0;
@@ -44,7 +70,7 @@ if (!import.meta.env.API_URL) {
     </style>
   </head>
   <body>
-    <LanguageSwapper lang={translation.lang} />
+    <Header translation={translation.header} lang={lang} />
     <Banner translation={translation.banner} />
     <Goals translation={translation.goals} />
     <Solar translation={translation.solar} />

@@ -119,6 +119,9 @@
       "AccountHeadline": "Account Einstellungen",
       "PasswordHeadline": "Passwort Einstellungen",
       "PublicHeadline": "Privatsphäre Einstellungen",
+      "AvatarHeadline": "Avatar Hochladen",
+      "AvatarUploadArea": "Bereich zum Hochladen des Avatars",
+      "AvatarDragHere": "Ziehe das Bild hierher oder klicke um es hochzuladen",
       "Username": "Benutzername",
       "Email": "E-Mail Adresse",
       "FirstName": "Vorname",
@@ -132,7 +135,9 @@
       "Button": {
         "SetPassword": "Passwort ändern",
         "PrivacyActive": "Privatsphäre aktiviert",
-        "PrivacyDeactive": "Privatsphäre deaktiviert"
+        "PrivacyDeactive": "Privatsphäre deaktiviert",
+        "Upload": "Hochladen",
+        "Cancel": "Abbrechen"
       },
       "Error": {
         "Password": {
@@ -180,8 +185,9 @@
     },
     "Profile": {
       "AvatarIcon": "Avatar Icon",
-      "SetAvatarIcon": "NOT IMPLEMENTED",
-      "DeleteAvatarIcon": "Avatar löschen"
+      "SetAvatarIcon": "Avatar Hochladen",
+      "DeleteAvatarIcon": "Avatar löschen",
+      "AvatarDelete": "Bist du dir sicher, dass du dein Avatar löschen möchtest? Dieser Vorgang kann nicht rückgängig gemacht werden."
     },
     "Integrations": {
       "IntegrationsHeadline": "Integrationen",
@@ -246,76 +252,35 @@
     },
     "Settings": {
       "Button": {
+        "SetAvatarIcon": "Event Avatar setzen",
+        "DeleteAvatarIcon": "Event Avatar löschen",
         "Link": "Einstellungen"
       },
       "Title": "Veranstaltungs Einstellungen",
       "Site": {
         "General": "Allgemeine Einstellungen",
+        "Announce": "Ankündigungen",
         "OAuth": "OAuth Einstellungen"
+      },
+      "Announce": {
+        "Headline": "Ankündigungen",
+        "Textfield": "Schreibe eine Ankündigung",
+        "SelectType": "Wähle die Art der ankündigung",
+        "Select": "Bitte Auswählen",
+        "Text": "Text",
+        "Image": "Bild",
+        "Placeholder": {
+          "Textfield": "Hier kannst du eine Ankündigung schreiben, du kannst Styling-HTML Tags verwenden."
+        }
       },
       "OAuth": {
         "Create": "OAuth Client Erstellen",
         "Name": "OAuth Client Name",
-        "Sample": "oauth-client",
+        "NewClientCreated": "OAuth Client erfolgreich erstellt (Wird nur 1 mal angezeigt, klicke auf den Text um ihn zu kopieren):",
+        "Sample": "Oauth-client",
         "Redirect": "Redirect URI",
         "PermissionsLine": "Berechtigungen",
-        "Permission": {
-          "Title": "Berechtigungen",
-          "Name": {
-            "UserIdRead": "Nutzer ID Lesen",
-            "UserIdWrite": "Nutzer ID Schreiben",
-            "UserUsernameRead": "Nutzername Lesen",
-            "UserUsernameWrite": "Nutzername Schreiben",
-            "UserEmailRead": "Email Adresse Lesen",
-            "UserEmailWrite": "Email Adresse Schreiben",
-            "UserRealnameRead": "Klarname Lesen",
-            "UserRealnameWrite": "Klarname Schreiben",
-            "UserBioRead": "Biographie Lesen",
-            "UserBioWrite": "Biographie Schreiben",
-            "UserAvatarRead": "Avatar Lesen",
-            "UserAvatarWrite": "Avatar Verändern",
-            "UserGroupRead": "Gruppe Lesen",
-            "UserGroupWrite": "Gruppe Schreiben",
-            "UserAddressRead": "Adresse Lesen",
-            "UserAddressWrite": "Adresse Schreiben",
-            "SettingsDesignRead": "Einstellungsdesign Lesen",
-            "SettingsDesignWrite": "Einstellungsdesign Schreiben",
-            "EventsListRead": "Veranstaltungsliste Lesen",
-            "ProjectsListRead": "Projektliste Lesen",
-            "IntegrationTelegramRead": "Telegram Intentität Lesen",
-            "IntegrationDiscordRead": "Discord Intentität Lesen",
-            "NotificationsRead": "Benachrichtigungen Empfangen",
-            "NotificationsWrite": "Benachrichtigungen Senden"
-          },
-          "Description": {
-            "UserIdRead": "Kann die Nutzer einzigartige ID lesen",
-            "UserIdWrite": "Kann die Nutzer einzigartige ID ändern",
-            "UserUsernameRead": "Kann den Nutzernamen lesen",
-            "UserUsernameWrite": "Kann den Nutzernamen ändern",
-            "UserEmailRead": "Kann die E-Mail Adresse lesen",
-            "UserEmailWrite": "Kann die E-Mail Adresse ändern",
-            "UserRealnameRead": "Kann den Klarname lesen",
-            "UserRealnameWrite": "Kann den Klarname ändern",
-            "UserBioRead": "Kann die Biographie lesen",
-            "UserBioWrite": "Kann die Biographie ändern",
-            "UserAvatarRead": "Kann den Avatar lesen",
-            "UserAvatarWrite": "Kann den Avatar ändern",
-            "UserGroupRead": "Kann die Berechtigungsgruppe lesen",
-            "UserGroupWrite": "Kann die Berechtigungsgruppe ändern",
-            "UserAddressRead": "Kann die Adresse lesen",
-            "UserAddressWrite": "Kann die Adresse ändern",
-            "SettingsDesignRead": "Kann das Einstellungsdesign lesen",
-            "SettingsDesignWrite": "Kann das Einstellungsdesign ändern",
-            "SettingsLanguageRead": "Kann die Sprache lesen",
-            "SettingsLanguageWrite": "Kann die Sprache ändern",
-            "EventsListRead": "Kann die Veranstaltungsliste lesen",
-            "ProjectsListRead": "Kann die Projektliste lesen",
-            "IntegrationTelegramRead": "Kann die Telegram Intentität lesen",
-            "IntegrationDiscordRead": "Kann die Discord Intentität lesen",
-            "NotificationsRead": "Kann deine Benachrichtigungen lesen",
-            "NotificationsWrite": "Kann dir Benachrichtigungen senden"
-          }
-        }
+        "AddoAuthClient": "OAuth Client hinzufügen"
       }
     }
   },
@@ -349,8 +314,8 @@
         "UserGroupWrite": "Gruppe Schreiben",
         "UserAddressRead": "Adresse Lesen",
         "UserAddressWrite": "Adresse Schreiben",
-        "SettingsDesignRead": "Einstellungsdesign Lesen",
-        "SettingsDesignWrite": "Einstellungsdesign Schreiben",
+        "SettingsDesignRead": "Design Lesen",
+        "SettingsDesignWrite": "Design Schreiben",
         "SettingsLanguageRead": "Sprache Lesen",
         "SettingsLanguageWrite": "Sprache Schreiben",
         "EventsListRead": "Veranstaltungsliste Lesen",
@@ -361,32 +326,32 @@
         "NotificationsWrite": "Benachrichtigungen Senden"
       },
       "Description": {
-        "UserIdRead": "Die Anwendung kann die Nutzer einzigartige ID lesen",
-        "UserIdWrite": "Die Anwendung kann die Nutzer einzigartige ID ändern",
-        "UserUsernameRead": "Die Anwendung kann den Nutzernamen lesen",
-        "UserUsernameWrite": "Die Anwendung kann den Nutzernamen ändern",
-        "UserEmailRead": "Die Anwendung kann die E-Mail Adresse lesen",
-        "UserEmailWrite": "Die Anwendung kann die E-Mail Adresse ändern",
-        "UserRealnameRead": "Die Anwendung kann den Klarname lesen",
-        "UserRealnameWrite": "Die Anwendung kann den Klarname ändern",
-        "UserBioRead": "Die Anwendung kann die Biographie lesen",
-        "UserBioWrite": "Die Anwendung kann die Biographie ändern",
-        "UserAvatarRead": "Die Anwendung kann den Avatar lesen",
-        "UserAvatarWrite": "Die Anwendung kann den Avatar ändern",
-        "UserGroupRead": "Die Anwendung kann die Berechtigungsgruppe lesen",
-        "UserGroupWrite": "Die Anwendung kann die Berechtigungsgruppe ändern",
-        "UserAddressRead": "Die Anwendung kann die Adresse lesen",
-        "UserAddressWrite": "Die Anwendung kann die Adresse ändern",
-        "SettingsDesignRead": "Die Anwendung kann das Einstellungsdesign lesen",
-        "SettingsDesignWrite": "Die Anwendung kann das Einstellungsdesign ändern",
-        "SettingsLanguageRead": "Die Anwendung kann die Sprache lesen",
-        "SettingsLanguageWrite": "Die Anwendung kann die Sprache ändern",
-        "EventsListRead": "Die Anwendung kann die Veranstaltungsliste lesen",
-        "ProjectsListRead": "Die Anwendung kann die Projektliste lesen",
-        "IntegrationTelegramRead": "Die Anwendung kann die Telegram Intentität lesen",
-        "IntegrationDiscordRead": "Die Anwendung kann die Discord Intentität lesen",
-        "NotificationsRead": "Die Anwendung kann deine Benachrichtigungen lesen",
-        "NotificationsWrite": "Die Anwendung kann dir Benachrichtigungen senden"
+        "UserIdRead": "Kann die einzigartige ID lesen",
+        "UserIdWrite": "Kann die einzigartige ID ändern",
+        "UserUsernameRead": "Kann den Nutzernamen lesen",
+        "UserUsernameWrite": "Kann den Nutzernamen ändern",
+        "UserEmailRead": "Kann die E-Mail Adresse lesen",
+        "UserEmailWrite": "Kann die E-Mail Adresse ändern",
+        "UserRealnameRead": "Kann den Klarname lesen",
+        "UserRealnameWrite": "Kann den Klarname ändern",
+        "UserBioRead": "Kann die Biographie lesen",
+        "UserBioWrite": "Kann die Biographie ändern",
+        "UserAvatarRead": "Kann den Avatar lesen",
+        "UserAvatarWrite": "Kann den Avatar ändern",
+        "UserGroupRead": "Kann die Berechtigungsgruppe lesen",
+        "UserGroupWrite": "Kann die Berechtigungsgruppe ändern",
+        "UserAddressRead": "Kann die Adresse lesen",
+        "UserAddressWrite": "Kann die Adresse ändern",
+        "SettingsDesignRead": "Kann das Design lesen",
+        "SettingsDesignWrite": "Kann das Design ändern",
+        "SettingsLanguageRead": "Kann die Sprache lesen",
+        "SettingsLanguageWrite": "Kann die Sprache ändern",
+        "EventsListRead": "Kann die Veranstaltungsliste lesen",
+        "ProjectsListRead": "Kann die Projektliste lesen",
+        "IntegrationTelegramRead": "Kann die Telegram Intentität lesen",
+        "IntegrationDiscordRead": "Kann die Discord Intentität lesen",
+        "NotificationsRead": "Kann deine Benachrichtigungen lesen",
+        "NotificationsWrite": "Kann dir Benachrichtigungen senden"
       }
     },
     "Errors": {
@@ -432,6 +397,15 @@
     "NewEventApplyBeforeStart": "Das Anmeldedatum muss vor dem Startdatum liegen",
     "NewEventEndBeforeStart": "Das Startdatum muss vor dem Enddatum liegen",
     "PasswordMatch": "Passwörter stimmen nicht überein"
+  },
+  "Common_Modals": {
+    "Delete": {
+      "Title": "Bist du dir sicher?",
+      "Button": {
+        "Delete": "Löschen",
+        "Cancel": "Abbrechen"
+      }
+    }
   },
   "User_Groups": {
     "user": "Nutzer",

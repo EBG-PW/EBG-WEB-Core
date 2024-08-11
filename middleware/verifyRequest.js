@@ -38,7 +38,7 @@ const verifyRequest = (permission) => {
             if (req.headers['authorization'] != undefined) {
                 UserToken = req.headers['authorization'].replace('Bearer ', '');
             } else {
-                throw new InvalidToken('No Token Provided');
+                throw new InvalidToken('No Token Provided').withBackUrl("none");
             }
 
             // Validate the token with joi, code below is how to generate a token

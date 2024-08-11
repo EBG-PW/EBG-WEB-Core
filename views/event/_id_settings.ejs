@@ -13,9 +13,8 @@
     <!-- CSS files -->
     <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
     <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
-    </style>
   </head>
-  <body >
+  <body>
     <script src="/appjs/format.js"></script>
     <div class="page">
       <!-- Navbar -->
@@ -43,34 +42,41 @@
         <div class="page-body">
           <div class="container-xl">
             <div class="card">
+              <!-- Sidebar Toggle Button for Small Screens -->
+              <div class="card-body d-md-none">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-menu" aria-controls="sidebar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              </div>
               <div class="row g-0">
-                <div class="col-3 d-none d-md-block border-end">
+                <div class="col-12 col-md-3 d-md-block collapse border-end" id="sidebar-menu">
                   <div class="card-body">
                     <div class="list-group list-group-transparent">
                       <a href="/event/<%= params.id %>/settings" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Events.Settings.Site.General"></a>
+                      <a href="/event/<%= params.id %>/settings-announce" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Events.Settings.Site.Announce"></a>
                       <a href="/event/<%= params.id %>/settings-oauth" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Events.Settings.Site.OAuth"></a>
                     </div>
                   </div>
                 </div>
                 <div class="col d-flex flex-column">
                   <div class="card-body">
-                    <div class="row">
-                      <div class="col-lg-12">
-                        <div id="NewEventErrorLine"></div>
-                      </div>
-                    </div>
                     <h2 class="mb-4" data-translate="Events.Settings.Site.General"></h2>
                     <div class="row mb-3 align-items-end">
                       <div class="col-auto">
-                        <a href="#" class="avatar avatar-upload rounded">
-                          <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-                          <span class="avatar-upload-text" data-translate="Events.Modal.NewEvent.AvatarAdd"></span>
-                        </a>
+                        <div class="row align-items-center">
+                          <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Event.AvatarIcon" style="background-image: url()"></span></div>
+                          <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-upload-eavatar" class="btn" data-translate="Events.Settings.Button.SetAvatarIcon"></a></div>
+                          <div class="col-auto"><a data-bs-toggle="modal" data-bs-target="#modal-danger-delete-eavatar" class="btn btn-ghost-danger" data-translate="Events.Settings.Button.DeleteAvatarIcon" id="DelEAvatarIcon"></a></div>
+                        </div>
                       </div>
-                      <div class="col">
-                        <label class="form-label" data-translate="Events.Modal.NewEvent.EventName"></label>
-                        <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" onchange="handleInputChange(this.id)" class="form-control" />
+                    </div>
+                    <!-- EventName Row -->
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <div class="mb-4">
+                          <label class="form-label" data-translate="Events.Modal.NewEvent.EventName"></label>
+                          <input type="text" id="EventName" data-translate-placeholder="Events.Modal.NewEvent.Placeholder.EventName" onchange="handleInputChange(this.id)" class="form-control" />
+                        </div>
                       </div>
                     </div>
                     <!-- Color & Event Visibility Row-->
@@ -215,50 +221,61 @@
             </div>
           </div>
         </div>
-        <footer class="footer footer-transparent d-print-none">
-          <div class="container-xl">
-            <div class="row text-center align-items-center flex-row-reverse">
-              <div class="col-lg-auto ms-lg-auto">
-                <ul class="list-inline list-inline-dots mb-0">
-                  <li class="list-inline-item"><a href="<%= domain %>/legal/legal#imprint" data-translate="Dashboard.Footer.Links.Imprint" class="link-secondary" rel="noopener"></a></li>
-                  <li class="list-inline-item"><a href="<%= domain %>/legal/legal#privacy" data-translate="Dashboard.Footer.Links.Privacy" class="link-secondary"></a></li>
-                  <li class="list-inline-item"><a href="<%= domain %>/legal/guidelines" data-translate="Dashboard.Footer.Links.Guidelines" class="link-secondary" rel="noopener"></a></li>
-                </ul>
-              </div>
-              <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-                <ul class="list-inline list-inline-dots mb-0">
-                  <li class="list-inline-item">
-                    Copyright &copy; <%= new Date().getFullYear() %>
-                    <a href="https://ebg.pw" class="link-secondary">EBG</a>.
-                    All rights reserved.
-                  </li>
-                </ul>
+        <%- html_content.footer %>
+      </div>
+    </div>
+    <div class="modal fade" id="modal-upload-eavatar" tabindex="-1" aria-labelledby="uploadAvatarModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="uploadAvatarModalLabel" data-translate="Settings.Main.AvatarHeadline"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title" data-translate="Settings.Main.AvatarUploadArea"></h3>
+                  <form class="dropzone" id="dropzone-avatar-upload" autocomplete="off" novalidate style="border: 2px dashed #ccc; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; transition: border-color 0.3s, background-color 0.3s">
+                    <div class="fallback">
+                      <input name="file" type="file" style="display: none" />
+                    </div>
+                    <div class="dz-message">
+                      <h3 class="dropzone-msg-title" style="font-size: 24px; margin-bottom: 10px" data-translate="Settings.Main.AvatarDragHere"></h3>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </footer>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="Settings.Main.Button.Cancel"></button>
+            <button type="button" class="btn btn-primary" id="upload-button" data-translate="Settings.Main.Button.Upload"></button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="modal modal-blur fade" id="modal-danger-delete-avatar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal modal-blur fade" id="modal-danger-delete-eavatar" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="modal-status bg-danger"></div>
           <div class="modal-body text-center py-4">
             <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
-            <h3>Are you sure?</h3>
-            <div class="text-muted">Do you really want to remove your avatar? What you've done cannot be undone.</div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+              <path d="M12 9v4" />
+              <path d="M12 17h.01" />
+            </svg>
+            <h3 data-translate="Common_Modals.Delete.Title"></h3>
+            <div class="text-muted" data-translate="Settings.Profile.AvatarDelete"></div>
           </div>
           <div class="modal-footer">
             <div class="w-100">
               <div class="row">
-                <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
-                    Cancel
-                  </a></div>
-                <div class="col"><a href="#" class="btn btn-danger w-100" data-bs-dismiss="modal">
-                    Delete
-                  </a></div>
+                <div class="col"><a class="btn w-100" data-bs-dismiss="modal" data-translate="Common_Modals.Delete.Button.Cancel"></a></div>
+                <div class="col"><a class="btn btn-danger w-100" data-bs-dismiss="modal" onclick="deleteEAvatar()" data-translate="Common_Modals.Delete.Button.Delete"></a></div>
               </div>
             </div>
           </div>
@@ -271,9 +288,49 @@
     <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
+    <script src="<%= domain %>/dist/libs/dropzone/dist/dropzone-min.js?<%= curentUnixTime %>" defer></script>
     <script>
-      // Handle changes to all imput fields (VanillaJS)
 
+      // Delete Event Avatar
+      const deleteEAvatar = async () => {
+        const response = await fetch("/api/v1/event/<%= params.id %>/avatar", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (response.status == 200) {
+          const response_json = await response.json();
+          closeModal("modal-danger-delete-eavatar");
+          document.getElementById("Settings.Event.AvatarIcon").style.backgroundImage = `url(${response_json.fileName})`;
+        }
+      };
+
+      // Dropzone Avatar
+      document.querySelector("#dropzone-avatar-upload").addEventListener("dragover", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.style.borderColor = "#000";
+        this.style.backgroundColor = "#f0f0f0";
+      });
+
+      document.querySelector("#dropzone-avatar-upload").addEventListener("dragleave", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.style.borderColor = "#ccc";
+        this.style.backgroundColor = "";
+      });
+
+      document.querySelector("#dropzone-avatar-upload").addEventListener("drop", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.style.borderColor = "#ccc";
+        this.style.backgroundColor = "";
+      });
+
+      // Handle changes to all imput fields (VanillaJS)
       const apiEndpoints = {
         "EventName": {
           "endpoint": "/api/v1/event/<%= params.id %>/name",
@@ -396,8 +453,77 @@
         }
       }
 
-      // Auto-fill user data (VanillaJS)
+      // Auto-fill user data (VanillaJS) and initialize Dropzone
       document.addEventListener("DOMContentLoaded", async () => {
+        Dropzone.autoDiscover = false;
+
+        const dropzone = new Dropzone("#dropzone-avatar-upload", {
+          url: "/api/v1/event/<%= params.id %>/avatar",
+          autoProcessQueue: false,
+          acceptedFiles: ".jpg,.jpeg",
+          maxFiles: 1,
+          previewsContainer: ".dropzone",
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          init: function () {
+            this.on("addedfile", function (file) {
+              // Check if the file is already compressed to prevent loop
+              if (file.isCompressed) return;
+              if (this.files.length > 1) this.removeFile(this.files[0]);
+              // Compress and resize the image before adding it to the Dropzone file list
+              const img = new Image();
+              img.src = URL.createObjectURL(file);
+              img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+                const size = Math.min(img.width, img.height);
+                const x = (img.width - size) / 2;
+                const y = (img.height - size) / 2;
+                canvas.width = 1024;
+                canvas.height = 1024;
+                ctx.drawImage(img, x, y, size, size, 0, 0, canvas.width, canvas.height);
+
+                canvas.toBlob(
+                  (blob) => {
+                    const croppedImage = new File([blob], file.name, { type: file.type });
+                    croppedImage.isCompressed = true; // Set compression flag, so we don't compress it again
+
+                    this.removeFile(file);
+                    this.addFile(croppedImage);
+
+                    // Update the preview image
+                    const previewElement = document.querySelector("[data-dz-thumbnail]");
+                    if (previewElement) {
+                      previewElement.src = URL.createObjectURL(croppedImage);
+                    }
+                  },
+                  file.type,
+                  0.74
+                );
+              };
+            });
+            this.on("success", function (file, response) {
+              // Remove the image from the dropzone
+              this.removeFile(file);
+              document.getElementById("Settings.Event.AvatarIcon").style.backgroundImage = `url(${response.fileName})`;
+              closeModal("modal-upload-eavatar");
+            });
+          },
+          previewTemplate: `
+                <div class="dz-preview dz-file-preview">
+                    <div class="dz-image"><img data-dz-thumbnail/></div>
+                    <div class="dz-details">
+                        <div class="dz-size"><span data-dz-size></span></div>
+                    </div>
+                    <button class="dz-remove" data-dz-remove><i class="fas fa-times"></i>❌</button>
+                </div>`,
+        });
+
+        document.getElementById("upload-button").addEventListener("click", function () {
+          dropzone.processQueue();
+        });
+
         const response = await fetch("/api/v1/event/<%= params.id %>", {
           method: "GET",
           headers: {
@@ -410,6 +536,7 @@
         if(response.status == 200) {
           const data = await response.json();
           setLoadedColorValue(data.color);
+          document.getElementById("Settings.Event.AvatarIcon").style.backgroundImage = `url(${data.avatar_url})`;
           document.getElementById("EventName").value = data.name;
           document.getElementById("EventDescription").value = data.description;
           document.getElementById("EventLocation").value = data.location_address;

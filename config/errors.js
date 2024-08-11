@@ -14,6 +14,7 @@ module.exports = {
         "PermissionsError": true,
         "OAuthError": true,
         "SQLError": true,
-        "DBError": true
+        "DBError": true,
+        "TypeError": true,
     }
 }
