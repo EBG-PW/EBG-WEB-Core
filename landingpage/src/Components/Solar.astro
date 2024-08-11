@@ -107,7 +107,7 @@ const { translation = {} } = Astro.props;
       document.dispatchEvent(event);
     }
 
-    async function fetchPower() {
+    async function fetchPower(firstRun = false) {
       let power = {
         a: 0,
         b: 0,
@@ -128,10 +128,11 @@ const { translation = {} } = Astro.props;
         console.warn(e);
       }
 
-      animateBanner(power);
+      if(firstRun) animateBanner(power);
       fillDiagram(power);
     }
 
-    fetchPower();
+    fetchPower(true);
+    setInterval(fetchPower, 30_000);
   </script>
 </div>
