@@ -8,20 +8,5 @@
   "location_en": "/en",
   "location_de": "/",
   "change_from_en": "Deutsch",
-  "change_from_de": "English",
-  "team": [
-    {
-      "id": "unique_id",
-      "name": "member",
-      "icon": "/favicon.svg",
-      "languages": "programming langs",
-      "socials": {
-        "twitter": "link (remove field if not needed)",
-        "github": "link (remove field if not needed)",
-        "telegram": "link (remove field if not needed)",
-        "steam": "link (remove field if not needed)",
-        "website": "link (remove field if not needed)"
-      }
-    }
-  ]
+  "change_from_de": "English"
 }

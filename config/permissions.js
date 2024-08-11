@@ -49,28 +49,6 @@ module.exports = {
                 "app"
             ]
         },
-        // The party leader groups, all derived from basic admin group.
-        "kassierer": {
-            "permissions": [
-            ],
-            "inherit": [
-                "admin"
-            ]
-        },
-        "schriftführer": {
-            "permissions": [
-            ],
-            "inherit": [
-                "admin"
-            ]
-        },
-        "obmann": {
-            "permissions": [
-            ],
-            "inherit": [
-                "admin"
-            ]
-        },
         // The admin group is the default group for administrators.
         "admin": {
             "permissions": [
@@ -80,6 +58,31 @@ module.exports = {
             "inherit": [
                 "member"
             ]
+        },
+        // The party leader groups, all derived from basic admin group.
+        "kassierer": {
+            "permissions": [
+            ],
+            "inherit": [
+                "admin"
+            ],
+            "is_team": true
+        },
+        "schriftführer": {
+            "permissions": [
+            ],
+            "inherit": [
+                "admin"
+            ],
+            "is_team": true
+        },
+        "obmann": {
+            "permissions": [
+            ],
+            "inherit": [
+                "admin"
+            ],
+            "is_team": true
         },
         // The root group with general permissions.
         "root": {

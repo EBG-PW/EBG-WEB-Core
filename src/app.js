@@ -54,13 +54,13 @@ const auth_handler = require('@static_api/auth');
 const oauth_handler = require('@static_api/oauth');
 
 app.get('/', (req, res) => {
-    res.header('Cache-Control', 'public, max-age=172800');
+    res.header('Cache-Control', 'public, max-age=3600');
     res.header('Content-Type', 'text/html');
     res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'index.html')));
 });
 
 app.get('/en', (req, res) => {
-    res.header('Cache-Control', 'public, max-age=172800');
+    res.header('Cache-Control', 'public, max-age=3600');
     res.header('Content-Type', 'text/html');
     res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'en', 'index.html')));
 });

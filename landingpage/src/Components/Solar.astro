@@ -1,0 +1,137 @@
+---
+import Heading from "./Heading.astro";
+
+import SolarPreact from "./Solar";
+
+// TRANSLATION
+const { translation = {} } = Astro.props;
+---
+
+<style lang="scss">
+  .wrapper {
+    width: 100%;
+    position: relative;
+
+    background-color: white;
+
+    .content {
+      position: relative;
+      z-index: 5;
+      width: 1000px;
+      margin: 0 auto;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+      padding: 20px 0;
+
+      display: flex;
+
+      @media only screen and (max-width: 1050px) {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      color: rgba(25, 25, 25);
+      font-family: "Inter Variable", sans-serif;
+
+      .solar {
+        position: relative;
+        width: 100%;
+
+        p.text {
+          padding: 0 20px;
+          color: rgb(25, 25, 25);
+          font-size: 1rem;
+          line-height: 1.5rem;
+          font-family: "Inter Variable", sans-serif;
+          text-wrap: balance;
+          text-align: center;
+          margin: 0 auto 25px;
+          width: 50%;
+
+          @media only screen and (max-width: 1050px) {
+            width: 90%;
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<div class="wrapper">
+  <div class="content" id="events">
+    <Heading level={2}>{translation.heading}</Heading>
+    <div class="solar">
+      <p class="text">{translation.text}</p>
+      <SolarPreact client:load translation={translation} />
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ api_url: import.meta.env.API_URL }}>
+    // ALSO HANDLES THE SPEED IN THE BANNER SECTION
+    const animationSpeeds = {
+      w1: 15,
+      w2: 11,
+      w3: 7,
+    };
+
+    let speed = 0.3;
+
+    function animateBanner(power) {
+      const totalPower = power.a + power.b + power.c;
+      const solarPower = power.solar;
+
+      if (totalPower > 0) {
+        speed = Math.max(0.5, Math.min(1, solarPower / totalPower)) * 2;
+      }
+    }
+
+    for (const use in animationSpeeds) {
+      if (Object.hasOwnProperty.call(animationSpeeds, use)) {
+        const baseSpeed = animationSpeeds[use];
+        const element = document.getElementById(use);
+
+        const calculatedSpeed = baseSpeed / speed;
+        element.style.animationDuration = calculatedSpeed + "s";
+        element.style.animationPlayState = "running";
+      }
+    }
+
+    function fillDiagram(power) {
+      window.solar = power;
+      const event = new Event("solar");
+      document.dispatchEvent(event);
+    }
+
+    async function fetchPower() {
+      let power = {
+        a: 0,
+        b: 0,
+        c: 0,
+        solar: 0,
+      };
+      const fetchUrl = `${api_url}/api/v1/public/power`;
+
+      try {
+        const data = await (await fetch(fetchUrl)).json();
+        power = {
+          a: data.power_a,
+          b: data.power_b,
+          c: data.power_c,
+          solar: data.solar,
+        };
+      } catch (e) {
+        console.warn(e);
+      }
+
+      animateBanner(power);
+      fillDiagram(power);
+    }
+
+    fetchPower();
+  </script>
+</div>

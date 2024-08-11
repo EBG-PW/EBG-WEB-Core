@@ -4,7 +4,28 @@ import { Icon } from "astro-icon/components";
 
 // TRANSLATION
 const { translation = {} } = Astro.props;
-import staticData from "../data/static.json";
+
+
+type TeamDTO = {
+  puuid: string;
+  username: string;
+  user_group: string;
+  bio?: string | null;
+  avatar_url?: string;
+  links?: {
+    platform: string;
+    data_val: string;
+  }[];
+  settings?: {
+    design: string;
+    language: string;
+  }
+}
+
+const team: TeamDTO[] =
+  ((await (
+    await fetch(`${import.meta.env.API_URL}/api/v1/public/team?includes=links`)
+  ).json()) as TeamDTO[]) ?? [];
 ---
 
 <style lang="scss">
@@ -142,55 +163,56 @@ import staticData from "../data/static.json";
     }
   }
 </style>
-
+{team.length > 0 ?
 <div class="wrapper">
   <div class="content" id="team">
     <Heading level={2}>{translation.heading}</Heading>
     <div class="team">
       {
-        staticData.team.map((member) => {
+        team.map((member) => {
+
+
+
           return (
             <div class="member">
               <div class="links">
-                {member.socials.github ? (
-                  <a href={member.socials.github} target="_blank">
-                    <Icon name="github" />
-                  </a>
-                ) : null}
+                {(member.links ?? []).map((link) => {
+                  if(!["github","twitter","linkedin","steam","website"].includes(link.platform.toLowerCase())) return;
 
-                {member.socials.telegram ? (
-                  <a href={member.socials.telegram} target="_blank">
-                    <Icon name="telegram" />
-                  </a>
-                ) : null}
+                  let linkPrefix = "";
+                  switch (link.platform.toLowerCase()) {
+                    case "github":
+                      linkPrefix = "https://github.com/";
+                      break;
+                    case "twitter":
+                      linkPrefix = "https://x.com/"
+                      break;
+                    case "linkedin":
+                      linkPrefix = "https://www.linkedin.com/in/"
+                      break;
+                    case "steam":
+                      linkPrefix = "https://steamcommunity.com/id/"
+                      break;
+                    default:
+                      break;
+                  }
 
-                {member.socials.steam ? (
-                  <a href={member.socials.steam} target="_blank">
-                    <Icon name="steam" />
+                  return <a href={linkPrefix+link.data_val} target="_blank">
+                    <Icon name={link.platform.toLowerCase()} />
                   </a>
-                ) : null}
+                })}
+              
 
-                {member.socials.twitter ? (
-                  <a href={member.socials.twitter} target="_blank">
-                    <Icon name="x" />
-                  </a>
-                ) : null}
-
-                {member.socials.website ? (
-                  <a href={member.socials.website} target="_blank">
-                    <Icon name="website" />
-                  </a>
-                ) : null}
               </div>
-              <img src={member.icon} alt={member.name} />
+              <img src={member.avatar_url ?? "/favicon.svg"} alt={member.username} />
               <div class="container">
-                <Heading level="3">{member.name}</Heading>
+                <Heading level="3">{member.username}</Heading>
                 <p class="role"><!-- 
-                  -->{translation?.member[member.id]?.role ?? translation.no_role}
+                  -->{translation?.roles[member.user_group] ?? translation.no_role}
                 </p>
-                <p class="langs">{member.languages}</p>
+                {member.settings ? <p class="langs">{member.settings?.language}</p> : <></>}
                 <p class="description"><!-- 
-                  -->{translation?.member[member.id]?.description ??
+                  -->{member.bio ??
                     translation.no_description}
                 </p>
               </div>
@@ -201,3 +223,4 @@ import staticData from "../data/static.json";
     </div>
   </div>
 </div>
+: null }

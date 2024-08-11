@@ -33,6 +33,13 @@
       "icon": "infra"
     }
   },
+  "solar": {
+    "heading": "Solar TODO (Solarstrom)? oder so",
+    "text": "Inspirierenden Text hier einfügen. ",
+    "solar": "Solar",
+    "server": "Server",
+    "grid": "Netz"
+  },
   "events": {
     "heading": "Veranstaltungen",
     "click": "Mehr Infos"
@@ -45,10 +52,16 @@
     "heading": "Team",
     "no_role": "Keine Rolle",
     "no_description": "Keine Beschreibung",
-    "member": {
-      "unique_id": {
-        "role": "Rolle",
-        "description": "Testbeschreibung"
+    "roles": {
+      "user": "Nutzer",
+      "member": "Vereinsmitglieder",
+      "kassierer": "Kassierer",
+      "schriftführer": "Schriftführer",
+      "obmann": "Obmann",
+      "root": "root",
+      "virtualGroups": {
+        "user": "Registrierte Nutzer",
+        "member": "Vereinsmitglieder"
       }
     }
   },

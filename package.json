@@ -8,7 +8,8 @@
     "update": "npx npm-check-updates -u",
     "clearRedis": "node ./tools/clearRedis.js",
     "start": "node index.js",
-    "build": "cd ./landingpage && npm run build"
+    "build": "cd ./landingpage && npm ci && npm run build",
+    "migration": "node ./database/migrations.js"
   },
   "author": "BolverBlitz",
   "license": "AGPL-3.0",
@@ -22,6 +23,7 @@
     "@e2etest": "./e2e-test/*"
   },
   "dependencies": {
+    "@prisma/client": "^5.15.0",
     "bcrypt": "^5.1.1",
     "bullmq": "^5.4.1",
     "busboy": "^1.6.0",
@@ -50,6 +52,7 @@
     "@playwright/test": "^1.42.1",
     "chai": "^5.1.0",
     "chai-http": "^4.4.0",
-    "mocha": "^10.3.0"
+    "mocha": "^10.3.0",
+    "prisma": "^5.15.1"
   }
 }
