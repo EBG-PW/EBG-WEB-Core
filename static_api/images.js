@@ -25,6 +25,7 @@ const uuidCheck = Joi.object({
 
 router.get('/a', limiter(1), async (req, res) => {
     res.header('Content-Type', 'image/jpeg');
+    res.header('Cache-Control', 'public, max-age=172800');
     res.send(defaultAvatar);
 });
 
@@ -41,11 +42,13 @@ router.get('/a/:puuid', limiter(1), async (req, res) => {
         });
     });
 
+    res.header('Cache-Control', 'public, max-age=172800');
     stream.pipe(res);
 });
 
 router.get('/e', limiter(1), async (req, res) => {
     res.header('Content-Type', 'image/jpeg');
+    res.header('Cache-Control', 'public, max-age=172800');
     res.send(defaultAvatar);
 });
 
@@ -62,11 +65,13 @@ router.get('/e/:puuid', limiter(1), async (req, res) => {
         });
     });
 
+    res.header('Cache-Control', 'public, max-age=172800');
     stream.pipe(res);
 });
 
 router.get('/o', limiter(1), async (req, res) => {
     res.header('Content-Type', 'image/jpeg');
+    res.header('Cache-Control', 'public, max-age=172800');
     res.send(defaultAvatar);
 });
 
@@ -83,6 +88,7 @@ router.get('/o/:puuid', limiter(1), async (req, res) => {
         });
     });
 
+    res.header('Cache-Control', 'public, max-age=172800');
     stream.pipe(res);
 });
 
