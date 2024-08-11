@@ -8,7 +8,7 @@
     "update": "npx npm-check-updates -u",
     "clearRedis": "node ./tools/clearRedis.js",
     "start": "node index.js",
-    "build": "cd ./landingpage && npm run build",
+    "build": "cd ./landingpage && npm ci && npm run build",
     "migration": "node ./database/migrations.js"
   },
   "author": "BolverBlitz",

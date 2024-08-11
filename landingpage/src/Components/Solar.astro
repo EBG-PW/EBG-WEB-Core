@@ -67,7 +67,7 @@ const { translation = {} } = Astro.props;
     <Heading level={2}>{translation.heading}</Heading>
     <div class="solar">
       <p class="text">{translation.text}</p>
-      <SolarPreact client:only="preact" translation={translation} />
+      <SolarPreact client:load translation={translation} />
     </div>
   </div>
 
