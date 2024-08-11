@@ -654,7 +654,7 @@
 
         if (response.status == 200) {
           const response_json = await response.json();
-          closeModal("modal-danger-delete-avatar");
+          closeModal("modal-danger-delete-oavatar");
           document.getElementById("Settings.Event.AvatarIcon").style.backgroundImage = `url(${response_json.fileName})`;
         }
       };
@@ -734,7 +734,7 @@
               // Remove the image from the dropzone
               this.removeFile(file);
               document.getElementById("Settings.Event.AvatarIcon").style.backgroundImage = `url(${response.fileName})`;
-              closeModal("modal-upload-eavatar");
+              closeModal("modal-upload-oavatar");
             });
           },
           previewTemplate: `
