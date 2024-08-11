@@ -71,7 +71,7 @@ const { translation = {} } = Astro.props;
     </div>
   </div>
 
-  <script define:vars={{ api_url: import.meta.env.API_URL }}>
+  <script is:inline define:vars={{ api_url: import.meta.env.API_URL }}>
     // ALSO HANDLES THE SPEED IN THE BANNER SECTION
     const animationSpeeds = {
       w1: 15,
