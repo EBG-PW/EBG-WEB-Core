@@ -5,7 +5,7 @@ function wToKW(w: number) {
    if (w >= 1000) {
       return `${Math.round(w / 10) / 100} kW`;
    }
-   return `${w} W`;
+   return `${Math.round(w)} W`;
 }
 
 function SolarEmpty() {
