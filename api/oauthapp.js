@@ -1,5 +1,6 @@
 const Joi = require('@lib/sanitizer');
 const { verifyRequest } = require('@middleware/verifyRequest');
+const { verifyOwner } = require('@middleware/verifyOwner');
 const { limiter } = require('@middleware/limiter');
 const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
@@ -89,7 +90,7 @@ router.delete('/:projectactivities_puuid/oauthclient/avatar', verifyRequest('web
     });
 });
 
-router.get('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.read'), limiter(), async (req, res) => {
+router.get('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.read'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
     const has_oauth = await projectactivities.oAuth.hasClient(param.projectactivities_puuid);
     res.status(200);
