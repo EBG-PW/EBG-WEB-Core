@@ -79,7 +79,7 @@ router.delete('/:projectactivities_puuid/oauthclient/avatar', verifyRequest('web
     const sql_response = await projectactivities.oAuth.updateAvatar(params.projectactivities_puuid, `/i/o`);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
-    minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ea:${params.id}.jpg`], async (err) => {
+    minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`oa:${params.id}.jpg`], async (err) => {
         if (err) throw new S3ErrorRead(err);
 
         res.json({
