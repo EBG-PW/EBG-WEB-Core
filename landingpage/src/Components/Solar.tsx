@@ -128,13 +128,9 @@ export default function Solar({ translation }: Readonly<{ translation: Record<st
          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
             className={css.grid}>
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M2 12h4" />
-            <path d="M18 12h4" />
-            <path d="M18 5v14" />
-            <path d="M14 9v6" />
-            <path d="M10 5v14" />
-            <path d="M6 9v6" />
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19 10l-7 -7l-9 9h2v7a2 2 0 0 0 2 2h7.5" />
+            <path d="M9 21v-6a2 2 0 0 1 2 -2h2c.661 0 1.248 .32 1.612 .815" />
+            <path d="M19 14l-2 4h4l-2 4" />
          </svg>
       </div>
 
