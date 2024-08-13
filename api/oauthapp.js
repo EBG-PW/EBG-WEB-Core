@@ -46,11 +46,11 @@ const ValidateCreateOAuthApp = Joi.object({
     scope: Joi.number().integer().min(0).max(Number.MAX_SAFE_INTEGER).required()
 });
 
-router.post('/:projectactivities_puuid/oauthclient/avatar', verifyRequest('web.user.avatar.write'), limiter(30), async (req, res) => {
+router.post('/:projectactivities_puuid/oauthclient/avatar', verifyRequest('web.user.avatar.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(30), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const busboy = Busboy({ headers: req.headers });
 
-    busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+    busboy.on('file', (fieldname, file, encoding, mimetype) => {
         const fileName = `oa:${params.projectactivities_puuid}.jpg`;
         const passThrough = new PassThrough();
 
@@ -100,11 +100,11 @@ router.get('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oau
     });
 });
 
-router.post('/:projectactivities_puuid/oauthclient/avatar_url', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+router.post('/:projectactivities_puuid/oauthclient/avatar_url', verifyRequest('web.event.oauth.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
 
 });
 
-router.post('/:projectactivities_puuid/oauthclient/name', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+router.post('/:projectactivities_puuid/oauthclient/name', verifyRequest('web.event.oauth.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
     const value = await ValidateUpdateName.validateAsync(await req.json());
 
@@ -116,7 +116,7 @@ router.post('/:projectactivities_puuid/oauthclient/name', verifyRequest('web.eve
     });
 });
 
-router.post('/:projectactivities_puuid/oauthclient/redirect_uri', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+router.post('/:projectactivities_puuid/oauthclient/redirect_uri', verifyRequest('web.event.oauth.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
     const value = await validateUpdateRedirectURI.validateAsync(await req.json());
 
@@ -128,7 +128,7 @@ router.post('/:projectactivities_puuid/oauthclient/redirect_uri', verifyRequest(
     });
 });
 
-router.post('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+router.post('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
     const value = await ValidateCreateOAuthApp.validateAsync(await req.json());
 
@@ -161,7 +161,7 @@ router.post('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oa
     });
 });
 
-router.delete('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.write'), limiter(), async (req, res) => {
+router.delete('/:projectactivities_puuid/oauthclient', verifyRequest('web.event.oauth.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
     await projectactivities.oAuth.deleteClient(param.projectactivities_puuid);
     res.status(200);
