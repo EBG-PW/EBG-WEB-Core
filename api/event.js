@@ -1,6 +1,7 @@
 const Joi = require('@lib/sanitizer');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
+const { verifyOwner } = require('@middleware/verifyOwner');
 const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
 const { writeOverwriteCacheKey } = require('@lib/cache');
@@ -122,8 +123,8 @@ router.get('/', verifyRequest('web.event.get.eventlist.read'), limiter(), plubli
 router.get('/:id', verifyRequest('web.event.get.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id, req.user.user_id);
-    if(event_data.length === 0) throw new DBError('Event.Get', 1, typeof 1, event_data.length, typeof event_data.length);
-    if(event_data[0].avatar_url === "" || event_data[0].avatar_url === null) event_data[0].avatar_url = "/i/e";
+    if (event_data.length === 0) throw new DBError('Event.Get', 1, typeof 1, event_data.length, typeof event_data.length);
+    if (event_data[0].avatar_url === "" || event_data[0].avatar_url === null) event_data[0].avatar_url = "/i/e";
     res.status(200);
     res.json(event_data[0]);
 });
@@ -156,10 +157,10 @@ router.post('/', verifyRequest('web.event.create.write'), limiter(), async (req,
 router.post('/:id/join', verifyRequest('web.event.join.write'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const sql_response = await projectactivities.event.join(params.id, req.user.user_id, req.user.user_group);
-    if(sql_response instanceof CustomError) throw sql_response;
+    if (sql_response instanceof CustomError) throw sql_response;
     if (sql_response.rowCount !== 1) throw new DBError('Event.Join', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
     await writeOverwriteCacheKey("public_event_index");
 
     res.status(200);
@@ -173,7 +174,7 @@ router.post('/:id/leave', verifyRequest('web.event.leave.read'), limiter(), asyn
     const sql_response = await projectactivities.event.leave(params.id, req.user.user_id);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Leave', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
     await writeOverwriteCacheKey("public_event_index");
 
     res.status(200);
@@ -183,13 +184,14 @@ router.post('/:id/leave', verifyRequest('web.event.leave.read'), limiter(), asyn
 });
 
 // Settings
-router.post('/:id/name', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/name', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const name = await ValidateEventName.validateAsync(await req.json());
     if (!name) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.name(params.id, name.name, req.user.user_id);
+    const sql_response = await projectactivities.event_update.name(params.id, name.name);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Name', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
 
     res.status(200);
     res.json({
@@ -198,13 +200,14 @@ router.post('/:id/name', verifyRequest('web.event.update.write'), limiter(), asy
     });
 });
 
-router.post('/:id/color', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/color', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const color = await ValidateEventColor.validateAsync(await req.json());
     if (!color) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.color(params.id, color.color, req.user.user_id);
+    const sql_response = await projectactivities.event_update.color(params.id, color.color);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Color', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
 
     res.status(200);
     res.json({
@@ -213,7 +216,7 @@ router.post('/:id/color', verifyRequest('web.event.update.write'), limiter(), as
     });
 });
 
-router.post('/:id/mingroup', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/mingroup', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const minGroup = await ValidateEventMinGroup.validateAsync(await req.json());
 
@@ -223,10 +226,11 @@ router.post('/:id/mingroup', verifyRequest('web.event.update.write'), limiter(),
         throw new InvalidRouteJson('InvalidMinGroupForDefaultGroup');
     }
 
-    const sql_response = await projectactivities.event_update.min_group(params.id, minGroup.minGroup, req.user.user_id);
+    const sql_response = await projectactivities.event_update.min_group(params.id, minGroup.minGroup);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.MinGroup', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "MinGroup changed",
@@ -234,14 +238,15 @@ router.post('/:id/mingroup', verifyRequest('web.event.update.write'), limiter(),
     });
 });
 
-router.post('/:id/visibility', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/visibility', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const visibility = await ValidateEventVisibility.validateAsync(await req.json());
     if (!visibility) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.visibility(params.id, visibility.visibility, req.user.user_id);
+    const sql_response = await projectactivities.event_update.visibility(params.id, visibility.visibility);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Visibility', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "Visibility changed",
@@ -249,14 +254,15 @@ router.post('/:id/visibility', verifyRequest('web.event.update.write'), limiter(
     });
 });
 
-router.post('/:id/dateapply', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/dateapply', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const dateApply = await ValidateEventDateApply.validateAsync(await req.json());
     if (!dateApply) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_apply(params.id, dateApply.dateApply, req.user.user_id);
+    const sql_response = await projectactivities.event_update.date_apply(params.id, dateApply.dateApply);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateApply', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before the start date');
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "DateApply changed",
@@ -264,14 +270,15 @@ router.post('/:id/dateapply', verifyRequest('web.event.update.write'), limiter()
     });
 });
 
-router.post('/:id/datestart', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/datestart', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const dateStart = await ValidateEventDateStart.validateAsync(await req.json());
     if (!dateStart) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_start(params.id, dateStart.dateStart, req.user.user_id);
+    const sql_response = await projectactivities.event_update.date_start(params.id, dateStart.dateStart);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateStart', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is after end date');
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "Datestart changed",
@@ -279,14 +286,15 @@ router.post('/:id/datestart', verifyRequest('web.event.update.write'), limiter()
     });
 });
 
-router.post('/:id/dateend', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/dateend', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const dateEnd = await ValidateEventDateEnd.validateAsync(await req.json());
     if (!dateEnd) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.date_end(params.id, dateEnd.dateEnd, req.user.user_id);
+    const sql_response = await projectactivities.event_update.date_end(params.id, dateEnd.dateEnd);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.DateEnd', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount).withStatus(400).withInfo('Date is before start date');
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "DateEnd changed",
@@ -294,14 +302,15 @@ router.post('/:id/dateend', verifyRequest('web.event.update.write'), limiter(), 
     });
 });
 
-router.post('/:id/location', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/location', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const location = await ValidateEventLocation.validateAsync(await req.json());
     if (!location) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.location_address(params.id, location.location, req.user.user_id);
+    const sql_response = await projectactivities.event_update.location_address(params.id, location.location);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Location', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "Location changed",
@@ -309,14 +318,15 @@ router.post('/:id/location', verifyRequest('web.event.update.write'), limiter(),
     });
 });
 
-router.post('/:id/description', verifyRequest('web.event.update.write'), limiter(), async (req, res) => {
+router.post('/:id/description', verifyRequest('web.event.update.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const description = await ValidateEventDescription.validateAsync(await req.json());
     if (!description) throw new InvalidRouteInput('Invalid Route Input');
-    const sql_response = await projectactivities.event_update.description(params.id, description.description, req.user.user_id);
+    const sql_response = await projectactivities.event_update.description(params.id, description.description);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Description', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-    await writeOverwriteCacheKey("public_event_:id", {id: params.id});
-    
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
     res.status(200);
     res.json({
         message: "Description changed",
@@ -324,7 +334,7 @@ router.post('/:id/description', verifyRequest('web.event.update.write'), limiter
     });
 });
 
-router.post('/:id/avatar', verifyRequest('web.user.avatar.write'), limiter(30), async (req, res) => {
+router.post('/:id/avatar', verifyRequest('web.user.avatar.write'), verifyOwner('id', 'PA'), limiter(30), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const busboy = Busboy({ headers: req.headers });
 
@@ -338,8 +348,11 @@ router.post('/:id/avatar', verifyRequest('web.user.avatar.write'), limiter(30), 
             minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
                 if (err) throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
 
-                const sql_response = await  projectactivities.event_update.avatar(params.id, `/i/e/${params.id}`, req.user.user_id);
+                const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e/${params.id}`);
                 if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+                await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+                await writeOverwriteCacheKey("public_event_index");
 
                 res.json({
                     message: 'Avatar uploaded',
@@ -353,13 +366,16 @@ router.post('/:id/avatar', verifyRequest('web.user.avatar.write'), limiter(30), 
     req.pipe(busboy);
 });
 
-router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), limiter(10), async (req, res) => {
+router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), verifyOwner('id', 'PA'), limiter(10), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
-    const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e`, req.user.user_id);
+    const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e`);
     if (sql_response.rowCount !== 1) throw new DBError('Event.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
     minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ea:${params.id}.jpg`], async (err) => {
         if (err) throw new S3ErrorRead(err);
+
+        await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+        await writeOverwriteCacheKey("public_event_index");
 
         res.json({
             message: 'Avatar uploaded',
