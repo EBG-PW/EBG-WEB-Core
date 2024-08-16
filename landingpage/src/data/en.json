@@ -13,29 +13,29 @@
   "goals": {
     "heading": "Our Goals",
     "1": {
-      "title": "Developing for everyone",
-      "text": "We teach programming, the current and future IT technologies for all ages so that you can fully utilize the digital world.",
+      "title": "Development for All",
+      "text": "We teach programming, current, and future IT technologies for all age groups, so that you can fully utilize the digital world.",
       "icon": "learn"
     },
     "2": {
-      "title": "Infrastructure for projects",
-      "text": "We provide infrastructure to realize projects. Lorem lorem lorem lorem",
+      "title": "Infrastructure for Projects",
+      "text": "We provide infrastructure for the realization of projects. We do not pursue any profit.",
       "icon": "infra"
     },
     "3": {
-      "title": "Supporting Open-Source",
-      "text": "We support open-source projects in various ways. Lorem lorem lorem lorem lorem",
+      "title": "Support for Open Source",
+      "text": "We support open-source projects with our experience, our infrastructure, or with code contributions.",
       "icon": "opensource"
     },
     "4": {
-      "title": "Placeholder text",
-      "text": "Placeholder text Lorem lorem lorem lorem.  Lorem lorem lorem lorem.  Lorem lorem lorem lorem. ",
-      "icon": "infra"
+      "title": "Promotion of Collaboration",
+      "text": "We offer a platform that promotes exchange and collaboration between beginners, enthusiasts, and professionals to develop innovative solutions together.",
+      "icon": "affiliate"
     }
   },
   "solar": {
-    "heading": "TODO",
-    "text": "Insert inspirational text here",
+    "heading": "Sustainable Energy for a Green Future",
+    "text": "Our commitment to the environment begins with the use of solar energy to meet our energy needs. In doing so, we reduce our carbon footprint and contribute to a more sustainable world.",
     "solar": "Solar",
     "server": "Server",
     "grid": "Grid"

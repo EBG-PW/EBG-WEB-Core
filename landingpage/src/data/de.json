@@ -19,23 +19,23 @@
     },
     "2": {
       "title": "Infrastruktur für Projekte",
-      "text": "Wir bieten Infrastruktur zur Realisierung von Projekten. Lorem lorem lorem lorem",
+      "text": "Wir bieten Infrastruktur zur Realisierung von Projekten. Dabei verfolgen wir keine Gewinnabsicht.",
       "icon": "infra"
     },
     "3": {
       "title": "Unterstützung von Open-Source",
-      "text": "Wir unterstützen Open-Source-Projekte auf verschiedene Weise. Lorem lorem lorem lorem lorem",
+      "text": "Wir unterstützen Open-Source-Projekte mit unserer Erfahrung, unserer Infrastruktur oder mit Code contributions.",
       "icon": "opensource"
     },
     "4": {
-      "title": "Platzhaltertext",
-      "text": "Platzhaltertext Lorem lorem lorem lorem. Lorem lorem lorem lorem. Lorem lorem lorem lorem.",
-      "icon": "infra"
+      "title": "Förderung von Zusammenarbeit",
+      "text": "Wir bieten eine Plattform, die den Austausch und die Zusammenarbeit zwischen Einsteigern, Enthusiasten und Fachleuten fördert, um gemeinsam innovative Lösungen zu entwickeln.",
+      "icon": "affiliate"
     }
   },
   "solar": {
-    "heading": "Solar TODO (Solarstrom)? oder so",
-    "text": "Inspirierenden Text hier einfügen. ",
+    "heading": "Nachhaltige Energie für eine grüne Zukunft",
+    "text": "Unser Engagement für die Umwelt beginnt mit der Nutzung von Solarenergie, um unseren Energiebedarf zu decken. Damit reduzieren wir unseren CO2-Fußabdruck leisten unseren Beitrag zu einer nachhaltigeren Welt.",
     "solar": "Solar",
     "server": "Server",
     "grid": "Netz"
