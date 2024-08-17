@@ -29,6 +29,7 @@ module.exports = {
                 "group.user",
                 "web.event.*",
                 "web.user.*",
+                "web.oauthapp.*",
                 "app.user.settings.*",
                 "app.event.user.*"
             ],
@@ -42,6 +43,7 @@ module.exports = {
                 "group.member",
                 "web.event.*",
                 "web.user.*",
+                "web.oauthapp.*",
                 "app.user.settings.*",
                 "app.event.user.*"
             ],

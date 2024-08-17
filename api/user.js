@@ -273,35 +273,40 @@ router.delete('/links/:platform', verifyRequest('web.user.links.delete'), limite
 
 router.post('/avatar', verifyRequest('web.user.avatar.write'), limiter(30), async (req, res) => {
     const busboy = Busboy({ headers: req.headers });
+    const fileName = `ua:${req.user.puuid}.jpg`;
+
+    const passThrough = new PassThrough();
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-        const fileName = `ua:${req.user.puuid}.jpg`;
-        const passThrough = new PassThrough();
-
-        streamToBuffer(passThrough).then((file_buffer) => {
-            const isJPG = verifyBufferIsJPG(file_buffer, 1024, 1024);
-            if (!isJPG) throw new CustomError('Invalid Image');
-            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
-                if (err) throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
-
-                const sql_response = await user.update.avatar(req.user.user_id, `/i/a/${req.user.puuid}`);
-                if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-                await delWebtoken(req.authorization);
-
-                res.json({
-                    message: 'Avatar uploaded',
-                    fileName: `/i/a/${req.user.puuid}`,
-                });
-            });
-        });
-
         file.pipe(passThrough);
     });
+
     req.pipe(busboy);
+
+    const file_buffer = await streamToBuffer(passThrough);
+    const isJPG = await verifyBufferIsJPG(file_buffer, 1024, 1024);
+
+    if (!isJPG) throw new CustomError('Invalid Image');
+
+    try {
+        await minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer);
+    } catch (err) {
+        throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
+    }
+
+    const sql_response = await user.update.avatar(req.user.user_id, `/i/u/${req.user.puuid}`);
+    if (sql_response.rowCount !== 1) {
+        throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    }
+
+    res.json({
+        message: 'Avatar uploaded',
+        fileName: `/i/u/${req.user.puuid}`,
+    });
 });
 
 router.delete('/avatar', verifyRequest('web.user.avatar.write'), limiter(10), async (req, res) => {
-    const sql_response = await user.update.avatar(req.user.user_id, `/i/a`);
+    const sql_response = await user.update.avatar(req.user.user_id, `/i/u`);
     if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
     minioClient.removeObjects(process.env.S3_WEB_BUCKET, [`ua:${req.user.puuid}.jpg`], async (err) => {
@@ -311,7 +316,7 @@ router.delete('/avatar', verifyRequest('web.user.avatar.write'), limiter(10), as
 
         res.json({
             message: 'Avatar uploaded',
-            fileName: `/i/a`,
+            fileName: `/i/u`,
         });
     });
 });

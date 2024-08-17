@@ -334,36 +334,42 @@ router.post('/:id/description', verifyRequest('web.event.update.write'), verifyO
     });
 });
 
-router.post('/:id/avatar', verifyRequest('web.user.avatar.write'), verifyOwner('id', 'PA'), limiter(30), async (req, res) => {
+router.post('/:id/avatar', verifyRequest('web.event.avatar.write'), verifyOwner('id', 'PA'), limiter(30), async (req, res) => {
     const params = await ValidateUUID.validateAsync(req.params);
     const busboy = Busboy({ headers: req.headers });
+    const fileName = `ea:${params.id}.jpg`;
+
+    const passThrough = new PassThrough();
 
     busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
-        const fileName = `ea:${params.id}.jpg`;
-        const passThrough = new PassThrough();
-
-        streamToBuffer(passThrough).then((file_buffer) => {
-            const isJPG = verifyBufferIsJPG(file_buffer, 1024, 1024);
-            if (!isJPG) throw new CustomError('Invalid Image');
-            minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer, async (err, etag) => {
-                if (err) throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
-
-                const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e/${params.id}`);
-                if (sql_response.rowCount !== 1) throw new DBError('User.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
-
-                await writeOverwriteCacheKey("public_event_:id", { id: params.id });
-                await writeOverwriteCacheKey("public_event_index");
-
-                res.json({
-                    message: 'Avatar uploaded',
-                    fileName: `/i/e/${params.id}`,
-                });
-            });
-        });
-
         file.pipe(passThrough);
     });
+
     req.pipe(busboy);
+
+    const file_buffer = await streamToBuffer(passThrough);
+    const isJPG = await verifyBufferIsJPG(file_buffer, 1024, 1024);
+
+    if (!isJPG) throw new CustomError('Invalid Image');
+
+    try {
+        await minioClient.putObject(process.env.S3_WEB_BUCKET, fileName, file_buffer);
+    } catch (err) {
+        throw new S3ErrorWrite(err, process.env.S3_WEB_BUCKET, fileName);
+    }
+
+    const sql_response = await projectactivities.event_update.avatar(params.id, `/i/e/${params.id}`);
+    if (sql_response.rowCount !== 1) {
+        throw new DBError('Event.Update.Avatar', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    }
+
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
+    await writeOverwriteCacheKey("public_event_index");
+
+    res.json({
+        message: 'Avatar uploaded',
+        fileName: `/i/e/${params.id}`,
+    });
 });
 
 router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), verifyOwner('id', 'PA'), limiter(10), async (req, res) => {

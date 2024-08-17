@@ -23,13 +23,13 @@ const uuidCheck = Joi.object({
     puuid: Joi.string().guid({ version: 'uuidv4' }).required(),
 });
 
-router.get('/a', limiter(1), async (req, res) => {
+router.get('/u', limiter(1), async (req, res) => {
     res.header('Content-Type', 'image/jpeg');
     res.header('Cache-Control', 'public, max-age=172800');
     res.send(defaultAvatar);
 });
 
-router.get('/a/:puuid', limiter(1), async (req, res) => {
+router.get('/u/:puuid', limiter(1), async (req, res) => {
     const { puuid } = await uuidCheck.validateAsync(req.params);
 
     const stream = await new Promise((resolve, reject) => {
@@ -58,6 +58,7 @@ router.get('/e/:puuid', limiter(1), async (req, res) => {
     const stream = await new Promise((resolve, reject) => {
         minioClient.getObject(process.env.S3_WEB_BUCKET, `ea:${puuid}.jpg`, (err, stream) => {
             if (err) {
+                if(err.code === "ECONNREFUSED") reject(new S3ErrorRead(err, process.env.S3_WEB_BUCKET, `ea:${puuid}s.jpg`).withStatus(500));
                 reject(new S3ErrorRead(err, process.env.S3_WEB_BUCKET, `ea:${puuid}s.jpg`).withStatus(404));
             } else {
                 resolve(stream);

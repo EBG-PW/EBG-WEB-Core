@@ -16,5 +16,7 @@ module.exports = {
         "SQLError": true,
         "DBError": true,
         "TypeError": true,
+        "S3ErrorWrite": true,
+        "S3ErrorRead": true,
     }
 }

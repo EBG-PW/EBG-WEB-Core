@@ -35,8 +35,12 @@ router.get('/', verifyRequest('app.web.login'), limiter(10), async (req, res) =>
     const oAuthClientResponse = await oAuth.get_client(client_id, scope, user_id)
 
     const has_authorized = await oAuth.has_authorized(client_id, user_id);
+    // If authorized, generate a code and add it to the session (What the POST route does)
     if (has_authorized) {
-        const code = randomstring.generate(128);
+        const code = randomstring.generate({
+            length: 128,
+            charset: 'alphanumeric'
+        });
 
         await oAuthSession.addSession(code, { "user_id": user_id, "oAuthApp_id": oAuthClientResponse.id, "secret": oAuthClientResponse.secret });
 
@@ -59,7 +63,10 @@ router.post('/', verifyRequest('app.web.login'), limiter(10), async (req, res) =
 
     const oAuthClientResponse = await oAuth.get_client(client_id, scope, user_id)
 
-    const code = randomstring.generate(128);
+    const code = randomstring.generate({
+        length: 128,
+        charset: 'alphanumeric'
+    });
 
     await oAuthSession.addSession(code, { "user_id": user_id, "oAuthApp_id": oAuthClientResponse.id, "secret": oAuthClientResponse.secret });
 

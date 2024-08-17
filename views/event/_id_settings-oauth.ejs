@@ -25,7 +25,7 @@
           <div class="container-xl">
             <div class="row g-2 align-items-center">
               <div class="col">
-                <h2 class="page-title" data-translate="Settings.Main.SettingsName"></h2>
+                <h2 class="page-title" data-translate="Events.Settings.OAuth.Headline"></h2>
               </div>
             </div>
           </div>
@@ -359,13 +359,13 @@
         OAuthClientName: {
           endpoint: "/api/v1/oauthapp/<%= params.id %>/oauthclient/name",
           method: "POST",
-          field: "event_name",
+          field: "oAuthClient_name",
           value: "raw",
         },
         OAuthClientRedirect: {
           endpoint: "/api/v1/oauthapp/<%= params.id %>/oauthclient/redirect_uri",
           method: "POST",
-          field: "event_redirect_uri",
+          field: "oAuthClient_redirect_uri",
           value: "raw",
         },
       };

@@ -65,6 +65,11 @@ app.get('/en', (req, res) => {
     res.send(fs.readFileSync(path.join(__dirname, '..', 'landingpage', 'dist', 'en', 'index.html')));
 });
 
+app.use('/api/v1', apiv1);
+app.use('/i', images_handler);
+app.use('/auth', auth_handler);
+app.use('/oauth', oauth_handler);
+
 app.get('/*', (req, res) => {
     // Split the URL to separate the path and query string
     const filePath = req.url.split('?')[0];
@@ -118,11 +123,6 @@ app.get('/*', (req, res) => {
         });
     };
 });
-
-app.use('/api/v1', apiv1);
-app.use('/i', images_handler);
-app.use('/auth', auth_handler);
-app.use('/oauth', oauth_handler);
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {
