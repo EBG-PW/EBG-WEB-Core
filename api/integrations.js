@@ -19,7 +19,7 @@ const LinkCheck = Joi.object({
     value: Joi.string().min(1).pattern(/^[a-zA-Z0-9_]*$/).required(),
 });
 
-router.get('/', verifyRequest('web.user.layout.read'), limiter(1), async (req, res) => {
+router.get('/', verifyRequest('web.user.integration.read'), limiter(1), async (req, res) => {
     const integrations = await integration.get(req.user.user_id);
 
     for (let i = 0; i < integrations.length; i++) {

@@ -7,7 +7,7 @@ App permissions do not support the read/write/* ending
 | app.web.logout                   | Logout                                       |
 
 # Permissions
-All those permissions are from the point of the user performing the actions.
+All those permissions are from the perspective of the user performing the actions.
 ## User Permissions
 
 | Permission                       | Description                                  |

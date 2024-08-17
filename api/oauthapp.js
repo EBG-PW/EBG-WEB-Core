@@ -167,7 +167,9 @@ router.post('/:projectactivities_puuid/oauthclient', verifyRequest('web.oauthapp
 // Delete OAuth App for Project Activities
 router.delete('/:projectactivities_puuid/oauthclient', verifyRequest('web.oauthapp.delete.write'), verifyOwner('projectactivities_puuid', 'PA'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
+
     await projectactivities.oAuth.deleteClient(param.projectactivities_puuid);
+
     res.status(200);
     res.json({
         message: "OAuth Client Deleted"

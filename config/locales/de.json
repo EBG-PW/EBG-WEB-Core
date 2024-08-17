@@ -277,6 +277,7 @@
         "Headline": "Event OAuth Einstellungen",
         "Create": "OAuth Client Erstellen",
         "Name": "OAuth Client Name",
+        "Delete": "OAuth Client Löschen",
         "NewClientCreated": "OAuth Client erfolgreich erstellt (Wird nur 1 mal angezeigt, klicke auf den Text um ihn zu kopieren):",
         "Sample": "Oauth-client",
         "Redirect": "Redirect URI",
