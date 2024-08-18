@@ -90,7 +90,7 @@ router.delete('/:projectactivities_puuid/oauthclient/avatar', verifyRequest('web
         if (err) throw new S3ErrorRead(err);
 
         res.json({
-            message: 'Avatar uploaded',
+            message: 'Avatar deleted',
             fileName: `/i/o`,
         });
     });

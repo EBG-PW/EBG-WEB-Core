@@ -106,6 +106,16 @@ const ValidateEventDescription = Joi.object({
     description: Joi.sanitizedString().min(3).max(2048).required()
 });
 
+const ValidateAnnounceCreation = Joi.object({
+    type: Joi.string().valid('text').required(),
+    announce: Joi.sanitizedString().min(3).max(4096).required()
+});
+
+const ValidateAnnounceDeleteion = Joi.object({
+    id: Joi.string().uuid().required(),
+    timestamp: Joi.number().integer().min(0).required()
+});
+
 router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
     const value = await pageCountCheck.validateAsync(req.query);
     const amount = await projectactivities.event.GetCount(value.search, new Date());
@@ -384,9 +394,43 @@ router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), verifyOwne
         await writeOverwriteCacheKey("public_event_index");
 
         res.json({
-            message: 'Avatar uploaded',
+            message: 'Avatar deleted',
             fileName: `/i/e`,
         });
+    });
+});
+
+router.get('/:id/announce', verifyRequest('web.event.announce.read'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    const announce = await projectactivities.event.get_announce(param.id);
+
+    if (announce.length === 0) throw new DBError('Event.Announce.Get', 1, typeof 1, announce.length, typeof announce.length);
+
+    res.status(200);
+    res.json(announce);
+});
+
+router.post('/:id/announce', verifyRequest('web.event.announce.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
+    const param = await ValidateUUID.validateAsync(req.params);
+    const value = await ValidateAnnounceCreation.validateAsync(await req.json());
+
+    await projectactivities.event.add_announce(param.id, value.type, value.announce);
+
+    res.status(200);
+    res.json({
+        message: "Announcement Created",
+    });
+});
+
+router.delete('/:id/announce/:timestamp', verifyRequest('web.event.announce.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
+    const param = await ValidateAnnounceDeleteion.validateAsync(req.params);
+
+    const sql_response = await projectactivities.event.del_announce(param.id, param.timestamp);
+    if (sql_response.rowCount !== 1) throw new DBError('Event.Announce.Remove', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    res.status(200);
+    res.json({
+        message: "Announcement Removed",
     });
 });
 

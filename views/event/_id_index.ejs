@@ -72,7 +72,7 @@
             <div class="container-xl">
               <div class="row g-3">
                 <div class="col">
-                  <!-- Page content -->
+                  <ui class="timeline" id="event_announcements"></ui>
                 </div>
                 <div class="col-lg-4">
                   <div class="row row-cards">
@@ -196,6 +196,7 @@
 
         if (response.status == 200) {
           const event_data = await response.json();
+          loadAnnouncements(event_data);
 
           document.getElementById("event_name").innerText = event_data.name;
           document.getElementById("event_description").innerHTML = event_data.description;
@@ -238,6 +239,63 @@
           }
         }
       };
+
+      const loadAnnouncements = async (event_data) => {
+        const response = await fetch(`/api/v1/event/<%= params.id %>/announce`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (response.status == 200) {
+          const announcements = await response.json();
+
+          document.getElementById("event_announcements").innerHTML = "";
+          announcements.forEach((announcement) => {
+            const announcement_content = JSON.parse(announcement.content)
+            console.log(announcement_content);
+            let text, icon;
+            if (announcement_content.type === "text") {
+              text = announcement_content.data;
+              icon = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-info-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /></svg>`;
+            } else if (announcement_content.type === "image") {
+              text = `<img src="${announcement_content.data}" alt="Announcement Image" style="max-width: 100%; max-height: 100%;">`;
+              icon = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-photo-scan"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M6 13l2.644 -2.644a1.21 1.21 0 0 1 1.712 0l3.644 3.644" /><path d="M13 13l1.644 -1.644a1.21 1.21 0 0 1 1.712 0l1.644 1.644" /><path d="M4 8v-2a2 2 0 0 1 2 -2h2" /><path d="M4 16v2a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v2" /><path d="M16 20h2a2 2 0 0 0 2 -2v-2" /></svg>`;
+            } else if (announcement_content.type === "video") {
+              text = `<video src="${announcement_content.data}" controls style="max-width: 100%; max-height: 100%;"></video>`;
+              icon = `<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-video"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 10l4.553 -2.276a1 1 0 0 1 1.447 .894v6.764a1 1 0 0 1 -1.447 .894l-4.553 -2.276v-4z" /><path d="M3 6m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z" /></svg>`;
+            } else if (announcement_content.type === "Create") {
+              return;
+            }
+            document.getElementById("event_announcements").innerHTML += `<li class="timeline-event">
+              <div class="timeline-event-icon">
+                ${icon}
+              </div>
+              <div class="card timeline-event-card">
+                <div class="card-body">
+                  <div class="text-secondary float-end">
+                    ${new Date(announcement.time).toLocaleString("de-DE", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" })}
+                  </div>
+                  <p class="text-secondary">
+                    <span>${text}</span>
+                  </p>
+                </div>
+              </div>
+            </li>`;
+          });
+        }
+      }
+
+      /*
+      ${event_data.creator_user_id === Number(localStorage.getItem("user_id")) ? `<span>
+                    <button onclick="deleteAnnouncement(this.id)" id="${announcement.puuid}" class="btn btn-danger">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 12l4 4m0 -4l-4 4" /></svg>
+                      <div data-translate="Events.Settings.Announce.Button.Delete"></div>
+                    </button>
+                  </span>` : ""}
+      */
 
       const joinEvent = async (id) => {
         const response = await fetch(`/api/v1/event/${id}/join`, {
