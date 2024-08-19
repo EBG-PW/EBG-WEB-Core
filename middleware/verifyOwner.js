@@ -26,7 +26,7 @@ const verifyOwner = (param_uuid_key, owner_mode) => {
             }
 
             if(req.user.user_id !== owner_result.uuid_response) {
-                throw new PermissionsError('Owner');
+                throw new PermissionsError('Does not own this object');
             }
 
             req[owner_mode] = owner_result;

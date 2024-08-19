@@ -400,7 +400,7 @@ router.delete('/:id/avatar', verifyRequest('web.event.avatar.write'), verifyOwne
     });
 });
 
-router.get('/:id/announce', verifyRequest('web.event.announce.read'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
+router.get('/:id/announce', verifyRequest('web.event.announce.read'), limiter(), async (req, res) => {
     const param = await ValidateUUID.validateAsync(req.params);
     const announce = await projectactivities.event.get_announce(param.id);
 
