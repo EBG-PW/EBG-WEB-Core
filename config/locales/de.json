@@ -401,6 +401,7 @@
       },
       "required": "{{field}} ist erforderlich"
     },
+    "AvatarTypeNotSupported": "{{type}} Dateityp wird nicht unterstützt",
     "NewEventApplyBeforeStart": "Das Anmeldedatum muss vor dem Startdatum liegen",
     "NewEventEndBeforeStart": "Das Startdatum muss vor dem Enddatum liegen",
     "PasswordMatch": "Passwörter stimmen nicht überein"

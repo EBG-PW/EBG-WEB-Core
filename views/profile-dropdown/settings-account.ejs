@@ -455,7 +455,6 @@
         const dropzone = new Dropzone("#dropzone-avatar-upload", {
           url: "/api/v1/user/avatar",
           autoProcessQueue: false,
-          acceptedFiles: ".jpg,.jpeg",
           maxFiles: 1,
           previewsContainer: ".dropzone",
           headers: {
@@ -465,6 +464,11 @@
             this.on("addedfile", function (file) {
               // Check if the file is already compressed to prevent loop
               if (file.isCompressed) return;
+              if (file.type !== "image/jpeg" && file.type !== "image/png") {
+                this.removeFile(file);
+                alert(i18next.t("Error.AvatarTypeNotSupported", { type: file.type.split("/")[1] }));
+                return;
+              }
               if (this.files.length > 1) this.removeFile(this.files[0]);
               // Compress and resize the image before adding it to the Dropzone file list
               const img = new Image();
@@ -481,19 +485,26 @@
 
                 canvas.toBlob(
                   (blob) => {
-                    const croppedImage = new File([blob], file.name, { type: file.type });
+                    let newFileType = file.type;
+                    let newFileName = file.name;
+
+                    if (file.type === 'image/png') {
+                      newFileType = 'image/jpeg';
+                      newFileName = file.name.replace(/\.png$/, '.jpg');
+                    }
+
+                    const croppedImage = new File([blob], newFileName, { type: newFileType });
                     croppedImage.isCompressed = true; // Set compression flag, so we don't compress it again
 
                     this.removeFile(file);
                     this.addFile(croppedImage);
 
-                    // Update the preview image
                     const previewElement = document.querySelector("[data-dz-thumbnail]");
                     if (previewElement) {
                       previewElement.src = URL.createObjectURL(croppedImage);
                     }
                   },
-                  file.type,
+                  file.type === 'image/png' ? 'image/jpeg' : file.type,
                   0.74
                 );
               };
