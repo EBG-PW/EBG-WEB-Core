@@ -163,8 +163,9 @@ const applyMigration = async (start_migration) => {
         let start_migration = await get_db_migrations();
         let last_apply_migration = 0;
         if(!start_migration) {
-            initMigrations();
+            await initMigrations();
             log.info(`Migration table created.`);
+            start_migration = [];
         }
         
         if(start_migration.length === 0) {

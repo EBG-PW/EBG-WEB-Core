@@ -4,9 +4,8 @@ const { addWebtoken, logoutWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const HyperExpress = require('hyper-express');
-const { PermissionsError, InvalidRouteInput, InvalidLogin, Invalid2FA, DBError, RequestBlocked } = require('@lib/errors');
+const { PermissionsError, InvalidRouteInput, InvalidLogin, DBError, RequestBlocked } = require('@lib/errors');
 const useragent = require('express-useragent');
-const twofactor = require("node-2fa");
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
 const router = new HyperExpress.Router();
@@ -19,7 +18,7 @@ const PluginVersion = '0.0.1'; //This plugins version
 const identifierSchema = Joi.alternatives().try(
     Joi.string().email(), // First, try validating as an email
     Joi.string().alphanum().min(6).max(56) // If not an email, validate as an alphanumeric string
-  );
+);
 
 const LoginCheck = Joi.object({
     identifier: identifierSchema.required(),
