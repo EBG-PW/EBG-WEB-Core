@@ -15,24 +15,26 @@ process.log = log;
 
 const { Worker } = require('bullmq');
 const nodemailer = require("nodemailer");
-const ejs = require('ejs');
-const { WriteConfirmationToken, GetUserData } = require('@lib/postgres');
-const { generateOneTimePassword, generateUrlPath } = require('@lib/util');
+const i18next = require('i18next');
+const { GetUserData } = require('@lib/postgres');
+const { replacePlaceholders } = require('@lib/util');
 const { addConfirmationToken, addResetPasswordToken } = require('@lib/redis');
-const { convertPngFilesToBase64 } = require('@lib/template');
 
 const emailTemplateFolder = path.join(__dirname, 'templates');
 
-const mailTemplateStore = {
-  base64images: {},
-  email_tumbler_css: fs.readFileSync(path.join(emailTemplateFolder, 'assets', 'theme.css'), 'utf8'),
-  email_verification_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_verification_light.ejs'), 'utf8'),
-  email_passwordReset_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_passwordReset_light.ejs'), 'utf8'),
-  email_otpCode_light: fs.readFileSync(path.join(emailTemplateFolder, 'email_otpCode_light.ejs'), 'utf8'),
-};
+const mailTemplateStore = {};
+
+fs.readdirSync(emailTemplateFolder).forEach((file) => {
+  if (path.extname(file) === '.js') {
+    const filename = path.basename(file, '.js');
+    mailTemplateStore[filename] = require(path.join(emailTemplateFolder, file));
+  }
+});
+
 
 const translationStore = {
   de: require(path.join(emailTemplateFolder, 'lang', 'de.json')),
+  en: require(path.join(emailTemplateFolder, 'lang', 'en.json')),
 };
 
 const connection = {
@@ -54,58 +56,53 @@ const emailtransporter = nodemailer.createTransport({
 });
 
 (async () => {
-  // Load email template images
-  mailTemplateStore.base64images = await convertPngFilesToBase64(path.join(emailTemplateFolder, 'assets'));
+  await i18next.init({
+    lng: 'de',
+    fallbackLng: 'de',
+    resources: translationStore,
+  });
 
   const emailWorker = new Worker('q:mail', async (job) => {
     try {
       const userData = await GetUserData(job.data.userId);
-      let renderdEmail;
+      let emailText;
 
       process.log.debug(`Sending email to ${userData.email} with type: ${job.name}`);
 
+      const lang = userData.language || process.env.FALLBACKLANG;
+          const t = i18next.getFixedT(lang);
+
       switch (job.name) {
         case 'user:email_verification':
-          // const oneTimePassword = generateOneTimePassword();
-
-          renderdEmail = await ejs.render(mailTemplateStore.email_verification_light, {
-            css: mailTemplateStore.email_tumbler_css,
-            images: mailTemplateStore.base64images,
+          emailText = mailTemplateStore.email_verification_text.generate(t, {
             username: userData.username,
-            lang: translationStore[userData.language] || translationStore[process.env.FALLBACKLANG],
-            regUrl: `${job.data.appDomain}/api/v1/register/${job.data.urlPath}`,
+            regUrl: `${job.data.appDomain}/api/v1/register/${job.data.urlPath}`
           });
 
-          // Send email verification
           await emailtransporter.sendMail({
-            from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
+            from: `${process.env.COMPANYNAME} - Webpanel <${process.env.SMTP_USER}>`,
             to: userData.email,
-            subject: translationStore[userData.language].subject.registerMail || translationStore[process.env.FALLBACKLANG].subject.registerMail,
-            html: renderdEmail,
+            subject: t('subject.registerMail', { companyName: process.env.COMPANYNAME }),
+            text: emailText,
           });
-
-          // Add confirmation token to Redis
+          
           await addConfirmationToken(job.data.urlPath, job.data.userId);
           break;
         case 'user:login':
           // Send login email
           break;
         case 'user:reset_password':
-          // const oneTimePassword = generateOneTimePassword();
-          renderdEmail = await ejs.render(mailTemplateStore.email_passwordReset_light, {
-            css: mailTemplateStore.email_tumbler_css,
-            images: mailTemplateStore.base64images,
+          const emailText = mailTemplateStore.email_passwordReset_text.generate(t, {
             username: userData.username,
-            lang: translationStore[userData.language] || translationStore[process.env.FALLBACKLANG],
-            regUrl: `${job.data.appDomain}/api/v1/resetpassword/${job.data.urlPath}`,
+            regUrl: `${job.data.appDomain}/api/v1/register/${job.data.urlPath}`
           });
 
           // Send email verification
           await emailtransporter.sendMail({
-            from: `EBG - Webpanel <${process.env.SMTP_USER}>`,
+            from: `${process.env.COMPANYNAME} - Webpanel <${process.env.SMTP_USER}>`,
             to: userData.email,
-            subject: translationStore[userData.language].subject.passwordReset,
-            html: renderdEmail,
+            subject: t('subject.passwordReset', { companyName: process.env.COMPANYNAME }),
+            text: emailText,
           });
 
           // Add password reset token to Redis

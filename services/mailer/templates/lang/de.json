@@ -1,25 +1,25 @@
 {
-    "companyName": "EBG",
-    "companyEmail": "contact@ebg.pw",
-    "greeting": "Hallo,",
-    "registerCodeHeadline": "Bitte klicke auf den Link um deine E-Mail-Adresse zu verifizieren:",
-    "resetPasswordHeadline": "Bitte klicke auf den Link um dein Passwort zurückzusetzen:",
-    "otpCodeHeadline": "Dein Einmalpasswort lautet:",
-    "registerconfirm": "Verifiziere deine E-Mail-Adresse",
-    "passwordresetconfirm": "Passwort zurücksetzen",
-    "companyContactText": "Wenn du irgendwelche Fragen hast, kontaktiere uns bitte unter:",
+  "translation": {
+    "greeting": "Hallo {{username}}!",
+    "companyContact": "Wenn du Fragen hast, kontaktiere uns unter {{companyEmail}}",
     "subject": {
-        "registerMail": "Willkommen bei EBG, bitte verifiziere deine E-Mail-Adresse",
-        "passwordReset": "Dein Passwort zurücksetzen für EBG",
-        "otpCode": "Dein Einmalpasswort für EBG"
+      "registerMail": "Willkommen bei {{companyName}}, bitte verifiziere deine E-Mail-Adresse",
+      "passwordReset": "Dein Passwort zurücksetzen für {{companyName}}",
+      "otpCode": "Dein Einmalpasswort für {{companyName}}"
     },
     "preHeader": {
-        "registerMail": "Bitte verifiziere deine E-Mail-Adresse mit dieser Email",
-        "resetPassword": "Resette dein Passwort mit dieser Email"
+      "registerMail": "Bitte verifiziere deine E-Mail-Adresse mit dieser Email",
+      "resetPassword": "Resette dein Passwort mit dieser Email"
     },
-    "links": {
-        "twitter": "https://twitter.com/ebg_pw",
-        "github": "https://github.com/EBG-PW",
-        "instagram": "hhttps://www.instagram.com/ebg_official/"
+    "emails": {
+      "registerMail": {
+        "text": "Bitte klicke auf den Link um deine E-Mail-Adresse für deinen {{companyName}} Account zu verifizieren:",
+        "linkText": "{{- regUrl}}"
+      },
+      "passwordReset": {
+        "text": "Bitte klicke auf den Link um dein Passwort für deinen {{companyName}} Account zurückzusetzen:",
+        "linkText": "{{- regUrl}}"
     }
+    }
+  }
 }

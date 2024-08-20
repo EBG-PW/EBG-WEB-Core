@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "bullmq": "^5.2.1",
-    "ejs": "^3.1.9",
+    "i18next": "^23.14.0",
     "module-alias": "^2.2.3",
     "nodemailer": "^6.9.9",
     "pg": "^8.11.3"

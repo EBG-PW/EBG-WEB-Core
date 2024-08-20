@@ -11,6 +11,7 @@ const ejs = require('ejs');
 const { default_group } = require('@config/permissions');
 const { InvalidRouteInput, InvalidRegister, DBError, RenderError } = require('@lib/errors');
 const bcrypt = require('bcrypt');
+const { limiter } = require('@middleware/limiter');
 const router = new HyperExpress.Router();
 
 /* Plugin info*/
@@ -30,7 +31,7 @@ const CheckURLPath = Joi.object({
     urlPath: Joi.string().alphanum().required()
 });
 
-router.post('/', async (req, res) => {
+router.post('/', limiter(20), async (req, res) => {
     const value = await RegisterCheck.validateAsync(await req.json());
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
@@ -53,7 +54,7 @@ router.post('/', async (req, res) => {
     res.json({ status: true });
 });
 
-router.get('/:urlPath', async (req, res) => {
+router.get('/:urlPath', limiter(20), async (req, res) => {
     const value = await CheckURLPath.validateAsync(req.params);
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
@@ -75,7 +76,7 @@ router.get('/:urlPath', async (req, res) => {
     });
 });
 
-router.post('/:urlPath/verify', async (req, res) => {
+router.post('/:urlPath/verify', limiter(20), async (req, res) => {
     const value = await CheckURLPath.validateAsync(req.params);
     if (!value) throw new InvalidRouteInput('Invalid Route Input');
 
