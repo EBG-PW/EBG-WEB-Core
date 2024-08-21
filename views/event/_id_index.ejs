@@ -180,6 +180,7 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
+      let last_event_data = {};
       // Auto-fill user data (VanillaJS)
       document.addEventListener("DOMContentLoaded", async () => {
         loadEventDetails();
@@ -197,6 +198,7 @@
         if (response.status == 200) {
           const event_data = await response.json();
           loadAnnouncements(event_data);
+          last_event_data = event_data;
 
           document.getElementById("event_name").innerText = event_data.name;
           document.getElementById("event_description").innerHTML = event_data.description;
@@ -240,7 +242,7 @@
         }
       };
 
-      const loadAnnouncements = async (event_data) => {
+      const loadAnnouncements = async (event_data = last_event_data) => {
         const response = await fetch(`/api/v1/event/<%= params.id %>/announce`, {
           method: "GET",
           headers: {
@@ -255,7 +257,6 @@
           document.getElementById("event_announcements").innerHTML = "";
           announcements.forEach((announcement) => {
             const announcement_content = JSON.parse(announcement.content)
-            console.log(announcement_content);
             let text, icon;
             if (announcement_content.type === "text") {
               text = announcement_content.data;
@@ -281,6 +282,12 @@
                   <p class="text-secondary">
                     <span>${text}</span>
                   </p>
+                  ${event_data.creator_user_id === Number(localStorage.getItem("user_id")) ? `<span>
+                    <button onclick="deleteAnnouncement(this.id)" id="card|${announcement.activity_id}|${announcement.time}" class="btn btn-danger float-end">
+                      <svg xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7h16" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /><path d="M10 12l4 4m0 -4l-4 4" /></svg>
+                      <div>${i18next.t("Events.Settings.Announce.Button.Delete")}</div>
+                    </button>
+                  </span>` : ""}
                 </div>
               </div>
             </li>`;
@@ -288,14 +295,22 @@
         }
       }
 
-      /*
-      ${event_data.creator_user_id === Number(localStorage.getItem("user_id")) ? `<span>
-                    <button onclick="deleteAnnouncement(this.id)" id="${announcement.puuid}" class="btn btn-danger">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M10 12l4 4m0 -4l-4 4" /></svg>
-                      <div data-translate="Events.Settings.Announce.Button.Delete"></div>
-                    </button>
-                  </span>` : ""}
-      */
+      const deleteAnnouncement = async (id) => {
+        const activity_id = id.split("|")[1];
+        const time = id.split("|")[2];
+        const response = await fetch(`/api/v1/event/<%= params.id %>/announce/${activity_id}/${time}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (response.status == 200) {
+          loadAnnouncements();
+        } else {
+        }
+      };
 
       const joinEvent = async (id) => {
         const response = await fetch(`/api/v1/event/${id}/join`, {

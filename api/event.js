@@ -113,7 +113,8 @@ const ValidateAnnounceCreation = Joi.object({
 
 const ValidateAnnounceDeleteion = Joi.object({
     id: Joi.string().uuid().required(),
-    timestamp: Joi.number().integer().min(0).required()
+    activity_id: Joi.number().integer().min(0).required(),
+    timestamp: Joi.string().required()
 });
 
 router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async (req, res) => {
@@ -411,10 +412,12 @@ router.get('/:id/announce', verifyRequest('web.event.announce.read'), limiter(),
 });
 
 router.post('/:id/announce', verifyRequest('web.event.announce.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
-    const param = await ValidateUUID.validateAsync(req.params);
+    const params = await ValidateUUID.validateAsync(req.params);
     const value = await ValidateAnnounceCreation.validateAsync(await req.json());
 
-    await projectactivities.event.add_announce(param.id, value.type, value.announce);
+    await projectactivities.event.add_announce(params.id, value.type, value.announce);
+
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
 
     res.status(200);
     res.json({
@@ -422,11 +425,13 @@ router.post('/:id/announce', verifyRequest('web.event.announce.write'), verifyOw
     });
 });
 
-router.delete('/:id/announce/:timestamp', verifyRequest('web.event.announce.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
-    const param = await ValidateAnnounceDeleteion.validateAsync(req.params);
-
-    const sql_response = await projectactivities.event.del_announce(param.id, param.timestamp);
+router.delete('/:id/announce/:activity_id/:timestamp', verifyRequest('web.event.announce.write'), verifyOwner('id', 'PA'), limiter(), async (req, res) => {
+    const params = await ValidateAnnounceDeleteion.validateAsync(req.params);
+    
+    const sql_response = await projectactivities.event.del_announce(params.activity_id, decodeURIComponent(params.timestamp));
     if (sql_response.rowCount !== 1) throw new DBError('Event.Announce.Remove', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    await writeOverwriteCacheKey("public_event_:id", { id: params.id });
 
     res.status(200);
     res.json({
