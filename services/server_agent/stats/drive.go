@@ -5,8 +5,11 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/shirou/gopsutil/disk"
 )
 
 // DriveStat Struct
@@ -30,6 +33,28 @@ func cleanNumber(value string) string {
 // Retrieves the stats for all drives using gopsutil
 func GetDriveStats() ([]DriveStat, error) {
 	var drives []DriveStat
+	var err error
+
+	if runtime.GOOS == "linux" {
+		drives, err = getLinuxDriveStats()
+		if err != nil {
+			return nil, fmt.Errorf("error retrieving Linux drive stats: %v", err)
+		}
+	} else if runtime.GOOS == "windows" {
+		drives, err = getWindowsDriveStats()
+		if err != nil {
+			return nil, fmt.Errorf("error retrieving Windows drive stats: %v", err)
+		}
+	} else {
+		return nil, fmt.Errorf("unsupported operating system: %s", runtime.GOOS)
+	}
+
+	return drives, nil
+}
+
+// Linux-specific drive stats
+func getLinuxDriveStats() ([]DriveStat, error) {
+	var drives []DriveStat
 
 	physicalDrives, err := listPhysicalDrives()
 	if err != nil {
@@ -39,14 +64,63 @@ func GetDriveStats() ([]DriveStat, error) {
 	for _, driveName := range physicalDrives {
 		drive := DriveStat{
 			Name:      driveName,
-			Serial:    "", // May be populated later
+			Serial:    "", // TODO
 			Status:    "UNKNOWN",
 			Failing:   false,
 			RawValues: make(map[string]string),
 		}
 
+		// Get SMART data
 		if err := getSmartData(&drive, driveName); err != nil {
 			log.Printf("Error getting SMART data for drive %s: %v", driveName, err)
+		}
+
+		// Get disk usage
+		usage, err := disk.Usage(driveName)
+		if err != nil {
+			log.Printf("Error getting disk usage for drive %s: %v", driveName, err)
+		} else {
+			drive.Size = usage.Total
+			drive.UsedBytes = usage.Used
+			drive.UsedPercent = usage.UsedPercent
+		}
+
+		drives = append(drives, drive)
+	}
+
+	return drives, nil
+}
+
+// Windows-specific drive stats
+func getWindowsDriveStats() ([]DriveStat, error) {
+	var drives []DriveStat
+
+	partitions, err := disk.Partitions(false)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, part := range partitions {
+		usage, err := disk.Usage(part.Mountpoint)
+		if err != nil {
+			log.Println("Error getting disk usage for partition:", part.Mountpoint, err)
+			continue
+		}
+
+		drive := DriveStat{
+			Name:        part.Device,
+			Serial:      "", // TODO
+			Status:      "UNKNOWN",
+			Failing:     false,
+			Size:        usage.Total,
+			UsedBytes:   usage.Used,
+			UsedPercent: usage.UsedPercent,
+			RawValues:   make(map[string]string),
+		}
+
+		// Get SMART data
+		if err := getSmartData(&drive, part.Device); err != nil {
+			log.Println("Error getting SMART data for disk:", part.Device, err)
 		}
 
 		drives = append(drives, drive)
