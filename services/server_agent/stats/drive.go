@@ -1,13 +1,12 @@
 package stats
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"os/exec"
 	"strconv"
 	"strings"
-
-	"github.com/shirou/gopsutil/disk"
 )
 
 // DriveStat Struct
@@ -32,34 +31,53 @@ func cleanNumber(value string) string {
 func GetDriveStats() ([]DriveStat, error) {
 	var drives []DriveStat
 
-	partitions, err := disk.Partitions(false)
+	physicalDrives, err := listPhysicalDrives()
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to list physical drives: %v", err)
 	}
 
-	for _, part := range partitions {
-		usage, err := disk.Usage(part.Mountpoint)
-		if err != nil {
-			log.Println("Error getting disk usage for partition:", part.Mountpoint, err)
-			continue
-		}
-
+	for _, driveName := range physicalDrives {
 		drive := DriveStat{
-			Name:        part.Device,
-			Serial:      "", // TODO
-			Status:      "UNKNOWN",
-			Failing:     false,
-			Size:        usage.Total,
-			UsedBytes:   usage.Used,
-			UsedPercent: usage.UsedPercent,
-			RawValues:   make(map[string]string),
+			Name:      driveName,
+			Serial:    "", // May be populated later
+			Status:    "UNKNOWN",
+			Failing:   false,
+			RawValues: make(map[string]string),
 		}
 
-		if err := getSmartData(&drive, part.Device); err != nil {
-			log.Println("Error getting SMART data for disk:", part.Device, err)
+		if err := getSmartData(&drive, driveName); err != nil {
+			log.Printf("Error getting SMART data for drive %s: %v", driveName, err)
 		}
 
 		drives = append(drives, drive)
+	}
+
+	return drives, nil
+}
+
+// listPhysicalDrives uses `smartctl --scan` to return a list of physical drives
+func listPhysicalDrives() ([]string, error) {
+	var drives []string
+
+	cmd := exec.Command("smartctl", "--scan")
+	output, err := cmd.Output()
+	if err != nil {
+		return nil, fmt.Errorf("failed to run smartctl --scan: %v", err)
+	}
+
+	scanner := bufio.NewScanner(strings.NewReader(string(output)))
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.HasPrefix(line, "/dev/") {
+			fields := strings.Fields(line)
+			if len(fields) > 0 {
+				drives = append(drives, fields[0])
+			}
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
 	}
 
 	return drives, nil
