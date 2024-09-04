@@ -67,11 +67,33 @@ func GetDriveStats() ([]DriveStat, error) {
 
 // Retrieves SMART data using smartctl (available on both Windows and Linux)
 func getSmartData(drive *DriveStat, device string) error {
+	// First, use smartctl -H to get the overall health assessment
+	healthCmd := exec.Command("smartctl", "-H", device)
+
+	healthOutput, err := healthCmd.Output()
+	if err != nil {
+		return fmt.Errorf("error executing smartctl -H: %v", err)
+	}
+
+	healthLines := strings.Split(string(healthOutput), "\n")
+	for _, line := range healthLines {
+		if strings.Contains(line, "SMART overall-health self-assessment test result: PASSED") {
+			drive.Status = "OK"
+			drive.Failing = false
+			drive.RawValues["SMART_Health"] = "PASSED"
+		} else if strings.Contains(line, "FAILED") {
+			drive.Status = "FAILING"
+			drive.Failing = true
+			drive.RawValues["SMART_Health"] = "FAILED"
+		}
+	}
+
+	// Optionally still retrieve the detailed SMART attributes with -A if needed
 	cmd := exec.Command("smartctl", "-A", device)
 
 	output, err := cmd.Output()
 	if err != nil {
-		return fmt.Errorf("error executing smartctl: %v", err)
+		return fmt.Errorf("error executing smartctl -A: %v", err)
 	}
 
 	lines := strings.Split(string(output), "\n")
@@ -83,17 +105,6 @@ func getSmartData(drive *DriveStat, device string) error {
 		}
 
 		switch {
-		case strings.HasPrefix(line, "Critical Warning:"):
-			if fields[2] != "0x00" {
-				drive.Status = "FAILING"
-				drive.Failing = true
-				drive.RawValues["Critical_Warning"] = "true"
-			} else {
-				drive.Status = "OK"
-				drive.Failing = false
-				drive.RawValues["Critical_Warning"] = "false"
-			}
-
 		case strings.HasPrefix(line, "Temperature:"):
 			temp, err := strconv.Atoi(fields[1])
 			if err == nil {
@@ -110,12 +121,6 @@ func getSmartData(drive *DriveStat, device string) error {
 		case strings.HasPrefix(line, "Percentage Used:"):
 			percentageUsed := strings.TrimSuffix(fields[2], "%")
 			drive.RawValues["Percentage_Used"] = cleanNumber(percentageUsed)
-
-		case strings.HasPrefix(line, "Host Read Commands:"):
-			drive.RawValues["Host_Read_Commands"] = cleanNumber(fields[3])
-
-		case strings.HasPrefix(line, "Host Write Commands:"):
-			drive.RawValues["Host_Write_Commands"] = cleanNumber(fields[3])
 
 		case strings.HasPrefix(line, "Power Cycles:"):
 			drive.RawValues["Power_Cycles"] = cleanNumber(fields[2])
