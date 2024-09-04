@@ -32,7 +32,7 @@ func cleanNumber(value string) string {
 func GetDriveStats() ([]DriveStat, error) {
 	var drives []DriveStat
 
-	partitions, err := disk.Partitions(true)
+	partitions, err := disk.Partitions(false)
 	if err != nil {
 		return nil, err
 	}
