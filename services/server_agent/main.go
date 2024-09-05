@@ -12,12 +12,9 @@ import (
 )
 
 func main() {
-	// Start a ticker that checks the drive status every 10 minutes
 	checkTicker := time.NewTicker(10 * time.Minute)
-	// Start a ticker that sends all stats every hour
 	sendTicker := time.NewTicker(1 * time.Hour)
 
-	// Check the drives initially at startup
 	go checkDrives()
 	go collectAndSendStats()
 
@@ -52,32 +49,30 @@ func checkDrives() {
 }
 
 func collectAndSendStats() {
-	// Collect all the stats
 	drives, err := stats.GetDriveStats()
 	if err != nil {
 		log.Println("Error getting drive stats:", err)
 		return
 	}
 
-	cpuStats, err := stats.GetCPUStats() // Placeholder for actual CPU stats collection
+	cpuStats, err := stats.GetCPUStats()
 	if err != nil {
 		log.Println("Error getting CPU stats:", err)
 		return
 	}
 
-	memStats, err := stats.GetMemStats() // Placeholder for actual memory stats collection
+	memStats, err := stats.GetMemStats()
 	if err != nil {
 		log.Println("Error getting memory stats:", err)
 		return
 	}
 
-	networkStats, err := stats.GetNetworkStats() // Placeholder for actual network stats collection
+	networkStats, err := stats.GetNetworkStats()
 	if err != nil {
 		log.Println("Error getting network stats:", err)
 		return
 	}
 
-	// Prepare data to send
 	dataToSend := map[string]interface{}{
 		"drives":  drives,
 		"cpu":     cpuStats,
@@ -85,7 +80,6 @@ func collectAndSendStats() {
 		"network": networkStats,
 	}
 
-	// Convert the data to a pretty-printed JSON format
 	jsonData, err := json.MarshalIndent(dataToSend, "", "  ")
 	if err != nil {
 		log.Println("Error marshalling data to JSON:", err)

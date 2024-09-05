@@ -196,6 +196,7 @@ func getSmartData(drive *DriveStat, device string) error {
 			continue
 		}
 
+		// Handle NVME specific attributes
 		switch {
 		case strings.HasPrefix(line, "Temperature:"):
 			temp, err := strconv.Atoi(fields[1])
@@ -222,6 +223,25 @@ func getSmartData(drive *DriveStat, device string) error {
 
 		case strings.HasPrefix(line, "Unsafe Shutdowns:"):
 			drive.RawValues["Unsafe_Shutdowns"] = cleanNumber(fields[2])
+		}
+
+		// Handle ATA specific attributes
+		switch fields[1] {
+		case "Reallocated_Sector_Ct":
+			drive.RawValues["Reallocated_Sector_Ct"] = cleanNumber(fields[9])
+
+		case "Power_On_Hours":
+			drive.RawValues["Power_On_Hours"] = cleanNumber(fields[9])
+
+		case "Power_Cycle_Count":
+			drive.RawValues["Power_Cycle_Count"] = cleanNumber(fields[9])
+
+		case "Airflow_Temperature_Cel", "Temperature_Celsius":
+			temp, err := strconv.Atoi(fields[9])
+			if err == nil {
+				drive.Temp = temp
+				drive.RawValues["Temperature_Celsius"] = strconv.Itoa(temp)
+			}
 		}
 	}
 
