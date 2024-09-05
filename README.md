@@ -12,11 +12,12 @@
 - [ ] Server monitoring tool (Split Service)
   - [ ] Systemctl monitoring
   - [ ] Crontab monitoring
-  - [ ] Automatic backups + monitoring
   - [ ] Resources, Uptime, Network, IO
-  - [ ] Web server config creation / maintaining
   - [ ] SMART Disk Monitoring
   - [ ] Package managers
+- [ ] Server remote managment tool (Split Service)
+  - [ ] Web server config creation / maintaining
+  - [ ] Automatic backups + monitoring
 - [ ] Application Monitoring (Split Service)
   - [ ] Uptime
   - [ ] SSL
