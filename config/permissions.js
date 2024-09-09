@@ -45,7 +45,8 @@ module.exports = {
                 "web.user.*",
                 "web.oauthapp.*",
                 "app.user.settings.*",
-                "app.event.user.*"
+                "app.event.user.*",
+                "app.project.user.*"
             ],
             "inherit": [
                 "app"
