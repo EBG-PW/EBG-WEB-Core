@@ -1,0 +1,25 @@
+module.exports = {
+    "id": 1725828690535,
+    "name": "migration_1725828690535.js",
+    "date": "2024-09-08T20:51:30.535Z",
+    "up_instructions": [`CREATE TABLE IF NOT EXISTS server_monitoring (
+            id UUID NOT NULL DEFAULT uuid_generate_v4(),
+            user_id integer,
+            system_ip inet,
+            system_hostname text,
+            cpu_model_name text,
+            cpu_count smallint,
+            cpu_threads smallint,
+            cpu_clock_mhz smallint,
+            cpu_utilization float,
+            cpu_temperature float,
+            ram_total bigint,
+            ram_used bigint,
+            ram_free bigint,
+            net_bytes_sent bigint,
+            net_bytes_recv bigint,
+            disks jsonb,
+            PRIMARY KEY (id, user_id),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE);`],
+    "down_instructions": [`DROP TABLE IF EXISTS server_monitoring;`]
+};
