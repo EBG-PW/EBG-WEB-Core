@@ -1,13 +1,14 @@
 # Main Web portal for the EBG association
 
 ## Features
+- [X] Static landingpage [Repo](https://github.com/EBG-PW/EBG-WEB-Landingpage)
 - [ ] User management
 - [ ] Member management
 - [ ] Financial processing for members
-- [ ] Public API (Event/Poject/User/Power)
-- [ ] Event management
+- [X] Public API (Event/Poject/User/Power)
+- [X] Event management
 - [ ] Project communities
-- [ ] Solar API
+- [X] Email Hub [Split Service](https://github.com/EBG-PW/EBG-WEB-Mailer)
 - [ ] Pushnotification Hub (Split Service)
 - [ ] Server monitoring tool (Split Service)
   - [ ] Systemctl monitoring
