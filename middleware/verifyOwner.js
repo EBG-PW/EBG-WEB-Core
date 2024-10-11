@@ -7,7 +7,8 @@ const { webtoken } = require('@lib/postgres');
 const useragent = require('express-useragent');
 
 /**
- * Async function to verify the request based on the given permission. User data will be added to the request. (req.user)
+ * Async function to verify if the user who made a request also ownes the resource he acceses.
+ * The permissions only grand global power, if a user has events.edit.username, without this middlware, he could edit the event of a others users event
  * @param {String} param_uuid_key 
  * @param {String} owner_mode
  * @returns 
