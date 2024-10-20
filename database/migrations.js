@@ -194,6 +194,7 @@ const applyMigration = async (start_migration) => {
 
     } catch (error) {
         log.error(`Failed to create migration table.\nError: ${error}`);
+        process.exit(2);
     }
 
     process.exit(0);
