@@ -23,6 +23,7 @@ app.use(expressCspHeader({
             "blob:",
             "https://avatars.githubusercontent.com/u/", // GitHub avatars
             "https://lh3.googleusercontent.com/", // Google profile images
+            "https://cupcake.yearin.lol/cupcake/assets/", // Cupcake images (Temporarily)
         ],
         'worker-src': [NONE],
         'connect-src': [
