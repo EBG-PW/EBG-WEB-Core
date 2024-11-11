@@ -11,5 +11,7 @@ module.exports = {
             time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY (ip_address, hostname, user_id),
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE);`],
-    "down_instructions": []
+    "down_instructions": [
+        `DROP TABLE IF EXISTS netdata_monitoring;`
+    ]
 };
