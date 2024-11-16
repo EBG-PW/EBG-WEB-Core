@@ -1,0 +1,9 @@
+{
+  "Delete": {
+    "Title": "Are you sure?",
+    "Button": {
+      "Delete": "Delete",
+      "Cancel": "Cancel"
+    }
+  }
+}

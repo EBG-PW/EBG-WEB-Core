@@ -1,0 +1,39 @@
+{
+  "Header": {
+    "Pagename": "EBG - Dashboard",
+    "Field": {
+      "Monitoring": "Monitoring"
+    },
+    "Profile": {
+      "Profile": "Profile",
+      "Settings": "Settings",
+      "Apps": "Connected Apps",
+      "Logout": "Logout"
+    },
+    "Navbar": {
+      "Home": "Home",
+      "Projects": "Projects",
+      "Events": "Events",
+      "UserManagment": "User Management",
+      "Services": {
+        "Name": "Services",
+        "Game": "Game Servers",
+        "Monitoring": "Server Monitoring",
+        "Vm": "VM Servers"
+      }
+    },
+    "Buttons": {
+      "ToggleColor": {
+        "Light": "Light Mode",
+        "Dark": "Dark Mode"
+      }
+    }
+  },
+  "Footer": {
+    "Links": {
+      "Guidelines": "Guidelines",
+      "Imprint": "Imprint",
+      "Privacy": "Privacy Policy"
+    }
+  }
+}

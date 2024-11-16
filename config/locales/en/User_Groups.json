@@ -1,0 +1,12 @@
+{
+  "user": "User",
+  "member": "Club Members",
+  "kassierer": "Treasurer",
+  "schriftführer": "Secretary",
+  "obmann": "Chairman",
+  "root": "Root",
+  "virtualGroups": {
+    "user": "Registered Users",
+    "member": "Club Members"
+  }
+}

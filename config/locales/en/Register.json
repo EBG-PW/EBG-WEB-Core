@@ -1,0 +1,18 @@
+{
+  "Title": "Register",
+  "HeadlineNewAcc": "Create a New Account",
+  "Username": "Username",
+  "Password1": "Password",
+  "Password2": "Repeat Password",
+  "Password": "Password",
+  "CreateNewAccount": "Create New Account",
+  "GotAccount": "Already have an account?",
+  "Legal": "Accept the terms of use and privacy policy",
+  "Success": "Email has been sent, please check your inbox.",
+  "Placeholder": {
+    "Username": "Username"
+  },
+  "Error": {
+    "401": "Username or email address already in use"
+  }
+}

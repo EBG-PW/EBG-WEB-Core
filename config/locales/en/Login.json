@@ -1,0 +1,28 @@
+{
+  "Title": "Sign In",
+  "Header": "Sign In",
+  "EmailAdress": "Email Address",
+  "Password": "Password",
+  "ForgotPassword": "Forgot password?",
+  "OauthRegister": "Your account has been created, an email has been sent to you.",
+  "Button": {
+    "Remember": "Keep me signed in",
+    "SignIn": "Sign In",
+    "Error": {
+      "401": "Email address or password incorrect",
+      "403": "Account locked",
+      "423": "Email address not verified",
+      "500": "Server error"
+    }
+  },
+  "Or": "Or",
+  "OAuth": {
+    "LoginWGithub": "Sign in with Github",
+    "LoginWGoogle": "Sign in with Google"
+  },
+  "SignUPPhrase": "Don't have an account yet?",
+  "Placeholder": {
+    "EmailAdress": "Email Address",
+    "Password": "Password"
+  }
+}

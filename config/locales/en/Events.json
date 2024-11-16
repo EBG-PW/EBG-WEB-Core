@@ -1,0 +1,95 @@
+{
+  "Visibility": {
+    "1": "Public",
+    "0": "Private"
+  },
+  "Body": {
+    "DescriptionCardHeadline": "Event Description",
+    "Card": {
+      "LeaveButton": "Leave",
+      "Participates": "You are participating",
+      "JoinButton": "Join",
+      "Location": "Event Location",
+      "JoinDate": "Registration until",
+      "StartDate": "Start Date",
+      "EndDate": "End Date",
+      "MinGroup": "Visible to",
+      "Visibility": "Visibility",
+      "ParticipantWithCount_zero": "{{count}} Participants",
+      "ParticipantWithCount_one": "{{count}} Participant",
+      "ParticipantWithCount_other": "{{count}} Participants"
+    },
+    "Head": {
+      "Title": "Events",
+      "SubTitle": "Here you can create, join, or manage events.",
+      "AddButton": "Create Event",
+      "CardTileInfos": "Information"
+    }
+  },
+  "Modal": {
+    "NewEvent": {
+      "Title": "Title",
+      "AvatarAdd": "Icon",
+      "Visibility_Open": "Public",
+      "Visibility_Hidden": "Hidden",
+      "MinGroup_RegOnly": "All registered users",
+      "MinGroup_Members": "Members only",
+      "EventName": "Event Name",
+      "Color": "Color",
+      "MinGroup": "Target Group",
+      "Visibility": "Visibility",
+      "DateApply": "Registration until",
+      "DateStart": "Start Date",
+      "DateEnd": "End Date",
+      "Location": "Location",
+      "Description": "Description",
+      "Placeholder": {
+        "EventName": "Event name",
+        "Description": "A short description of the event, you can use styling HTML tags.",
+        "Location": "An address, coordinates, or similar"
+      },
+      "Cancel": "Cancel",
+      "AddNew": "Create New Event"
+    }
+  },
+  "Settings": {
+    "Button": {
+      "SetAvatarIcon": "Set Event Avatar",
+      "DeleteAvatarIcon": "Delete Event Avatar",
+      "Link": "Settings"
+    },
+    "Title": "Event Settings",
+    "Site": {
+      "General": "General Settings",
+      "Announce": "Announcements",
+      "OAuth": "OAuth Settings"
+    },
+    "Announce": {
+      "Headline": "Announcements",
+      "Announce": "Write an announcement",
+      "SelectType": "Choose the type of announcement",
+      "Select": "Please Select",
+      "Text": "Text",
+      "Image": "Image",
+      "Success": "Announcement created successfully",
+      "Button": {
+        "Add": "Add",
+        "Delete": "Delete"
+      },
+      "Placeholder": {
+        "Textfield": "Here you can write an announcement, you can use styling HTML tags."
+      }
+    },
+    "OAuth": {
+      "Headline": "Event OAuth Settings",
+      "Create": "Create OAuth Client",
+      "Name": "OAuth Client Name",
+      "Delete": "Delete OAuth Client",
+      "NewClientCreated": "OAuth Client created successfully (Displayed only once, click the text to copy):",
+      "Sample": "OAuth-client",
+      "Redirect": "Redirect URI",
+      "PermissionsLine": "Permissions",
+      "AddoAuthClient": "Add OAuth Client"
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "Side": {
+    "Account": "Account",
+    "Misc": "Design, Language & Miscellaneous",
+    "Links": "Linkable Pages",
+    "Integrations": "Integrations"
+  },
+  "Main": {
+    "SettingsName": "Account Settings",
+    "ProfileHeadline": "Profile Settings",
+    "AccountHeadline": "Account Settings",
+    "PasswordHeadline": "Password Settings",
+    "PublicHeadline": "Privacy Settings",
+    "AvatarHeadline": "Upload Avatar",
+    "AvatarUploadArea": "Area to upload your avatar",
+    "AvatarDragHere": "Drag the image here or click to upload",
+    "Username": "Username",
+    "Email": "Email Address",
+    "FirstName": "First Name",
+    "LastName": "Last Name",
+    "Bio": "Biography",
+    "PasswordOld": "Old Password",
+    "PasswordRepeat": "Repeat Password",
+    "PasswordNew": "New Password",
+    "ExplainPrivate": "Here you can set your profile to private.",
+    "ExplainNoPassword": "Your account was created via a third-party app. An email has been sent to set your password.",
+    "Button": {
+      "SetPassword": "Change Password",
+      "PrivacyActive": "Privacy Enabled",
+      "PrivacyDeactive": "Privacy Disabled",
+      "Upload": "Upload",
+      "Cancel": "Cancel"
+    },
+    "Error": {
+      "Password": {
+        "NoPassword": "You don't have a password",
+        "Empty": "Please enter a password",
+        "NotEqual": "Passwords do not match",
+        "Unknown": "An unknown error occurred",
+        "Wrong": "The password is incorrect",
+        "401": "Old password incorrect",
+        "500": "Server error"
+      }
+    },
+    "Success": {
+      "Password": "Password changed successfully"
+    }
+  },
+  "Misc": {
+    "SettingsName": "Misc Settings",
+    "DesignLangHeadline": "Design & Language",
+    "Language": "Language",
+    "Layout": "Layout",
+    "LayoutOptions": {
+      "Fluid": "Fullscreen",
+      "Center": "Centered"
+    },
+    "NavBarLock": "Lock Navigation",
+    "NavBarLockOptions": {
+      "Top": "Top",
+      "Side": "Side"
+    }
+  },
+  "Links": {
+    "LingsHeadline": "Linkable Pages",
+    "Links": "Links",
+    "Platform": "Platform",
+    "Profile": "Profile / ID / Username",
+    "CurrentLinks": "Current Links",
+    "EditDiscription": "Here you can edit your linkable pages. Select the platform and edit the value, click outside the field to save.",
+    "CurrentLinksDescription": "Here you can see all your linkable pages. You can also edit them above or delete them here.",
+    "LinksListLable": {
+      "HeadPlatform": "Platform",
+      "HeadData": "Profile / ID / Username",
+      "Delete": "Delete"
+    }
+  },
+  "Profile": {
+    "AvatarIcon": "Avatar Icon",
+    "SetAvatarIcon": "Upload Avatar",
+    "DeleteAvatarIcon": "Delete Avatar",
+    "AvatarDelete": "Are you sure you want to delete your avatar? This action cannot be undone."
+  },
+  "Integrations": {
+    "IntegrationsHeadline": "Integrations",
+    "Integrations": "Integrations",
+    "Telegram": "Telegram ID",
+    "EditDescription": "For integration with Telegram, please enter your TG ID here, click outside the field to save."
+  }
+}
