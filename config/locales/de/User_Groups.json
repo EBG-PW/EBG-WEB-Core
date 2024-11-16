@@ -1,0 +1,12 @@
+{
+  "user": "Nutzer",
+  "member": "Vereinsmitglieder",
+  "kassierer": "Kassierer",
+  "schriftführer": "Schriftführer",
+  "obmann": "Obmann",
+  "root": "root",
+  "virtualGroups": {
+    "user": "Registrierte Nutzer",
+    "member": "Vereinsmitglieder"
+  }
+}

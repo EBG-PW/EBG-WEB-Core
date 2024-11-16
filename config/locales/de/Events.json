@@ -1,0 +1,95 @@
+{
+  "Visibility": {
+    "1": "Öffentlich",
+    "0": "Privat"
+  },
+  "Body": {
+    "DescriptionCardHeadline": "Event Beschreibung",
+    "Card": {
+      "LeaveButton": "Verlassen",
+      "Participates": "Du nimmst teil",
+      "JoinButton": "Beitreten",
+      "Location": "Veranstaltungsort",
+      "JoinDate": "Anmeldung bis",
+      "StartDate": "Start Datum",
+      "EndDate": "End Datum",
+      "MinGroup": "Sichtbar ab",
+      "Visibility": "Sichtbarkeit",
+      "ParticipantWithCount_zero": "{{count}} Teilnehmer",
+      "ParticipantWithCount_one": "{{count}} Teilnehmer",
+      "ParticipantWithCount_other": "{{count}} Teilnehmer"
+    },
+    "Head": {
+      "Title": "Veranstaltungen",
+      "SubTitle": "Hier kannst du Veranstaltungen erstellen, beitreten oder verwalten.",
+      "AddButton": "Veranstaltung erstellen",
+      "CardTileInfos": "Informationen"
+    }
+  },
+  "Modal": {
+    "NewEvent": {
+      "Title": "Titel",
+      "AvatarAdd": "Icon",
+      "Visibility_Open": "Öffentlich",
+      "Visibility_Hidden": "Versteckt",
+      "MinGroup_RegOnly": "Alle registrierten Nutzer",
+      "MinGroup_Members": "Nur für Mitglieder",
+      "EventName": "Event Name",
+      "Color": "Farbe",
+      "MinGroup": "Zielgruppe",
+      "Visibility": "Sichtbarkeit",
+      "DateApply": "Anmeldung bis",
+      "DateStart": "Start Datum",
+      "DateEnd": "End Datum",
+      "Location": "Örtlichkeit",
+      "Description": "Beschreibung",
+      "Placeholder": {
+        "EventName": "Name des Events",
+        "Description": "Eine kleine Beschreibung des Events, du kannst Styling-HTML Tags verwenden.",
+        "Location": "Eine Adresse, Goordianten oder ähnliches"
+      },
+      "Cancel": "Abbrechen",
+      "AddNew": "Neue Veranstaltung erstellen"
+    }
+  },
+  "Settings": {
+    "Button": {
+      "SetAvatarIcon": "Event Avatar setzen",
+      "DeleteAvatarIcon": "Event Avatar löschen",
+      "Link": "Einstellungen"
+    },
+    "Title": "Veranstaltungs Einstellungen",
+    "Site": {
+      "General": "Allgemeine Einstellungen",
+      "Announce": "Ankündigungen",
+      "OAuth": "OAuth Einstellungen"
+    },
+    "Announce": {
+      "Headline": "Ankündigungen",
+      "Announce": "Schreibe eine Ankündigung",
+      "SelectType": "Wähle die Art der ankündigung",
+      "Select": "Bitte Auswählen",
+      "Text": "Text",
+      "Image": "Bild",
+      "Success": "Ankündigung erfolgreich erstellt",
+      "Button": {
+        "Add": "Hinzufügen",
+        "Delete": "Löschen"
+      },
+      "Placeholder": {
+        "Textfield": "Hier kannst du eine Ankündigung schreiben, du kannst Styling-HTML Tags verwenden."
+      }
+    },
+    "OAuth": {
+      "Headline": "Event OAuth Einstellungen",
+      "Create": "OAuth Client Erstellen",
+      "Name": "OAuth Client Name",
+      "Delete": "OAuth Client Löschen",
+      "NewClientCreated": "OAuth Client erfolgreich erstellt (Wird nur 1 mal angezeigt, klicke auf den Text um ihn zu kopieren):",
+      "Sample": "Oauth-client",
+      "Redirect": "Redirect URI",
+      "PermissionsLine": "Berechtigungen",
+      "AddoAuthClient": "OAuth Client hinzufügen"
+    }
+  }
+}

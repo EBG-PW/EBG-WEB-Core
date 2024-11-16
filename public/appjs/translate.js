@@ -109,13 +109,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     
             // Add Service(s) the user has access to
             let services_string = "";
-    
+            /*
             if(checkPermission('service.game.user.*').result) {
                 services_string += `<a class="dropdown-item" href="/services/game">${i18next.t('Dashboard.Header.Navbar.Services.Game')}</a>`
             }
     
             if(checkPermission('service.vm.user.*').result) {
                 services_string += `<a class="dropdown-item" href="/services/vm">${i18next.t('Dashboard.Header.Navbar.Services.Vm')}</a>`
+            }
+            */
+            if(checkPermission('service.monitoring.user.*').result) {
+                services_string += `<a class="dropdown-item" href="/services/monitoring">${i18next.t('Dashboard.Header.Navbar.Services.Monitoring')}</a>`
             }
     
             if(services_string.length > 0) {

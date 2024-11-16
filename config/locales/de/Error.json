@@ -1,0 +1,33 @@
+{
+  "Joi": {
+    "string": {
+      "empty": "{{field}} darf nicht leer sein",
+      "min": "{{field}} muss mindestens {{limit}} Zeichen lang sein",
+      "max": "{{field}} darf höchstens {{limit}} Zeichen lang sein",
+      "email": "{{field}} muss eine gültige E-Mail-Adresse sein",
+      "alphanum": "{{field}} darf nur a-Z & 0-9 enthalten",
+      "pattern": {
+        "base": "{{field}} muss dem erforderlichen Muster entsprechen"
+      }
+    },
+    "number": {
+      "base": "{{field}} muss eine Zahl sein",
+      "min": "{{field}} muss größer oder gleich {{limit}} sein",
+      "max": "{{field}} muss kleiner oder gleich {{limit}} sein"
+    },
+    "date": {
+      "base": "{{field}} muss ein gültiges Datum sein",
+      "min": "Das Datum von {{field}} muss nach dem {{limit}} liegen",
+      "max": "Das Datum von {{field}} muss vor dem {{limit}} liegen"
+    },
+    "any": {
+      "required": "{{field}} ist erforderlich",
+      "only": "{{field}} darf nur {{valids}} sein"
+    },
+    "required": "{{field}} ist erforderlich"
+  },
+  "AvatarTypeNotSupported": "{{type}} Dateityp wird nicht unterstützt",
+  "NewEventApplyBeforeStart": "Das Anmeldedatum muss vor dem Startdatum liegen",
+  "NewEventEndBeforeStart": "Das Startdatum muss vor dem Enddatum liegen",
+  "PasswordMatch": "Passwörter stimmen nicht überein"
+}

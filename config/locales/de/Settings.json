@@ -1,0 +1,90 @@
+{
+  "Side": {
+    "Account": "Account",
+    "Misc": "Design, Sprache & Sonstiges",
+    "Links": "Verlinkbare Seiten",
+    "Integrations": "Integrationen"
+  },
+  "Main": {
+    "SettingsName": "Account Einstellungen",
+    "ProfileHeadline": "Profil Einstellungen",
+    "AccountHeadline": "Account Einstellungen",
+    "PasswordHeadline": "Passwort Einstellungen",
+    "PublicHeadline": "Privatsphäre Einstellungen",
+    "AvatarHeadline": "Avatar Hochladen",
+    "AvatarUploadArea": "Bereich zum Hochladen des Avatars",
+    "AvatarDragHere": "Ziehe das Bild hierher oder klicke um es hochzuladen",
+    "Username": "Benutzername",
+    "Email": "E-Mail Adresse",
+    "FirstName": "Vorname",
+    "LastName": "Nachname",
+    "Bio": "Biographie",
+    "PasswordOld": "Altes Passwort",
+    "PasswordRepeat": "Passwort wiederholen",
+    "PasswordNew": "Neues Passwort",
+    "ExplainPrivate": "Hier kannst du dein Profil auf Privat stellen.",
+    "ExplainNoPassword": "Dein Account wurde über eine Drittanbieter App erstellt, dir wurde eine E-Mail gesendet um dein Password zu setzen.",
+    "Button": {
+      "SetPassword": "Passwort ändern",
+      "PrivacyActive": "Privatsphäre aktiviert",
+      "PrivacyDeactive": "Privatsphäre deaktiviert",
+      "Upload": "Hochladen",
+      "Cancel": "Abbrechen"
+    },
+    "Error": {
+      "Password": {
+        "NoPassword": "Du hast kein Passwort",
+        "Empty": "Bitte gib ein Passwort ein",
+        "NotEqual": "Die Passwörter stimmen nicht überein",
+        "Unknown": "Ein unbekannter Fehler ist aufgetreten",
+        "Wrong": "Das Passwort ist falsch",
+        "401": "Altes Passwort falsch",
+        "500": "Serverfehler"
+      }
+    },
+    "Success": {
+      "Password": "Passwort erfolgreich geändert"
+    }
+  },
+  "Misc": {
+    "SettingsName": "Misc Einstellungen",
+    "DesignLangHeadline": "Design & Sprache",
+    "Language": "Sprache",
+    "Layout": "Layout",
+    "LayoutOptions": {
+      "Fluid": "Vollbild",
+      "Center": "Zentriert"
+    },
+    "NavBarLock": "Navigation fixieren",
+    "NavBarLockOptions": {
+      "Top": "Oben",
+      "Side": "Seite"
+    }
+  },
+  "Links": {
+    "LingsHeadline": "Verlinkbare Seiten",
+    "Links": "Links",
+    "Platform": "Plattform",
+    "Profile": "Profil / ID / Username",
+    "CurrentLinks": "Aktuelle Verlinkungen",
+    "EditDiscription": "Hier kannst du deine verlinkbaren Seiten bearbeiten. Wähle die Platform und editiere den Wert, klicke aus dem Feld um zu speichern.",
+    "CurrentLinksDescription": "Hier siehst alle deine verlinkbaren Seiten. Du kannst sie auch oben bearbeiten oder hier löschen.",
+    "LinksListLable": {
+      "HeadPlatform": "Plattform",
+      "HeadData": "Profil / ID / Username",
+      "Delete": "Löschen"
+    }
+  },
+  "Profile": {
+    "AvatarIcon": "Avatar Icon",
+    "SetAvatarIcon": "Avatar Hochladen",
+    "DeleteAvatarIcon": "Avatar löschen",
+    "AvatarDelete": "Bist du dir sicher, dass du dein Avatar löschen möchtest? Dieser Vorgang kann nicht rückgängig gemacht werden."
+  },
+  "Integrations": {
+    "IntegrationsHeadline": "Integrationen",
+    "Integrations": "Integrationen",
+    "Telegram": "Telegram ID",
+    "EditDescription": "Trage für die Integration mit Telegram bitte hier deine TG ID ein, klicke aus dem Feld um zu speichern."
+  }
+}

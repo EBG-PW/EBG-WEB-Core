@@ -1,0 +1,19 @@
+{
+  "Titel": "Registrieren",
+  "Title": "Registrieren",
+  "HeadlineNewAcc": "Neuen Account erstellen",
+  "Username": "Benutzername",
+  "Password1": "Passwort",
+  "Password2": "Passwort wiederholen",
+  "Password": "Passwort",
+  "CreateNewAccount": "Neuen Account erstellen",
+  "GotAccount": "Sie haben bereits einen Account?",
+  "Legal": "Akzeptiere die Nutzungsbedingungen und Datenschutzrichtlinien",
+  "Success": "E-Mail wurde versendet, bitte überprüfe dein Postfach.",
+  "Placeholder": {
+    "Username": "Benutzername"
+  },
+  "Error": {
+    "401": "Benutzername oder E-Mail Adresse bereits vergeben"
+  }
+}

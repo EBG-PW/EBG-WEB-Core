@@ -1,0 +1,9 @@
+{
+  "Delete": {
+    "Title": "Bist du dir sicher?",
+    "Button": {
+      "Delete": "Löschen",
+      "Cancel": "Abbrechen"
+    }
+  }
+}
