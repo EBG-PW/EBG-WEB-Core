@@ -18,7 +18,7 @@
       "Services": {
         "Name": "Dienste",
         "Game": "Spiele Server",
-        "Monitoring": "Server Überwachung",
+        "SRVMonitoring": "Server Überwachung",
         "Vm": "VM Server"
       }
     },
