@@ -9,7 +9,8 @@
     "clearRedis": "node ./tools/clearRedis.js",
     "start": "node index.js",
     "build": "cd ./landingpage && npm ci && npm run build",
-    "migration": "node ./database/migrations.js"
+    "migration": "node ./database/migrations.js",
+    "checklocales": "node ./tools/checkLanguageFiles.js"
   },
   "author": "BolverBlitz",
   "license": "AGPL-3.0",
