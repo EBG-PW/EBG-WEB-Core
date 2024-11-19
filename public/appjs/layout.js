@@ -108,7 +108,7 @@ const changeLanguage = async (language) => {
 
         if (response.status === 200) {
             localStorage.setItem('language', language);
-            document.cookie = `language=${localLang}; path=/`;
+            document.cookie = `language=${language}; path=/`;
             window.location.reload();
         } else {
             throw new Error(response.statusText);
