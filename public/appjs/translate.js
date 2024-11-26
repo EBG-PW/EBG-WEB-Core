@@ -138,16 +138,26 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
     
             // Admin und Vereins Management
+            let admin_string = "";
             // User Management
             if(checkPermission('app.admin.usermgm.*').result) {
-                navbar.innerHTML += `
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/user_list" >
-                        <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg></span>
-                        <span class="nav-link-title">${i18next.t('Dashboard.Header.Navbar.UserManagment')}</span>
-                    </a>
-                </li>`
+                admin_string += `<a class="dropdown-item" href="/admin/user_list">${i18next.t('Dashboard.Header.Navbar.Administration.UserManagment')}</a>`
             }
+
+            if(admin_string.length > 0) {
+                navbar.innerHTML += `
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#navbar-admin" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                        <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/lifebuoy -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="3" /><line x1="12" y1="5" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="19" /><line x1="5" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="19" y2="12" /><line x1="12" y1="12" x2="12" y2="12.01" /></svg>
+                        </span>
+                        <span class="nav-link-title">${i18next.t('Dashboard.Header.Navbar.Administration.Name')}</span>
+                      </a>
+                      <div class="dropdown-menu">
+                        ${admin_string}
+                      </div>
+                    </li>`
+            }
+            
         }
 });
