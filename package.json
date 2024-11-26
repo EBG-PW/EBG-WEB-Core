@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "update": "npx npm-check-updates -u",
+    "dev": "nodemon ./index.js -e js, json, ejs",
     "clearRedis": "node ./tools/clearRedis.js",
     "start": "node index.js",
     "build": "cd ./landingpage && npm ci && npm run build",
