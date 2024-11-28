@@ -12,5 +12,5 @@ module.exports = {
     "/profile-dropdown/settings-links": ["Dashboard", "User_Groups", "Settings"],
     "/profile-dropdown/settings-misc": ["Dashboard", "User_Groups", "Settings"],
     "/profile": [],
-    "/admin/user_list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"],
+    "/admin/user-list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"]
 }

@@ -3,9 +3,12 @@
     "Account": "Account",
     "Misc": "Design, Sprache & Sonstiges",
     "Links": "Verlinkbare Seiten",
-    "Integrations": "Integrationen"
+    "Integrations": "Integrationen",
+    "Membership": "Vereins Mitgliedschaft",
+    "ActiveServices": "Aktive Dienste"
   },
   "Main": {
+    "AdminSettingsName": "Account Einstellungen {{Username}}",
     "SettingsName": "Account Einstellungen",
     "ProfileHeadline": "Profil Einstellungen",
     "AccountHeadline": "Account Einstellungen",
@@ -26,6 +29,7 @@
     "ExplainNoPassword": "Dein Account wurde über eine Drittanbieter App erstellt, dir wurde eine E-Mail gesendet um dein Password zu setzen.",
     "Button": {
       "SetPassword": "Passwort ändern",
+      "ForceResetPassword": "Passwort zurücksetzen",
       "PrivacyActive": "Privatsphäre aktiviert",
       "PrivacyDeactive": "Privatsphäre deaktiviert",
       "Upload": "Hochladen",

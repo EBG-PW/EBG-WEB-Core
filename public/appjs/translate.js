@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             let admin_string = "";
             // User Management
             if(checkPermission('app.admin.usermgm.*').result) {
-                admin_string += `<a class="dropdown-item" href="/admin/user_list">${i18next.t('Dashboard.Header.Navbar.Administration.UserManagment')}</a>`
+                admin_string += `<a class="dropdown-item" href="/admin/user-list">${i18next.t('Dashboard.Header.Navbar.Administration.UserManagment')}</a>`
             }
 
             if(admin_string.length > 0) {

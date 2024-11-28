@@ -99,6 +99,7 @@
                     .filter((key) => !exclude_from_table.includes(key))
                     .map((key) => `<th><button class="table-sort" data-sort="sort-${key}" data-order="asc">${i18next.t(`SQLT.users.${key}`)}</button></th>`)
                     .join("")}
+                    <th>${i18next.t(`AUserList.Table.Actions_Head`)}</th>
                 </tr>
               </thead>
             `;
@@ -118,10 +119,17 @@
                                 return `<td>${i18next.t(`User_Groups.${value}`)}</td>`;
                               }
                             }
-                            // Handle avatar URLs or normal Data (Might need extension for other data types later)
-                            return typeof value === "string" && value.startsWith("/") ? `<td><img src="${value}" alt="Avatar" class="avatar"></td>` : `<td>${value !== null && value !== undefined ? value : "N/A"}</td>`;
+                            // Handle Avatar
+                            if (key === "avatar_url") {
+                              return `<td><img src="${value}" alt="Avatar" class="avatar"></td>`;
+                            }
+                            // Handle Strings
+                            return `<td>${value !== null && value !== undefined ? value : "N/A"}</td>`;
                           })
                           .join("")}
+                      <td>
+                        <button onclick="window.location.href='/admin/${user.puuid}/user-edit'" class="btn btn-primary">${i18next.t("AUserList.Table.Actions.Edit")}</button>
+                      </td>
                       </tr>`
                   )
                   .join("")}
