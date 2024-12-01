@@ -1,0 +1,18 @@
+{
+    "users": {
+        "puuid": "PUUID",
+        "username": "Username",
+        "email": "Email",
+        "email_verified": "Email verified on",
+        "password": "Password",
+        "user_group": "User group",
+        "first_name": "First name",
+        "last_name": "Last name",
+        "bio": "Biography",
+        "avatar_url": "Avatar",
+        "public": "Public",
+        "legal": "Legally accepted on",
+        "twofa_time": "Last 2FA activity",
+        "time": "Registered on"
+    }
+}
