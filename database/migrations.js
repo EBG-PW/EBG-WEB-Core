@@ -6,6 +6,7 @@
 require('dotenv').config();
 process.env.APPLICATION = "DB Migration";
 require('module-alias/register');
+const { performance } = require('perf_hooks');
 const { log } = require('@lib/logger');
 const fs = require('fs');
 const path = require('path');
@@ -63,7 +64,7 @@ const initMigrations = async () => {
     const query = `CREATE TABLE IF NOT EXISTS _migration (
         version bigserial PRIMARY KEY,
         time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP);`;
-    
+
     try {
         await db.query(query);
     } catch (error) {
@@ -127,13 +128,17 @@ const applyMigration = async (start_migration) => {
     // Filter out already applied migrations
     migrations = migrations.filter(migration => migration.id > start_migration);
 
-    if(migrations.length === 0) {
+    if (migrations.length === 0) {
         return 0;
     }
+
+    let totalTime = 0;
 
     for (const migration of migrations) {
         if (migration.up_instructions.length > 0) {
             log.system(`Applying migration: ${migration.name}`);
+            const startTime = performance.now();
+
             for (const instruction of migration.up_instructions) {
                 try {
                     await db.query(instruction);
@@ -142,11 +147,19 @@ const applyMigration = async (start_migration) => {
                     return false;
                 }
             }
+
+            const endTime = performance.now();
+            const migrationTime = (endTime - startTime) / 1000; // Convert to seconds
+            totalTime += migrationTime;
+
+            log.system(`Migration ${migration.name} completed in ${migrationTime.toFixed(2)} seconds`);
         }
     }
 
+    log.system(`All migrations completed in ${totalTime.toFixed(2)} seconds`);
+
     log.system(`Applied ${migrations.length} migrations.`);
-    
+
     // Return the last applied migration
     return migrations[migrations.length - 1].id;
 }
@@ -162,13 +175,13 @@ const applyMigration = async (start_migration) => {
     try {
         let start_migration = await get_db_migrations();
         let last_apply_migration = 0;
-        if(!start_migration) {
+        if (!start_migration) {
             await initMigrations();
             log.info(`Migration table created.`);
             start_migration = [];
         }
-        
-        if(start_migration.length === 0) {
+
+        if (start_migration.length === 0) {
             start_migration = 0;
         } else {
             start_migration = start_migration[start_migration.length - 1].version;
