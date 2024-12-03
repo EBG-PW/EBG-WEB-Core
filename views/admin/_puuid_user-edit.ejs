@@ -109,49 +109,109 @@
         <%- html_content.footer %>
       </div>
     </div>
+    <div class="modal fade" id="modal-upload-avatar" tabindex="-1" aria-labelledby="uploadAvatarModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="uploadAvatarModalLabel" data-translate="Settings.Main.AvatarHeadline"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title" data-translate="Settings.Main.AvatarUploadArea"></h3>
+                  <form class="dropzone" id="dropzone-avatar-upload" autocomplete="off" novalidate style="border: 2px dashed #ccc; border-radius: 10px; padding: 40px; text-align: center; cursor: pointer; transition: border-color 0.3s, background-color 0.3s">
+                    <div class="fallback">
+                      <input name="file" type="file" style="display: none" />
+                    </div>
+                    <div class="dz-message">
+                      <h3 class="dropzone-msg-title" style="font-size: 24px; margin-bottom: 10px" data-translate="Settings.Main.AvatarDragHere"></h3>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-translate="Settings.Main.Button.Cancel"></button>
+            <button type="button" class="btn btn-primary" id="upload-button" data-translate="Settings.Main.Button.Upload"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal modal-blur fade" id="modal-danger-delete-avatar" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="modal-status bg-danger"></div>
+          <div class="modal-body text-center py-4">
+            <!-- Download SVG icon from http://tabler-icons.io/i/alert-triangle -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
+              <path d="M12 9v4" />
+              <path d="M12 17h.01" />
+            </svg>
+            <h3 data-translate="Common_Modals.Delete.Title"></h3>
+            <div class="text-muted" data-translate="Settings.Profile.AvatarDelete"></div>
+          </div>
+          <div class="modal-footer">
+            <div class="w-100">
+              <div class="row">
+                <div class="col"><a class="btn w-100" data-bs-dismiss="modal" data-translate="Common_Modals.Delete.Button.Cancel"></a></div>
+                <div class="col"><a class="btn btn-danger w-100" data-bs-dismiss="modal" onclick="deleteAvatar()" data-translate="Common_Modals.Delete.Button.Delete"></a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
     <script src="<%= domain %>/appjs/permission.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/dist/libs/dropzone/dist/dropzone-min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
+      const current_userUUID = "<%= params.puuid %>";
       // AdminSettingsName ADD USER NAME THAT IS BEEING EDITED
 
       // Handle changes to all imput fields (VanillaJS)
       const apiEndpoints = {
         SettingsUsername: {
-          endpoint: "/api/v1/user/username",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/username`,
           method: "POST",
           field: "username",
           value: "raw",
         },
         SettingsEmail: {
-          endpoint: "/api/v1/user/email",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/email`,
           method: "POST",
           field: "email",
           value: "raw",
         },
         SettingsFirstName: {
-          endpoint: "/api/v1/user/firstname",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/firstname`,
           method: "POST",
           field: "first_name",
           value: "raw",
         },
         SettingsLastName: {
-          endpoint: "/api/v1/user/lastname",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/lastname`,
           method: "POST",
           field: "last_name",
           value: "raw",
         },
         SettingsBio: {
-          endpoint: "/api/v1/user/bio",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/bio`,
           method: "POST",
           field: "bio",
           value: "raw",
         },
         SettingsPrivacy: {
-          endpoint: "/api/v1/user/public",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/public`,
           method: "POST",
           field: "public",
           value: "bool",
@@ -218,7 +278,7 @@
       });
 
       const deleteAvatar = async () => {
-        const response = await fetch("/api/v1/user/avatar", {
+        const response = await fetch(`/api/v1/admin_user/${current_userUUID}/avatar`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -239,7 +299,7 @@
         Dropzone.autoDiscover = false;
 
         const dropzone = new Dropzone("#dropzone-avatar-upload", {
-          url: "/api/v1/user/avatar",
+          url: `/api/v1/admin_user/${current_userUUID}/avatar`,
           autoProcessQueue: false,
           maxFiles: 1,
           previewsContainer: ".dropzone",
@@ -319,7 +379,7 @@
         });
 
         // Auto-fill user data (VanillaJS)
-        const response = await fetch("/api/v1/user", {
+        const response = await fetch(`/api/v1/admin_user/${current_userUUID}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -336,7 +396,6 @@
           document.getElementById("SettingsFirstName").value = data.first_name;
           document.getElementById("SettingsLastName").value = data.last_name;
           document.getElementById("SettingsBio").value = data.bio;
-          document.getElementById("SettingsPrivacy").checked = !data.public;
         }
       });
     </script>

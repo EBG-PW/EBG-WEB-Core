@@ -28,16 +28,40 @@ const pageCountCheck = Joi.object({
     search: Joi.string().allow('').default('')
 });
 
-router.get('/count', verifyRequest('app.admin.usermgm.users'), limiter(), async (req, res) => {
-    const value = await pageCountCheck.validateAsync(req.query);
-    const amount = await admin.users.count_total(value.search);
+const validateUUID = Joi.object({
+    puuid: Joi.string().uuid().required()
+});
+
+router.get('/count', verifyRequest('app.admin.usermgm.users.read'), limiter(), async (req, res) => {
+    const query = await pageCountCheck.validateAsync(req.query);
+    const amount = await admin.users.count_total(query.search);
     res.status(200);
     res.json(amount);
 });
 
-router.get('/', verifyRequest('app.admin.usermgm.users'), limiter(), async (req, res) => {
-    const value = await pageCheckDataTable.validateAsync(req.query);
-    const users = await admin.users.get_page(Number(value.page) - 1, value.size, value.search, value.sort, value.order);
+router.get('/', verifyRequest('app.admin.usermgm.users.read'), limiter(), async (req, res) => {
+    const query = await pageCheckDataTable.validateAsync(req.query);
+    const users = await admin.users.get_page(Number(query.page) - 1, query.size, query.search, query.sort, query.order);
+    res.status(200);
+    res.json(users);
+});
+
+router.get('/:puuid', verifyRequest('app.admin.usermgm.users.read'), limiter(), async (req, res) => {
+    const params = await validateUUID.validateAsync(req.params);
+    const user_responses = await admin.users.get_by_uuid(params.puuid);
+    if (!user_responses || user_responses.length === 0) throw new InvalidRouteInput('Unknown User');
+
+    const user_response = user_responses[0];
+
+    res.status(200);
+    res.json({
+        username: user_response.username,
+        email: user_response.email,
+        first_name: user_response.first_name,
+        last_name: user_response.last_name,
+        bio: user_response.bio,
+        public: user_response.public,
+    });
     res.status(200);
     res.json(users);
 });
