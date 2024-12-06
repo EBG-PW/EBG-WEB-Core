@@ -2,15 +2,17 @@ const Joi = require('@lib/sanitizer');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { verifyOwner } = require('@middleware/verifyOwner');
-const { projectactivities } = require('@lib/postgres');
 const HyperExpress = require('hyper-express');
-const { writeOverwriteCacheKey } = require('@lib/cache');
+const { Netdata } = require('@lib/redis');
 const { InvalidRouteJson, DBError, InvalidRouteInput, CustomError, S3ErrorWrite, S3ErrorRead } = require('@lib/errors');
 const { streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
 const { plublicStaticCache } = require('@middleware/cacheRequest');
 const { getNextLowerDefaultGroup } = require('@lib/permission');
+const { srvmon } = require('@lib/postgres');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
+
+const zlib = require("node:zlib");
 
 const Busboy = require('busboy');
 const { PassThrough } = require('stream');
@@ -64,9 +66,24 @@ const NewSRVMonCheck = Joi.object({
     charttime: Joi.number().min(1).max(48).default(1),
 });
 
+router.get('/count', verifyRequest('app.service.srvmon.read'), limiter(), async (req, res) => {
+    const query = await pageCountCheck.validateAsync(req.query);
+    const amount = await srvmon.countByID(req.user.user_id, query.search);
+    res.status(200);
+    res.json(amount);
+});
+
+router.get('/', verifyRequest('app.service.srvmon.read'), limiter(), async (req, res) => {
+    const query = await pageCheck.validateAsync(req.query);
+    const monitors = await srvmon.getByID(req.user.user_id, Number(query.page) - 1, query.size, query.search);
+    const monitor_data = await Netdata.getOverviews(monitors);
+    res.status(200);
+    res.json(monitor_data);
+});
+
 router.post('/', verifyRequest('app.service.srvmon.write'), limiter(), async (req, res) => {
-    const value = await NewSRVMonCheck.validateAsync(await req.json());
-    console.log(value);
+    const body = await NewSRVMonCheck.validateAsync(await req.json());
+    await srvmon.create(body.ipaddr, req.user.user_id, body.hostname, body.charttime, body.chartscope);
     res.status(200);
     res.json({
         status: 'ok'

@@ -213,3 +213,23 @@ const debounce = (func, timeout = 300) => {
         timer = setTimeout(() => { func.apply(this, args); }, timeout);
     };
 }
+
+/**
+ * Decompress GZIP data and parse JSON in the browser.
+ * @param {Array|Uint8Array|Buffer} data - The GZIP compressed data.
+ * @returns {Promise<Object>} - A promise resolving to the parsed JSON object.
+ */
+const gzipDecompress = async (data) => {
+    try {
+        const uint8Data = data instanceof Uint8Array ? data : new Uint8Array(data);
+        const blob = new Blob([uint8Data]);
+        const decompressionStream = new DecompressionStream("gzip");
+        const decompressedStream = blob.stream().pipeThrough(decompressionStream);
+        const decompressedBlob = await new Response(decompressedStream).blob();
+        const decompressedText = await decompressedBlob.text();
+        return JSON.parse(decompressedText);
+    } catch (error) {
+        console.error("Error decompressing or parsing JSON:", error);
+        throw error;
+    }
+}
