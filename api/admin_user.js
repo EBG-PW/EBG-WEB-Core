@@ -52,6 +52,10 @@ const BioCheck = Joi.object({
     bio: Joi.string().min(0).max(512).pattern(/^[a-zA-Z0-9_ ,\.\-\'?!]*$/).required(),
 });
 
+const UserGroupCheck = Joi.object({
+    user_group: Joi.string().valid(...Object.keys(process.permissions_config.groups)).required(),
+});
+
 router.get('/count', verifyRequest('app.admin.usermgm.users.read'), limiter(), async (req, res) => {
     const query = await pageCountCheck.validateAsync(req.query);
     const amount = await admin.users.count_total(query.search);
@@ -159,6 +163,23 @@ router.post('/:puuid/bio', verifyRequest('app.admin.bio.write'), limiter(10), as
     res.json({
         message: 'Bio changed',
         bio: body.bio,
+    });
+});
+
+router.post('/:puuid/user_group', verifyRequest('app.admin.usergroup.write'), limiter(10), async (req, res) => {
+    const params = await validateUUID.validateAsync(req.params);
+    const body = await UserGroupCheck.validateAsync(await req.json());
+    if (!body) throw new InvalidRouteInput('Invalid Route Input');
+
+    // ADD Cache stuff to flush the cache for the user modified
+
+    const sql_response = await admin.users.update.user_group(params.puuid, body.user_group);
+    if (sql_response.rowCount !== 1) throw new DBError('User.Update.user_group', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    res.status(200);
+    res.json({
+        message: 'User_group changed',
+        bio: body.user_group,
     });
 });
 
