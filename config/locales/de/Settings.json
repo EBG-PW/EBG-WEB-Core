@@ -8,13 +8,14 @@
     "ActiveServices": "Aktive Dienste"
   },
   "Main": {
-    "AdminSettingsName": "Account Einstellungen {{Username}}",
+    "AdminSettingsName": "Account Einstellungen für {{Username}}",
     "SettingsName": "Account Einstellungen",
     "ProfileHeadline": "Profil Einstellungen",
     "AccountHeadline": "Account Einstellungen",
     "PasswordHeadline": "Passwort Einstellungen",
     "PublicHeadline": "Privatsphäre Einstellungen",
     "AvatarHeadline": "Avatar Hochladen",
+    "UserGroupHeadline": "Benutzergruppe & Berechtigungen",
     "AvatarUploadArea": "Bereich zum Hochladen des Avatars",
     "AvatarDragHere": "Ziehe das Bild hierher oder klicke um es hochzuladen",
     "Username": "Benutzername",
