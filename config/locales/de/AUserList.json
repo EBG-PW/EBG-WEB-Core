@@ -1,0 +1,15 @@
+{
+  "Body": {
+    "Head": {
+      "Title": "Benutzerliste",
+      "SubTitle": "Hier sind alle Benutzer aufgelistet"
+    }
+  },
+  "Table": {
+    "Actions_Head": "Aktionen",
+    "Actions": {
+      "Edit": "Bearbeiten",
+      "Delete": "Löschen"
+    }
+  }
+}

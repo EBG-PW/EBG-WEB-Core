@@ -1,10 +1,12 @@
 {
+  "app": "Applikation",
   "user": "Nutzer",
   "member": "Vereinsmitglieder",
+  "admin": "Administrator",
   "kassierer": "Kassierer",
   "schriftführer": "Schriftführer",
   "obmann": "Obmann",
-  "root": "root",
+  "root": "Fake Gott",
   "virtualGroups": {
     "user": "Registrierte Nutzer",
     "member": "Vereinsmitglieder"

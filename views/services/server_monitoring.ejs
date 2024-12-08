@@ -270,7 +270,7 @@
       // Load Server Monitors and display them
       const loadPageContent = (page, size) => {
         const search = document.getElementById("PageSearch").value;
-        fetch(`api/v1/srvmon?page=${page}&size=${size}&search=${search}`, {
+        fetch(`/api/v1/srvmon?page=${page}&size=${size}&search=${search}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -281,8 +281,67 @@
           if (response.status == 200) {
             const srvmonContainer = document.getElementById("srvmon-container");
             srvmonContainer.innerHTML = "";
-            response_json.forEach((monitor) => {
-              srvmonContainer.innerHTML += ``;
+            response_json.forEach(async (monitor) => {
+              if ("overview" in monitor) {
+                // Monitor Online
+                const monitorJson = await gzipDecompress(monitor.overview.data);
+                srvmonContainer.innerHTML += `<div class="col-md-6 col-lg-4">
+                <div class="card-tabs">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation"><a href="#tab-top-1" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Tab 1</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-2" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Tab 2</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-3" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Tab 3</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-4" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Tab 4</a></li>
+                  </ul>
+                  <div class="tab-content">
+                    <div id="tab-top-1" class="card tab-pane active show" role="tabpanel">
+                      <div class="card-body">
+                        <div class="card-title">Content of tab #1</div>
+                        <p class="text-secondary">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
+                        </p>
+                      </div>
+                    </div>
+                    <div id="tab-top-2" class="card tab-pane" role="tabpanel">
+                      <div class="card-body">
+                        <div class="card-title">Content of tab #2</div>
+                        <p class="text-secondary">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
+                        </p>
+                      </div>
+                    </div>
+                    <div id="tab-top-3" class="card tab-pane" role="tabpanel">
+                      <div class="card-body">
+                        <div class="card-title">Content of tab #3</div>
+                        <p class="text-secondary">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
+                        </p>
+                      </div>
+                    </div>
+                    <div id="tab-top-4" class="card tab-pane" role="tabpanel">
+                      <div class="card-body">
+                        <div class="card-title">Content of tab #4</div>
+                        <p class="text-secondary">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>`;
+              } else {
+                // Monitor Offline
+                srvmonContainer.innerHTML += `<div class="col-md-6 col-lg-4">
+                <div class="card bg-danger-lt">
+                  <div class="card-status-start bg-danger"></div>
+                  <div class="card-body">
+                    <h3 class="card-title">Card with side status</h3>
+                    <p class="text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti fugit incidunt, iste, itaque minima
+                      neque pariatur perferendis sed suscipit velit vitae voluptatem.</p>
+                  </div>
+                </div>
+              </div>`;
+              }
             });
           } else {
             // Error
@@ -292,7 +351,7 @@
 
       const loadPage = async () => {
         const search = document.getElementById("PageSearch").value;
-        const pagerequest = await fetch(`api/v1/event/count?search=${search}`, {
+        const pagerequest = await fetch(`/api/v1/srvmon/count?search=${search}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -350,7 +409,7 @@
         visibility: "NewSRVMonVisibility",
         charttime: "NewSRVMonChartTime",
       };
-      
+
       // Detekt submit button press
       document.getElementById("NewSRVMonSubmitBtn").addEventListener("click", function () {
         // Get values

@@ -4,7 +4,7 @@ module.exports = {
     "/dashboard": ["Dashboard", "User_Groups"],
     "/events": ["Dashboard", "User_Groups", "Events", "Page", "Error"],
     "/projects": ["Dashboard", "User_Groups", "Projects", "Page"],
-    "/requestresetpassword": ["RequestResetPassword"],
+    "/requestresetpassword": ["ResetPassword"],
     "/auth/oauth": ["OAuth"],
     "/auth/reset-password": ["ResetPassword"],
     "/profile-dropdown/settings-account": ["Dashboard", "User_Groups", "Settings"],
@@ -12,5 +12,6 @@ module.exports = {
     "/profile-dropdown/settings-links": ["Dashboard", "User_Groups", "Settings"],
     "/profile-dropdown/settings-misc": ["Dashboard", "User_Groups", "Settings"],
     "/profile": [],
+    "/admin/user-list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"],
     "/services/server_monitoring": ["Dashboard", "User_Groups", "Services", "Page", "SRVMon"],
 }
