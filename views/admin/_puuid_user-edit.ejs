@@ -78,21 +78,23 @@
                         <textarea class="form-control" value="" id="SettingsBio" onchange="handleInputChange(this.id)"></textarea>
                       </div>
                     </div>
-                    <h3 class="card-title mt-4" data-translate="Settings.Main.PasswordHeadline"></h3>
+                    <h3 class="card-title mt-4" data-translate="Settings.Main.PasswordAccountHeadline"></h3>
                     <div>
                       <div class="row g-2">
-                        <div>
-                          <div class="col-auto">
-                            <a class="btn" data-translate="Settings.Main.Button.ForceResetPassword" id="SettingsForceResetPassword"></a>
-                            <div id="SettingsForceResetPasswordError"></div>
-                          </div>
+                        <div class="col-auto">
+                          <a class="btn disabled" data-translate="Settings.Main.Button.ForceResetPassword" id="SettingsForceResetPassword"></a>
+                          <div id="SettingsForceResetPasswordError"></div>
+                        </div>
+                        <div class="col-auto">
+                          <a class="btn" data-translate="Settings.Main.Button.ForceLogout" onclick="handleInputChange(this.id)" id="SettingsForceLogout"></a>
+                          <div id="SettingsForceLogoutError"></div>
                         </div>
                       </div>
                     </div>
                     <h3 class="card-title mt-4" data-translate="Settings.Main.UserGroupHeadline"></h3>
-                    <select type="text" class="form-select mb-3" onchange="handleInputChange(this.id)" id="select-user-group" value="">
+                    <select type="text" class="form-select mb-3" onchange="handleInputChange(this.id)" id="SettingsSelectUserGroup" value="">
                       <% permissions_groups.forEach((group, index) => { %>
-                        <option value="<%= group %>" data-index="<%= index %>" data-translate="User_Groups.<%= group %>"></option>
+                      <option value="<%= group %>" data-index="<%= index %>" data-translate="User_Groups.<%= group %>"></option>
                       <% }); %>
                     </select>
                   </div>
@@ -212,11 +214,17 @@
           field: "bio",
           value: "raw",
         },
-        "select-user-group": {
+        SettingsSelectUserGroup: {
           endpoint: `/api/v1/admin_user/${current_userUUID}/user_group`,
           method: "POST",
           field: "user_group",
           value: "raw",
+        },
+        SettingsForceLogout: {
+          endpoint: `/api/v1/admin_user/${current_userUUID}/force_logout`,
+          method: "POST",
+          field: "click",
+          value: "button_click",
         },
       };
 
@@ -228,6 +236,8 @@
           value_send = inputElement.value;
         } else if (apiEndpoints[id].value == "bool") {
           value_send = inputElement.checked;
+        } else if (apiEndpoints[id].value == "button_click") {
+          value_send = true;
         }
 
         const response = await fetch(apiEndpoints[id].endpoint, {
@@ -243,14 +253,30 @@
         });
 
         if (response.ok) {
-          inputElement.classList.remove("is-invalid");
-          inputElement.classList.add("is-valid");
-
-          setTimeout(() => {
-            inputElement.classList.remove("is-valid");
-          }, 3000);
+          if (apiEndpoints[id].value == "button_click") {
+            inputElement.classList.toggle("btn-success");
+            setTimeout(() => {
+              inputElement.classList.toggle("btn-success");
+            }, 3000);
+          } else {
+            inputElement.classList.remove("is-invalid");
+            inputElement.classList.add("is-valid");
+            setTimeout(() => {
+              inputElement.classList.remove("is-valid");
+            }, 3000);
+          }
         } else {
-          inputElement.classList.add("is-invalid");
+          if (apiEndpoints[id].value == "button_click") {
+            inputElement.classList.toggle("btn-danger");
+            setTimeout(() => {
+              inputElement.classList.toggle("btn-danger");
+            }, 3000);
+          } else {
+            inputElement.classList.add("is-invalid");
+            setTimeout(() => {
+              inputElement.classList.remove("is-invalid");
+            }, 3000);
+          }
         }
       };
 
@@ -336,9 +362,9 @@
                     let newFileType = file.type;
                     let newFileName = file.name;
 
-                    if (file.type === 'image/png') {
-                      newFileType = 'image/jpeg';
-                      newFileName = file.name.replace(/\.png$/, '.jpg');
+                    if (file.type === "image/png") {
+                      newFileType = "image/jpeg";
+                      newFileName = file.name.replace(/\.png$/, ".jpg");
                     }
 
                     const croppedImage = new File([blob], newFileName, { type: newFileType });
@@ -352,7 +378,7 @@
                       previewElement.src = URL.createObjectURL(croppedImage);
                     }
                   },
-                  file.type === 'image/png' ? 'image/jpeg' : file.type,
+                  file.type === "image/png" ? "image/jpeg" : file.type,
                   0.74
                 );
               };
@@ -404,7 +430,7 @@
           document.getElementById("SettingsLastName").value = data.last_name;
           document.getElementById("SettingsBio").value = data.bio;
 
-          document.getElementById("select-user-group").value = data.user_group;
+          document.getElementById("SettingsSelectUserGroup").value = data.user_group;
         }
       });
     </script>

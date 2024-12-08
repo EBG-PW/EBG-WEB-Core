@@ -13,6 +13,7 @@
     "ProfileHeadline": "Profil Einstellungen",
     "AccountHeadline": "Account Einstellungen",
     "PasswordHeadline": "Passwort Einstellungen",
+    "PasswordAccountHeadline": "Passwort & Account Einstellungen",
     "PublicHeadline": "Privatsphäre Einstellungen",
     "AvatarHeadline": "Avatar Hochladen",
     "UserGroupHeadline": "Benutzergruppe & Berechtigungen",
@@ -31,6 +32,7 @@
     "Button": {
       "SetPassword": "Passwort ändern",
       "ForceResetPassword": "Passwort zurücksetzen",
+      "ForceLogout": "Zwangsausloggen",
       "PrivacyActive": "Privatsphäre aktiviert",
       "PrivacyDeactive": "Privatsphäre deaktiviert",
       "Upload": "Hochladen",
