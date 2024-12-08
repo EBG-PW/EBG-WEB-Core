@@ -1,12 +1,12 @@
 const Joi = require('joi');
-const { admin } = require('@lib/postgres');
+const { admin, webtoken } = require('@lib/postgres');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
-const { PassThrough } = require('stream');
-const { InvalidRouteInput, DBError, InvalidLogin, CustomError, S3ErrorWrite, S3ErrorRead, } = require('@lib/errors');
+const { InvalidRouteInput, DBError } = require('@lib/errors');
+const user = require('./user');
 const router = new HyperExpress.Router();
 
 
@@ -171,10 +171,16 @@ router.post('/:puuid/user_group', verifyRequest('app.admin.usergroup.write'), li
     const body = await UserGroupCheck.validateAsync(await req.json());
     if (!body) throw new InvalidRouteInput('Invalid Route Input');
 
-    // ADD Cache stuff to flush the cache for the user modified
-
     const sql_response = await admin.users.update.user_group(params.puuid, body.user_group);
     if (sql_response.rowCount !== 1) throw new DBError('User.Update.user_group', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    const user_webtokens = await webtoken.getByUserPUUID(params.puuid);
+    const user_webtokens_jobs = [];
+    user_webtokens.forEach(async (webtoken) => {
+        user_webtokens_jobs.push(delWebtoken(webtoken.token));
+    });
+
+    await Promise.all(user_webtokens_jobs);
 
     res.status(200);
     res.json({

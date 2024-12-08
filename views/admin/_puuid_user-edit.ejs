@@ -224,7 +224,7 @@
         const inputElement = document.getElementById(id);
         let value_send;
 
-        if (apiEndpoints[id].value == "raw") {
+        if (apiEndpoints[id].value == "raw" || apiEndpoints[id].value == "raw_reload") {
           value_send = inputElement.value;
         } else if (apiEndpoints[id].value == "bool") {
           value_send = inputElement.checked;
