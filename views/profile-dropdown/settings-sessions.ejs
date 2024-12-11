@@ -45,8 +45,8 @@
                   <div class="card-body">
                     <div class="list-group list-group-transparent">
                       <a href="/profile-dropdown/settings-account" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Account"></a>
-                      <a href="/profile-dropdown/settings-misc" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Settings.Side.Misc"></a>
-                      <a href="/profile-dropdown/settings-sessions" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Sessions"></a>
+                      <a href="/profile-dropdown/settings-misc" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Misc"></a>
+                      <a href="/profile-dropdown/settings-sessions" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Settings.Side.Sessions"></a>
                       <a href="/profile-dropdown/settings-links" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Links"></a>
                       <a href="/profile-dropdown/settings-integrations" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Integrations"></a>
                     </div>
@@ -54,25 +54,8 @@
                 </div>
                 <div class="col d-flex flex-column">
                   <div class="card-body">
-                    <h2 class="mb-4" data-translate="Settings.Misc.SettingsName"></h2>
-                    <h3 class="card-title" data-translate="Settings.Misc.DesignLangHeadline"></h3>
-                    <div class="row g-3">
-                      <div class="col-md-3">
-                        <div class="form-label" data-translate="Settings.Misc.Language"></div>
-                        <select type="text" class="form-select mb-3" id="select-lang" value="">
-                          <% for(const code in countryConfig) { %>
-                          <option value="<%= code %>"><%= countryConfig[code] %></option>
-                          <% } %>
-                        </select>
-                      </div>
-                      <div class="col-md">
-                        <div class="form-label" data-translate="Settings.Misc.Layout"></div>
-                        <select type="text" class="form-select mb-3" id="select-layout" value="">
-                          <option value="fluid" data-translate="Settings.Misc.LayoutOptions.Fluid"></option>
-                          <option value="center" data-translate="Settings.Misc.LayoutOptions.Center"></option>
-                        </select>
-                      </div>
-                    </div>
+                    <h2 class="mb-4" data-translate="Settings.Sessions.SettingsName"></h2>
+                    <h3 class="card-title" data-translate="Settings.Sessions.Overview"></h3>
                   </div>
                 </div>
               </div>
