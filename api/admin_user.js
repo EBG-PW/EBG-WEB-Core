@@ -189,6 +189,23 @@ router.post('/:puuid/user_group', verifyRequest('app.admin.usergroup.write'), li
     });
 });
 
+router.post('/:puuid/force_logout', verifyRequest('app.admin.forcelogout.write'), limiter(10), async (req, res) => {
+	const params = await validateUUID.validateAsync(req.params);
+	const user_webtokens = await webtoken.getByUserPUUID(params.puuid);
+	await admin.users.delete.webtoken_all(params.puuid); // Delete all webtokens for the user from the DB
+	const user_webtokens_jobs = []; // Delete all cached webtokens for the user
+	user_webtokens.forEach(async (webtoken) => {
+		user_webtokens_jobs.push(delWebtoken(webtoken.token));
+	});
+
+	await Promise.all(user_webtokens_jobs);
+
+	res.status(200);
+	res.json({
+		message: 'User logged out',
+	});
+});
+
 module.exports = {
     router: router,
     PluginName: PluginName,
