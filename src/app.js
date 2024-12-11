@@ -116,13 +116,26 @@ app.get('/*', (req, res) => {
         res.send(fs.readFileSync(file_to_send));
     } catch (error) {
         process.log.error(error)
-        ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN }, (err, str) => {
-            if (err) throw err;
-            res.header('Content-Type', 'text/html');
-            res.status(404);
-            res.send(str);
-        });
+        res.status(404);
+        if (req.accepts('html')) {
+            ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN }, (err, str) => {
+                if (err) throw err;
+                res.header('Content-Type', 'text/html');
+                res.send(str);
+            });
+        } else {
+            res.header('Content-Type', 'application/json');
+            res.json({ message: "Page not found", info: "Request can not be served", reason: "The requested page was not found" });
+
+        }
     };
+});
+
+// Catch all POST requests (404)
+app.post('/*', (req, res) => {
+    res.status(404);
+    res.header('Content-Type', 'application/json');
+    res.json({ message: "Route not Found", info: "Request can not be served", reason: "The requested route was not found" });
 });
 
 /* Handlers */
@@ -165,10 +178,11 @@ app.set_error_handler((req, res, error) => {
     if (error.error) console.log(error.error)
     res.status(outError.statusCode);
     if (outError.headers) { res.header(outError.headers.name, outError.headers.value); }
-    if (outError.back_url) {
+    if (outError.back_url && req.accepts('html')) {
         outError.domain = process.env.DOMAIN; // Apend the domain to the error
         ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), outError, (err, str) => {
             if (err) {
+                res.header('Content-Type', 'application/json');
                 res.json({
                     message: outError.message,
                     info: outError.info,
@@ -182,6 +196,7 @@ app.set_error_handler((req, res, error) => {
             }
         });
     } else {
+        res.header('Content-Type', 'application/json');
         res.json({
             message: outError.message,
             info: outError.info,
