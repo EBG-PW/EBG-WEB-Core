@@ -12,24 +12,10 @@ const { srvmon } = require('@lib/postgres');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
 
-const zlib = require("node:zlib");
-
-const Busboy = require('busboy');
 const { PassThrough } = require('stream');
-const Minio = require('minio');
-const { hostname } = require('os');
-
-// Initialize MinIO client
-const minioClient = new Minio.Client({
-    endPoint: process.env.S3_WEB_ENDPOINT,
-    port: parseInt(process.env.S3_WEB_PORT),
-    useSSL: process.env.S3_WEB_USESSL === 'true',
-    accessKey: process.env.S3_WEB_ACCESSKEY,
-    secretKey: process.env.S3_WEB_SECRETKEY
-});
 
 /* Plugin info*/
-const PluginName = 'Events'; //This plugins name
+const PluginName = 'SRVMon_Netdata'; //This plugins name
 const PluginRequirements = []; //Put your Requirements and version here <Name, not file name>|Version
 const PluginVersion = '0.0.1'; //This plugins version
 

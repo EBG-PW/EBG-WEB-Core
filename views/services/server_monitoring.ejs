@@ -266,6 +266,7 @@
     <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
+    <script src="<%= domain %>/appjs/convertion.js?<%= curentUnixTime %>"></script>
     <script>
       // Load Server Monitors and display them
       const loadPageContent = (page, size) => {
@@ -281,30 +282,61 @@
           if (response.status == 200) {
             const srvmonContainer = document.getElementById("srvmon-container");
             srvmonContainer.innerHTML = "";
-            response_json.forEach(async (monitor) => {
-              if ("overview" in monitor) {
+            response_json.forEach(async (m) => {
+              if ("overview" in m) {
                 // Monitor Online
-                const monitorJson = await gzipDecompress(monitor.overview.data);
+                const { individual, metrics } = await gzipDecompress(m.overview.data);
+                console.log(individual);
                 srvmonContainer.innerHTML += `<div class="col-md-6 col-lg-4">
                 <div class="card-tabs">
                   <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item" role="presentation"><a href="#tab-top-1" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">Tab 1</a></li>
-                    <li class="nav-item" role="presentation"><a href="#tab-top-2" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Tab 2</a></li>
-                    <li class="nav-item" role="presentation"><a href="#tab-top-3" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Tab 3</a></li>
-                    <li class="nav-item" role="presentation"><a href="#tab-top-4" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">Tab 4</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-1" class="nav-link active" data-bs-toggle="tab" aria-selected="true" role="tab">${i18next.t("SRVMon.Cards.Online.1")}</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-2" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">${i18next.t("SRVMon.Cards.Online.2")}</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-3" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">${i18next.t("SRVMon.Cards.Online.3")}</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-4" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">${i18next.t("SRVMon.Cards.Online.4")}</a></li>
+                    <li class="nav-item" role="presentation"><a href="#tab-top-5" class="nav-link" data-bs-toggle="tab" aria-selected="false" role="tab">${i18next.t("SRVMon.Cards.Online.5")}</a></li>
                   </ul>
                   <div class="tab-content">
                     <div id="tab-top-1" class="card tab-pane active show" role="tabpanel">
-                      <div class="card-body">
-                        <div class="card-title">Content of tab #1</div>
-                        <p class="text-secondary">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
-                        </p>
+                    <div class="card-body">
+                      <div class="card-title">${i18next.t("SRVMon.Cards.Online.1")}</div>
+                      <div class="text-secondary">
+                        <!-- Overview Summary -->
+                        <h5>${i18next.t("SRVMon.Overview.Summary")}</h5>
+                        <ul>
+                          <!-- CPU Overview -->
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.CPU.TotalUsage")}</strong>: 
+                            ${(100-metrics["system.cpu.idle"].value).toFixed(2)} ${metrics["system.cpu.idle"].units}
+                          </li>
+                          <!-- System Load -->
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
+                            ${metrics["system.load.load1"].value.toFixed(2)}/${metrics["system.load.load5"].value.toFixed(2)}/${metrics["system.load.load15"].value.toFixed(2)}
+                          </li>
+                          <!-- Memory Overview -->
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.MEM.TotalUsage")}</strong>: 
+                            ${ConvertUnits(metrics["system.ram.used"], "GiB").value} ${ConvertUnits(metrics["system.ram.used"], "GiB").units} / 
+                            ${(metrics["system.ram.buffers"].value+metrics["system.ram.cached"].value+metrics["system.ram.free"].value+metrics["system.ram.used"].value).toFixed(2)} ${metrics["system.ram.used"].units}
+                          </li>
+                          <!-- Disk Usage -->
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
+                           
+                          </li>
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.DISK.Status")}</strong>: 
+                            ${metrics["system.load.load1"].value.toFixed(2)}/${metrics["system.load.load5"].value.toFixed(2)}/${metrics["system.load.load15"].value.toFixed(2)}
+                          </li>
+                          
+                        </ul>
+                        </div>
                       </div>
                     </div>
                     <div id="tab-top-2" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">Content of tab #2</div>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.2")}</div>
                         <p class="text-secondary">
                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
                         </p>
@@ -312,7 +344,7 @@
                     </div>
                     <div id="tab-top-3" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">Content of tab #3</div>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.3")}</div>
                         <p class="text-secondary">
                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
                         </p>
@@ -320,7 +352,15 @@
                     </div>
                     <div id="tab-top-4" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">Content of tab #4</div>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.4")}</div>
+                        <p class="text-secondary">
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
+                        </p>
+                      </div>
+                    </div>
+                    <div id="tab-top-5" class="card tab-pane" role="tabpanel">
+                      <div class="card-body">
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.5")}</div>
                         <p class="text-secondary">
                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
                         </p>
@@ -335,9 +375,8 @@
                 <div class="card bg-danger-lt">
                   <div class="card-status-start bg-danger"></div>
                   <div class="card-body">
-                    <h3 class="card-title">Card with side status</h3>
-                    <p class="text-secondary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam deleniti fugit incidunt, iste, itaque minima
-                      neque pariatur perferendis sed suscipit velit vitae voluptatem.</p>
+                    <h3 class="card-title">${i18next.t("SRVMon.Cards.Offline", { hostname: m.hostname })}</h3>
+                    <p class="text-secondary">${i18next.t("SRVMon.Cards.Offline_Body", { hostname: m.hostname, ip_address: m.ip_address })}</p>
                   </div>
                 </div>
               </div>`;
