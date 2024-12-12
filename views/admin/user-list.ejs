@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>EBG - Dashboard</title>
+    <!-- Essential JS -->
+    <script>
+      const lang = <%- JSON.stringify(language) %>
+    </script>
+    <script src="<%= domain %>/appjs/i18next.js?<%= curentUnixTime %>"></script>
+    <!-- CSS files -->
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+    <link href="<%= domain %>/dist/css/tabler-flags.min.css?<%= curentUnixTime %>" rel="stylesheet" />
+  </head>
+  <body>
+    <script src="/appjs/format.js"></script>
+    <div class="page">
+      <!-- Navbar -->
+      <%- html_content.navbar %>
+      <div class="page-wrapper">
+        <!-- Page header -->
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title" data-translate="AUserList.Body.Head.Title"></h2>
+                <div class="text-muted mt-1" data-translate="AUserList.Body.Head.SubTitle"></div>
+              </div>
+              <!-- Page title actions -->
+              <div class="col-auto ms-auto d-print-none">
+                <div class="d-flex">
+                  <div class="me-3">
+                    <div class="input-icon">
+                      <input type="text" value="" class="form-control" id="PageSearch" onkeypress="debouncedLoadPage()" onchange="loadPage()" data-translate-placeholder="Page.Search" placeholder="" />
+                      <span class="input-icon-addon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                          <path d="M21 21l-6 -6" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
+            <div class="card-body">
+              <div id="user-container"></div>
+              <div id="paginationContainer"></div>
+            </div>
+          </div>
+        </div>
+        <%- html_content.footer %>
+      </div>
+    </div>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="<%= domain %>/appjs/permission.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
+    <script>
+      // Load events and display them
+      const loadPageContent = (page, size, sortRow = "username", sortOrder = "asc") => {
+        const search = document.getElementById("PageSearch").value;
+        const exclude_from_table = ["puuid"];
+        const use_translation = ["user_group"];
+
+        // Fetch data from the server with sorting and pagination
+        fetch(`/api/v1/admin_user?page=${page}&size=${size}&search=${search}&sort=${sortRow}&order=${sortOrder}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }).then(async (response) => {
+          const response_json = await response.json();
+
+          if (response.status === 200) {
+            const eventContainer = document.getElementById("user-container");
+
+            if (response_json.length === 0) {
+              eventContainer.innerHTML = `<p>No data available</p>`;
+              return;
+            }
+
+            // Generate table head from keys, excluding specified columns
+            const tableHead = `
+              <thead>
+                <tr>
+                  ${Object.keys(response_json[0])
+                    .filter((key) => !exclude_from_table.includes(key))
+                    .map((key) => `<th><button class="table-sort" data-sort="sort-${key}" data-order="asc">${i18next.t(`SQLT.users.${key}`)}</button></th>`)
+                    .join("")}
+                    <th>${i18next.t(`AUserList.Table.Actions_Head`)}</th>
+                </tr>
+              </thead>
+            `;
+
+            // Generate table body from values
+            const tableBody = `
+              <tbody>
+                ${response_json
+                  .map(
+                    (user) =>
+                      `<tr>
+                        ${Object.entries(user)
+                          .filter(([key]) => !exclude_from_table.includes(key))
+                          .map(([key, value]) => {
+                            if (use_translation.includes(key)) {
+                              if (key === "user_group") {
+                                return `<td>${i18next.t(`User_Groups.${value}`)}</td>`;
+                              }
+                            }
+                            // Handle Avatar
+                            if (key === "avatar_url") {
+                              return `<td><img src="${value}" alt="Avatar" class="avatar"></td>`;
+                            }
+                            // Handle Strings
+                            return `<td>${value !== null && value !== undefined ? value : "N/A"}</td>`;
+                          })
+                          .join("")}
+                      <td>
+                        <button onclick="window.location.href='/admin/${user.puuid}/user-edit'" class="btn btn-primary">${i18next.t("AUserList.Table.Actions.Edit")}</button>
+                      </td>
+                      </tr>`
+                  )
+                  .join("")}
+              </tbody>
+            `;
+
+            eventContainer.innerHTML = `
+              <div id="table-default" class="table-responsive">
+                <table class="table">
+                  ${tableHead}
+                  ${tableBody}
+                </table>
+              </div>
+            `;
+
+            // Add sorting functionality to dynamically created buttons
+            document.querySelectorAll(".table-sort").forEach((button) => {
+              button.addEventListener("click", () => {
+                const sortRow = button.getAttribute("data-sort").replace("sort-", "");
+                const currentOrder = button.dataset.order || "asc";
+                const newOrder = currentOrder === "asc" ? "desc" : "asc";
+                button.dataset.order = newOrder;
+
+                // Reload the table with the new sort parameters
+                loadPageContent(page, size, sortRow, newOrder);
+              });
+            });
+          } else {
+            console.error("Error loading users:", response_json);
+          }
+        });
+      };
+
+      const loadPage = async () => {
+        const search = document.getElementById("PageSearch").value;
+        const pagerequest = await fetch(`/api/v1/admin_user/count?search=${search}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (pagerequest.status == 200) {
+          const response_json = await pagerequest.json();
+          generatePagination(parseInt(response_json, 10), 10, 1, loadPageContent);
+        } else {
+          // Error
+        }
+      };
+
+      loadPage();
+      const debouncedLoadPage = debounce(loadPage);
+    </script>
+  </body>
+</html>
