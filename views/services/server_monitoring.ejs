@@ -317,19 +317,18 @@
                           <!-- Memory Overview -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.MEM.TotalUsage")}</strong>: 
-                            ${ConvertUnits(metrics["system.ram.used"], "GiB").value} ${ConvertUnits(metrics["system.ram.used"], "GiB").units} / 
-                            ${(metrics["system.ram.buffers"].value+metrics["system.ram.cached"].value+metrics["system.ram.free"].value+metrics["system.ram.used"].value).toFixed(2)} ${metrics["system.ram.used"].units}
+                            ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").value} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units} / 
+                            ${AddValuesWithUnits([metrics["system.ram.buffers"],metrics["system.ram.cached"],metrics["system.ram.free"],metrics["system.ram.used"]], "GiB")} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units}
                           </li>
                           <!-- Disk Usage -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
-                           
+                          
                           </li>
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.DISK.Status")}</strong>: 
-                            ${metrics["system.load.load1"].value.toFixed(2)}/${metrics["system.load.load5"].value.toFixed(2)}/${metrics["system.load.load15"].value.toFixed(2)}
+                            
                           </li>
-                          
                         </ul>
                         </div>
                       </div>
