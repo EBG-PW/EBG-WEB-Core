@@ -69,7 +69,7 @@ const verifyRequest = (permission) => {
 
         } catch (error) {
             if(error.name === "ValidationError") throw new InvalidToken('Invalid Token');
-            throw error; // This will trigger global error handler as we are returning an Error
+            return error; // This will trigger global error handler as we are returning an Error
         }
     };
 };
