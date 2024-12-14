@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
     // Compare passwort hash with passwort to check if they match
     if(user_response.password === null) throw new InvalidLogin('Invalid Login');
     const bcrypt_response = await bcrypt.compare(value.password, user_response.password);
-    if (!bcrypt_response) throw new InvalidLogin('Invalid Login');;
+    if (!bcrypt_response) throw new InvalidLogin('Invalid Login');
 
     // Ceck if user has 2FA enabled
     if (user_response.twofa_secret !== null) {

@@ -23,7 +23,7 @@ const RegisterCheck = Joi.object({
     username: Joi.string().alphanum().min(1).max(56).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).max(56).required(),
-    language: Joi.string().pattern(/^[a-zA-Z]{2,}(-[a-zA-Z]{2,})?$/).required(),
+    language: Joi.string().pattern(/^[a-zA-Z]{2,8}(-[a-zA-Z]{2,8})?$/).required(),
     legal: Joi.boolean().required().valid(true)
 });
 
