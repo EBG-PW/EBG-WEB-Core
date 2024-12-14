@@ -141,7 +141,6 @@ app.post('/*', (req, res) => {
 /* Handlers */
 app.set_error_handler((req, res, error) => {
     process.log.debug(error);
-    console.log(error)
     const outError = {
         message: error.message || "",
         info: error.info || "",

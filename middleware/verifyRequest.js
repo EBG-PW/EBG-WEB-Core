@@ -68,7 +68,7 @@ const verifyRequest = (permission) => {
             req.authorization = UserToken;
 
         } catch (error) {
-            if(error.name === "ValidationError") throw new InvalidToken('Invalid Token');
+            if(error.name === "ValidationError") return new InvalidToken('Invalid Token');
             return error; // This will trigger global error handler as we are returning an Error
         }
     };
