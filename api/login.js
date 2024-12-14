@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
     if (user_response.twofa_secret !== null) {
         // Generate a random token, so we can check if the user who loged in also entered the 2FA code
         const FA_Token = randomstring.generate({
-            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+            length: parseInt(process.env.WEBTOKENLENGTH, 10), //DO NOT CHANCE!!!
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
@@ -74,7 +74,7 @@ router.post('/', async (req, res) => {
         const UserAgent = useragent.parse(source)
 
         const WebToken = randomstring.generate({
-            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+            length: parseInt(process.env.WEBTOKENLENGTH, 10), //DO NOT CHANCE!!!
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
@@ -84,7 +84,9 @@ router.post('/', async (req, res) => {
         const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
         if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
+        const IP = getIpOfRequest(req);
+
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser, getCountryOfIP(IP));
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
         const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser); // Add the webtoken to the cache
 
@@ -123,7 +125,7 @@ router.post('/2fa', async (req, res) => {
     const UserAgent = useragent.parse(source)
 
     const WebToken = randomstring.generate({
-        length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+        length: parseInt(process.env.WEBTOKENLENGTH, 10), //DO NOT CHANCE!!!
         charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
     });
 
@@ -133,7 +135,9 @@ router.post('/2fa', async (req, res) => {
     const allowed = checkPermission(Formated_Permissions, 'app.web.login'); // Check if user has permissions to login
     if (!allowed.result) throw new PermissionsError('NoPermissions', 'app.web.login');
 
-    const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
+    const IP = getIpOfRequest(req);
+
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser, getCountryOfIP(IP));
     if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, twofa_time_response.rowCount, typeof twofa_time_response.rowCount);
     await addWebtoken(WebToken, user_response.user_id, user_response.user_response.puuid, user_response.username, user_response.avatar_url, Formated_Permissions, UserAgent.browser, user_response.language, user_response.design, new Date().getTime()); // Add the webtoken to the cache
 

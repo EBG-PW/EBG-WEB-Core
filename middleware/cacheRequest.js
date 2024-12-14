@@ -87,7 +87,7 @@ const plublicStaticCache = (duration, objOptions = [], overwrite = null) => {
                 }
             });
         } catch (error) {
-            return (error);
+            throw (error);
         }
     }
 }
@@ -132,7 +132,7 @@ const privateStaticCache = (duration) => {
                 }
             });
         } catch (error) {
-            return (error);
+            throw (error);
         }
     }
 }

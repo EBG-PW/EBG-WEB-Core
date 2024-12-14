@@ -1,5 +1,6 @@
 const { checkPermission } = require('@lib/permission');
 const { checkWebToken } = require('@lib/token');
+const { getIpOfRequest } = require('@lib/utils');
 const { delWebtoken, IPLimit, IPCheck } = require('@lib/cache');
 const { InvalidToken, TooManyRequests, PermissionsError } = require('@lib/errors');
 const Joi = require('joi');
@@ -14,22 +15,10 @@ const useragent = require('express-useragent');
 const verifyRequest = (permission) => {
     return async (req, res) => {
         try {
-            let IP;
             let UserToken;
+            const IP = getIpOfRequest(req);
             const source = req.headers['user-agent']
             const UserAgent = useragent.parse(source)
-            if (process.env.CLOUDFLARE_PROXY === 'true' || process.env.CLOUDFLARE_PROXY == true) {
-                if(req.headers['x-forwarded-for']) process.log.warn('Requests are comming from a normal proxy but cloudflare proxy is set in the env file')
-                if(!req.headers['cf-connecting-ip']) process.log.warn('Cloudflare proxy is set in the env file but requests are not comming from a cloudflare proxy')
-                IP = req.headers['cf-connecting-ip'] || req.ip //This only works with cloudflare proxy
-            } else if (process.env.ANY_PROXY === 'true' || process.env.ANY_PROXY == true) {
-                if(req.headers['cf-connecting-ip']) process.log.warn('Requests are comming from a cloudflare but normal proxy is set in the env file')
-                if(!req.headers['x-forwarded-for']) process.log.warn('Normal proxy is set in the env file but requests are not comming from a normal proxy')
-                IP = req.headers['x-forwarded-for'] || req.ip //This only works without cloudflare
-            } else {
-                if(req.headers['x-forwarded-for'] || req.headers['cf-connecting-ip']) process.log.warn('Requests are comming from a proxy but no proxy is set in the env file')
-                IP = req.ip //This only works without any proxy
-            }
 
             const isBlocked = await IPCheck(IP);
             if(isBlocked.result) throw new TooManyRequests('Too Many Requests', isBlocked.retryIn)
@@ -42,11 +31,11 @@ const verifyRequest = (permission) => {
             }
 
             // Validate the token with joi, code below is how to generate a token
-            const TokenSchema = Joi.string().pattern(/^[a-zA-Z0-9!]*$/).required();
+            const TokenSchema = Joi.string().min(parseInt(process.env.WEBTOKENLENGTH, 10)).max(parseInt(process.env.WEBTOKENLENGTH, 10)).pattern(/^[a-zA-Z0-9!]*$/).required();
             await TokenSchema.validateAsync(UserToken);
             /*
             const FA_Token = randomstring.generate({
-                length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+                length: parseInt(process.env.WEBTOKENLENGTH, 10), //DO NOT CHANCE!!!
                 charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
             });
             */
@@ -60,8 +49,8 @@ const verifyRequest = (permission) => {
                     // await webtoken.delete(UserToken)
                     delWebtoken(UserToken);
                 } else {
-                    // The token did not exist, lets add the reuqest IP to the cache to stop brute force attacks andreduce DB stress
-                    const IPLimiter = await IPLimit(IP);
+                    // The token did not exist, lets add the reuqest IP to the cache to stop brute force attacks and reduce DB stress
+                    const IPLimiter = await IPLimit(IP, 20);
 
                     // If ture, then the IP has been in rate limit
                     if (IPLimiter.result) throw new TooManyRequests('Too Many Requests', isBlocked.retryIn)
@@ -79,7 +68,8 @@ const verifyRequest = (permission) => {
             req.authorization = UserToken;
 
         } catch (error) {
-            return error; // This will trigger global error handler as we are returning an Error
+            if(error.name === "ValidationError") throw new InvalidToken('Invalid Token');
+            throw error; // This will trigger global error handler as we are returning an Error
         }
     };
 };

@@ -109,6 +109,7 @@
       });
 
       const updateInputField = () => {
+        // Update the input field with the current value
         document.getElementById("SettingsProfile").value = linkableapps[document.getElementById("SettingsPlatform").value] ?? "";
       };
 
@@ -129,7 +130,7 @@
 
           // Clear the table
           tableData.innerHTML = "";
-          linkableapps = {};
+          linkableapps = {}; // Store a object with all linkable apps, to use it for auto-fill
 
           for (const element of links) {
             linkableapps[element.platform] = element.data_val;

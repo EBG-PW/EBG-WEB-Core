@@ -66,6 +66,10 @@ const PublicCheck = Joi.object({
     public: Joi.boolean().required(),
 });
 
+const validateUUID = Joi.object({
+    uuid: Joi.string().uuid().required()
+});
+
 // Validate likable accounts, so it needs to accept profile links, usernames and user ids
 const LinkCheck = Joi.object({
     platform: Joi.string().valid(...Object.keys(process.linkableapps)).required(),
@@ -232,6 +236,25 @@ router.post('/public', verifyRequest('web.user.public.write'), limiter(10), asyn
     res.json({
         message: 'Public changed',
         public: value,
+    });
+});
+
+router.get('/sessions', verifyRequest('web.user.sessions.read'), limiter(2), async (req, res) => {
+    const sql_response = await user.getWebtokens(req.user.user_id, req.authorization);
+    res.status(200);
+    res.json(sql_response);
+});
+
+router.delete('/sessions/:uuid', verifyRequest('web.user.sessions.write'), limiter(10), async (req, res) => {
+    const params = await validateUUID.validateAsync(req.params);
+    const sql_response = await user.deleteWebtoken(params.uuid);
+    if (sql_response.rowCount !== 1) throw new DBError('User.Delete.Webtoken', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    await delWebtoken(sql_response.rows[0].token);
+
+    res.status(200);
+    res.json({
+        message: 'Session deleted',
+        tokenId: sql_response.rows[0].token,
     });
 });
 

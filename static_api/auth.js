@@ -9,7 +9,7 @@ const { PermissionsError, InvalidRouteInput, OAuthError, DBError, InvalidLogin }
 const useragent = require('express-useragent');
 const router = new HyperExpress.Router();
 const auth_config = require('@config/auth');
-const { generateUrlPath } = require('@lib/utils');
+const { generateUrlPath, getIpOfRequest, getCountryOfIP } = require('@lib/utils');
 const { sendMail } = require('@lib/queues');
 
 const OAuthCheck = Joi.object({
@@ -162,11 +162,13 @@ router.get('/github/callback', async (req, res) => {
         const UserAgent = useragent.parse(source)
 
         const WebToken = randomstring.generate({
-            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+            length: parseInt(process.env.WEBTOKENLENGTH, 10), //DO NOT CHANCE!!!
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
-        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
+        const IP = getIpOfRequest(req);
+
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser, getCountryOfIP(IP));
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
         const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser);
 
@@ -246,11 +248,13 @@ router.get('/google/callback', async (req, res) => {
         const UserAgent = useragent.parse(source)
 
         const WebToken = randomstring.generate({
-            length: process.env.WEBTOKENLENGTH, //DO NOT CHANCE!!!
+            length: parseInt(process.env.WEBTOKENLENGTH, 10), //DO NOT CHANCE!!!
             charset: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!'
         });
 
-        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser);
+        const IP = getIpOfRequest(req);
+
+        const WebTokenResponse = await webtoken.create(user_response.user_id, WebToken, UserAgent.browser, getCountryOfIP(IP));
         if (WebTokenResponse.rowCount === 0) throw new DBError('Webtoken.Create', 0, typeof 0, WebTokenResponse.rowCount, typeof WebTokenResponse.rowCount);
         const return_data = await addWebtoken(WebToken, user_response, Formated_Permissions, UserAgent.browser);
 

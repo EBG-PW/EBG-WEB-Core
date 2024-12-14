@@ -56,6 +56,18 @@
                   <div class="card-body">
                     <h2 class="mb-4" data-translate="Settings.Sessions.SettingsName"></h2>
                     <h3 class="card-title" data-translate="Settings.Sessions.Overview"></h3>
+                    <table class="table table-vcenter card-table table-striped">
+                      <thead>
+                        <tr>
+                          <th data-translate="Settings.Sessions.List.Browser"></th>
+                          <th data-translate="Settings.Sessions.List.Country"></th>
+                          <th data-translate="Settings.Sessions.List.CurrentSession"></th>
+                          <th data-translate="Settings.Sessions.List.Time"></th>
+                          <th class="w-1"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="Settings.Sessions.TableData"></tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -72,43 +84,74 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
+
       document.addEventListener("DOMContentLoaded", async () => {
-        const selectLayoutElement = document.getElementById("select-layout");
-        let design = localStorage.getItem("tablerTheme");
-        let parts = design ? design.split(".") : ["light", "centered"]; // default values
-
-        // Determine the current layout setting
-        let currentLayout = parts[1] === "fluid" ? "fluid" : "center";
-
-        // Set the selected option in the <select> element
-        for (let option of selectLayoutElement.options) {
-          if (option.value === currentLayout) {
-            option.selected = true;
-            break;
-          }
-        }
-
-        const selectLangElement = document.getElementById("select-lang");
-
-        const currentLang = localStorage.getItem("language") || "en";
-
-        // Set the selected option in the <select> element
-        for (let option of selectLangElement.options) {
-          if (option.value === currentLang) {
-            option.selected = true;
-            break;
-          }
-        }
-
-        // Event listener for changes in the select element
-        selectLayoutElement.addEventListener("change", function () {
-          toggleFullscreen(this.value);
-        });
-
-        selectLangElement.addEventListener("change", function () {
-          changeLanguage(this.value);
-        });
+        // Pupulate the LinkTable
+        await loadTable();
       });
+
+      const loadTable = async () => {
+        const response = await fetch("/api/v1/user/sessions", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        if (response.ok) {
+          const sessions = await response.json();
+
+          const tableData = document.getElementById("Settings.Sessions.TableData");
+
+          // Clear the table
+          tableData.innerHTML = "";
+
+          for (const el of sessions) {
+            const row = document.createElement("tr");
+
+            const browser = document.createElement("td");
+            browser.innerText = el.browser;
+
+            const country = document.createElement("td");
+            country.innerText = el.country ?? i18next.t("Settings.Sessions.List.UnknownCountry");
+
+            const currentSession = document.createElement("td");
+            currentSession.innerText = el.current_session ? i18next.t("Settings.Sessions.List.CurrentSession") : "";
+
+            const time_created = document.createElement("td");
+            time_created.innerText = new Date(el.time).toLocaleDateString() + " " + new Date(el.time).toLocaleTimeString();
+
+            const deleteButton = document.createElement("td");
+            const deleteButtonSVG = document.createElement("svg");
+            deleteButton.innerHTML = `<a class="icon" onclick="deleteSession('${el.uuid}')"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path
+              d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path
+              d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path
+              d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg></a>`;
+
+            row.appendChild(browser);
+            row.appendChild(country);
+            row.appendChild(currentSession);
+            row.appendChild(time_created);
+            row.appendChild(deleteButton);
+            tableData.appendChild(row);
+          }
+        }
+      };
+
+      const deleteSession = (uuid) => {
+        fetch(`/api/v1/user/sessions/${uuid}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        }).then(() => {
+          loadTable();
+        });
+      };
     </script>
   </body>
 </html>

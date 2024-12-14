@@ -118,7 +118,7 @@ app.get('/*', (req, res) => {
         process.log.error(error)
         res.status(404);
         if (req.accepts('html')) {
-            ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN }, (err, str) => {
+            ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), { statusCode: 404, message: "Page not found", info: "Request can not be served", reason: "The requested page was not found", domain: process.env.DOMAIN, back_url: process.env.DOMAIN, curentUnixTime: new Date().getTime() }, (err, str) => {
                 if (err) throw err;
                 res.header('Content-Type', 'text/html');
                 res.send(str);
@@ -141,6 +141,7 @@ app.post('/*', (req, res) => {
 /* Handlers */
 app.set_error_handler((req, res, error) => {
     process.log.debug(error);
+    console.log(error)
     const outError = {
         message: error.message || "",
         info: error.info || "",
@@ -180,6 +181,7 @@ app.set_error_handler((req, res, error) => {
     if (outError.headers) { res.header(outError.headers.name, outError.headers.value); }
     if (outError.back_url && req.accepts('html')) {
         outError.domain = process.env.DOMAIN; // Apend the domain to the error
+        outError.curentUnixTime = new Date().getTime(); // Add the current time to the error
         ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), outError, (err, str) => {
             if (err) {
                 res.header('Content-Type', 'application/json');

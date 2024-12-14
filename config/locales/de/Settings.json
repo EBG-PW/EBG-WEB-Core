@@ -83,6 +83,17 @@
       "Delete": "Löschen"
     }
   },
+  "Sessions": {
+    "SettingsName": "Aktive Account Sitzungen",
+    "Overview": "Liste der Sessions",
+    "List": {
+      "Browser": "Browser",
+      "Country": "Land",
+      "UnknownCountry": "Unbekannt",
+      "CurrentSession": "Aktuelle Sitzung",
+      "Time": "Erstellt am"
+    }
+  },
   "Profile": {
     "AvatarIcon": "Avatar Icon",
     "SetAvatarIcon": "Avatar Hochladen",
