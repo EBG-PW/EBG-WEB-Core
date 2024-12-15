@@ -178,7 +178,7 @@ app.set_error_handler((req, res, error) => {
     if (error.error) console.log(error.error)
     res.status(outError.statusCode);
     if (outError.headers) { res.header(outError.headers.name, outError.headers.value); }
-    if (outError.back_url && req.accepts('html')) {
+    if (outError.back_url && req.headers['accept'] !== 'application/json') {
         outError.domain = process.env.DOMAIN; // Apend the domain to the error
         outError.curentUnixTime = new Date().getTime(); // Add the current time to the error
         ejs.renderFile(path.join(__dirname, '..', 'views', 'error', 'error-xxx.ejs'), outError, (err, str) => {

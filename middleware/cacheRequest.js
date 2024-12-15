@@ -132,7 +132,7 @@ const privateStaticCache = (duration) => {
                 }
             });
         } catch (error) {
-            return (error);
+            next(error);
         }
     }
 }

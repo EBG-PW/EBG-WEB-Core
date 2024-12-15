@@ -34,7 +34,7 @@
     "error-stack-parser": "^2.1.4",
     "express-csp-header": "^6.0.0",
     "express-useragent": "^1.0.15",
-    "hyper-express": "6.16.4",
+    "hyper-express": "^6.17.3",
     "ioredis": "^5.4.1",
     "ip3country": "^5.0.0",
     "joi": "^17.13.3",
