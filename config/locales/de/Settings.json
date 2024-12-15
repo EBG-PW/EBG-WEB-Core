@@ -86,6 +86,8 @@
   "Sessions": {
     "SettingsName": "Aktive Account Sitzungen",
     "Overview": "Liste der Sessions",
+    "Actions": "Aktionen",
+    "ButtonDelAllOther": "Alle anderen Sitzungen beenden",
     "List": {
       "Browser": "Browser",
       "Country": "Land",

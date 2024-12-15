@@ -258,6 +258,16 @@ router.delete('/sessions/:uuid', verifyRequest('web.user.sessions.write'), limit
     });
 });
 
+router.delete('/allothersessions', verifyRequest('web.user.sessions.write'), limiter(10), async (req, res) => {
+    const sql_response = await user.deleteAllOtherWebtokens(req.user.user_id, req.authorization);
+    if (sql_response.rowCount === 0) throw new DBError('User.Delete.AllWebtokens', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    res.status(200);
+    res.json({
+        message: 'All other sessions deleted',
+    });
+});
+
 router.get('/links', verifyRequest('web.user.links.read'), limiter(2), async (req, res) => {
     const sql_response = await user.getlinks(req.user.user_id);
     if (!sql_response) throw new DBError('User.Get.Links', 1, typeof 1, sql_response, typeof sql_response);

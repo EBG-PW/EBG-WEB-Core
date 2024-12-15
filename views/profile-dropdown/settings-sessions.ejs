@@ -55,19 +55,30 @@
                 <div class="col d-flex flex-column">
                   <div class="card-body">
                     <h2 class="mb-4" data-translate="Settings.Sessions.SettingsName"></h2>
-                    <h3 class="card-title" data-translate="Settings.Sessions.Overview"></h3>
-                    <table class="table table-vcenter card-table table-striped">
-                      <thead>
-                        <tr>
-                          <th data-translate="Settings.Sessions.List.Browser"></th>
-                          <th data-translate="Settings.Sessions.List.Country"></th>
-                          <th data-translate="Settings.Sessions.List.CurrentSession"></th>
-                          <th data-translate="Settings.Sessions.List.Time"></th>
-                          <th class="w-1"></th>
-                        </tr>
-                      </thead>
-                      <tbody id="Settings.Sessions.TableData"></tbody>
-                    </table>
+                    <h3 class="card-title" data-translate="Settings.Sessions.Actions"></h3>
+                    <div class="row g-3">
+                      <div class="col-md-3">
+                        <div class="col-auto">
+                          <a class="btn" data-translate="Settings.Sessions.ButtonDelAllOther" onclick="deleteAllOtherSessions()" id="SettingsSessionsButtonDelAllOther"></a>
+                        </div>
+                      </div>
+                    </div>
+                    <p class="text-muted" data-translate="Settings.Links.EditDiscription"></p>
+                    <div class="table-responsive">
+                      <h3 class="card-title" data-translate="Settings.Sessions.Overview"></h3>
+                      <table class="table table-vcenter card-table table-striped">
+                        <thead>
+                          <tr>
+                            <th data-translate="Settings.Sessions.List.Browser"></th>
+                            <th data-translate="Settings.Sessions.List.Country"></th>
+                            <th data-translate="Settings.Sessions.List.CurrentSession"></th>
+                            <th data-translate="Settings.Sessions.List.Time"></th>
+                            <th class="w-1"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="Settings.Sessions.TableData"></tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -84,7 +95,6 @@
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
-
       document.addEventListener("DOMContentLoaded", async () => {
         // Pupulate the LinkTable
         await loadTable();
@@ -107,6 +117,9 @@
 
           // Clear the table
           tableData.innerHTML = "";
+
+          // Disable SettingsSessionsButtonDelAllOther if there is only one session
+          if(sessions.length === 1)  document.getElementById("SettingsSessionsButtonDelAllOther").classList.add("disabled");
 
           for (const el of sessions) {
             const row = document.createElement("tr");
@@ -146,10 +159,38 @@
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token")
-          }
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         }).then(() => {
           loadTable();
+        });
+      };
+
+      const deleteAllOtherSessions = () => {
+        fetch(`/api/v1/user/allothersessions`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }).then((response) => {
+          if (response.ok) {
+            loadTable();
+
+            const button = document.getElementById("SettingsSessionsButtonDelAllOther");
+            button.classList.toggle("btn-success");
+
+            setTimeout(() => {
+              button.classList.toggle("btn-success");
+            }, 1000);
+          } else {
+            const button = document.getElementById("SettingsSessionsButtonDelAllOther");
+            button.classList.toggle("btn-danger");
+
+            setTimeout(() => {
+              button.classList.toggle("btn-danger");
+            }, 1000);
+          }
         });
       };
     </script>
