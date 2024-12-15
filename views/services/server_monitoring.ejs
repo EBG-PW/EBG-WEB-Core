@@ -286,7 +286,7 @@
               if ("overview" in m) {
                 // Monitor Online
                 const { individual, metrics } = await gzipDecompress(m.overview.data);
-                console.log(individual);
+                console.log(individual, metrics);
                 srvmonContainer.innerHTML += `<div class="col-md-6 col-lg-4">
                 <div class="card-tabs">
                   <ul class="nav nav-tabs" role="tablist">
@@ -307,27 +307,31 @@
                           <!-- CPU Overview -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.CPU.TotalUsage")}</strong>: 
-                            ${(100-metrics["system.cpu.idle"].value).toFixed(2)} ${metrics["system.cpu.idle"].units}
+                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} ${metrics["system.cpu.idle"].units}
                           </li>
                           <!-- System Load -->
                           <li>
-                            <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
+                            <strong>${i18next.t("SRVMon.Cards.LOAD.TotalUsage")}</strong>: 
                             ${metrics["system.load.load1"].value.toFixed(2)}/${metrics["system.load.load5"].value.toFixed(2)}/${metrics["system.load.load15"].value.toFixed(2)}
                           </li>
                           <!-- Memory Overview -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.MEM.TotalUsage")}</strong>: 
-                            ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").value} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units} / 
-                            ${AddValuesWithUnits([metrics["system.ram.buffers"],metrics["system.ram.cached"],metrics["system.ram.free"],metrics["system.ram.used"]], "GiB")} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units}
+                            ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units} / 
+                            ${AddValuesWithUnits([metrics["system.ram.buffers"], metrics["system.ram.cached"], metrics["system.ram.free"], metrics["system.ram.used"]], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units}
                           </li>
                           <!-- Disk Usage -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
-                          
+                            ${ConvertComputerSpaceUnits(metrics["disk.space.used"], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.used"], "TiB").units} /
+                            ${ConvertComputerSpaceUnits(metrics["disk.space.avail"], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.avail"], "TiB").units}
                           </li>
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.DISK.Status")}</strong>: 
-                            
+                            ${Object.values(individual.disk).every((disk) => disk["device_smart_status.ok"] === 1) ? "✅" : "❌"}
+                            ${Math.min(...Object.values(individual.disk).map((disk) => disk.temperature))}°C / 
+                            ${(Object.values(individual.disk).reduce((sum, disk) => sum + disk.temperature, 0) / Object.values(individual.disk).length).toFixed(2)}°C / 
+                            ${Math.max(...Object.values(individual.disk).map((disk) => disk.temperature))}°C
                           </li>
                         </ul>
                         </div>
@@ -500,6 +504,7 @@
       });
 
       loadPage();
+      setInterval(loadPage, 60000);
       const debouncedLoadPage = debounce(loadPage);
     </script>
   </body>

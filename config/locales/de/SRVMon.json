@@ -24,10 +24,10 @@
     },
     "DISK": {
       "TotalUsage": "Festplattennutzung",
-      "Status": "Zustand"
+      "Status": "Festplatten Zustand"
     },
     "LOAD": {
-      "TotalUsage": "Systemleistung"
+      "TotalUsage": "Systemlast"
     }
   },
   "Modal": {
