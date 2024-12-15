@@ -171,6 +171,7 @@
               </div>
             </div>
             <div class="row mb-3">
+              <label class="form-label" data-translate="SRVMon.Modal.Newmon.Graphs"></label>
               <div class="col">
                 <label class="form-check">
                   <input class="form-check-input" id="CHART:CPU:USAGE" type="checkbox" />
@@ -302,12 +303,12 @@
                       <div class="card-title">${i18next.t("SRVMon.Cards.Online.1")}</div>
                       <div class="text-secondary">
                         <!-- Overview Summary -->
-                        <h5>${i18next.t("SRVMon.Overview.Summary")}</h5>
+                        <h5>${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</h5>
                         <ul>
                           <!-- CPU Overview -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.CPU.TotalUsage")}</strong>: 
-                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} ${metrics["system.cpu.idle"].units}
+                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} %}
                           </li>
                           <!-- System Load -->
                           <li>

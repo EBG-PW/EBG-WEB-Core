@@ -16,6 +16,7 @@
       "4": "Netzwerk",
       "5": "Festplatte"
     },
+    "Summary": "Zusammenfassung {{hostname}}@{{ip_address}}",
     "CPU": {
       "TotalUsage": "CPU Auslasung"
     },
@@ -51,6 +52,7 @@
       "NETPackets": "Netzwerk-Pakete",
       "NETOctets": "Netzwerk-Octets",
       "ChartTime": "Diagrammzeit in Stunden",
+      "Graphs": "Diagramme (Zusatzoption)",
       "Cancel": "Abbrechen",
       "AddNew": "Hinzufügen",
       "Description": {
