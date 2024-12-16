@@ -172,7 +172,7 @@ router.post('/:puuid/user_group', verifyRequest('app.admin.usergroup.write'), li
     if (!body) throw new InvalidRouteInput('Invalid Route Input');
 
     const sql_response = await admin.users.update.user_group(params.puuid, body.user_group);
-    if (sql_response.rowCount !== 1) throw new DBError('User.Update.user_group', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    if (sql_response.rowCount >= 1) throw new DBError('User.Update.user_group', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
     const user_webtokens = await webtoken.getByUserPUUID(params.puuid);
     const user_webtokens_jobs = [];
