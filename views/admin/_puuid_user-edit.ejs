@@ -23,6 +23,16 @@
         <!-- Page header -->
         <div class="page-header d-print-none">
           <div class="container-xl">
+            <div class="row g-2 align-items-center">
+              <div class="col">
+                <h2 class="page-title" data-translate="Settings.Main.SettingsName" id="AdminSettingsNameA"></h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page body -->
+        <div class="page-body">
+          <div class="container-xl">
             <div class="card">
               <!-- Sidebar Toggle Button for Small Screens -->
               <div class="card-body d-md-none">
@@ -42,7 +52,7 @@
                 </div>
                 <div class="col d-flex flex-column">
                   <div class="card-body">
-                    <h2 class="mb-4" data-translate="Settings.Main.SettingsName" id="AdminSettingsName"></h2>
+                    <h2 class="mb-4" data-translate="Settings.Main.SettingsName" id="AdminSettingsNameB"></h2>
                     <h3 class="card-title" data-translate="Settings.Main.ProfileHeadline"></h3>
                     <div class="row align-items-center">
                       <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Profile.AvatarIcon" style="background-image: url()"></span></div>
@@ -100,15 +110,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- Page body -->
-        <div class="page-body">
-          <div class="container-xl">
-            <div class="card-body">
-              <div id="user-container"></div>
-              <div id="paginationContainer"></div>
             </div>
           </div>
         </div>
@@ -420,7 +421,8 @@
           const data = await response.json();
 
           // Translate the page
-          document.getElementById("AdminSettingsName").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
+          document.getElementById("AdminSettingsNameA").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
+          document.getElementById("AdminSettingsNameB").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
           document.getElementById("AdminSettingsNameSide").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
 
           document.getElementById("Settings.Profile.AvatarIcon").style.backgroundImage = `url(${data.avatar_url})`;
