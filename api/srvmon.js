@@ -52,14 +52,14 @@ const NewSRVMonCheck = Joi.object({
     charttime: Joi.number().min(1).max(48).default(1),
 });
 
-router.get('/count', verifyRequest('app.service.srvmon.read'), limiter(), async (req, res) => {
+router.get('/count', verifyRequest('service.srvmon.read'), limiter(), async (req, res) => {
     const query = await pageCountCheck.validateAsync(req.query);
     const amount = await srvmon.countByID(req.user.user_id, query.search);
     res.status(200);
     res.json(amount);
 });
 
-router.get('/', verifyRequest('app.service.srvmon.read'), limiter(), async (req, res) => {
+router.get('/', verifyRequest('service.srvmon.read'), limiter(), async (req, res) => {
     const query = await pageCheck.validateAsync(req.query);
     const monitors = await srvmon.getByID(req.user.user_id, Number(query.page) - 1, query.size, query.search);
     const monitor_data = await Netdata.getOverviews(monitors);
@@ -67,7 +67,7 @@ router.get('/', verifyRequest('app.service.srvmon.read'), limiter(), async (req,
     res.json(monitor_data);
 });
 
-router.post('/', verifyRequest('app.service.srvmon.write'), limiter(), async (req, res) => {
+router.post('/', verifyRequest('service.srvmon.write'), limiter(), async (req, res) => {
     const body = await NewSRVMonCheck.validateAsync(await req.json());
     await srvmon.create(body.ipaddr, req.user.user_id, body.hostname, body.charttime, body.chartscope);
     res.status(200);

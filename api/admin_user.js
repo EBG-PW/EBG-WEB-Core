@@ -3,10 +3,9 @@ const { admin, webtoken } = require('@lib/postgres');
 const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
+const { getNextLowerDefaultGroup } = require('@lib/permission');
 const HyperExpress = require('hyper-express');
-const bcrypt = require('bcrypt');
 const { InvalidRouteInput, DBError } = require('@lib/errors');
-const user = require('./user');
 const router = new HyperExpress.Router();
 
 
@@ -86,6 +85,7 @@ router.get('/:puuid', verifyRequest('app.admin.usermgm.users.read'), limiter(), 
         last_name: user_response.last_name,
         bio: user_response.bio,
         user_group: user_response.user_group,
+        nextDefaultGroup: getNextLowerDefaultGroup(user_response.user_group),
     });
 });
 

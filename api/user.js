@@ -4,6 +4,7 @@ const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
 const { sendMail } = require('@lib/queues');
+const { getNextLowerDefaultGroup } = require('@lib/permission');
 const { generateUrlPath, streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
@@ -150,6 +151,7 @@ router.get('/', verifyRequest('web.user.settings.read'), limiter(2), async (req,
         last_name: user_response.last_name,
         bio: user_response.bio,
         public: user_response.public,
+        nextDefaultGroup: getNextLowerDefaultGroup(req.user.user_group),
     });
 });
 
