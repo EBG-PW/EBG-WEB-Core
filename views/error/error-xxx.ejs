@@ -14,19 +14,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Error <%= statusCode %></title>
     <!-- CSS files -->
-    <link href="<%= domain %>/dist/css/tabler.min.css?1684106062" rel="stylesheet"/>
-    <style>
-      @import url('https://rsms.me/inter/inter.css');
-      :root {
-      	--tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
-      }
-      body {
-      	font-feature-settings: "cv03", "cv04", "cv11";
-      }
-    </style>
+    <link href="<%= domain %>/dist/css/tabler.min.css?<%= curentUnixTime %>" rel="stylesheet"/>
   </head>
   <body  class=" border-top-wide border-primary d-flex flex-column">
-    <script src="<%= domain %>/dist/js/demo-theme.min.js?1684106062"></script>
     <div class="page page-center">
       <div class="container-tight py-4">
         <div class="empty">
@@ -48,6 +38,6 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="<%= domain %>/dist/js/tabler.min.js?1684106062" defer></script>
+    <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
   </body>
 </html>

@@ -4,6 +4,7 @@ const { verifyRequest } = require('@middleware/verifyRequest');
 const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
 const { sendMail } = require('@lib/queues');
+const { getNextLowerDefaultGroup } = require('@lib/permission');
 const { generateUrlPath, streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const bcrypt = require('bcrypt');
@@ -64,6 +65,10 @@ const BioCheck = Joi.object({
 
 const PublicCheck = Joi.object({
     public: Joi.boolean().required(),
+});
+
+const validateUUID = Joi.object({
+    uuid: Joi.string().uuid().required()
 });
 
 // Validate likable accounts, so it needs to accept profile links, usernames and user ids
@@ -146,6 +151,7 @@ router.get('/', verifyRequest('web.user.settings.read'), limiter(2), async (req,
         last_name: user_response.last_name,
         bio: user_response.bio,
         public: user_response.public,
+        nextDefaultGroup: getNextLowerDefaultGroup(req.user.user_group),
     });
 });
 
@@ -232,6 +238,35 @@ router.post('/public', verifyRequest('web.user.public.write'), limiter(10), asyn
     res.json({
         message: 'Public changed',
         public: value,
+    });
+});
+
+router.get('/sessions', verifyRequest('web.user.sessions.read'), limiter(2), async (req, res) => {
+    const sql_response = await user.getWebtokens(req.user.user_id, req.authorization);
+    res.status(200);
+    res.json(sql_response);
+});
+
+router.delete('/sessions/:uuid', verifyRequest('web.user.sessions.write'), limiter(10), async (req, res) => {
+    const params = await validateUUID.validateAsync(req.params);
+    const sql_response = await user.deleteWebtoken(params.uuid);
+    if (sql_response.rowCount !== 1) throw new DBError('User.Delete.Webtoken', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+    await delWebtoken(sql_response.rows[0].token);
+
+    res.status(200);
+    res.json({
+        message: 'Session deleted',
+        tokenId: sql_response.rows[0].token,
+    });
+});
+
+router.delete('/allothersessions', verifyRequest('web.user.sessions.write'), limiter(10), async (req, res) => {
+    const sql_response = await user.deleteAllOtherWebtokens(req.user.user_id, req.authorization);
+    if (sql_response.rowCount === 0) throw new DBError('User.Delete.AllWebtokens', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
+
+    res.status(200);
+    res.json({
+        message: 'All other sessions deleted',
     });
 });
 

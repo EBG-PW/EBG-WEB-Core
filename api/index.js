@@ -20,14 +20,10 @@ Array.prototype.remove = function () {
 fs.readdir("./api", function (err, filenames) {
   filenames.remove('index.js');
   for (i = 0; i < filenames.length; i++) {
-    if (filenames[i].startsWith("disabled.")) {
-
-    } else if (filenames[i].endsWith(".js")) {
+    if (filenames[i].endsWith(".js")) {
       let name = filenames[i].slice(0, filenames[i].length - 3)
       iimport = require(`./${name}`);
       Preplugins.push(`${iimport.PluginName}|${iimport.PluginVersion}`)
-    } else {
-
     }
   }
 });
