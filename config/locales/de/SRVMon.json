@@ -16,16 +16,36 @@
       "4": "Netzwerk",
       "5": "Festplatte"
     },
-    "Summary": "Zusammenfassung {{hostname}}@{{ip_address}}",
+    "Summary": "System: {{hostname}}@{{ip_address}}",
+    "Total": "Gesamt",
     "CPU": {
-      "TotalUsage": "CPU Auslasung"
+      "TotalUsage": "CPU Auslasung",
+      "Freq": "Frequenz",
+      "System": "System",
+      "User": "Benutzer",
+      "Steal": "Steal",
+      "Softirq": "Softirq"
     },
     "MEM": {
-      "TotalUsage": "Arbeitsspeichernutzung"
+      "TotalUsage": "RAM-Nutzung",
+      "Buffer": "Buffer",
+      "Cached": "Cached",
+      "Free": "Frei",
+      "Used": "Benutzt",
+      "SwapUsed": "Swap-Nutzung"
+    },
+    "NET": {
+      "PacketsReceived": "Packete Empfangen",
+      "PacketsSent": "Packete Senden",
+      "OctetsSent": "Traffic Senden",
+      "OctetsReceived": "Traffic Empfangen"
     },
     "DISK": {
       "TotalUsage": "Festplattennutzung",
-      "Status": "Festplatten Zustand"
+      "Status": "Festplatten Zustand",
+      "IOSpeed": "<strong>Übertragungsrate</strong>: R: {{ReadVal}} W: {{WriteVal}} {{Unit}}",
+      "IOOP": "<strong>IO</strong>: R: {{ReadVal}} W: {{WriteVal}} {{Unit}}",
+      "Worst": "Schlecht"
     },
     "LOAD": {
       "TotalUsage": "Systemlast"

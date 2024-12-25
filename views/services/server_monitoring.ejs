@@ -287,7 +287,6 @@
               if ("overview" in m) {
                 // Monitor Online
                 const { individual, metrics } = await gzipDecompress(m.overview.data);
-                console.log(individual, metrics);
                 srvmonContainer.innerHTML += `<div class="col-md-6 col-lg-4">
                 <div class="card-tabs">
                   <ul class="nav nav-tabs" role="tablist">
@@ -300,15 +299,13 @@
                   <div class="tab-content">
                     <div id="tab-top-1" class="card tab-pane active show" role="tabpanel">
                     <div class="card-body">
-                      <div class="card-title">${i18next.t("SRVMon.Cards.Online.1")}</div>
+                      <div class="card-title">${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</div>
                       <div class="text-secondary">
-                        <!-- Overview Summary -->
-                        <h5>${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</h5>
                         <ul>
                           <!-- CPU Overview -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.CPU.TotalUsage")}</strong>: 
-                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} %}
+                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} % (${metrics["sensors.chip_sensor_temperature.input"].value.toFixed(0)}°C)${metrics["sensors.chip_sensor_power_average.average"] ? ` ${metrics["sensors.chip_sensor_power_average.average"].value.toFixed(0)} W` : ""}
                           </li>
                           <!-- System Load -->
                           <li>
@@ -325,13 +322,13 @@
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
                             ${ConvertComputerSpaceUnits(metrics["disk.space.used"], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.used"], "TiB").units} /
-                            ${ConvertComputerSpaceUnits(metrics["disk.space.avail"], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.avail"], "TiB").units}
+                            ${AddValuesWithUnits([metrics["disk.space.avail"], metrics["disk.space.used"], metrics["disk.space.reserved_for_root"]], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.avail"], "TiB").units}
                           </li>
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.DISK.Status")}</strong>: 
                             ${Object.values(individual.disk).every((disk) => disk["device_smart_status.ok"] === 1) ? "✅" : "❌"}
                             ${Math.min(...Object.values(individual.disk).map((disk) => disk.temperature))}°C / 
-                            ${(Object.values(individual.disk).reduce((sum, disk) => sum + disk.temperature, 0) / Object.values(individual.disk).length).toFixed(2)}°C / 
+                            ${(Object.values(individual.disk).reduce((sum, disk) => sum + disk.temperature, 0) / Object.values(individual.disk).length).toFixed(0)}°C / 
                             ${Math.max(...Object.values(individual.disk).map((disk) => disk.temperature))}°C
                           </li>
                         </ul>
@@ -340,34 +337,109 @@
                     </div>
                     <div id="tab-top-2" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.2")}</div>
-                        <p class="text-secondary">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
-                        </p>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</div>
+                        <div class="text-secondary">
+                          <ul>
+                            <li>
+                            <strong>${i18next.t("SRVMon.Cards.CPU.Freq")}</strong>: ${metrics["cpufreq.cpufreq"].value.toFixed(2)} MHz
+                          </li>
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.Total")}</strong>: ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} %
+                          </li>
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.CPU.System")}</strong>: ${metrics["system.cpu.system"].value.toFixed(2)} %
+                          </li>
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.CPU.User")}</strong>: ${metrics["system.cpu.user"].value.toFixed(2)} %
+                            </li>
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.CPU.Steal")}</strong>: ${metrics["system.cpu.steal"].value.toFixed(2)} %
+                            </li>
+                          <li>
+                            <strong>${i18next.t("SRVMon.Cards.CPU.Softirq")}</strong>: ${metrics["system.cpu.softirq"].value.toFixed(2)} %
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                     <div id="tab-top-3" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.3")}</div>
-                        <p class="text-secondary">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
-                        </p>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</div>
+                        <div class="text-secondary">
+                          <ul>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.Total")}</strong>: 
+                              ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units} / 
+                              ${AddValuesWithUnits([metrics["system.ram.buffers"], metrics["system.ram.cached"], metrics["system.ram.free"], metrics["system.ram.used"]], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units}
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.MEM.Buffer")}</strong>: ${ConvertComputerSpaceUnits(metrics["system.ram.buffers"], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.buffers"], "GiB").units}
+                              </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.MEM.Cached")}</strong>: ${ConvertComputerSpaceUnits(metrics["system.ram.cached"], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.cached"], "GiB").units}
+                              </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.MEM.Free")}</strong>: ${ConvertComputerSpaceUnits(metrics["system.ram.free"], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.free"], "GiB").units}
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.MEM.Used")}</strong>: ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["system.ram.used"], "GiB").units}
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.MEM.SwapUsed")}</strong>: ${ConvertComputerSpaceUnits(metrics["mem.swap.used"], "GiB").value.toFixed(2)} / ${AddValuesWithUnits([metrics["mem.swap.used"], metrics["mem.swap.free"]], "GiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["mem.swap.used"], "GiB").units}
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                     <div id="tab-top-4" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.4")}</div>
-                        <p class="text-secondary">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
-                        </p>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</div>
+                        <div class="text-secondary">
+                          <ul>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.NET.PacketsReceived")}</strong>: ${ConvertComputerSpaceUnits(metrics["net.packets.received"], "Kpackets/s").value.toFixed(3)} ${ConvertComputerSpaceUnits(metrics["net.packets.received"], "Kpackets/s").units} 
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.NET.PacketsSent")}</strong>: ${ConvertComputerSpaceUnits(metrics["net.packets.sent"], "Kpackets/s").value.toFixed(3)} ${ConvertComputerSpaceUnits(metrics["net.packets.sent"], "Kpackets/s").units} 
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.NET.OctetsSent")}</strong>: ${ConvertComputerSpaceUnits(metrics["system.net.InOctets"], "megabits/s").value.toFixed(3)} ${ConvertComputerSpaceUnits(metrics["system.net.InOctets"], "megabits/s").units} 
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.NET.OctetsSent")}</strong>: ${ConvertComputerSpaceUnits(metrics["system.net.OutOctets"], "megabits/s").value.toFixed(3)} ${ConvertComputerSpaceUnits(metrics["system.net.OutOctets"], "megabits/s").units} 
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                     <div id="tab-top-5" class="card tab-pane" role="tabpanel">
                       <div class="card-body">
-                        <div class="card-title">${i18next.t("SRVMon.Cards.Online.5")}</div>
-                        <p class="text-secondary">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, alias aliquid distinctio dolorem expedita, fugiat hic magni molestiae molestias odit.
-                        </p>
+                        <div class="card-title">${i18next.t("SRVMon.Cards.Summary", { hostname: m.hostname, ip_address: m.ip_address })}</div>
+                        <div class="text-secondary">
+                          <ul>
+                            <li>
+                              ${i18next.t("SRVMon.Cards.DISK.IOSpeed", {ReadVal: ConvertComputerSpaceUnits(metrics["disk.io.reads"], "MiB/s").value.toFixed(0), WriteVal: ConvertComputerSpaceUnits(metrics["disk.io.writes"], "MiB/s").value.toFixed(0), Unit: ConvertComputerSpaceUnits(metrics["disk.io.reads"], "MiB/s").units})}
+                            </li>
+                            <li>
+                              ${i18next.t("SRVMon.Cards.DISK.IOOP", {ReadVal: ConvertComputerSpaceUnits(metrics["disk.ops.reads"], "operations/s").value.toFixed(0), WriteVal: ConvertComputerSpaceUnits(metrics["disk.ops.writes"], "operations/s").value.toFixed(0), Unit: ConvertComputerSpaceUnits(metrics["disk.ops.reads"], "operations/s").units})}
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.DISK.TotalUsage")}</strong>: 
+                              ${ConvertComputerSpaceUnits(metrics["disk.space.used"], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.used"], "TiB").units} /
+                              ${AddValuesWithUnits([metrics["disk.space.avail"], metrics["disk.space.used"], metrics["disk.space.reserved_for_root"]], "TiB").value.toFixed(2)} ${ConvertComputerSpaceUnits(metrics["disk.space.avail"], "TiB").units}
+                            </li>
+                            <li>
+                              <strong>${i18next.t("SRVMon.Cards.DISK.Worst")}</strong>: ${
+                                JSON.stringify(
+                                  Object.entries(individual.disk)
+                                    .sort(([, a], [, b]) => b.error_log - a.error_log)
+                                    .slice(0, 3)
+                                    .map(([disk, data]) => `${disk}(${data.error_log}) `)
+                                ).replace(/[\[\]"]/g, '')
+                              }
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -398,7 +470,7 @@
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
@@ -468,7 +540,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
           body: JSON.stringify({
