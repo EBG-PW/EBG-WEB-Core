@@ -3,6 +3,7 @@ const { user, webtoken } = require('@lib/postgres');
 const { addWebtoken, logoutWebtoken } = require('@lib/cache');
 const { mergePermissions, checkPermission } = require('@lib/permission');
 const { verifyRequest } = require('@middleware/verifyRequest');
+const { getIpOfRequest, getCountryOfIP } = require('@lib/utils');
 const HyperExpress = require('hyper-express');
 const { PermissionsError, InvalidRouteInput, InvalidLogin, DBError, RequestBlocked } = require('@lib/errors');
 const useragent = require('express-useragent');
