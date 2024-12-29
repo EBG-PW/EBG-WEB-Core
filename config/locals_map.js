@@ -4,7 +4,7 @@ module.exports = {
     "/dashboard": ["Dashboard", "User_Groups"],
     "/events": ["Dashboard", "User_Groups", "Events", "Page", "Error"],
     "/projects": ["Dashboard", "User_Groups", "Projects", "Page"],
-    "/requestresetpassword": ["ResetPassword"],
+    "/requestresetpassword": ["ResetPassword", "Login"],
     "/auth/oauth": ["OAuth"],
     "/auth/reset-password": ["ResetPassword"],
     "/profile-dropdown/settings-account": ["Dashboard", "User_Groups", "Settings", "Login"],
