@@ -120,7 +120,7 @@ router.post('/setpassword', verifyRequest('web.user.password.write'), limiter(10
 
     if (user_response.password === null) { // <-- Check if user has a password, if not we skip this check (This can happen if the user used OAuth to register)
         const urlPath = generateUrlPath();
-        await sendMail('user:reset_password', { userId: req.user.user_id, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        await sendMail('user:reset_password', req.user.user_id, { urlPath: urlPath, appDomain: process.env.DOMAIN });
         throw new InvalidRouteInput('User has no password set yet').withStatus(409).withBackUrl('none')
     }
 

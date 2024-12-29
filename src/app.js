@@ -140,7 +140,7 @@ app.post('/*', (req, res) => {
 
 /* Handlers */
 app.set_error_handler((req, res, error) => {
-    process.log.debug(error);
+    if(process.env.LOG_LEVEL == 4) console.error(error)
     const outError = {
         message: error.message || "",
         info: error.info || "",

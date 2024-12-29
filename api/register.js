@@ -49,7 +49,7 @@ router.post('/', limiter(20), async (req, res) => {
     const urlPath = generateUrlPath();
 
     // Send E-Mail Verification
-    await sendMail('user:email_verification', { userId: userId, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+    await sendMail('user:email_verification', userId, { urlPath: urlPath, appDomain: process.env.DOMAIN });
 
     res.json({ status: true });
 });

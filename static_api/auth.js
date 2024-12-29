@@ -137,7 +137,7 @@ router.get('/github/callback', async (req, res) => {
     // If user is new, send email verification
     if (userResult) {
         const urlPath = generateUrlPath();
-        await sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        await sendMail('user:email_verification', userResult, { urlPath: urlPath, appDomain: process.env.DOMAIN });
         res.status(200);
         res.send(generateEmailVerificationHTML('Please verify your email', 200));
     } else {
@@ -223,7 +223,7 @@ router.get('/google/callback', async (req, res) => {
     // If user is new, send email verification
     if (userResult) {
         const urlPath = generateUrlPath();
-        await sendMail('user:email_verification', { userId: userResult, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        await sendMail('user:email_verification', userResult, { urlPath: urlPath, appDomain: process.env.DOMAIN });
         res.status(200);
         res.send(generateEmailVerificationHTML('Please verify your email', 200));
     } else {
