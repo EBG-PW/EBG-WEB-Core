@@ -5,6 +5,7 @@ const { limiter } = require('@middleware/limiter');
 const { delWebtoken } = require('@lib/cache');
 const { getNextLowerDefaultGroup } = require('@lib/permission');
 const HyperExpress = require('hyper-express');
+const { default_member_group } = require("@config/permissions.js");
 const { InvalidRouteInput, DBError } = require('@lib/errors');
 const router = new HyperExpress.Router();
 
@@ -85,7 +86,7 @@ router.get('/:puuid', verifyRequest('app.admin.usermgm.users.read'), limiter(), 
         last_name: user_response.last_name,
         bio: user_response.bio,
         user_group: user_response.user_group,
-        nextDefaultGroup: getNextLowerDefaultGroup(user_response.user_group),
+        isMember: getNextLowerDefaultGroup(user_response.user_group) === default_member_group,
     });
 });
 
