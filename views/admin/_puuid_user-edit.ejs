@@ -245,6 +245,7 @@
           method: apiEndpoints[id].method,
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
 
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -311,6 +312,7 @@
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
@@ -412,6 +414,7 @@
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
 
             Authorization: "Bearer " + localStorage.getItem("token"),
           },

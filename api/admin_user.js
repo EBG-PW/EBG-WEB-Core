@@ -77,17 +77,41 @@ router.get('/:puuid', verifyRequest('app.admin.usermgm.users.read'), limiter(), 
 
     const user_response = user_responses[0];
 
-    res.status(200);
-    res.json({
-        username: user_response.username,
-        avatar_url: user_response.avatar_url,
-        email: user_response.email,
-        first_name: user_response.first_name,
-        last_name: user_response.last_name,
-        bio: user_response.bio,
-        user_group: user_response.user_group,
-        isMember: getNextLowerDefaultGroup(user_response.user_group) === default_member_group,
-    });
+    // Check if the user is part of the "default_member_group", if not return the user data
+    if (getNextLowerDefaultGroup(user_response.user_group) !== default_member_group) {
+        res.status(200);
+        res.json({
+            username: user_response.username,
+            avatar_url: user_response.avatar_url,
+            email: user_response.email,
+            first_name: user_response.first_name,
+            last_name: user_response.last_name,
+            bio: user_response.bio,
+            user_group: user_response.user_group
+        });
+    } else {
+        // User is part of the default_member_group, return member data aswell
+        const member_responses = await admin.member_data.get_by_id(user_response.id);
+        if (!member_responses || member_responses.length === 0) throw new InvalidRouteInput('Unknown Member');
+
+        const member_response = member_responses[0];
+        res.status(200);
+        res.json({
+            username: user_response.username,
+            avatar_url: user_response.avatar_url,
+            email: user_response.email,
+            first_name: user_response.first_name,
+            last_name: user_response.last_name,
+            bio: user_response.bio,
+            user_group: user_response.user_group,
+            postalcode: member_response.postalcode,
+            city: member_response.city,
+            country: member_response.country,
+            phonenumber: member_response.phonenumber,
+            occupation: member_response.occupation,
+            knowlage: member_response.knowlage
+        });
+    }
 });
 
 router.post('/:puuid/username', verifyRequest('app.admin.username.write'), limiter(10), async (req, res) => {
@@ -172,6 +196,9 @@ router.post('/:puuid/user_group', verifyRequest('app.admin.usergroup.write'), li
     const body = await UserGroupCheck.validateAsync(await req.json());
     if (!body) throw new InvalidRouteInput('Invalid Route Input');
 
+    // THIS CODE CAN NOT BE USED TO CHANGE THE USER GROUP FROM MEMBER TO USER OR VICE VERSA!
+    // NEED TO CHECK IF THE USER IS IN THE DEFAULT MEMBER GROUP.
+
     const sql_response = await admin.users.update.user_group(params.puuid, body.user_group);
     if (sql_response.rowCount >= 1) throw new DBError('User.Update.user_group', 1, typeof 1, sql_response.rowCount, typeof sql_response.rowCount);
 
@@ -191,20 +218,20 @@ router.post('/:puuid/user_group', verifyRequest('app.admin.usergroup.write'), li
 });
 
 router.post('/:puuid/force_logout', verifyRequest('app.admin.forcelogout.write'), limiter(10), async (req, res) => {
-	const params = await validateUUID.validateAsync(req.params);
-	const user_webtokens = await webtoken.getByUserPUUID(params.puuid);
-	await admin.users.delete.webtoken_all(params.puuid); // Delete all webtokens for the user from the DB
-	const user_webtokens_jobs = []; // Delete all cached webtokens for the user
-	user_webtokens.forEach(async (webtoken) => {
-		user_webtokens_jobs.push(delWebtoken(webtoken.token));
-	});
+    const params = await validateUUID.validateAsync(req.params);
+    const user_webtokens = await webtoken.getByUserPUUID(params.puuid);
+    await admin.users.delete.webtoken_all(params.puuid); // Delete all webtokens for the user from the DB
+    const user_webtokens_jobs = []; // Delete all cached webtokens for the user
+    user_webtokens.forEach(async (webtoken) => {
+        user_webtokens_jobs.push(delWebtoken(webtoken.token));
+    });
 
-	await Promise.all(user_webtokens_jobs);
+    await Promise.all(user_webtokens_jobs);
 
-	res.status(200);
-	res.json({
-		message: 'User logged out',
-	});
+    res.status(200);
+    res.json({
+        message: 'User logged out',
+    });
 });
 
 module.exports = {
