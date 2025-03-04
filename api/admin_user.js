@@ -17,8 +17,8 @@ const PluginVersion = '0.0.1'; //This plugins version
 
 const pageCheckDataTable = Joi.object({
     search: Joi.string().allow('').default(''),
-    sort: Joi.string().allow('').default(''),
-    order: Joi.string().allow('').default('asc'),
+    sort: Joi.string().valid('').default(''),
+    order: Joi.string().valid('asc', 'desc').default('asc'),
     page: Joi.number().min(0).max(32000).default(0),
     size: Joi.number().min(0).max(50).default(10)
 });
