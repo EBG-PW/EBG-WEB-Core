@@ -305,7 +305,7 @@
                           <!-- CPU Overview -->
                           <li>
                             <strong>${i18next.t("SRVMon.Cards.CPU.TotalUsage")}</strong>: 
-                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} % (${metrics["sensors.chip_sensor_temperature.input"].value.toFixed(0)}°C)${metrics["sensors.chip_sensor_power_average.average"] ? ` ${metrics["sensors.chip_sensor_power_average.average"].value.toFixed(0)} W` : ""}
+                            ${(100 - metrics["system.cpu.idle"].value).toFixed(2)} % (${metrics["sensors.chip_sensor_temperature.input"]?.value.toFixed(0)}°C)${metrics["sensors.chip_sensor_power_average.average"] ? ` ${metrics["sensors.chip_sensor_power_average.average"].value.toFixed(0)} W` : ""}
                           </li>
                           <!-- System Load -->
                           <li>
