@@ -233,10 +233,16 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-lg-8">
+              <div class="col-lg-6">
                 <div class="mb-4">
                   <label class="form-label" data-translate="SRVMon.Modal.Newmon.ChartTime"></label>
                   <input type="text" id="NewSRVMonChartTime" data-translate-placeholder="SRVMon.Modal.Newmon.Placeholder.ChartTime" class="form-control" />
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="mb-4">
+                  <label class="form-label" data-translate="Payment.Cost.Lable.PerMonth"></label>
+                  <div id="CostAmountPerMonth">
                 </div>
               </div>
             </div>
@@ -532,7 +538,7 @@
         const hostname = document.getElementById(keys.hostname).value;
         const ipaddr = document.getElementById(keys.ipaddr).value;
         const visibility = document.getElementById(keys.visibility).value;
-        const charttime = document.getElementById(keys.charttime).value;
+        const charttime = document.getElementById(keys.charttime).value.length < 1 ? 1 : document.getElementById(keys.charttime).value;
         const color = getSelectedColorValue();
         const chartscope = calculateSelectedChartScope();
 
@@ -557,7 +563,7 @@
             for (const key in keys) {
               document.getElementById(keys[key]).classList.remove("is-invalid");
             }
-            closeModal("modal-report");
+            closeModal("modal-newmon");
             loadPage();
           } else {
             if (typeof response_json.reason === "string") {

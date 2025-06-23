@@ -1,6 +1,6 @@
 module.exports = {
     "/login": ["Login"],
-    "/register": ["Register"],
+    "/register": ["Register", "Login"],
     "/dashboard": ["Dashboard", "User_Groups"],
     "/events": ["Dashboard", "User_Groups", "Events", "Page", "Error"],
     "/projects": ["Dashboard", "User_Groups", "Projects", "Page"],
@@ -14,5 +14,5 @@ module.exports = {
     "/profile-dropdown/settings-sessions": ["Dashboard", "User_Groups", "Settings"],
     "/profile": [],
     "/admin/user-list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"],
-    "/services/server_monitoring": ["Dashboard", "User_Groups", "Services", "Page", "SRVMon"],
+    "/services/server_monitoring": ["Dashboard", "User_Groups", "Services", "Page", "SRVMon", "Payment", "Error"],
 }
