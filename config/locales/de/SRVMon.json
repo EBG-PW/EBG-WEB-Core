@@ -1,0 +1,98 @@
+{
+  "Body": {
+    "Head": {
+      "Title": "Server Überwachung",
+      "SubTitle": "Hier kannst du deine Server überwachen und die Einträge bearbeiten.",
+      "AddButton": "Neuen Server hinzufügen"
+    }
+  },
+  "Cards": {
+    "Offline": "Server {{hostname}} is offline",
+    "Offline_Body": "Der Server {{hostname}}@{{ip_address}} ist offline, bitte überprüfe die Verbindung.",
+    "Online": {
+      "1": "Übersicht",
+      "2": "CPU",
+      "3": "RAM",
+      "4": "Netzwerk",
+      "5": "Festplatte"
+    },
+    "Summary": "System: {{hostname}}@{{ip_address}}",
+    "Total": "Gesamt",
+    "CPU": {
+      "TotalUsage": "CPU Auslasung",
+      "Freq": "Frequenz",
+      "System": "System",
+      "User": "Benutzer",
+      "Steal": "Steal",
+      "Softirq": "Softirq"
+    },
+    "MEM": {
+      "TotalUsage": "RAM-Nutzung",
+      "Buffer": "Buffer",
+      "Cached": "Cached",
+      "Free": "Frei",
+      "Used": "Benutzt",
+      "SwapUsed": "Swap-Nutzung"
+    },
+    "NET": {
+      "PacketsReceived": "Packete Empfangen",
+      "PacketsSent": "Packete Senden",
+      "OctetsSent": "Traffic Senden",
+      "OctetsReceived": "Traffic Empfangen"
+    },
+    "DISK": {
+      "TotalUsage": "Festplattennutzung",
+      "Status": "Festplatten Zustand",
+      "IOSpeed": "<strong>Übertragungsrate</strong>: R: {{ReadVal}} W: {{WriteVal}} {{Unit}}",
+      "IOOP": "<strong>IO</strong>: R: {{ReadVal}} W: {{WriteVal}} {{Unit}}",
+      "Worst": "Schlecht"
+    },
+    "LOAD": {
+      "TotalUsage": "Systemlast"
+    }
+  },
+  "Modal": {
+    "Newmon": {
+      "Title": "Neuen Monitor hinzufügen",
+      "Hostname": "Hostname",
+      "IPAddress": "IP-Adresse",
+      "Color": "Farbe",
+      "Visibility": "Sichtbarkeit",
+      "Visibility_Open": "Öffentlich",
+      "Visibility_Hidden": "Privat",
+      "CPUUsage": "CPU-Nutzung",
+      "CPUAVGFreq": "Durchschnittliche CPU-Frequenz",
+      "CPUTemp": "CPU-Temperatur",
+      "MEMUsage": "Arbeitsspeichernutzung",
+      "MEMSwap": "Swap-Nutzung",
+      "SYSPower": "Systemleistung",
+      "DISKUsage": "Festplattennutzung",
+      "DISKIo": "Festplatten I/O",
+      "DISKOps": "Festplatten-Operationen",
+      "NETPackets": "Netzwerk-Pakete",
+      "NETOctets": "Netzwerk-Octets",
+      "ChartTime": "Diagrammzeit in Stunden",
+      "Graphs": "Diagramme (Zusatzoption)",
+      "Cancel": "Abbrechen",
+      "AddNew": "Hinzufügen",
+      "Description": {
+        "CPUUsage": "Prozentuale CPU-Auslastung",
+        "CPUAVGFreq": "Durchschnittliche CPU-Frequenz",
+        "CPUTemp": "CPU-Temperatur",
+        "MEMUsage": "Arbeitsspeichernutzung",
+        "MEMSwap": "Swap-Nutzung",
+        "SYSPower": "Systemleistung",
+        "DISKUsage": "Festplattennutzung",
+        "DISKIo": "Festplatten I/O",
+        "DISKOps": "Festplatten-Operationen",
+        "NETPackets": "Netzwerk-Pakete",
+        "NETOctets": "Netzwerk-Octets"
+      },
+      "Placeholder": {
+        "Hostname": "Gib den Hostnamen ein des Servers ein",
+        "IPAddress": "Gib die IP-Adresse des Servers ein",
+        "ChartTime": "Zeit für Diagramm"
+      }
+    }
+  }
+}
