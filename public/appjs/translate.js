@@ -118,9 +118,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 services_string += `<a class="dropdown-item" href="/services/vm">${i18next.t('Dashboard.Header.Navbar.Services.Vm')}</a>`
             }
             */
-            if(checkPermission('service.srv_mon.user.*').result) {
-                services_string += `<a class="dropdown-item" href="/services/server_monitoring">${i18next.t('Dashboard.Header.Navbar.Services.SRVMonitoring')}</a>`
-            }
     
             if(services_string.length > 0) {
                 navbar.innerHTML += `
