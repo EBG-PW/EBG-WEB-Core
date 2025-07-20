@@ -54,14 +54,14 @@ const NewSRVMonCheck = Joi.object({
 
 router.get('/count', verifyRequest('service.srvmon.read'), limiter(), async (req, res) => {
     const query = await pageCountCheck.validateAsync(req.query);
-    const amount = await srvmon.countByID(req.user.user_id, query.search);
+    const amount = await srvmon.countByUserID(req.user.user_id, query.search);
     res.status(200);
     res.json(amount);
 });
 
 router.get('/', verifyRequest('service.srvmon.read'), limiter(), async (req, res) => {
     const query = await pageCheck.validateAsync(req.query);
-    const monitors = await srvmon.getByID(req.user.user_id, Number(query.page) - 1, query.size, query.search);
+    const monitors = await srvmon.getByUserID(req.user.user_id, Number(query.page) - 1, query.size, query.search);
     const monitor_data = await Netdata.getOverviews(monitors);
     res.status(200);
     res.json(monitor_data);
