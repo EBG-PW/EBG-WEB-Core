@@ -62,6 +62,7 @@ module.exports = {
             ]
         },
         // The party leader groups, all derived from basic admin group.
+        // is_team is used to show show all team memers on the publci API.
         "kassierer": {
             "permissions": [
             ],

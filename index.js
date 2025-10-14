@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({quiet: true});
 require('module-alias/register')
 
 const port = process.env.PORT || 80;

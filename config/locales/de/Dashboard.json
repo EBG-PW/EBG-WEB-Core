@@ -14,7 +14,10 @@
       "Home": "Startseite",
       "Projects": "Projekte",
       "Events": "Veranstaltungen",
-      "UserManagment": "Nutzerverwaltung",
+      "Administration": {
+        "Name": "Administration",
+        "UserManagment": "Nutzerverwaltung"
+      },
       "Services": {
         "Name": "Dienste",
         "Game": "Spiele Server",

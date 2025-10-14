@@ -25,7 +25,7 @@
           <div class="container-xl">
             <div class="row g-2 align-items-center">
               <div class="col">
-                <h2 class="page-title" data-translate="Settings.Main.SettingsName"></h2>
+                <h2 class="page-title" data-translate="Settings.Main.SettingsName" id="AdminSettingsNameA"></h2>
               </div>
             </div>
           </div>
@@ -41,20 +41,18 @@
                 </button>
               </div>
               <div class="row g-0">
-                <div class="col-12 col-md-3 collapse d-md-block border-end" id="sidebar-menu">
+                <div class="col-12 col-md-3 d-md-block collapse border-end" id="sidebar-menu">
                   <div class="card-body">
                     <div class="list-group list-group-transparent">
-                      <a href="/profile-dropdown/settings-account" class="list-group-item list-group-item-action d-flex align-items-center active" data-translate="Settings.Side.Account"></a>
-                      <a href="/profile-dropdown/settings-misc" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Misc"></a>
-                      <a href="/profile-dropdown/settings-sessions" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Sessions"></a>
-                      <a href="/profile-dropdown/settings-links" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Links"></a>
-                      <a href="/profile-dropdown/settings-integrations" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Integrations"></a>
+                      <a href="/admin/<%= params.puuid %>/user-edit" class="list-group-item list-group-item-action d-flex align-items-center active" id="AdminSettingsNameSide" data-translate="Settings.Side.Account"></a>
+                      <a href="/admin/<%= params.puuid %>/user-member" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.Membership"></a>
+                      <!-- <a href="/admin/<%= params.puuid %>/user-activeservices" class="list-group-item list-group-item-action d-flex align-items-center" data-translate="Settings.Side.ActiveServices"></a> -->
                     </div>
                   </div>
                 </div>
                 <div class="col d-flex flex-column">
                   <div class="card-body">
-                    <h2 class="mb-4" data-translate="Settings.Main.SettingsName"></h2>
+                    <h2 class="mb-4" data-translate="Settings.Main.SettingsName" id="AdminSettingsNameB"></h2>
                     <h3 class="card-title" data-translate="Settings.Main.ProfileHeadline"></h3>
                     <div class="row align-items-center">
                       <div class="col-auto"><span class="avatar avatar-xl" id="Settings.Profile.AvatarIcon" style="background-image: url()"></span></div>
@@ -90,76 +88,25 @@
                         <textarea class="form-control" value="" id="SettingsBio" onchange="handleInputChange(this.id)"></textarea>
                       </div>
                     </div>
-                    <h3 class="card-title mt-4" data-translate="Settings.Main.PasswordHeadline"></h3>
+                    <h3 class="card-title mt-4" data-translate="Settings.Main.PasswordAccountHeadline"></h3>
                     <div>
                       <div class="row g-2">
                         <div class="col-auto">
-                          <div class="form-label" data-translate="Settings.Main.PasswordOld"></div>
-                          <div class="input-group input-group-flat">
-                            <input id="SettingsPasswordOLD" type="password" class="form-control" data-translate-placeholder="Login.Placeholder.Password" placeholder="" autocomplete="off" />
-                            <span class="input-group-text">
-                              <a id="passwordToggle_old" class="link-secondary" title="Show password" data-bs-toggle="tooltip"
-                                ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                </svg>
-                              </a>
-                            </span>
-                          </div>
+                          <a class="btn disabled" data-translate="Settings.Main.Button.ForceResetPassword" id="SettingsForceResetPassword"></a>
+                          <div id="SettingsForceResetPasswordError"></div>
                         </div>
                         <div class="col-auto">
-                          <div class="form-label" data-translate="Settings.Main.PasswordRepeat"></div>
-                          <div class="input-group input-group-flat">
-                            <input id="SettingsPasswordOLD_R" type="password" class="form-control" data-translate-placeholder="Login.Placeholder.Password" placeholder="" autocomplete="off" />
-                            <span class="input-group-text">
-                              <a id="passwordToggle_old_r" class="link-secondary" title="Show password" data-bs-toggle="tooltip"
-                                ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                  <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                  <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                </svg>
-                              </a>
-                            </span>
-                          </div>
-                        </div>
-                        <div class="row g-2">
-                          <div class="col-auto">
-                            <div class="form-label" data-translate="Settings.Main.PasswordNew"></div>
-                            <div class="input-group input-group-flat">
-                              <input id="SettingsPasswordNEW" type="password" class="form-control" data-translate-placeholder="Login.Placeholder.Password" placeholder="" autocomplete="off" />
-                              <span class="input-group-text">
-                                <a id="passwordToggle_new" class="link-secondary" title="Show password" data-bs-toggle="tooltip"
-                                  ><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
-                                  </svg>
-                                </a>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div>
-                          <div class="col-auto">
-                            <a class="btn" data-translate="Settings.Main.Button.SetPassword" id="SettingsPasswordSubmit"></a>
-                            <div id="SettingsPasswordSubmitError"></div>
-                          </div>
+                          <a class="btn" data-translate="Settings.Main.Button.ForceLogout" onclick="handleInputChange(this.id)" id="SettingsForceLogout"></a>
+                          <div id="SettingsForceLogoutError"></div>
                         </div>
                       </div>
                     </div>
-                    <h3 class="card-title mt-4" data-translate="Settings.Main.PublicHeadline"></h3>
-                    <p class="card-subtitle" data-translate="Settings.Main.ExplainPrivate"></p>
-                    <div>
-                      <label class="form-check form-switch form-switch-lg">
-                        <input class="form-check-input" type="checkbox" onchange="handleInputChange(this.id)" id="SettingsPrivacy" />
-                        <span class="form-check-label form-check-label-on" data-translate="Settings.Main.Button.PrivacyActive"></span>
-                        <span class="form-check-label form-check-label-off" data-translate="Settings.Main.Button.PrivacyDeactive"></span>
-                      </label>
-                    </div>
+                    <h3 class="card-title mt-4" data-translate="Settings.Main.UserGroupHeadline"></h3>
+                    <select type="text" class="form-select mb-3" onchange="handleInputChange(this.id)" id="SettingsSelectUserGroup" value="">
+                      <% permissions_groups.forEach((group, index) => { %>
+                      <option value="<%= group %>" data-index="<%= index %>" data-translate="User_Groups.<%= group %>"></option>
+                      <% }); %>
+                    </select>
                   </div>
                 </div>
               </div>
@@ -232,144 +179,53 @@
     <script src="<%= domain %>/appjs/permission.js?<%= curentUnixTime %>" defer></script>
     <script src="<%= domain %>/appjs/translate.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/js/tabler.min.js?<%= curentUnixTime %>" defer></script>
-    <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script src="<%= domain %>/dist/libs/dropzone/dist/dropzone-min.js?<%= curentUnixTime %>" defer></script>
+    <script src="<%= domain %>/appjs/layout.js?<%= curentUnixTime %>"></script>
     <script>
-      // When passwordToggle is clicked, toggle the type of password field (id login_password) (VanillaJS)
-      document.getElementById("passwordToggle_old").addEventListener("click", function () {
-        const passwordField = document.getElementById("SettingsPasswordOLD");
-        if (passwordField.type === "password") {
-          passwordField.type = "text";
-        } else {
-          passwordField.type = "password";
-        }
-      });
-
-      document.getElementById("passwordToggle_old_r").addEventListener("click", function () {
-        const passwordField = document.getElementById("SettingsPasswordOLD_R");
-        if (passwordField.type === "password") {
-          passwordField.type = "text";
-        } else {
-          passwordField.type = "password";
-        }
-      });
-
-      document.getElementById("passwordToggle_new").addEventListener("click", function () {
-        const passwordField = document.getElementById("SettingsPasswordNEW");
-        if (passwordField.type === "password") {
-          passwordField.type = "text";
-        } else {
-          passwordField.type = "password";
-        }
-      });
-
-      // Handle set password (VanillaJS)
-      document.getElementById("SettingsPasswordSubmit").addEventListener("click", async () => {
-        const old_password = document.getElementById("SettingsPasswordOLD").value;
-        const old_password_r = document.getElementById("SettingsPasswordOLD_R").value;
-        const new_password = document.getElementById("SettingsPasswordNEW").value;
-
-        if (!new_password) {
-          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Empty"));
-          setTimeout(function () {
-            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
-          }, 3000);
-          return;
-        }
-
-        if (old_password != old_password_r) {
-          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.NotEqual"));
-          setTimeout(function () {
-            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
-          }, 3000);
-          return;
-        }
-
-        const response = await fetch("/api/v1/user/setpassword", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-          body: JSON.stringify({
-            old_password: old_password,
-            new_password: new_password,
-          }),
-        });
-
-        if (response.status == 200) {
-          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-success");
-          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Success.Password"));
-          setTimeout(function () {
-            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-success");
-            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
-          }, 3000);
-        } else if (response.status == 401 || response.status == 403 || response.status == 400) {
-          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Wrong"));
-          setTimeout(function () {
-            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
-          }, 3000);
-        } else if (response.status == 409) {
-          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.NoPassword"));
-          document.getElementById("SettingsPasswordSubmitError").innerHTML = i18next.t("Settings.Main.ExplainNoPassword");
-          setTimeout(function () {
-            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
-          }, 3000);
-        } else {
-          document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-          updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Error.Password.Unknown"));
-          setTimeout(function () {
-            document.getElementById("SettingsPasswordSubmit").classList.toggle("btn-danger");
-            updateElementText(document.getElementById("SettingsPasswordSubmit"), i18next.t("Settings.Main.Button.SetPassword"));
-          }, 3000);
-        }
-      });
-
+      const current_userUUID = "<%= params.puuid %>";
       // Handle changes to all imput fields (VanillaJS)
       const apiEndpoints = {
         SettingsUsername: {
-          endpoint: "/api/v1/user/username",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/username`,
           method: "POST",
           field: "username",
           value: "raw",
         },
         SettingsEmail: {
-          endpoint: "/api/v1/user/email",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/email`,
           method: "POST",
           field: "email",
           value: "raw",
         },
         SettingsFirstName: {
-          endpoint: "/api/v1/user/firstname",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/firstname`,
           method: "POST",
           field: "first_name",
           value: "raw",
         },
         SettingsLastName: {
-          endpoint: "/api/v1/user/lastname",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/lastname`,
           method: "POST",
           field: "last_name",
           value: "raw",
         },
         SettingsBio: {
-          endpoint: "/api/v1/user/bio",
+          endpoint: `/api/v1/admin_user/${current_userUUID}/bio`,
           method: "POST",
           field: "bio",
           value: "raw",
         },
-        SettingsPrivacy: {
-          endpoint: "/api/v1/user/public",
+        SettingsSelectUserGroup: {
+          endpoint: `/api/v1/admin_user/${current_userUUID}/user_group`,
           method: "POST",
-          field: "public",
-          value: "bool",
+          field: "user_group",
+          value: "raw",
+        },
+        SettingsForceLogout: {
+          endpoint: `/api/v1/admin_user/${current_userUUID}/force_logout`,
+          method: "POST",
+          field: "click",
+          value: "button_click",
         },
       };
 
@@ -377,16 +233,19 @@
         const inputElement = document.getElementById(id);
         let value_send;
 
-        if (apiEndpoints[id].value == "raw") {
+        if (apiEndpoints[id].value == "raw" || apiEndpoints[id].value == "raw_reload") {
           value_send = inputElement.value;
         } else if (apiEndpoints[id].value == "bool") {
           value_send = inputElement.checked;
+        } else if (apiEndpoints[id].value == "button_click") {
+          value_send = true;
         }
 
         const response = await fetch(apiEndpoints[id].endpoint, {
           method: apiEndpoints[id].method,
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
 
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -396,14 +255,30 @@
         });
 
         if (response.ok) {
-          inputElement.classList.remove("is-invalid");
-          inputElement.classList.add("is-valid");
-
-          setTimeout(() => {
-            inputElement.classList.remove("is-valid");
-          }, 3000);
+          if (apiEndpoints[id].value == "button_click") {
+            inputElement.classList.toggle("btn-success");
+            setTimeout(() => {
+              inputElement.classList.toggle("btn-success");
+            }, 3000);
+          } else {
+            inputElement.classList.remove("is-invalid");
+            inputElement.classList.add("is-valid");
+            setTimeout(() => {
+              inputElement.classList.remove("is-valid");
+            }, 3000);
+          }
         } else {
-          inputElement.classList.add("is-invalid");
+          if (apiEndpoints[id].value == "button_click") {
+            inputElement.classList.toggle("btn-danger");
+            setTimeout(() => {
+              inputElement.classList.toggle("btn-danger");
+            }, 3000);
+          } else {
+            inputElement.classList.add("is-invalid");
+            setTimeout(() => {
+              inputElement.classList.remove("is-invalid");
+            }, 3000);
+          }
         }
       };
 
@@ -433,10 +308,11 @@
       });
 
       const deleteAvatar = async () => {
-        const response = await fetch("/api/v1/user/avatar", {
+        const response = await fetch(`/api/v1/admin_user/${current_userUUID}/avatar`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
@@ -454,7 +330,7 @@
         Dropzone.autoDiscover = false;
 
         const dropzone = new Dropzone("#dropzone-avatar-upload", {
-          url: "/api/v1/user/avatar",
+          url: `/api/v1/admin_user/${current_userUUID}/avatar`,
           autoProcessQueue: false,
           maxFiles: 1,
           previewsContainer: ".dropzone",
@@ -489,9 +365,9 @@
                     let newFileType = file.type;
                     let newFileName = file.name;
 
-                    if (file.type === 'image/png') {
-                      newFileType = 'image/jpeg';
-                      newFileName = file.name.replace(/\.png$/, '.jpg');
+                    if (file.type === "image/png") {
+                      newFileType = "image/jpeg";
+                      newFileName = file.name.replace(/\.png$/, ".jpg");
                     }
 
                     const croppedImage = new File([blob], newFileName, { type: newFileType });
@@ -505,7 +381,7 @@
                       previewElement.src = URL.createObjectURL(croppedImage);
                     }
                   },
-                  file.type === 'image/png' ? 'image/jpeg' : file.type,
+                  file.type === "image/png" ? "image/jpeg" : file.type,
                   0.74
                 );
               };
@@ -534,10 +410,11 @@
         });
 
         // Auto-fill user data (VanillaJS)
-        const response = await fetch("/api/v1/user", {
+        const response = await fetch(`/api/v1/admin_user/${current_userUUID}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json",
 
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
@@ -546,12 +423,20 @@
         if (response.status == 200) {
           const data = await response.json();
 
+          // Translate the page
+          document.getElementById("AdminSettingsNameA").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
+          document.getElementById("AdminSettingsNameB").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
+          document.getElementById("AdminSettingsNameSide").innerText = i18next.t("Settings.Main.AdminSettingsName", { Username: data.username });
+
+          document.getElementById("Settings.Profile.AvatarIcon").style.backgroundImage = `url(${data.avatar_url})`;
           document.getElementById("SettingsUsername").value = data.username;
           document.getElementById("SettingsEmail").value = data.email;
           document.getElementById("SettingsFirstName").value = data.first_name;
           document.getElementById("SettingsLastName").value = data.last_name;
           document.getElementById("SettingsBio").value = data.bio;
-          document.getElementById("SettingsPrivacy").checked = !data.public;
+
+          document.getElementById("SettingsSelectUserGroup").value = data.user_group;
+          // If isMember is true, request membership data and apeend it to the page
         }
       });
     </script>

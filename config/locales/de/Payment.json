@@ -1,0 +1,19 @@
+{
+    "Cost": {
+        "Lable": {
+            "PerDay": "Kosten pro Tag",
+            "PerWeek": "Kosten pro Woche",
+            "PerMonth": "Kosten pro Monat",
+            "PerQuater": "Kosten pro Quatal",
+            "PerYear": "Kosten pro Jahr"
+        },
+        "PerDay": "{{cost}} pro Tag",
+        "PerWeek": "{{cost}} pro Woche",
+        "PerMonth": "{{cost}} pro Moant",
+        "PerQuater": "{{cost}} pro Quatal",
+        "PerYear": "{{cost}} pro Jahr"
+    },
+    "Tax": {
+        "SalesTax": "MwST"
+    }
+}

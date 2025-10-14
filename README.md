@@ -50,4 +50,12 @@ The middleware has three parameters:
 2. **objOptions**: An array listing all important values to consider from the `req` object. For example, if you cache a search with `/api/users?username=Bolver`, this should be listed. Otherwise, if a value for `?username=Vi` is currently cached, it will respond with that result, which would be incorrect. The array takes strings; if you want to refer to `req.user.user_id`, you would write `user.user_id`.
 3. **overwrite**: A string that supports parameter formatting like `myCache:id`. When `params.id` is present, it will be filled during middleware execution. This is useful when something changes, and you need to force update the cache. For instance, `/api/users` lists all users, but after making `/api/user/add?user=BolverBlitz`, this user would be missing from `/api/users` until the cache time runs out. To fix this, write the same string into the `writeOverwriteCacheKey` function after you change a value in the database.
 
+## Redis Cache Key
+| Key | Service | Description |
+| --- | --- | --- |
+| `WT:` | EBG Web-Dashboard | Token (Basicly a users Session) |
+| `LIM:` | EBG Web-Dashboard | Rate Limiting (Either per IP or WT) |
+| `OWK:` | EBG Web-Dashboard | Overwrite CacheKey, publicStaticCache middleware will flush cache if key is pressent for the requested page |
+| `PSR:` | EBG Web-Dashboard | A cached API response meant for PUBLIC DATA (So equal for all user, e.g Weather) |
+| `pSR:` | EBG Web-Dashboard | A cached API response meant for PRIVATE DATA (So per user), e.g with user information|
 

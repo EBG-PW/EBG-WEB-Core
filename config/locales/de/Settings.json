@@ -2,16 +2,22 @@
   "Side": {
     "Account": "Account",
     "Misc": "Design, Sprache & Sonstiges",
+    "Sessions": "Sitzungen",
     "Links": "Verlinkbare Seiten",
-    "Integrations": "Integrationen"
+    "Integrations": "Integrationen",
+    "Membership": "Vereins Mitgliedschaft",
+    "ActiveServices": "Aktive Dienste"
   },
   "Main": {
+    "AdminSettingsName": "Account Einstellungen für {{Username}}",
     "SettingsName": "Account Einstellungen",
     "ProfileHeadline": "Profil Einstellungen",
     "AccountHeadline": "Account Einstellungen",
     "PasswordHeadline": "Passwort Einstellungen",
+    "PasswordAccountHeadline": "Passwort & Account Einstellungen",
     "PublicHeadline": "Privatsphäre Einstellungen",
     "AvatarHeadline": "Avatar Hochladen",
+    "UserGroupHeadline": "Benutzergruppe & Berechtigungen",
     "AvatarUploadArea": "Bereich zum Hochladen des Avatars",
     "AvatarDragHere": "Ziehe das Bild hierher oder klicke um es hochzuladen",
     "Username": "Benutzername",
@@ -26,6 +32,8 @@
     "ExplainNoPassword": "Dein Account wurde über eine Drittanbieter App erstellt, dir wurde eine E-Mail gesendet um dein Password zu setzen.",
     "Button": {
       "SetPassword": "Passwort ändern",
+      "ForceResetPassword": "Passwort zurücksetzen",
+      "ForceLogout": "Zwangsausloggen",
       "PrivacyActive": "Privatsphäre aktiviert",
       "PrivacyDeactive": "Privatsphäre deaktiviert",
       "Upload": "Hochladen",
@@ -62,6 +70,7 @@
     }
   },
   "Links": {
+    "SettingsName": "Verlinkbare Seiten",
     "LingsHeadline": "Verlinkbare Seiten",
     "Links": "Links",
     "Platform": "Plattform",
@@ -75,6 +84,19 @@
       "Delete": "Löschen"
     }
   },
+  "Sessions": {
+    "SettingsName": "Aktive Account Sitzungen",
+    "Overview": "Liste der Sessions",
+    "Actions": "Aktionen",
+    "ButtonDelAllOther": "Alle anderen Sitzungen beenden",
+    "List": {
+      "Browser": "Browser",
+      "Country": "Land",
+      "UnknownCountry": "Unbekannt",
+      "CurrentSession": "Aktuelle Sitzung",
+      "Time": "Erstellt am"
+    }
+  },
   "Profile": {
     "AvatarIcon": "Avatar Icon",
     "SetAvatarIcon": "Avatar Hochladen",
@@ -82,6 +104,7 @@
     "AvatarDelete": "Bist du dir sicher, dass du dein Avatar löschen möchtest? Dieser Vorgang kann nicht rückgängig gemacht werden."
   },
   "Integrations": {
+    "SettingsName": "Integrationen mit Drittanbietern",
     "IntegrationsHeadline": "Integrationen",
     "Integrations": "Integrationen",
     "Telegram": "Telegram ID",

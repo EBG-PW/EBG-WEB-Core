@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
         const urlPath = generateUrlPath();
 
         // Send E-Mail Verification
-        await sendMail('user:reset_password', { userId: user_responses[0].id, urlPath: urlPath, appDomain: process.env.DOMAIN }, false);
+        await sendMail('user:reset_password', user_responses[0].id, { urlPath: urlPath, appDomain: process.env.DOMAIN });
     }
 
     res.json({ status: true });

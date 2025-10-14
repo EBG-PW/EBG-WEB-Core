@@ -32,7 +32,7 @@ const verifyOwner = (param_uuid_key, owner_mode) => {
 
             req[owner_mode] = owner_result;
         } catch (error) {
-            return error; // This will trigger global error handler as we are returning an Error
+            next(error); // This will trigger global error handler as we are returning an Error
         }
     };
 };
