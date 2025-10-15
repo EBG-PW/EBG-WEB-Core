@@ -42,7 +42,6 @@
     "megahash": "^1.0.5",
     "minio": "^8.0.5",
     "module-alias": "^2.2.3",
-    "naudiodon": "^2.3.6",
     "node-2fa": "^2.0.3",
     "object-hash": "^3.0.0",
     "pg": "^8.16.3",

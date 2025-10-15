@@ -7,7 +7,7 @@ const HyperExpress = require('hyper-express');
 const { writeOverwriteCacheKey } = require('@lib/cache');
 const { InvalidRouteJson, DBError, InvalidRouteInput, CustomError, S3ErrorWrite, S3ErrorRead } = require('@lib/errors');
 const { streamToBuffer, verifyBufferIsJPG } = require('@lib/utils');
-const { plublicStaticCache } = require('@middleware/cacheRequest');
+const { staticCache } = require('@middleware/cacheRequest');
 const { getNextLowerDefaultGroup } = require('@lib/permission');
 const { default_group, default_member_group } = require('@config/permissions');
 const router = new HyperExpress.Router();
@@ -124,18 +124,25 @@ router.get('/count', verifyRequest('web.event.get.count.read'), limiter(), async
     res.json(amount);
 });
 
-router.get('/', verifyRequest('web.event.get.eventlist.read'), limiter(), plublicStaticCache(60_000, ["query", "user.user_id"], "public_event_index"), async (req, res) => {
+router.get('/', verifyRequest('web.event.get.eventlist.read'), limiter(), staticCache(60_000, ["query", "user.user_id"], "public_event_index"), async (req, res) => {
     const value = await pageCheck.validateAsync(req.query);
     const events = await projectactivities.event.GetByPage(Number(value.page) - 1, value.size, req.user.user_id, value.search, new Date());
+    const minDefaultGroup = getNextLowerDefaultGroup(req.user.user_group);
+    events.forEach((event) => {
+        if (event.avatar_url === "" || event.avatar_url === null) event.avatar_url = "/i/e";
+        event.can_join = !(minDefaultGroup === default_group && event.min_group !== minDefaultGroup);
+    });
     res.status(200);
     res.json(events);
 });
 
-router.get('/:id', verifyRequest('web.event.get.read'), limiter(), plublicStaticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
+router.get('/:id', verifyRequest('web.event.get.read'), limiter(), staticCache(60_000, ["params", "user.user_id"], "public_event_:id"), async (req, res) => {
     const value = await ValidateUUID.validateAsync(req.params);
     const event_data = await projectactivities.event.getDetails(value.id, req.user.user_id);
     if (event_data.length === 0) throw new DBError('Event.Get', 1, typeof 1, event_data.length, typeof event_data.length);
     if (event_data[0].avatar_url === "" || event_data[0].avatar_url === null) event_data[0].avatar_url = "/i/e";
+    const minDefaultGroup = getNextLowerDefaultGroup(req.user.user_group);
+    event_data[0].can_join = !(minDefaultGroup === default_group && event_data[0].min_group !== minDefaultGroup);
     res.status(200);
     res.json(event_data[0]);
 });
@@ -151,6 +158,9 @@ router.post('/', verifyRequest('web.event.create.write'), limiter(), async (req,
 
     const minDefaultGroup = getNextLowerDefaultGroup(req.user.user_group);
 
+    // Skip check if user is not in default group. If user makes a user event, its passed. Since there is no else the event is made.
+    // The event is only rejected if both are true, so user is in default group and minGroup is not default group.
+    // This means it only works with 2 groups!!
     if (minDefaultGroup === default_group && minGroup !== minDefaultGroup) {
         throw new InvalidRouteJson('InvalidMinGroupForDefaultGroup');
     }

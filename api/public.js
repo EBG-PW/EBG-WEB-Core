@@ -2,7 +2,7 @@ const Joi = require('joi');
 const { limiter } = require('@middleware/limiter');
 const HyperExpress = require('hyper-express');
 const { public } = require('@lib/postgres');
-const { plublicStaticCache } = require('@middleware/cacheRequest');
+const { staticCache } = require('@middleware/cacheRequest');
 const { fetchSolarData, fetchShellyMeterVData } = require('@lib/prometheus');
 const router = new HyperExpress.Router();
 
@@ -22,28 +22,28 @@ const querySchema_team = Joi.object({
     includes: Joi.string().pattern(/^(settings|links|projectActivities)(,(settings|links|projectActivities))*$/).optional(),
 });
 
-router.get('/events', limiter(), plublicStaticCache(30_000, ["query"], "public_event"), async (req, res) => {
+router.get('/events', limiter(), staticCache(30_000, ["query"], "public_event"), async (req, res) => {
     const value = await pageQuerySchema.validateAsync(req.query);
 
     const result = await public.getEvents(value.page, value.limit);
     res.type('application/json').json(JSON.parse(result));
 });
 
-router.get('/team', limiter(), plublicStaticCache(30_000, ["query"], "public_team"), async (req, res) => {
+router.get('/team', limiter(), staticCache(30_000, ["query"], "public_team"), async (req, res) => {
     const value = await querySchema_team.validateAsync(req.query);
 
     const result = await public.getTeam(value.page, value.limit, value.includes);
     res.type('application/json').json(JSON.parse(result));
 });
 
-router.get('/projects', limiter(), plublicStaticCache(30_000, ["query"], "public_projects"), async (req, res) => {
+router.get('/projects', limiter(), staticCache(30_000, ["query"], "public_projects"), async (req, res) => {
     const value = await pageQuerySchema.validateAsync(req.query);
 
     const result = await public.getProjects(value.page, value.limit);
     res.type('application/json').json(JSON.parse(result));
 });
 
-router.get('/power', limiter(), plublicStaticCache(30_000, ["query"], "public_power"), async (req, res) => {
+router.get('/power', limiter(), staticCache(30_000, ["query"], "public_power"), async (req, res) => {
     const [solarData, em3Data] = await Promise.all([fetchSolarData(), fetchShellyMeterVData()]);
 
     res.json({

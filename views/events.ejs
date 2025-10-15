@@ -256,7 +256,6 @@
             const eventContainer = document.getElementById("event-container");
             eventContainer.innerHTML = "";
             response_json.forEach((event) => {
-              const permResult = checkPermission(`group.${event.min_group}`);
               eventContainer.innerHTML += `<div class="col-12">
                 <a class="card card-link" href="/event/${event.puuid}">
                   <div class="card-status-top bg-${event.color}"></div>
@@ -278,7 +277,7 @@
                               <path d="M15 19l2 2l4 -4"/>
                             </svg>
                             <span>${i18next.t("Events.Body.Card.Participates")}</span>`
-                                : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event.puuid}">
+                                : `<div class="btn btn-primary ${event.can_join ? "" : "disabled"}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event.puuid}">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5v14M5 12h14" /></svg>
                               <div>${i18next.t("Events.Body.Card.JoinButton")}</div>
                               </div>`

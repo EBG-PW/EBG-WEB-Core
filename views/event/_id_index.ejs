@@ -212,7 +212,6 @@
           document.getElementById("participants").innerText = `${i18next.t("Events.Body.Card.ParticipantWithCount", { count: Number(event_data.participants) })}`; // Maybe add "participants_logged_in" there too
           document.getElementById("visibility").innerText = `${i18next.t("Events.Body.Card.Visibility")} ${i18next.t(`Events.Visibility.${event_data.visibility}`)}`;
 
-          const permResult = checkPermission(`group.${event_data.min_group}`); // Check if the user is in the group of membersship (default_member_group)
           document.getElementById("event_button").innerHTML = event_data.user_participates
             ? `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-user-check">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -221,7 +220,7 @@
                               <path d="M15 19l2 2l4 -4"/>
                             </svg>
                             <span>${i18next.t("Events.Body.Card.Participates")}</span>`
-            : `<div class="btn btn-primary ${!permResult.result ? "disabled " : ""}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event_data.puuid}">
+            : `<div class="btn btn-primary ${event_data.can_join ? "" : "disabled"}" style="cursor: pointer;" onclick="event.stopPropagation(); joinEvent(this.id); return false;" id="${event_data.puuid}">
                               <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5v14M5 12h14" /></svg>
                               <div>${i18next.t("Events.Body.Card.JoinButton")}</div>
                               </div>`;

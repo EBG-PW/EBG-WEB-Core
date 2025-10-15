@@ -3,6 +3,7 @@ module.exports = {
     "name": "migration_1722786805769.js",
     "date": "2024-08-04T15:53:25.769Z",
     "up_instructions": [
+        `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`,
         `CREATE TABLE IF NOT EXISTS users (
             id bigserial PRIMARY KEY,
             puuid UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),

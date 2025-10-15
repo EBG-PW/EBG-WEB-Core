@@ -3,7 +3,7 @@
 // Row Migration: Migration, Name, Date
 // We Only apply migrations to the database and where not applied yet
 
-require('dotenv').config();
+require('dotenv').config({quiet: true});
 process.env.APPLICATION = "DB Migration";
 require('module-alias/register');
 const { performance } = require('perf_hooks');
