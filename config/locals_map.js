@@ -13,5 +13,6 @@ module.exports = {
     "/profile-dropdown/settings-misc": ["Dashboard", "User_Groups", "Settings"],
     "/profile-dropdown/settings-sessions": ["Dashboard", "User_Groups", "Settings"],
     "/profile": [],
-    "/admin/user-list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"]
+    "/admin/user-list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"],
+    "/legal/imprint": [],
 }
