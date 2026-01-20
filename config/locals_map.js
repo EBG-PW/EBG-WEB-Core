@@ -15,4 +15,5 @@ module.exports = {
     "/profile": [],
     "/admin/user-list": ["Dashboard", "User_Groups", "AUserList", "SQLT", "Page"],
     "/legal/imprint": [],
+    "/legal/privacy": [],
 }
